@@ -89,7 +89,6 @@
 #define CONFIG_EXAMPLES_FTPD_PRIO SCHED_PRIORITY_DEFAULT
 #define CONFIG_EXAMPLES_FTPD_STACKSIZE 2048
 
-
 /****************************************************************************
  * Public Types
  ****************************************************************************/
@@ -97,7 +96,7 @@
 /* This structure describes one entry in a table of accounts */
 
 struct fptd_account_s {
-	uint8_t         flags;
+	uint8_t flags;
 	FAR const char *user;
 	FAR const char *password;
 	FAR const char *home;
@@ -108,15 +107,15 @@ struct fptd_account_s {
  */
 
 struct ftpd_globals_s {
-	bool          initialized; /* True: Networking is initialized.  The
-								* network must be initialized only once.
-								*/
-	volatile bool stop;        /* True: Request daemon to exit */
-	volatile bool running;     /* True: The daemon is running */
-	pid_t         pid;         /* Task ID of the FTPD daemon.  The value
-								* -1 is a redundant indication that the
-								* daemon is not running.
-								*/
+	bool initialized;			/* True: Networking is initialized.  The
+								 * network must be initialized only once.
+								 */
+	volatile bool stop;			/* True: Request daemon to exit */
+	volatile bool running;		/* True: The daemon is running */
+	pid_t pid;					/* Task ID of the FTPD daemon.  The value
+								 * -1 is a redundant indication that the
+								 * daemon is not running.
+								 */
 };
 
 /****************************************************************************
@@ -133,4 +132,4 @@ extern struct ftpd_globals_s g_ftpdglob;
  * Public Function Prototypes
  ****************************************************************************/
 
-#endif /* __APPS_EXAMPLES_FTPD_FTPD_H */
+#endif							/* __APPS_EXAMPLES_FTPD_FTPD_H */

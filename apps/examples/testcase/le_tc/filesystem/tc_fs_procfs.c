@@ -109,13 +109,14 @@ static int read_dir_entries(const char *dirpath)
 	closedir(dirp);
 
 	return OK;
-error_with_fd:
+ error_with_fd:
 	close(fd);
-error:
+ error:
 	closedir(dirp);
 
 	return ERROR;
 }
+
 #ifndef CONFIG_FS_PROCFS_EXCLUDE_UPTIME
 static int procfs_uptime_ops(char *dirpath)
 {
@@ -183,7 +184,7 @@ static int procfs_version_ops(char *dirpath)
 		return ERROR;
 	}
 
-		return OK;
+	return OK;
 }
 
 static int procfs_rewind_tc(const char *dirpath)

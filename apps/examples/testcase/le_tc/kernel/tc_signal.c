@@ -68,7 +68,7 @@ static void sigquit_handler(int signo)
 * @brief                :utility function used in tc_signal_sigqueue
 * @return               :void
 */
-static void sigint_handler(int signo, siginfo_t *info, void *ctx)
+static void sigint_handler(int signo, siginfo_t * info, void *ctx)
 {
 	g_sig_handle = true;
 	TC_ASSERT_EQ("sigint handler", info->si_value.sival_int, VAL_100);
@@ -134,7 +134,7 @@ static void tc_signal_sigwaitinfo_pos(void)
 
 	g_sig_pid = getpid();
 
-	task_create("sigwaitinfo", SCHED_PRIORITY_DEFAULT, 1024, sigusr1_func, (char * const *)NULL);
+	task_create("sigwaitinfo", SCHED_PRIORITY_DEFAULT, 1024, sigusr1_func, (char *const *)NULL);
 
 	/* Wait for a signal */
 
@@ -168,7 +168,7 @@ static void tc_signal_sigaction_pos(void)
 	fd = tc_get_drvfd();
 
 	/* save orginal action */
-	sigact_before = (FAR sigactq_t *)ioctl(fd, TESTIOC_GET_SIG_FINDACTION_ADD, SIGINT);
+	sigact_before = (FAR sigactq_t *) ioctl(fd, TESTIOC_GET_SIG_FINDACTION_ADD, SIGINT);
 	TC_ASSERT_EQ("sig_findaction", sigact_before, NULL);
 	st_act.sa_handler = sigaction_handler;
 	st_act.sa_flags = 0;
@@ -185,7 +185,7 @@ static void tc_signal_sigaction_pos(void)
 	TC_ASSERT_EQ("sigaction", st_act.sa_handler, sigaction_handler);
 
 	/* make sure action is not changed */
-	sigact_after = (FAR sigactq_t *)ioctl(fd, TESTIOC_GET_SIG_FINDACTION_ADD, SIGINT);
+	sigact_after = (FAR sigactq_t *) ioctl(fd, TESTIOC_GET_SIG_FINDACTION_ADD, SIGINT);
 	TC_ASSERT_EQ("sig_findaction", sigact_after, NULL);
 	TC_ASSERT_EQ("sig_findaction", sigact_before, sigact_after);
 
@@ -203,10 +203,10 @@ static void tc_signal_sigaction_neg_signal_neg(void)
 	FAR sigactq_t *sigact_after;
 
 	ret_chk = sigaction(-1, &st_act, &st_oact);
-	TC_ASSERT_EQ("sigaction", ret_chk,ERROR);
+	TC_ASSERT_EQ("sigaction", ret_chk, ERROR);
 
 	/* make sure action is not changed */
-	sigact_after = (FAR sigactq_t *)ioctl(fd, TESTIOC_GET_SIG_FINDACTION_ADD, SIGINT);
+	sigact_after = (FAR sigactq_t *) ioctl(fd, TESTIOC_GET_SIG_FINDACTION_ADD, SIGINT);
 	TC_ASSERT_EQ("sig_findaction", sigact_after, NULL);
 	TC_ASSERT_EQ("sig_findaction", sigact_before, sigact_after);
 
@@ -224,10 +224,10 @@ static void tc_signal_sigaction_invalid_signals_neg(void)
 	fd = tc_get_drvfd();
 
 	ret_chk = sigaction(33, &st_act, &st_oact);
-	TC_ASSERT_EQ("sigaction", ret_chk,ERROR);
+	TC_ASSERT_EQ("sigaction", ret_chk, ERROR);
 
 	/* make sure action is not changed */
-	sigact_after = (FAR sigactq_t *)ioctl(fd, TESTIOC_GET_SIG_FINDACTION_ADD, SIGINT);
+	sigact_after = (FAR sigactq_t *) ioctl(fd, TESTIOC_GET_SIG_FINDACTION_ADD, SIGINT);
 	TC_ASSERT_EQ("sig_findaction", sigact_after, NULL);
 	TC_ASSERT_EQ("sig_findaction", sigact_before, sigact_after);
 
@@ -245,11 +245,8 @@ static void tc_signal_sigaction_null_action_neg(void)
 	ret_chk = sigaction(SIGINT, st_act, &st_oact);
 	TC_ASSERT_EQ("sigaction", ret_chk, 0);
 
-
 	TC_SUCCESS_RESULT();
 }
-
-
 
 static int kill_handler_task(int argc, char *argv[])
 {
@@ -301,7 +298,7 @@ static void tc_signal_kill_pos(void)
 		TC_ASSERT_NEQ("kill", ret_chk, ERROR);
 	}
 
-	pid = task_create("tc_sigkill", 100, 1024, kill_handler_task, (char * const *)NULL);
+	pid = task_create("tc_sigkill", 100, 1024, kill_handler_task, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", pid, 0);
 
 	ret_chk = kill(pid, SIGKILL);
@@ -328,7 +325,7 @@ static void tc_signal_kill_invalid_pid_neg(void)
 {
 	pid_t pid = -1;
 	int ret_chk = ERROR;
-	
+
 	ret_chk = kill(pid, SIGTERM);
 	sleep(SEC_1);
 	TC_ASSERT_EQ("kill", ret_chk, ERROR);
@@ -338,7 +335,7 @@ static void tc_signal_kill_invalid_pid_neg(void)
 
 static void tc_signal_kill_invalid_signal_neg(void)
 {
-	pid_t pid ;
+	pid_t pid;
 	int ret_chk = ERROR;
 	pid = getpid();
 
@@ -356,14 +353,12 @@ static void tc_signal_kill_invalid_signal_neg(void)
 		TC_ASSERT_NEQ("kill", ret_chk, ERROR);
 	}
 
-	
 	ret_chk = kill(pid, 9999);
 	sleep(SEC_1);
 	TC_ASSERT_EQ("kill", ret_chk, ERROR);
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
 * @fn                   :tc_signal_nanosleep
@@ -426,8 +421,8 @@ static void tc_signal_pause_pos(void)
 	TC_ASSERT_EQ("sigprocmask", ret_chk, OK);
 
 	clock_gettime(clock_id, &st_init_timespec);
-	task_create("sigpause1", SCHED_PRIORITY_DEFAULT, 1024, sigusr1_func, (char * const *)NULL);
-	task_create("sigpause2", SCHED_PRIORITY_DEFAULT, 1024, sigusr2_func, (char * const *)NULL);
+	task_create("sigpause1", SCHED_PRIORITY_DEFAULT, 1024, sigusr1_func, (char *const *)NULL);
+	task_create("sigpause2", SCHED_PRIORITY_DEFAULT, 1024, sigusr2_func, (char *const *)NULL);
 
 	/* Wait for a signal */
 
@@ -476,21 +471,21 @@ static void tc_signal_sigsuspend_pos(void)
 
 	ret_chk = sigprocmask(SIG_SETMASK, &newmask, &saved);
 	TC_ASSERT_EQ_CLEANUP("sigprocmask", ret_chk, OK, {
-		tckndbg("ERROR sigprocmask failed: %d\n", get_errno()); goto errout;
-	}
-						);
+						 tckndbg("ERROR sigprocmask failed: %d\n", get_errno()); goto errout;
+						 }
+	);
 
 	clock_gettime(clock_id, &st_init_timespec);
-	task_create("sigsuspend1", SCHED_PRIORITY_DEFAULT, 1024, sigusr1_func, (char * const *)NULL);
-	task_create("sigsuspend2", SCHED_PRIORITY_DEFAULT, 1024, sigusr2_func, (char * const *)NULL);
+	task_create("sigsuspend1", SCHED_PRIORITY_DEFAULT, 1024, sigusr1_func, (char *const *)NULL);
+	task_create("sigsuspend2", SCHED_PRIORITY_DEFAULT, 1024, sigusr2_func, (char *const *)NULL);
 
 	/* Wait for a signal */
 
 	ret_chk = sigsuspend(&newmask);
 	TC_ASSERT_EQ_CLEANUP("sigsuspend", ret_chk, ERROR, {
-		tckndbg("ERROR sigsuspend failed: %d\n", get_errno()); goto errout_with_mask;
-	}
-						);
+						 tckndbg("ERROR sigsuspend failed: %d\n", get_errno()); goto errout_with_mask;
+						 }
+	);
 
 	clock_gettime(clock_id, &st_final_timespec);
 	TC_ASSERT_GEQ_CLEANUP("clock_gettime", st_final_timespec.tv_sec - st_init_timespec.tv_sec, SEC_5, goto errout_with_mask);
@@ -499,24 +494,22 @@ static void tc_signal_sigsuspend_pos(void)
 
 	ret_chk = sigprocmask(SIG_SETMASK, &saved, NULL);
 	TC_ASSERT_EQ_CLEANUP("sigprocmask", ret_chk, OK, {
-		tckndbg("ERROR sognprocmask failed: %d\n", get_errno()); goto errout;
-	}
-						);
+						 tckndbg("ERROR sognprocmask failed: %d\n", get_errno()); goto errout;
+						 }
+	);
 
 	TC_SUCCESS_RESULT();
 	return;
 
-errout_with_mask:
+ errout_with_mask:
 
 	/* Restore sigprocmask */
 
 	sigprocmask(SIG_SETMASK, &saved, NULL);
-errout:
+ errout:
 
 	return;
 }
-
-
 
 /**
 * @fn                   :tc_signal_sig_pending_procmask_emptyset_addset
@@ -675,7 +668,7 @@ static void tc_signal_sigtimedwait_pos(void)
 	sigdelset(&sigset, SIGUSR1);
 	sigprocmask(SIG_BLOCK, &sigset, &oldset);
 
-	task_create("tc_sig_time", SCHED_PRIORITY_DEFAULT - 1, 1024, sigusr1_func, (char * const *)NULL);
+	task_create("tc_sig_time", SCHED_PRIORITY_DEFAULT - 1, 1024, sigusr1_func, (char *const *)NULL);
 
 	clock_gettime(clock_id, &st_init_timespec);
 	ret_chk = sigtimedwait(&sigset, &value, &st_timeout);
@@ -697,14 +690,13 @@ static void tc_signal_sigtimedwait_neg(void)
 	sigset_t sigset;
 	sigset_t oldset;
 
-    ret_chk = sigtimedwait(&sigset, &value, NULL);
+	ret_chk = sigtimedwait(&sigset, &value, NULL);
 	TC_ASSERT_EQ("sigtimedwait", ret_chk, ERROR);
 	TC_ASSERT_EQ_CLEANUP("sigtimedwait", ret_chk, ERROR, sigprocmask(SIG_SETMASK, &oldset, NULL));
 
-
 	TC_SUCCESS_RESULT();
 }
-     
+
 /**
 * @fn                   :tc_signal_sighold_sigrelse
 * @brief                :set and unset a specific signal
@@ -725,7 +717,7 @@ static void tc_signal_sighold_sigrelse_pos(void)
 	fd = tc_get_drvfd();
 	ret_chk = ioctl(fd, TESTIOC_GET_TCB_SIGPROCMASK, pid);
 	TC_ASSERT_NEQ("sigprocmask", ret_chk, ERROR);
-	org_set = (sigset_t)ret_chk;
+	org_set = (sigset_t) ret_chk;
 
 	ret_chk = sighold(SIGUSR1);
 
@@ -733,7 +725,7 @@ static void tc_signal_sighold_sigrelse_pos(void)
 
 	ret_chk = ioctl(fd, TESTIOC_GET_TCB_SIGPROCMASK, pid);
 	TC_ASSERT_NEQ("sigprocmask", ret_chk, ERROR);
-	hold_set = (sigset_t)ret_chk;
+	hold_set = (sigset_t) ret_chk;
 	TC_ASSERT_NEQ("sighold", org_set, hold_set);
 
 	ret_chk = sigrelse(SIGUSR1);
@@ -741,7 +733,7 @@ static void tc_signal_sighold_sigrelse_pos(void)
 
 	ret_chk = ioctl(fd, TESTIOC_GET_TCB_SIGPROCMASK, pid);
 	TC_ASSERT_NEQ("sigprocmask", ret_chk, ERROR);
-	relse_set = (sigset_t)ret_chk;
+	relse_set = (sigset_t) ret_chk;
 	TC_ASSERT_NEQ("sighold", hold_set, relse_set);
 	TC_ASSERT_EQ("Sigrelease", org_set, relse_set);
 
@@ -771,7 +763,6 @@ int signal_main(void)
 	tc_signal_sigwaitinfo_pos();
 	tc_signal_sighold_sigrelse_pos();
 	tc_signal_sigtimedwait_neg();
-	
 
 	return 0;
 }

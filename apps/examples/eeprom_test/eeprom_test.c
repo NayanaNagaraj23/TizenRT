@@ -173,16 +173,16 @@ static int eeprom_test(int argc, char **args)
 
 	return 0;
 
-err_6:
-err_5:
+ err_6:
+ err_5:
 	close(wr_fd);
-err_4:
+ err_4:
 	close(rd_fd);
-err_3:
+ err_3:
 	free(array2);
-err_2:
+ err_2:
 	free(array1);
-err_1:
+ err_1:
 	printf("\nERROR, test not passed");
 	return 0;
 }

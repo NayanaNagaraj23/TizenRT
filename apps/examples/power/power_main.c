@@ -51,7 +51,7 @@ static pthread_addr_t power_daemon()
 	int ret = 0;
 	int fd_lock, fd_unlock;
 
-	/* Release PM lock after bootup*/
+	/* Release PM lock after bootup */
 	fd_unlock = open(PM_UNLOCK_PATH, O_WRONLY);
 	if (fd_unlock < 0) {
 		printf("Failed to open PM_UNLOCK file, ret: %d\n", fd_unlock);
@@ -73,7 +73,7 @@ static pthread_addr_t power_daemon()
 
 	do {
 		printf("Locking PM state, transition not expected during APP sleep\n");
-		/* Apply PM lock to prevent sleep*/
+		/* Apply PM lock to prevent sleep */
 		ret = write(fd_lock, NULL, 0);
 		if (ret < 0) {
 			printf("Failed to lock PM state transition, ret: %d\n", ret);
@@ -99,7 +99,7 @@ static pthread_addr_t power_daemon()
 		printf("##########################################################\n\n");
 	} while (1);
 
-errout_with_fd:
+ errout_with_fd:
 	close(fd_unlock);
 	close(fd_lock);
 	return NULL;

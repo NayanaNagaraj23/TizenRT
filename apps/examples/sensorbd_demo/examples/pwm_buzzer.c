@@ -89,7 +89,7 @@ void pwmbuzzer_main(int argc, char *argv[])
 	for (i = 0; i < 8; i++) {
 		pwm_info.frequency = octavef1[i];
 		pwm_info.duty = (octaved[i] * 65536) / 100;
-		ioctl(fd, PWMIOC_SETCHARACTERISTICS, (unsigned long)((uintptr_t)&pwm_info));
+		ioctl(fd, PWMIOC_SETCHARACTERISTICS, (unsigned long)((uintptr_t) & pwm_info));
 		ioctl(fd, PWMIOC_START);
 
 		usleep(400000);
@@ -110,7 +110,7 @@ void pwmbuzzer_main(int argc, char *argv[])
 	for (i = 0; i < 8; i++) {
 		pwm_info.frequency = octavef2[i];
 		pwm_info.duty = (octaved[i] * 65536) / 100;
-		ioctl(fd, PWMIOC_SETCHARACTERISTICS, (unsigned long)((uintptr_t)&pwm_info));
+		ioctl(fd, PWMIOC_SETCHARACTERISTICS, (unsigned long)((uintptr_t) & pwm_info));
 		ioctl(fd, PWMIOC_START);
 
 		usleep(400000);

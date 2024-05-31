@@ -163,7 +163,7 @@ void tc_net_shutdown_sock_n(int fd)
 void *shutdown_server(void *args)
 {
 	char *msg = "Hello World !\n";
-	char buf[64] = {0,};
+	char buf[64] = { 0, };
 	struct sockaddr_in sa;
 	int socket_fd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (socket_fd < 0) {
@@ -171,7 +171,7 @@ void *shutdown_server(void *args)
 		return 0;
 	}
 
-	if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int)) < 0) {
+	if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &(int) { 1 }, sizeof(int)) < 0) {
 		printf("socket error %s:%d:%d\n", __FUNCTION__, __LINE__, errno);
 		close(socket_fd);
 		return 0;

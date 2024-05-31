@@ -139,7 +139,6 @@ void outer_apps_func()
 	trace_end(TTRACE_TAG_APPS);
 }
 
-
 #ifdef CONFIG_BUILD_KERNEL
 int main(int argc, FAR char *argv[])
 #else

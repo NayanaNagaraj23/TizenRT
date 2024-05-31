@@ -78,7 +78,6 @@
 #define TLS_SELFTEST_STACK_SIZE   51200
 #define TLS_SELFTEST_SCHED_POLICY SCHED_RR
 
-
 #define DO_TLS_TEST(func, v) \
 if ((ret = func(v)) != 0) { \
 	printf("fail %d\n", ret); \
@@ -103,12 +102,11 @@ pthread_addr_t tls_selftest_cb(void *args)
 		mbedtls_printf("all-bits-zero is not a NULL pointer2\n");
 		// return( 1 );
 	}
-
 #if defined(MBEDTLS_ECP_C)
 	DO_TLS_TEST(mbedtls_ecp_self_test, v)
 #endif
 #if defined(MBEDTLS_MEMORY_BUFFER_ALLOC_C)
-	mbedtls_memory_buffer_alloc_init(buf, sizeof(buf));
+		mbedtls_memory_buffer_alloc_init(buf, sizeof(buf));
 #endif
 #if defined(MBEDTLS_MD2_C)
 	DO_TLS_TEST(mbedtls_md2_self_test, v);
@@ -193,7 +191,6 @@ pthread_addr_t tls_selftest_cb(void *args)
 		mbedtls_memory_buffer_alloc_status();
 #endif
 	}
-
 #if defined(MBEDTLS_MEMORY_BUFFER_ALLOC_C)
 	mbedtls_memory_buffer_alloc_free();
 
@@ -246,4 +243,3 @@ int tls_selftest_main(int argc, char **argv)
 
 	return 0;
 }
-

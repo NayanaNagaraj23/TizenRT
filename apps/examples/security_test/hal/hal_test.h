@@ -54,7 +54,6 @@
 #define HAL_SS_TEST_LIMIT_TIME HAL_TEST_LIMIT
 #define HAL_SS_TEST_MEM_SIZE HAL_TEST_MEM_SIZE
 
-
 /*
  * Functions
  */
@@ -64,4 +63,4 @@ pthread_addr_t hal_keymgr_test(void);
 pthread_addr_t hal_ss_test(void);
 pthread_addr_t hal_crypto_test(void);
 
-#endif /* __SECURITY_HAL_TEST_H__ */
+#endif							/* __SECURITY_HAL_TEST_H__ */

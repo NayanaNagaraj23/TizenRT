@@ -32,7 +32,7 @@
 
 /* Macro*/
 #define WM_TEST_TRIAL	   CONFIG_WIFIMANAGER_TEST_TRIAL
-#define WM_NSOFTAP_SSID "no_sta_0101" // for auto test
+#define WM_NSOFTAP_SSID "no_sta_0101"	// for auto test
 #define TAG "[WTS2]"
 
 static interop_ap_config_list_s g_apconfig_list;
@@ -53,7 +53,7 @@ static void wm_softap_sta_join(wifi_manager_cb_msg_s msg, void *arg);
 static void wm_softap_sta_leave(wifi_manager_cb_msg_s msg, void *arg);
 static void wm_scan_done(wifi_manager_cb_msg_s msg, void *arg);
 
-extern int wifi_interop_read_file(interop_ap_config_list_s *ap_config_list, char *file_path);
+extern int wifi_interop_read_file(interop_ap_config_list_s * ap_config_list, char *file_path);
 /*
  * Global
  */
@@ -64,6 +64,7 @@ static wifi_manager_cb_s g_wifi_callbacks = {
 	wm_softap_sta_leave,
 	wm_scan_done,
 };
+
 static struct wo_queue *g_wo_queue = NULL;
 static int g_conn = 0;
 /*
@@ -107,7 +108,7 @@ void wm_scan_done(wifi_manager_cb_msg_s msg, void *arg)
 	WO_TEST_SIGNAL(msg.res, g_wo_queue);
 }
 
-static void wm_get_nosoftapinfo(wifi_manager_softap_config_s *ap_config)
+static void wm_get_nosoftapinfo(wifi_manager_softap_config_s * ap_config)
 {
 	strncpy(ap_config->ssid, WM_NSOFTAP_SSID, strlen(WM_NSOFTAP_SSID) + 1);
 	strncpy(ap_config->passphrase, WM_SOFTAP_PASSWORD, strlen(WM_SOFTAP_PASSWORD) + 1);
@@ -432,7 +433,7 @@ TEST_SETUP(join_to_sta)
 	wifi_manager_softap_config_s ap_config;
 	wm_get_softapinfo(&ap_config, WM_SOFTAP_SSID, WM_SOFTAP_PASSWORD, WM_SOFTAP_CHANNEL);
 	ST_EXPECT_EQ(WIFI_MANAGER_SUCCESS, wifi_manager_set_mode(SOFTAP_MODE, &ap_config));
-	WO_TEST_WAIT(g_conn, g_wo_queue); // wait STA joined
+	WO_TEST_WAIT(g_conn, g_wo_queue);	// wait STA joined
 	ST_END_TEST;
 }
 

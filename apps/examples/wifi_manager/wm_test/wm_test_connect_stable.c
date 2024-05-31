@@ -69,6 +69,7 @@ static wifi_manager_cb_s g_wifi_callbacks = {
 	NULL,
 	wm_cb_scan_done,
 };
+
 static uint32_t g_conn_fail = 0;
 static uint32_t g_http_fail = 0;
 static uint32_t g_conn_success = 0;
@@ -82,20 +83,13 @@ static uint32_t g_disconn = 0;
 
 static void _print_stats(void)
 {
-	WT_LOG(TAG, "conn (%d/%d/%d) http (%d/%d/%d) scan (%d/%d/%d) disconn(%d)\n",
-		   g_conn_success, g_conn_fail, g_total_conn_trial,
-		   g_http_success, g_http_fail, g_total_http_trial,
-		   g_scan_success, g_scan_fail, g_total_scan_trial,
-		   g_disconn);
+	WT_LOG(TAG, "conn (%d/%d/%d) http (%d/%d/%d) scan (%d/%d/%d) disconn(%d)\n", g_conn_success, g_conn_fail, g_total_conn_trial, g_http_success, g_http_fail, g_total_http_trial, g_scan_success, g_scan_fail, g_total_scan_trial, g_disconn);
 }
 
 void wm_cb_sta_connected(wifi_manager_cb_msg_s msg, void *arg)
 {
 	WT_LOG(TAG, "--> res(%d)", msg.res);
-	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x",
-		   msg.bssid[0], msg.bssid[1],
-		   msg.bssid[2], msg.bssid[3],
-		   msg.bssid[4], msg.bssid[5]);
+	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x", msg.bssid[0], msg.bssid[1], msg.bssid[2], msg.bssid[3], msg.bssid[4], msg.bssid[5]);
 	int conn = 0;
 	if (WIFI_MANAGER_SUCCESS == msg.res) {
 		conn = WO_CONN_SUCCESS;
@@ -126,8 +120,7 @@ void wm_cb_scan_done(wifi_manager_cb_msg_s msg, void *arg)
 	WO_TEST_SIGNAL(WO_CONN_SUCCESS, g_wo_queue);
 }
 
-static size_t curl_callback(void *contents, size_t size, size_t nmemb,
-							void *userp)
+static size_t curl_callback(void *contents, size_t size, size_t nmemb, void *userp)
 {
 	struct message *msg = (struct message *)userp;
 #ifdef PRINT_RESPONSE
@@ -152,7 +145,7 @@ static int _get_http_msg(void)
 {
 	CURL *curl;
 	CURLcode res;
-	struct message msg = {NULL, CHUNK_SIZE, 0};
+	struct message msg = { NULL, CHUNK_SIZE, 0 };
 	msg.buf = (char *)malloc(CHUNK_SIZE);
 	if (!msg.buf) {
 		WT_LOGE(TAG, "malloc fail %s\n", strerror(0));
@@ -166,12 +159,12 @@ static int _get_http_msg(void)
 	curl = curl_easy_init();
 	if (curl) {
 		/* First set the URL that is about to receive our POST. This URL can
-just as well be a https:// URL if that is what should receive the
-data. */
+		   just as well be a https:// URL if that is what should receive the
+		   data. */
 		curl_easy_setopt(curl, CURLOPT_URL, REQ_URL);
 		struct curl_slist *list = NULL;
 		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
-		curl_easy_setopt(curl, CURLOPT_HEADER, 1); // get response header?
+		curl_easy_setopt(curl, CURLOPT_HEADER, 1);	// get response header?
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_callback);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&msg);
 
@@ -179,8 +172,7 @@ data. */
 		res = curl_easy_perform(curl);
 		/* Check for errors */
 		if (res != CURLE_OK) {
-			fprintf(stderr, "curl_easy_perform() failed: %s\n",
-					curl_easy_strerror(res));
+			fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
 		}
 		/*  print http response */
 		printf("=================================\n");

@@ -46,47 +46,13 @@
 extern unsigned char g_mac_buf_server[MAC_BUF_SIZE];
 extern unsigned char g_recv_mac_buf_server[MAC_BUF_SIZE];
 
-static unsigned char srv_crt[] =
-	"-----BEGIN CERTIFICATE-----\r\n"
-	"MIICHzCCAaWgAwIBAgIBCTAKBggqhkjOPQQDAjA+MQswCQYDVQQGEwJOTDERMA8G\r\n"
-	"A1UEChMIUG9sYXJTU0wxHDAaBgNVBAMTE1BvbGFyc3NsIFRlc3QgRUMgQ0EwHhcN\r\n"
-	"MTMwOTI0MTU1MjA0WhcNMjMwOTIyMTU1MjA0WjA0MQswCQYDVQQGEwJOTDERMA8G\r\n"
-	"A1UEChMIUG9sYXJTU0wxEjAQBgNVBAMTCWxvY2FsaG9zdDBZMBMGByqGSM49AgEG\r\n"
-	"CCqGSM49AwEHA0IABDfMVtl2CR5acj7HWS3/IG7ufPkGkXTQrRS192giWWKSTuUA\r\n"
-	"2CMR/+ov0jRdXRa9iojCa3cNVc2KKg76Aci07f+jgZ0wgZowCQYDVR0TBAIwADAd\r\n"
-	"BgNVHQ4EFgQUUGGlj9QH2deCAQzlZX+MY0anE74wbgYDVR0jBGcwZYAUnW0gJEkB\r\n"
-	"PyvLeLUZvH4kydv7NnyhQqRAMD4xCzAJBgNVBAYTAk5MMREwDwYDVQQKEwhQb2xh\r\n"
-	"clNTTDEcMBoGA1UEAxMTUG9sYXJzc2wgVGVzdCBFQyBDQYIJAMFD4n5iQ8zoMAoG\r\n"
-	"CCqGSM49BAMCA2gAMGUCMQCaLFzXptui5WQN8LlO3ddh1hMxx6tzgLvT03MTVK2S\r\n"
-	"C12r0Lz3ri/moSEpNZWqPjkCMCE2f53GXcYLqyfyJR078c/xNSUU5+Xxl7VZ414V\r\n"
-	"fGa5kHvHARBPc8YAIVIqDvHH1Q==\r\n"
-	"-----END CERTIFICATE-----\r\n";
+static unsigned char srv_crt[] = "-----BEGIN CERTIFICATE-----\r\n" "MIICHzCCAaWgAwIBAgIBCTAKBggqhkjOPQQDAjA+MQswCQYDVQQGEwJOTDERMA8G\r\n" "A1UEChMIUG9sYXJTU0wxHDAaBgNVBAMTE1BvbGFyc3NsIFRlc3QgRUMgQ0EwHhcN\r\n" "MTMwOTI0MTU1MjA0WhcNMjMwOTIyMTU1MjA0WjA0MQswCQYDVQQGEwJOTDERMA8G\r\n" "A1UEChMIUG9sYXJTU0wxEjAQBgNVBAMTCWxvY2FsaG9zdDBZMBMGByqGSM49AgEG\r\n" "CCqGSM49AwEHA0IABDfMVtl2CR5acj7HWS3/IG7ufPkGkXTQrRS192giWWKSTuUA\r\n" "2CMR/+ov0jRdXRa9iojCa3cNVc2KKg76Aci07f+jgZ0wgZowCQYDVR0TBAIwADAd\r\n" "BgNVHQ4EFgQUUGGlj9QH2deCAQzlZX+MY0anE74wbgYDVR0jBGcwZYAUnW0gJEkB\r\n" "PyvLeLUZvH4kydv7NnyhQqRAMD4xCzAJBgNVBAYTAk5MMREwDwYDVQQKEwhQb2xh\r\n" "clNTTDEcMBoGA1UEAxMTUG9sYXJzc2wgVGVzdCBFQyBDQYIJAMFD4n5iQ8zoMAoG\r\n" "CCqGSM49BAMCA2gAMGUCMQCaLFzXptui5WQN8LlO3ddh1hMxx6tzgLvT03MTVK2S\r\n" "C12r0Lz3ri/moSEpNZWqPjkCMCE2f53GXcYLqyfyJR078c/xNSUU5+Xxl7VZ414V\r\n" "fGa5kHvHARBPc8YAIVIqDvHH1Q==\r\n" "-----END CERTIFICATE-----\r\n";
 static int srv_crt_len = sizeof(srv_crt);
 
-static unsigned char ca_crt[] =
-	"-----BEGIN CERTIFICATE-----\r\n"                                       
-	"MIICUjCCAdegAwIBAgIJAMFD4n5iQ8zoMAoGCCqGSM49BAMCMD4xCzAJBgNVBAYT\r\n"  
-	"Ak5MMREwDwYDVQQKEwhQb2xhclNTTDEcMBoGA1UEAxMTUG9sYXJzc2wgVGVzdCBF\r\n"  
-	"QyBDQTAeFw0xMzA5MjQxNTQ5NDhaFw0yMzA5MjIxNTQ5NDhaMD4xCzAJBgNVBAYT\r\n"  
-	"Ak5MMREwDwYDVQQKEwhQb2xhclNTTDEcMBoGA1UEAxMTUG9sYXJzc2wgVGVzdCBF\r\n"  
-	"QyBDQTB2MBAGByqGSM49AgEGBSuBBAAiA2IABMPaKzRBN1gvh1b+/Im6KUNLTuBu\r\n"  
-	"ww5XUzM5WNRStJGVOQsj318XJGJI/BqVKc4sLYfCiFKAr9ZqqyHduNMcbli4yuiy\r\n"  
-	"aY7zQa0pw7RfdadHb9UZKVVpmlM7ILRmFmAzHqOBoDCBnTAdBgNVHQ4EFgQUnW0g\r\n"  
-	"JEkBPyvLeLUZvH4kydv7NnwwbgYDVR0jBGcwZYAUnW0gJEkBPyvLeLUZvH4kydv7\r\n"  
-	"NnyhQqRAMD4xCzAJBgNVBAYTAk5MMREwDwYDVQQKEwhQb2xhclNTTDEcMBoGA1UE\r\n"  
-	"AxMTUG9sYXJzc2wgVGVzdCBFQyBDQYIJAMFD4n5iQ8zoMAwGA1UdEwQFMAMBAf8w\r\n"  
-	"CgYIKoZIzj0EAwIDaQAwZgIxAMO0YnNWKJUAfXgSJtJxexn4ipg+kv4znuR50v56\r\n"  
-	"t4d0PCu412mUC6Nnd7izvtE2MgIxAP1nnJQjZ8BWukszFQDG48wxCCyci9qpdSMv\r\n"  
-	"uCjn8pwUOkABXK8Mss90fzCfCEOtIA==\r\n"                                  
-	"-----END CERTIFICATE-----\r\n";
+static unsigned char ca_crt[] = "-----BEGIN CERTIFICATE-----\r\n" "MIICUjCCAdegAwIBAgIJAMFD4n5iQ8zoMAoGCCqGSM49BAMCMD4xCzAJBgNVBAYT\r\n" "Ak5MMREwDwYDVQQKEwhQb2xhclNTTDEcMBoGA1UEAxMTUG9sYXJzc2wgVGVzdCBF\r\n" "QyBDQTAeFw0xMzA5MjQxNTQ5NDhaFw0yMzA5MjIxNTQ5NDhaMD4xCzAJBgNVBAYT\r\n" "Ak5MMREwDwYDVQQKEwhQb2xhclNTTDEcMBoGA1UEAxMTUG9sYXJzc2wgVGVzdCBF\r\n" "QyBDQTB2MBAGByqGSM49AgEGBSuBBAAiA2IABMPaKzRBN1gvh1b+/Im6KUNLTuBu\r\n" "ww5XUzM5WNRStJGVOQsj318XJGJI/BqVKc4sLYfCiFKAr9ZqqyHduNMcbli4yuiy\r\n" "aY7zQa0pw7RfdadHb9UZKVVpmlM7ILRmFmAzHqOBoDCBnTAdBgNVHQ4EFgQUnW0g\r\n" "JEkBPyvLeLUZvH4kydv7NnwwbgYDVR0jBGcwZYAUnW0gJEkBPyvLeLUZvH4kydv7\r\n" "NnyhQqRAMD4xCzAJBgNVBAYTAk5MMREwDwYDVQQKEwhQb2xhclNTTDEcMBoGA1UE\r\n" "AxMTUG9sYXJzc2wgVGVzdCBFQyBDQYIJAMFD4n5iQ8zoMAwGA1UdEwQFMAMBAf8w\r\n" "CgYIKoZIzj0EAwIDaQAwZgIxAMO0YnNWKJUAfXgSJtJxexn4ipg+kv4znuR50v56\r\n" "t4d0PCu412mUC6Nnd7izvtE2MgIxAP1nnJQjZ8BWukszFQDG48wxCCyci9qpdSMv\r\n" "uCjn8pwUOkABXK8Mss90fzCfCEOtIA==\r\n" "-----END CERTIFICATE-----\r\n";
 static int ca_crt_len = sizeof(ca_crt);
 
-static unsigned char srv_key[] =
-	"-----BEGIN EC PRIVATE KEY-----\r\n"
-	"MHcCAQEEIPEqEyB2AnCoPL/9U/YDHvdqXYbIogTywwyp6/UfDw6noAoGCCqGSM49\r\n"
-	"AwEHoUQDQgAEN8xW2XYJHlpyPsdZLf8gbu58+QaRdNCtFLX3aCJZYpJO5QDYIxH/\r\n"
-	"6i/SNF1dFr2KiMJrdw1VzYoqDvoByLTt/w==\r\n"
-	"-----END EC PRIVATE KEY-----\r\n";
+static unsigned char srv_key[] = "-----BEGIN EC PRIVATE KEY-----\r\n" "MHcCAQEEIPEqEyB2AnCoPL/9U/YDHvdqXYbIogTywwyp6/UfDw6noAoGCCqGSM49\r\n" "AwEHoUQDQgAEN8xW2XYJHlpyPsdZLf8gbu58+QaRdNCtFLX3aCJZYpJO5QDYIxH/\r\n" "6i/SNF1dFr2KiMJrdw1VzYoqDvoByLTt/w==\r\n" "-----END EC PRIVATE KEY-----\r\n";
 static int srv_key_len = sizeof(srv_key);
 
 static unsigned char buf[BUF_SIZE];
@@ -96,10 +62,10 @@ static void my_debug(void *ctx, int level, const char *file, int line, const cha
 	((void)ctx);
 	((void)level);
 	CT_LOG(TAG, "%s:%04d: %s", file, line, str);
-	fflush((FILE *)ctx);
+	fflush((FILE *) ctx);
 }
 
-int _dtls_server(int msg_size, long* sum)
+int _dtls_server(int msg_size, long *sum)
 {
 	int ret = 0;
 	struct timeval start, end;
@@ -141,20 +107,17 @@ int _dtls_server(int msg_size, long* sum)
 	CT_LOG(TAG, "Loading the server cert. and key...");
 	fflush(stdout);
 
-	if ((ret = mbedtls_x509_crt_parse(&srvcert, (const unsigned char *)srv_crt,
-							      srv_crt_len)) != 0) {
+	if ((ret = mbedtls_x509_crt_parse(&srvcert, (const unsigned char *)srv_crt, srv_crt_len)) != 0) {
 		CT_LOG(TAG, "failed ! mbedtls_x509_crt_parse(srv_crt) returned %d", ret);
 		goto exit;
 	}
 
-	if ((ret = mbedtls_x509_crt_parse(&srvcert, (const unsigned char *)ca_crt,
-							      ca_crt_len)) != 0) {
+	if ((ret = mbedtls_x509_crt_parse(&srvcert, (const unsigned char *)ca_crt, ca_crt_len)) != 0) {
 		CT_LOG(TAG, "failed ! mbedtls_x509_crt_parse(ca_crt) returned %d", ret);
 		goto exit;
 	}
 
-	if ((ret = mbedtls_pk_parse_key(&pkey, (const unsigned char *)srv_key,
-						srv_key_len, NULL, 0)) != 0) {
+	if ((ret = mbedtls_pk_parse_key(&pkey, (const unsigned char *)srv_key, srv_key_len, NULL, 0)) != 0) {
 		CT_LOG(TAG, "failed ! mbedtls_pk_parse_key returned %d", ret);
 		goto exit;
 	}
@@ -176,8 +139,7 @@ int _dtls_server(int msg_size, long* sum)
 	CT_LOG(TAG, "Seeding the random number generator...");
 	fflush(stdout);
 
-	if ((ret = mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy,
-				(const unsigned char *)pers, strlen(pers))) != 0) {
+	if ((ret = mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy, (const unsigned char *)pers, strlen(pers))) != 0) {
 		CT_LOG(TAG, "failed ! mbedtls_ctr_drbg_seed returned %d", ret);
 		goto exit;
 	}
@@ -188,8 +150,7 @@ int _dtls_server(int msg_size, long* sum)
 	CT_LOG(TAG, "Setting up the DTLS data...");
 	fflush(stdout);
 
-	if ((ret = mbedtls_ssl_config_defaults(&conf, MBEDTLS_SSL_IS_SERVER,
-	MBEDTLS_SSL_TRANSPORT_DATAGRAM, MBEDTLS_SSL_PRESET_DEFAULT)) != 0) {
+	if ((ret = mbedtls_ssl_config_defaults(&conf, MBEDTLS_SSL_IS_SERVER, MBEDTLS_SSL_TRANSPORT_DATAGRAM, MBEDTLS_SSL_PRESET_DEFAULT)) != 0) {
 		CT_LOG(TAG, "failed ! mbedtls_ssl_config_defaults returned %d", ret);
 		goto exit;
 	}
@@ -212,15 +173,15 @@ int _dtls_server(int msg_size, long* sum)
 		goto exit;
 	}
 
-	mbedtls_ssl_conf_dtls_cookies(&conf, mbedtls_ssl_cookie_write, 
-				mbedtls_ssl_cookie_check, &cookie_ctx);
+	mbedtls_ssl_conf_dtls_cookies(&conf, mbedtls_ssl_cookie_write, mbedtls_ssl_cookie_check, &cookie_ctx);
 
-	static mbedtls_ecp_group_id server_curves[2] = {MBEDTLS_ECP_DP_SECP256R1,
-							    MBEDTLS_ECP_DP_NONE};
-	mbedtls_ssl_conf_curves(&conf, (mbedtls_ecp_group_id *)server_curves);
+	static mbedtls_ecp_group_id server_curves[2] = { MBEDTLS_ECP_DP_SECP256R1,
+		MBEDTLS_ECP_DP_NONE
+	};
+	mbedtls_ssl_conf_curves(&conf, (mbedtls_ecp_group_id *) server_curves);
 
-	int my_ciphersuite[2] = {MBEDTLS_TLS_ECDHE_ECDSA_WITH_AES_128_CCM, 0};
-	mbedtls_ssl_conf_ciphersuites(&conf, my_ciphersuite);	
+	int my_ciphersuite[2] = { MBEDTLS_TLS_ECDHE_ECDSA_WITH_AES_128_CCM, 0 };
+	mbedtls_ssl_conf_ciphersuites(&conf, my_ciphersuite);
 
 	mbedtls_ssl_conf_read_timeout(&conf, READ_TIMEOUT_MS);
 	if ((ret = mbedtls_ssl_setup(&ssl, &conf)) != 0) {
@@ -232,7 +193,7 @@ int _dtls_server(int msg_size, long* sum)
 
 	CT_LOG(TAG, "Setting up the DTLS data - ok");
 
-reset:
+ reset:
 #ifdef MBEDTLS_ERROR_C
 	if (ret != 0) {
 		char error_buf[100];
@@ -248,8 +209,7 @@ reset:
 	CT_LOG(TAG, "Waiting for a remote connection ...");
 	fflush(stdout);
 
-	if ((ret = mbedtls_net_accept(&listen_fd, &client_fd, client_ip, sizeof(client_ip),
-								      &cliip_len)) != 0) {
+	if ((ret = mbedtls_net_accept(&listen_fd, &client_fd, client_ip, sizeof(client_ip), &cliip_len)) != 0) {
 		CT_LOG(TAG, "failed  ! mbedtls_net_accept returned %d", ret);
 		goto exit;
 	}
@@ -260,15 +220,14 @@ reset:
 		goto exit;
 	}
 
-	mbedtls_ssl_set_bio(&ssl, &client_fd, mbedtls_net_send, mbedtls_net_recv, 
-							mbedtls_net_recv_timeout);
+	mbedtls_ssl_set_bio(&ssl, &client_fd, mbedtls_net_send, mbedtls_net_recv, mbedtls_net_recv_timeout);
 
 	CT_LOG(TAG, "Waiting for a remote connection - ok");
 
 	/* 6. Handshake */
 	CT_LOG(TAG, "Performing the DTLS handshake...");
 	fflush(stdout);
-	
+
 	SET_START_TIME(TLS handshake);
 	do {
 		ret = mbedtls_ssl_handshake(&ssl);
@@ -277,7 +236,7 @@ reset:
 	if (ret == MBEDTLS_ERR_SSL_HELLO_VERIFY_REQUIRED) {
 		CT_LOGE(TAG, " hello verification requested");
 		ret = 0;
-		if(retry-- > 0) {
+		if (retry-- > 0) {
 			goto reset;
 		} else {
 			goto exit;
@@ -288,10 +247,10 @@ reset:
 	}
 	CALCULATE_ELAPSED_TIME(TLS handshake, *sum);
 	CT_LOG(TAG, "Performing the DTLS handshake - ok");
-	
+
 	CT_LOG(TAG, "Receiving Device MAC from peer:");
 	do {
-		ret = mbedtls_ssl_read(&ssl, g_recv_mac_buf_server, MAC_BUF_SIZE*sizeof(char));
+		ret = mbedtls_ssl_read(&ssl, g_recv_mac_buf_server, MAC_BUF_SIZE * sizeof(char));
 	} while (ret == MBEDTLS_ERR_SSL_WANT_READ || ret == MBEDTLS_ERR_SSL_WANT_WRITE);
 	if (ret <= 0) {
 		switch (ret) {
@@ -314,7 +273,7 @@ reset:
 
 	CT_LOG(TAG, "Sending Device MAC to peer. mac %s", g_mac_buf_server);
 	do {
-		ret = mbedtls_ssl_write(&ssl, g_mac_buf_server, MAC_BUF_SIZE*sizeof(char));
+		ret = mbedtls_ssl_write(&ssl, g_mac_buf_server, MAC_BUF_SIZE * sizeof(char));
 	} while (ret == MBEDTLS_ERR_SSL_WANT_READ || ret == MBEDTLS_ERR_SSL_WANT_WRITE);
 
 	if (ret < 0) {
@@ -326,7 +285,7 @@ reset:
 
 	/*7. Read the echo Request */
 	CT_LOG(TAG, "  < ReadFromClient:");
-	fflush(stdout);	
+	fflush(stdout);
 	int remain = msg_size, done = 0;
 	CT_LOG(TAG, "_dtls_recv_data start");
 	while (remain > 0) {
@@ -368,16 +327,16 @@ reset:
 			CT_LOG(TAG, "failed ! mbedtls_ssl_write returned %d", ret);
 			CT_LOG(TAG, "TOTAL_ACK_SENT_FOR_RECVD:%d", done);
 			goto exit;
-		}		
+		}
 	}
 	CT_LOG(TAG, "TOTAL_ACK_SENT_FOR_RECVD:%d", done);
-		
+
 	/*8. Write the echo request */
 	CT_LOG(TAG, "	> WriteToClient:");
-	fflush(stdout);	 
+	fflush(stdout);
 	int ack = 0;
 	remain = msg_size;
-	CT_LOG(TAG, "_dtls_send_data start");	
+	CT_LOG(TAG, "_dtls_send_data start");
 	while (remain > 0) {
 		int size = remain > BUF_SIZE ? BUF_SIZE : remain;
 		memset(buf, '\0', BUF_SIZE);
@@ -390,7 +349,7 @@ reset:
 			CT_LOG(TAG, "TOTAL_ACK_RECVD_FOR_SENT_%d", ack);
 			goto exit;
 		}
-		
+
 		do {
 			ret = mbedtls_ssl_read(&ssl, buf, size);
 		} while (ret == MBEDTLS_ERR_SSL_WANT_READ || ret == MBEDTLS_ERR_SSL_WANT_WRITE);
@@ -416,8 +375,8 @@ reset:
 			}
 		}
 		ack = atoi(buf);
-		remain = msg_size - ack;		
-	}	
+		remain = msg_size - ack;
+	}
 	CT_LOG(TAG, "TOTAL_ACK_RECVD_FOR_SENT_%d", ack);
 	CALCULATE_ELAPSED_TIME(DTLS Data Transfer, *sum);
 
@@ -430,7 +389,7 @@ reset:
 	CT_LOG(TAG, "Closing the connection - ok");
 
 	/*10. Final clean-ups and exit  */
-exit:
+ exit:
 #ifdef MBEDTLS_ERROR_C
 	if (ret != 0) {
 		char error_buf[100];

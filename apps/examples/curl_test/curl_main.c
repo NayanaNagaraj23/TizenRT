@@ -31,9 +31,8 @@
 #define CURL_TASH_STAKSIZE 10240
 #define CURL_SCHED_POLICY  SCHED_RR
 
-
 struct input_arg {
-	int  argc;
+	int argc;
 	char **argv;
 };
 
@@ -62,8 +61,7 @@ void *curl_start(void *arg)
 	argc = input->argc;
 	argv = input->argv;
 
-	if (strcmp(argv[1], "http") == 0 || strcmp(argv[1], "https") == 0 ||
-			strcmp(argv[1], "http2") == 0) {
+	if (strcmp(argv[1], "http") == 0 || strcmp(argv[1], "https") == 0 || strcmp(argv[1], "http2") == 0) {
 		if (strcmp(argv[2], "get") == 0) {
 			hnd = curl_easy_init();
 			curl_easy_setopt(hnd, CURLOPT_URL, argv[3]);
@@ -72,8 +70,8 @@ void *curl_start(void *arg)
 			curl_easy_setopt(hnd, CURLOPT_MAXREDIRS, 50L);
 			curl_easy_setopt(hnd, CURLOPT_TCP_KEEPALIVE, 1L);
 
-			if (strcmp(argv[1], "https") == 0) { // For https
-				 /*
+			if (strcmp(argv[1], "https") == 0) {	// For https
+				/*
 				 *
 				 * Connecting to a site who isn't using a certificate that is
 				 * signed by one of the certs in the local CA bundle.
@@ -92,7 +90,7 @@ void *curl_start(void *arg)
 				curl_easy_setopt(hnd, CURLOPT_SSL_VERIFYHOST, 0L);
 			}
 
-			if (strcmp(argv[1], "http2") == 0) // For http/2
+			if (strcmp(argv[1], "http2") == 0)	// For http/2
 				curl_easy_setopt(hnd, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2);
 
 			ret = curl_easy_perform(hnd);
@@ -105,21 +103,21 @@ void *curl_start(void *arg)
 				struct curl_slist *slist1;
 
 				slist1 = NULL;
-				slist1 = curl_slist_append(slist1, "Content-Type: application/json"); // Content Type Json
+				slist1 = curl_slist_append(slist1, "Content-Type: application/json");	// Content Type Json
 
 				hnd = curl_easy_init();
 				curl_easy_setopt(hnd, CURLOPT_URL, argv[5]);
 				curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
 				curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, argv[4]);
-				curl_easy_setopt(hnd, CURLOPT_POSTFIELDSIZE_LARGE, (curl_off_t)35);
+				curl_easy_setopt(hnd, CURLOPT_POSTFIELDSIZE_LARGE, (curl_off_t) 35);
 				curl_easy_setopt(hnd, CURLOPT_USERAGENT, "curl/7.35.0");
 				curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, slist1);
 				curl_easy_setopt(hnd, CURLOPT_MAXREDIRS, 50L);
 				//curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
 				curl_easy_setopt(hnd, CURLOPT_TCP_KEEPALIVE, 1L);
 
-				if (strcmp(argv[1], "https") == 0) { // For https
-					 /*
+				if (strcmp(argv[1], "https") == 0) {	// For https
+					/*
 					 *
 					 * Connecting to a site who isn't using a certificate that is
 					 * signed by one of the certs in the local CA bundle.
@@ -138,7 +136,7 @@ void *curl_start(void *arg)
 					curl_easy_setopt(hnd, CURLOPT_SSL_VERIFYHOST, 0L);
 				}
 
-				if (strcmp(argv[1], "http2") == 0) // For http/2
+				if (strcmp(argv[1], "http2") == 0)	// For http/2
 					curl_easy_setopt(hnd, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2);
 
 				ret = curl_easy_perform(hnd);
@@ -155,8 +153,8 @@ void *curl_start(void *arg)
 				/* Default Content Type : application/x-www-form-urlencoded */
 				curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, argv[3]);
 
-				if (strcmp(argv[1], "https") == 0) { // For https
-					 /*
+				if (strcmp(argv[1], "https") == 0) {	// For https
+					/*
 					 *
 					 * Connecting to a site who isn't using a certificate that is
 					 * signed by one of the certs in the local CA bundle.
@@ -175,7 +173,7 @@ void *curl_start(void *arg)
 					curl_easy_setopt(hnd, CURLOPT_SSL_VERIFYHOST, 0L);
 				}
 
-				if (strcmp(argv[1], "http2") == 0) // For http/2
+				if (strcmp(argv[1], "http2") == 0)	// For http/2
 					curl_easy_setopt(hnd, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2);
 
 				ret = curl_easy_perform(hnd);
@@ -216,22 +214,19 @@ int curl_main(int argc, char *argv[])
 		sparam.sched_priority = CURL_TASH_PRI;
 		status = pthread_attr_setschedparam(&attr, &sparam);
 		if (status != 0) {
-			printf("curl_main(): pthread_attr_setschedparam failed, status=%d\n",
-					status);
+			printf("curl_main(): pthread_attr_setschedparam failed, status=%d\n", status);
 		}
 
 		/* 2. set a stacksize */
 		status = pthread_attr_setstacksize(&attr, CURL_TASH_STAKSIZE);
 		if (status != 0) {
-			printf("curl_main(): pthread_attr_setstacksize failed, status=%d\n",
-					status);
+			printf("curl_main(): pthread_attr_setstacksize failed, status=%d\n", status);
 		}
 
 		/* 3. set a sched policy */
 		status = pthread_attr_setschedpolicy(&attr, CURL_SCHED_POLICY);
 		if (status != 0) {
-			printf("curl_main(): pthread_attr_setschedpolicy failed, status=%d\n",
-					status);
+			printf("curl_main(): pthread_attr_setschedpolicy failed, status=%d\n", status);
 		}
 
 		args.argc = argc;
@@ -250,4 +245,3 @@ int curl_main(int argc, char *argv[])
 	printf("curl test is completed\n");
 	return 0;
 }
-

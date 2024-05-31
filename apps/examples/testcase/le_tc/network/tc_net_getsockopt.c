@@ -161,7 +161,7 @@ static void tc_net_getsockopt_optval_n(int s)
  * @precondition	   :socket file descriptor
  * @postcondition	   :
  */
-#if 0 // get has lwip_tcp in the accepticonn option and not in set.
+#if 0							// get has lwip_tcp in the accepticonn option and not in set.
 static void tc_net_getsockopt_sol_socket_so_acceptconn_p(int s)
 {
 	int ret = -1;
@@ -243,7 +243,7 @@ void net_getsockopt_main(void)
 	tc_net_getsockopt_invalid_filedesc_n();
 	tc_net_getsockopt_optval_n(fd);
 	/* get has lwip_tcp in the accepticonn option and not in set. */
-//	tc_net_getsockopt_sol_socket_so_acceptconn_p(fd);
+//  tc_net_getsockopt_sol_socket_so_acceptconn_p(fd);
 	tc_net_getsockopt_sol_socket_so_broadcast_p(fd);
 	tc_net_getsockopt_sol_socket_so_keepalive_p(fd);
 

@@ -42,7 +42,6 @@ extern struct timespec g_basetime;
 #define SEC_10  10
 #define NSEC_20 20
 
-
 /**
 * @fn                   :tc_clock_clock_getres
 * @brief                :finds the resolution(precision) of the specified clock clockid
@@ -74,7 +73,7 @@ static void tc_clock_clock_getres_neg(void)
 	int ret_chk;
 	struct timespec st_res;
 
-	ret_chk = clock_getres(33 , &st_res);
+	ret_chk = clock_getres(33, &st_res);
 	TC_ASSERT_EQ("clock_getres", ret_chk, ERROR);
 
 	TC_SUCCESS_RESULT();
@@ -90,7 +89,6 @@ static void tc_clock_clock_getres_neg(void)
 * @return               :void
 */
 
-
 static void tc_clock_clock_get_time_pos(void)
 {
 	int ret_chk;
@@ -98,7 +96,7 @@ static void tc_clock_clock_get_time_pos(void)
 	struct timespec gtime;
 
 	ret_chk = clock_gettime(CLOCK_REALTIME, &stime);
-	TC_ASSERT_EQ("clock_gettime", ret_chk, OK);	
+	TC_ASSERT_EQ("clock_gettime", ret_chk, OK);
 
 	TC_SUCCESS_RESULT();
 }
@@ -168,8 +166,6 @@ static void tc_clock_clock_get_time_invalid_clock_neg(void)
 	TC_SUCCESS_RESULT();
 }
 
-
-
 /**
 * @fn                   :tc_clock_clock_gettimeofday
 * @brief                :get the time as well as a timezone
@@ -201,11 +197,10 @@ static void tc_clock_clock_gettimeofday_pos(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void tc_clock_clock_gettimeofday_neg(void)
 {
 	int ret_chk;
-	
+
 #ifdef CONFIG_DEBUG
 	ret_chk = gettimeofday(NULL, NULL);
 	TC_ASSERT_EQ("gettimeofday", ret_chk, ERROR);
@@ -249,7 +244,7 @@ int clock_main(void)
 	tc_clock_clock_set_time_pos();
 	tc_clock_clock_set_time_nclock_neg();
 	tc_clock_clock_set_time_neg();
-    tc_clock_clock_getres_pos();
+	tc_clock_clock_getres_pos();
 	tc_clock_clock_getres_neg();
 	tc_clock_clock_abstime2ticks_pos();
 	return 0;

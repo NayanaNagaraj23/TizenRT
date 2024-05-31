@@ -129,6 +129,7 @@ static void stkmon_print_title(void)
 #endif
 	printf("\n");
 }
+
 static void stkmon_print_inactive_list(void)
 {
 	int inactive_idx;
@@ -159,9 +160,9 @@ static void stkmon_print_inactive_list(void)
 			printf(" | %10d", terminated_infos[inactive_idx].chk_peakheap);
 #endif
 #ifdef CONFIG_SYSTEM_TIME64
-			printf(" | %7llu", (uint64_t)terminated_infos[inactive_idx].timestamp);
+			printf(" | %7llu", (uint64_t) terminated_infos[inactive_idx].timestamp);
 #else
-			printf(" | %7lu", (uint32_t)terminated_infos[inactive_idx].timestamp);
+			printf(" | %7lu", (uint32_t) terminated_infos[inactive_idx].timestamp);
 #endif
 #if (CONFIG_TASK_NAME_SIZE > 0)
 			printf(" | %s", terminated_infos[inactive_idx].chk_name);
@@ -192,9 +193,9 @@ static void stkmon_print_active_values(char *buf, void *arg)
 	printf(" | %10s", stat_info[PROC_STAT_PEAKHEAP]);
 #endif
 #ifdef CONFIG_SYSTEM_TIME64
-	printf(" | %7llu", (uint64_t)clock());
+	printf(" | %7llu", (uint64_t) clock());
 #else
-	printf(" | %7lu", (uint32_t)clock());
+	printf(" | %7lu", (uint32_t) clock());
 #endif
 #if (CONFIG_TASK_NAME_SIZE > 0)
 	printf(" | %s", stat_info[PROC_STAT_NAME]);

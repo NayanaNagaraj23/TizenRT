@@ -52,7 +52,7 @@ static pthread_t g_pthread;
 static bool g_flag;
 static pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_key_t g_key;
-static int  g_exec_index;
+static int g_exec_index;
 static bool g_bpthreadcallback = false;
 
 /****************************************************************************
@@ -143,7 +143,7 @@ static void *task_thread(void *param)
 	struct timespec timeout;
 	int ret = INIT_MINUSONE;
 
-	timeout.tv_sec  = WAIT_TIME_4;
+	timeout.tv_sec = WAIT_TIME_4;
 	timeout.tv_nsec = WAIT_TIME_0;
 	sigemptyset(&mask);
 	sigaddset(&mask, SIGUSR1);
@@ -232,7 +232,6 @@ static void itc_pthread_pthread_cond_init_destroy_neg(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
 * @fn                   :itc_pthread_setgetname_np_p_reset_name
@@ -332,7 +331,6 @@ static void itc_pthread_mutex_init_destroy_multitime_pos(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
 * @fn                   :itc_pthread_key_create_set_get_delete_specific_p_multitime

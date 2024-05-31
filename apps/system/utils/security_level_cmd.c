@@ -28,7 +28,7 @@
 /********************************************************************************
  * Private Functions
  ********************************************************************************/
-static void show_usage(void) 
+static void show_usage(void)
 {
 	printf("\nUsage : sec_level [OPTION]...\n");
 	printf("Set your security level high or low, or get the current security level status.\n\n");
@@ -43,7 +43,7 @@ static void show_usage(void)
 static void tash_security_level(int argc, char **args)
 {
 	security_handle hnd;
-	security_data ss_data = {NULL, 0};
+	security_data ss_data = { NULL, 0 };
 	char ss_path[7];
 	security_error ret;
 
@@ -60,7 +60,7 @@ static void tash_security_level(int argc, char **args)
 
 	/* Init security handler */
 	ret = security_init(&hnd);
-        if (ret != SECURITY_OK) {
+	if (ret != SECURITY_OK) {
 		printf("[tash_security_level] Failed to initialize security handler\n");
 		printf("[security_init] error ret : %d\n", ret);
 		free(hnd);
@@ -88,7 +88,7 @@ static void tash_security_level(int argc, char **args)
 			printf("security level : Unexpected value!!!\n");
 			printf("Please set the security level using \"sec_level high\" or \"sec_level low\".\n");
 		}
-		
+
 		(void)security_deinit(hnd);
 		return;
 	}
@@ -104,16 +104,16 @@ static void tash_security_level(int argc, char **args)
 		show_usage();
 		return;
 	}
-	
-        /* Write 'security_level' variable to secure storage  */
+
+	/* Write 'security_level' variable to secure storage  */
 	ret = ss_write_secure_storage(hnd, ss_path, 0, &ss_data);
-        if (ret != SECURITY_OK) {
+	if (ret != SECURITY_OK) {
 		printf("[tash_security_level] Failed to write data in secure storage\n");
 		printf("[ss_write_secure_storage] error ret : %d\n", ret);
 		(void)security_deinit(hnd);
 		return;
-	} 
-	
+	}
+
 	(void)security_deinit(hnd);
 
 	printf("Security level is set\n");

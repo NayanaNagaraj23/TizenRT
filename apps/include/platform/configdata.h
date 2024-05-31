@@ -136,7 +136,7 @@ extern "C" {
  *
  ****************************************************************************/
 
-int platform_setconfig(enum config_data_e id, int instance, FAR const uint8_t *configdata, size_t datalen);
+int platform_setconfig(enum config_data_e id, int instance, FAR const uint8_t * configdata, size_t datalen);
 
 /****************************************************************************
  * Name: platform_getconfig
@@ -167,7 +167,7 @@ int platform_setconfig(enum config_data_e id, int instance, FAR const uint8_t *c
  *
  ****************************************************************************/
 
-int platform_getconfig(enum config_data_e id, int instance, FAR uint8_t *configdata, size_t datalen);
+int platform_getconfig(enum config_data_e id, int instance, FAR uint8_t * configdata, size_t datalen);
 
 #undef EXTERN
 #if defined(__cplusplus)

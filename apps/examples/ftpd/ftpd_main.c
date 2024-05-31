@@ -73,10 +73,11 @@
  ****************************************************************************/
 
 static const struct fptd_account_s g_ftpdaccounts[] = {
-	{ FTPD_ACCOUNTFLAG_SYSTEM, "root",      "abc123", NULL },
-	{ FTPD_ACCOUNTFLAG_GUEST,  "ftp",       NULL,     NULL },
-	{ FTPD_ACCOUNTFLAG_GUEST,  "anonymous", NULL,     NULL },
+	{FTPD_ACCOUNTFLAG_SYSTEM, "root", "abc123", NULL},
+	{FTPD_ACCOUNTFLAG_GUEST, "ftp", NULL, NULL},
+	{FTPD_ACCOUNTFLAG_GUEST, "anonymous", NULL, NULL},
 };
+
 #define NACCOUNTS (sizeof(g_ftpdaccounts) / sizeof(struct fptd_account_s))
 
 /****************************************************************************
@@ -105,14 +106,9 @@ static void ftpd_accounts(FTPD_SESSION handle)
 	for (i = 0; i < NACCOUNTS; i++) {
 		account = &g_ftpdaccounts[i];
 
-		printf("%d. %s account: USER=%s PASSWORD=%s HOME=%s\n", i + 1,
-			   (account->flags & FTPD_ACCOUNTFLAG_SYSTEM) != 0 ? "Root" : "User",
-			   (!account->user) ? "(none)" : account->user,
-			   (!account->password) ? "(none)" : account->password,
-			   (!account->home) ? "(none)" : account->home);
+		printf("%d. %s account: USER=%s PASSWORD=%s HOME=%s\n", i + 1, (account->flags & FTPD_ACCOUNTFLAG_SYSTEM) != 0 ? "Root" : "User", (!account->user) ? "(none)" : account->user, (!account->password) ? "(none)" : account->password, (!account->home) ? "(none)" : account->home);
 
-		ftpd_adduser(handle, account->flags, account->user,
-					 account->password, account->home);
+		ftpd_adduser(handle, account->flags, account->user, account->password, account->home);
 	}
 }
 
@@ -137,8 +133,8 @@ int ftpd_daemon(int s_argc, char **s_argv)
 	if (!handle) {
 		printf("FTP daemon [%d] failed to open FTPD\n", g_ftpdglob.pid);
 		g_ftpdglob.running = false;
-		g_ftpdglob.stop    = false;
-		g_ftpdglob.pid     = -1;
+		g_ftpdglob.stop = false;
+		g_ftpdglob.pid = -1;
 		return EXIT_FAILURE;
 	}
 
@@ -147,7 +143,6 @@ int ftpd_daemon(int s_argc, char **s_argv)
 	(void)ftpd_accounts(handle);
 
 	/* Then drive the FTPD server. */
-
 
 	while (g_ftpdglob.stop == 0) {
 		/* If ftpd_session returns success, it means that a new FTP session
@@ -171,8 +166,8 @@ int ftpd_daemon(int s_argc, char **s_argv)
 
 	printf("FTP daemon [%d] stopping\n", g_ftpdglob.pid);
 	g_ftpdglob.running = false;
-	g_ftpdglob.stop    = false;
-	g_ftpdglob.pid     = -1;
+	g_ftpdglob.stop = false;
+	g_ftpdglob.pid = -1;
 	ftpd_close(handle);
 	return EXIT_SUCCESS;
 }
@@ -196,9 +191,9 @@ int ftpd_main(int s_argc, char **s_argv)
 		/* Initialize daemon state */
 
 		g_ftpdglob.initialized = true;
-		g_ftpdglob.pid         = -1;
-		g_ftpdglob.stop        = false;
-		g_ftpdglob.running     = false;
+		g_ftpdglob.pid = -1;
+		g_ftpdglob.stop = false;
+		g_ftpdglob.running = false;
 	}
 
 	/* Then start the new daemon (if it is not already running) */
@@ -208,9 +203,7 @@ int ftpd_main(int s_argc, char **s_argv)
 		return EXIT_FAILURE;
 	} else if (!g_ftpdglob.running) {
 		printf("Starting the FTP daemon\n");
-		g_ftpdglob.pid = task_create("FTP daemon", CONFIG_EXAMPLES_FTPD_PRIO,
-									 CONFIG_EXAMPLES_FTPD_STACKSIZE,
-									 ftpd_daemon, NULL);
+		g_ftpdglob.pid = task_create("FTP daemon", CONFIG_EXAMPLES_FTPD_PRIO, CONFIG_EXAMPLES_FTPD_STACKSIZE, ftpd_daemon, NULL);
 		if (g_ftpdglob.pid < 0) {
 			printf("Failed to start the FTP daemon: %d\n", errno);
 			return EXIT_FAILURE;

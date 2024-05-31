@@ -171,7 +171,7 @@ int sysdbgapp_main(int argc, char **args)
 			ret = -1;
 		}
 	}
-end:
+ end:
 	/* Close the device while exiting the main */
 	if (g_sysdbg_handle >= 0) {
 		sysdbg_dev_close();

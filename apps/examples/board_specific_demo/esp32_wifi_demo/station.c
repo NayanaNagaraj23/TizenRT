@@ -36,7 +36,7 @@
 static const char *TAG = "station";
 static int s_retry_num = 0;
 
-static esp_err_t event_handler(void *ctx, system_event_t *event)
+static esp_err_t event_handler(void *ctx, system_event_t * event)
 {
 	switch (event->event_id) {
 	case SYSTEM_EVENT_STA_START:
@@ -86,9 +86,9 @@ static void do_wifi_scan(void)
 
 	wifi_config_t wifi_config = {
 		.sta = {
-			.ssid = CONFIG_ESP_WIFI_SSID,
-			.password = CONFIG_ESP_WIFI_PASSWORD,
-		}
+				.ssid = CONFIG_ESP_WIFI_SSID,
+				.password = CONFIG_ESP_WIFI_PASSWORD,
+				}
 		,
 	};
 	ret = esp_wifi_set_mode(WIFI_MODE_STA);

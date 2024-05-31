@@ -44,7 +44,7 @@ static void wm_sta_disconnected(wifi_manager_cb_msg_s msg, void *arg);
 
 /* State */
 static int run_init(void *arg);
-static int run_connecting(wifi_manager_ap_config_s *ap_config);
+static int run_connecting(wifi_manager_ap_config_s * ap_config);
 static int run_connected(void);
 
 /* Global*/
@@ -53,6 +53,7 @@ static wifi_manager_cb_s g_wifi_callbacks = {
 	wm_sta_disconnected,
 	NULL, NULL, NULL,
 };
+
 static struct wo_queue *g_wo_queue = NULL;
 
 void wm_sta_connected(wifi_manager_cb_msg_s msg, void *arg)
@@ -73,7 +74,7 @@ void wm_sta_disconnected(wifi_manager_cb_msg_s msg, void *arg)
 	WO_TEST_SIGNAL(WO_CONN_FAIL, g_wo_queue);
 }
 
-static void print_wifi_ap_profile(wifi_manager_ap_config_s *config, char *title)
+static void print_wifi_ap_profile(wifi_manager_ap_config_s * config, char *title)
 {
 	WT_LOG(TAG, "====================================");
 	if (title) {
@@ -98,8 +99,8 @@ static int run_init(void *arg)
 	/* Set AP Configuration */
 	struct wt_options *ap_info = (struct wt_options *)arg;
 	wifi_manager_ap_config_s apconfig;
-  wm_get_apinfo(&apconfig, ap_info->ssid, ap_info->password, ap_info->auth_type, ap_info->crypto_type);
-  print_wifi_ap_profile(&apconfig, "Connecting AP Info");
+	wm_get_apinfo(&apconfig, ap_info->ssid, ap_info->password, ap_info->auth_type, ap_info->crypto_type);
+	print_wifi_ap_profile(&apconfig, "Connecting AP Info");
 
 	/*  Run Auto Test */
 	int state = 1;
@@ -124,7 +125,7 @@ static int run_init(void *arg)
 	return 0;
 }
 
-static int run_connecting(wifi_manager_ap_config_s *ap_config)
+static int run_connecting(wifi_manager_ap_config_s * ap_config)
 {
 	WT_LOG(TAG, "-->");
 
@@ -141,14 +142,14 @@ static int run_connecting(wifi_manager_ap_config_s *ap_config)
 		// does it need to get info from wi-fi wm_get_info(ap_config);
 		goto connect_fail;
 	} else if (conn == WO_CONN_SUCCESS) {
-		return 2; // connected, wait disconnect message
+		return 2;				// connected, wait disconnect message
 	} else {
 		WT_LOGE(TAG, "program is corrupted");
 		assert(0);
 	}
 	return 0;
 
-connect_fail:
+ connect_fail:
 	WT_LOG(TAG, "wait %d second", WO_INTERVAL);
 	sleep(WO_INTERVAL);
 	return 1;

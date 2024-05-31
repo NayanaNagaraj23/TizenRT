@@ -60,7 +60,7 @@ extern int wifi_test_main(int argc, char *argv[]);
 static int wifi_test_proc(int argc, char *argv[]);
 
 void parse_aps_list(void);
-static void printScanResult(dm_scan_info_t *list);
+static void printScanResult(dm_scan_info_t * list);
 
 void WiFi_Link_Up(void);
 void WiFi_Link_Down(void);
@@ -125,7 +125,7 @@ void parse_aps_list(void)
 	}
 }
 
-static void printScanResult(dm_scan_info_t *list)
+static void printScanResult(dm_scan_info_t * list)
 {
 
 	dm_scan_info_t *current_element = list;
@@ -230,9 +230,8 @@ int wifi_test_proc(int argc, char *argv[])
 	}
 
 	printf("[WiFi] APIs Test Done.\n");
-	
-	
-error_out:
+
+ error_out:
 	if (g_aps) {
 		free(g_aps);
 	}
@@ -258,6 +257,7 @@ int wifi_init_task(int argc, char *argv[])
 
 	return 0;
 }
+
 /****************************************************************************
  * wifi_test_main
  ****************************************************************************/

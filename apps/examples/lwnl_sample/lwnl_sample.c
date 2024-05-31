@@ -35,7 +35,7 @@
 #define NUM_WIFI_LISTENER 3
 #define NUM_BLE_LISTENER 2
 
-static char g_buf[512] = {1,};
+static char g_buf[512] = { 1, };
 
 struct ls_msg {
 	lwnl_dev_type type;
@@ -92,7 +92,7 @@ static void *_wifi_event_listener(void *arg)
 		return NULL;
 	}
 
-	struct sockaddr_lwnl addr = {LWNL_DEV_WIFI};
+	struct sockaddr_lwnl addr = { LWNL_DEV_WIFI };
 	res = bind(fd, (const struct sockaddr *)&addr, sizeof(struct sockaddr_lwnl));
 	if (res < 0) {
 		printf("[WIFI][T%d] bind fail errno(%d)\n", getpid(), errno);
@@ -117,9 +117,9 @@ static void *_wifi_event_listener(void *arg)
 		}
 
 		if (FD_ISSET(fd, &rfds)) {
-			#define LWNL_TEST_HEADER_LEN (sizeof(lwnl_cb_status) + sizeof(uint32_t))
+#define LWNL_TEST_HEADER_LEN (sizeof(lwnl_cb_status) + sizeof(uint32_t))
 
-			char buf[LWNL_TEST_HEADER_LEN] = {0, };
+			char buf[LWNL_TEST_HEADER_LEN] = { 0, };
 			lwnl_cb_status status;
 			uint32_t len;
 			int nbytes = read(fd, (char *)buf, LWNL_TEST_HEADER_LEN);
@@ -135,8 +135,7 @@ static void *_wifi_event_listener(void *arg)
 				read(fd, tmp, len);
 				free(tmp);
 			}
-			printf("[WIFI][T%d] dev type (%d) evt (%d) len(%d)\n",
-				   getpid(), status.type, status.evt, len);
+			printf("[WIFI][T%d] dev type (%d) evt (%d) len(%d)\n", getpid(), status.type, status.evt, len);
 			if (status.type != LWNL_DEV_WIFI) {
 				printf("[WIFI][T%d] drop packet\n", getpid());
 			}
@@ -162,7 +161,7 @@ static void *_ble_event_listener(void *arg)
 		return NULL;
 	}
 
-	struct sockaddr_lwnl addr = {LWNL_DEV_BLE};
+	struct sockaddr_lwnl addr = { LWNL_DEV_BLE };
 	res = bind(fd, (const struct sockaddr *)&addr, sizeof(struct sockaddr_lwnl));
 	if (res < 0) {
 		printf("[BLE][T%d] bind fail errno(%d)\n", getpid(), errno);
@@ -187,9 +186,9 @@ static void *_ble_event_listener(void *arg)
 		}
 
 		if (FD_ISSET(fd, &rfds)) {
-			#define LWNL_TEST_HEADER_LEN (sizeof(lwnl_cb_status) + sizeof(uint32_t))
+#define LWNL_TEST_HEADER_LEN (sizeof(lwnl_cb_status) + sizeof(uint32_t))
 
-			char buf[LWNL_TEST_HEADER_LEN] = {0, };
+			char buf[LWNL_TEST_HEADER_LEN] = { 0, };
 			lwnl_cb_status status;
 			uint32_t len;
 			printf("[T%d] -->%s %d\n", getpid(), __FUNCTION__, __LINE__);
@@ -207,8 +206,7 @@ static void *_ble_event_listener(void *arg)
 				read(fd, tmp, len);
 				free(tmp);
 			}
-			printf("[BLE][T%d] dev type (%d) evt (%d) len(%d)\n",
-				   getpid(), status.type, status.evt, len);
+			printf("[BLE][T%d] dev type (%d) evt (%d) len(%d)\n", getpid(), status.type, status.evt, len);
 			if (status.type != LWNL_DEV_BLE) {
 				printf("[BLE][T%d] drop packet\n", getpid());
 			}
@@ -235,11 +233,11 @@ static void *_generate_event(void *arg)
 	lwnl_dev_type type = msg->type;
 	uint32_t num_events = msg->num_events;
 	printf("[LS] generate events type(%d) num(%d)\n", type, num_events);
-	uint32_t evt_list_size = sizeof(g_ble_events)/sizeof(struct ls_event_list);
+	uint32_t evt_list_size = sizeof(g_ble_events) / sizeof(struct ls_event_list);
 	struct ls_event_list *list = g_ble_events;
 
 	if (type == LWNL_DEV_WIFI) {
-		evt_list_size = sizeof(g_wifi_events)/sizeof(struct ls_event_list);
+		evt_list_size = sizeof(g_wifi_events) / sizeof(struct ls_event_list);
 		list = g_wifi_events;
 	}
 
@@ -249,8 +247,7 @@ static void *_generate_event(void *arg)
 		if (list[idx].buf_size != 0) {
 			buf = g_buf;
 		}
-		printf("[LS] generate evt dev %d type %d size %d\n",
-			   type, list[idx].evt, list[idx].buf_size);
+		printf("[LS] generate evt dev %d type %d size %d\n", type, list[idx].evt, list[idx].buf_size);
 		lwnl_postmsg(type, list[idx].evt, buf, list[idx].buf_size);
 	}
 	printf("[LS] exit event generator\n");
@@ -263,9 +260,9 @@ static void _run_procedure(void)
 	int num_wifi_events = 30;
 	int num_ble_events = 20;
 
-	pthread_t wpid[NUM_WIFI_LISTENER] = {0,};
-	pthread_t bpid[NUM_BLE_LISTENER] = {0,};
-	pthread_t evt_pid[2] = {0,};
+	pthread_t wpid[NUM_WIFI_LISTENER] = { 0, };
+	pthread_t bpid[NUM_BLE_LISTENER] = { 0, };
+	pthread_t evt_pid[2] = { 0, };
 	for (int i = 0; i < NUM_WIFI_LISTENER; i++) {
 		res = pthread_create(&wpid[i], NULL, _wifi_event_listener, (void *)&num_wifi_events);
 		if (res != 0) {
@@ -279,7 +276,7 @@ static void _run_procedure(void)
 		}
 	}
 
-	struct ls_msg msg = {LWNL_DEV_BLE, num_ble_events};
+	struct ls_msg msg = { LWNL_DEV_BLE, num_ble_events };
 
 	res = pthread_create(&evt_pid[0], NULL, _generate_event, (void *)&msg);
 	if (res != 0) {

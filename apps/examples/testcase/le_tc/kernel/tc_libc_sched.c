@@ -61,8 +61,6 @@ static void tc_libc_sched_sched_get_priority_max_sch_error_neg(void)
 	ret_chk = sched_get_priority_max(SCHED_ERROR);
 	TC_ASSERT_EQ("sched_get_priority_max", ret_chk, ERROR);
 
-	
-
 	TC_SUCCESS_RESULT();
 }
 
@@ -100,7 +98,6 @@ static void tc_libc_sched_sched_get_priority_min_invalid_sched_neg(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
  * @fn                   :tc_libc_sched_task_setcanceltype

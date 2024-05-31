@@ -54,7 +54,7 @@ int utils_prodconfig(int argc, char **args)
 	} else {
 		printf("HW Debug : Off\n");
 	}
-	
+
 	if (result & DOWNLOAD_ENABLED) {
 		printf("Download : Downloader & Hotfix Available\n");
 	} else {

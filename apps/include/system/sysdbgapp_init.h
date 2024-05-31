@@ -25,8 +25,7 @@
 #undef EXTERN
 #if defined(__cplusplus)
 #define EXTERN extern "C"
-extern "C"
-{
+extern "C" {
 #else
 #define EXTERN extern
 #endif
@@ -43,4 +42,4 @@ extern void sysdbgapp_init(void);
 }
 #endif
 
-#endif /* __APPS_INCLUDE_SYSTEM_SYSDBGAPP_INIT_H */
+#endif							/* __APPS_INCLUDE_SYSTEM_SYSDBGAPP_INIT_H */

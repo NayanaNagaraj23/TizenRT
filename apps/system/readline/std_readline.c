@@ -74,7 +74,7 @@
  * Private Function Prototypes
  ****************************************************************************/
 
-static int  readline_getc(FAR struct rl_common_s *vtbl);
+static int readline_getc(FAR struct rl_common_s *vtbl);
 static void readline_putc(FAR struct rl_common_s *vtbl, int ch);
 static void readline_write(FAR struct rl_common_s *vtbl, FAR const char *buffer, size_t buflen);
 
@@ -89,7 +89,7 @@ static void readline_write(FAR struct rl_common_s *vtbl, FAR const char *buffer,
 static const struct rl_common_s g_stdreadline = {
 	readline_getc
 #ifdef CONFIG_READLINE_ECHO
-	, readline_putc, readline_write
+		, readline_putc, readline_write
 #endif
 };
 

@@ -79,7 +79,7 @@ static void _itc_mqtt_deinit(void)
 
 static void on_connect(void *client, int result)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (id && id->config) {
 		ITC_MQTT_LOGD("%s: %s, %d\n", __FUNCTION__, id->config->client_id, result);
 	}
@@ -88,7 +88,7 @@ static void on_connect(void *client, int result)
 
 static void on_disconnect(void *client, int result)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (id && id->config) {
 		ITC_MQTT_LOGD("%s: %s, %d\n", __FUNCTION__, id->config->client_id, result);
 	}
@@ -97,16 +97,16 @@ static void on_disconnect(void *client, int result)
 
 static void on_publish(void *client, int msg_id)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (id && id->config) {
 		ITC_MQTT_LOGD("%s: %s, %d\n", __FUNCTION__, id->config->client_id, msg_id);
 	}
 	ITC_MQTT_SEND_SIGNAL;
 }
 
-static void on_message(void *client, mqtt_msg_t *msg)
+static void on_message(void *client, mqtt_msg_t * msg)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (!id || !id->config) {
 		return;
 	}
@@ -115,7 +115,7 @@ static void on_message(void *client, mqtt_msg_t *msg)
 
 static void on_subscribe(void *client, int msg_id, int qos_count, const int *granted_qos)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (!id || !id->config) {
 		return;
 	}
@@ -124,7 +124,7 @@ static void on_subscribe(void *client, int msg_id, int qos_count, const int *gra
 
 static void on_unsubscribe(void *client, int msg_id)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (!id || !id->config) {
 		return;
 	}
@@ -141,6 +141,7 @@ static double diff_time(struct timeval *x, struct timeval *y)
 	diff = (double)y_ms - (double)x_ms;
 	return diff;
 }
+
 /****************************************************************************************
  * pre-initialization functions
  ****************************************************************************************/
@@ -209,7 +210,6 @@ void itc_mqtt_init_deinit_client_n(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /*
  * @testcase             itc_mqtt_connect_disconnect_p
  * @brief                To check mqtt_connect
@@ -268,7 +268,6 @@ void itc_mqtt_connect_disconnect_n(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /*
  * @testcase             itc_mqtt_publish_p
  * @brief                To check mqtt_connect
@@ -289,8 +288,7 @@ void itc_mqtt_publish_p(void)
 	ITC_MQTT_WAIT_SIGNAL;
 
 	res = mqtt_publish(g_mqtt_client_handle, ITC_MQTT_TOPIC, g_mqtt_msg, sizeof(g_mqtt_msg), 0, 0);
-	TC_ASSERT_EQ_CLEANUP("mqtt_publish", res, 0,
-		mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_publish", res, 0, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 	ITC_MQTT_WAIT_SIGNAL;
 
 	res = mqtt_disconnect(g_mqtt_client_handle);
@@ -317,16 +315,12 @@ void itc_mqtt_publish_n(void)
 	int res;
 	g_mqtt_client_handle = mqtt_init_client(&g_mqtt_client_config);
 	TC_ASSERT_NEQ("mqtt_init_client", g_mqtt_client_handle, NULL);
-	res = mqtt_connect(g_mqtt_client_handle,
-			CONFIG_ITC_MQTT_BROKER_ADDR,
-			CONFIG_ITC_MQTT_BROKER_PORT, 0);
-	TC_ASSERT_EQ_CLEANUP("mqtt_connect", res, 0,
-			mqtt_deinit_client(g_mqtt_client_handle));
+	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR, CONFIG_ITC_MQTT_BROKER_PORT, 0);
+	TC_ASSERT_EQ_CLEANUP("mqtt_connect", res, 0, mqtt_deinit_client(g_mqtt_client_handle));
 	ITC_MQTT_WAIT_SIGNAL;
 
 	res = mqtt_publish(g_mqtt_client_handle, NULL, g_mqtt_msg, sizeof(g_mqtt_msg), 0, 0);
-	TC_ASSERT_EQ_CLEANUP("mqtt_publish", res, -1,
-		mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_publish", res, -1, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 
 	res = mqtt_disconnect(g_mqtt_client_handle);
 	TC_ASSERT_EQ_CLEANUP("mqtt_disconnect", res, 0, mqtt_deinit_client(g_mqtt_client_handle));
@@ -357,12 +351,10 @@ void itc_mqtt_subscribe_unsubscribe_p(void)
 	ITC_MQTT_WAIT_SIGNAL;
 
 	res = mqtt_subscribe(g_mqtt_client_handle, ITC_MQTT_TOPIC, 0);
-	TC_ASSERT_EQ_CLEANUP("mqtt_subscribe", res, 0,
-		mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_subscribe", res, 0, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 
 	res = mqtt_unsubscribe(g_mqtt_client_handle, ITC_MQTT_TOPIC);
-	TC_ASSERT_EQ_CLEANUP("mqtt_unsubscribe", res, 0,
-		mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_unsubscribe", res, 0, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 
 	res = mqtt_disconnect(g_mqtt_client_handle);
 	TC_ASSERT_EQ("mqtt_disconnect", res, 0);
@@ -372,6 +364,7 @@ void itc_mqtt_subscribe_unsubscribe_p(void)
 	TC_ASSERT_EQ("mqtt_deinit_client", res, 0);
 	TC_SUCCESS_RESULT();
 }
+
 /**
  * @testcase             itc_mqtt_deinit_n_redeinit_client
  * @brief                de-initialize mqtt when it's already deinit
@@ -413,16 +406,15 @@ void itc_mqtt_connect_n_reconnect(void)
 	TC_ASSERT_NEQ("mqtt_init_client", g_mqtt_client_handle, NULL);
 
 	// MQTT Connect
-	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR,	CONFIG_ITC_MQTT_BROKER_PORT, 0);
+	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR, CONFIG_ITC_MQTT_BROKER_PORT, 0);
 	TC_ASSERT_EQ_CLEANUP("mqtt_connect", res, 0, mqtt_deinit_client(g_mqtt_client_handle));
 	ITC_MQTT_WAIT_SIGNAL;
 
 	// MQTT re-Connect
-	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR,	CONFIG_ITC_MQTT_BROKER_PORT, 0);
+	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR, CONFIG_ITC_MQTT_BROKER_PORT, 0);
 	TC_ASSERT_EQ_CLEANUP("mqtt_connect", res, 0, mqtt_deinit_client(g_mqtt_client_handle));
 	if (g_mqtt_client_handle != NULL) {
-		TC_ASSERT_EQ_CLEANUP("mqtt_connect", g_mqtt_client_handle->state, MQTT_CLIENT_STATE_CONNECTED,
-			mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+		TC_ASSERT_EQ_CLEANUP("mqtt_connect", g_mqtt_client_handle->state, MQTT_CLIENT_STATE_CONNECTED, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 	}
 	//MQTT Disconnect
 	res = mqtt_disconnect(g_mqtt_client_handle);
@@ -450,7 +442,7 @@ void itc_mqtt_disconnect_n_redisconnect(void)
 	TC_ASSERT_NEQ("mqtt_init_client", g_mqtt_client_handle, NULL);
 
 	// MQTT Connect
-	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR,	CONFIG_ITC_MQTT_BROKER_PORT, 0);
+	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR, CONFIG_ITC_MQTT_BROKER_PORT, 0);
 	TC_ASSERT_EQ_CLEANUP("mqtt_connect", res, 0, mqtt_deinit_client(g_mqtt_client_handle));
 	ITC_MQTT_WAIT_SIGNAL;
 
@@ -490,17 +482,14 @@ void itc_mqtt_subscribe_p_resubscribe(void)
 	ITC_MQTT_WAIT_SIGNAL;
 
 	res = mqtt_subscribe(g_mqtt_client_handle, ITC_MQTT_TOPIC, 0);
-	TC_ASSERT_EQ_CLEANUP("mqtt_subscribe", res, 0,
-		mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_subscribe", res, 0, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 
 	//MQTT re-subscribe
 	res = mqtt_subscribe(g_mqtt_client_handle, ITC_MQTT_TOPIC, 0);
-	TC_ASSERT_EQ_CLEANUP("mqtt_subscribe", res, 0,
-		mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_subscribe", res, 0, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 
 	res = mqtt_unsubscribe(g_mqtt_client_handle, ITC_MQTT_TOPIC);
-	TC_ASSERT_EQ_CLEANUP("mqtt_unsubscribe", res, 0,
-		mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_unsubscribe", res, 0, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 
 	res = mqtt_disconnect(g_mqtt_client_handle);
 	TC_ASSERT_EQ_CLEANUP("mqtt_disconnect", res, 0, mqtt_deinit_client(g_mqtt_client_handle));
@@ -531,17 +520,14 @@ void itc_mqtt_unsubscribe_p_reunsubscribe(void)
 	ITC_MQTT_WAIT_SIGNAL;
 
 	res = mqtt_subscribe(g_mqtt_client_handle, ITC_MQTT_TOPIC, 0);
-	TC_ASSERT_EQ_CLEANUP("mqtt_subscribe", res, 0,
-		mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_subscribe", res, 0, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 
 	res = mqtt_unsubscribe(g_mqtt_client_handle, ITC_MQTT_TOPIC);
-	TC_ASSERT_EQ_CLEANUP("mqtt_unsubscribe", res, 0,
-		mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_unsubscribe", res, 0, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 
 	//MQTT re-unsubscribe
 	res = mqtt_unsubscribe(g_mqtt_client_handle, ITC_MQTT_TOPIC);
-	TC_ASSERT_EQ_CLEANUP("mqtt_unsubscribe", res, 0,
-		mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_unsubscribe", res, 0, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 
 	res = mqtt_disconnect(g_mqtt_client_handle);
 	TC_ASSERT_EQ_CLEANUP("mqtt_disconnect", res, 0, mqtt_deinit_client(g_mqtt_client_handle));
@@ -591,7 +577,7 @@ void itc_mqtt_api_success_ratio_p(void)
 		}
 		init_cnt++;
 
-		res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR,	CONFIG_ITC_MQTT_BROKER_PORT, 0);
+		res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR, CONFIG_ITC_MQTT_BROKER_PORT, 0);
 		if (res == 0) {
 			s_conn_cnt++;
 		} else {
@@ -611,8 +597,7 @@ void itc_mqtt_api_success_ratio_p(void)
 		}
 		subs_cnt++;
 
-		res = mqtt_publish(g_mqtt_client_handle, ITC_MQTT_TOPIC, g_mqtt_msg,
-				sizeof(g_mqtt_msg), 0, 0);
+		res = mqtt_publish(g_mqtt_client_handle, ITC_MQTT_TOPIC, g_mqtt_msg, sizeof(g_mqtt_msg), 0, 0);
 		if (res == 0) {
 			s_publish_cnt++;
 		}
@@ -689,7 +674,7 @@ void itc_mqtt_publish_p_performance(void)
 	int i;
 	g_mqtt_client_handle = mqtt_init_client(&g_mqtt_client_config);
 	TC_ASSERT_NEQ("mqtt_init_client", g_mqtt_client_handle, NULL);
-	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR,	CONFIG_ITC_MQTT_BROKER_PORT, 0);
+	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR, CONFIG_ITC_MQTT_BROKER_PORT, 0);
 	TC_ASSERT_EQ_CLEANUP("mqtt_connect", res, 0, mqtt_deinit_client(g_mqtt_client_handle));
 	ITC_MQTT_WAIT_SIGNAL;
 
@@ -740,7 +725,7 @@ void itc_mqtt_subscribe_p_performance(void)
 	int i;
 	g_mqtt_client_handle = mqtt_init_client(&g_mqtt_client_config);
 	TC_ASSERT_NEQ("mqtt_init_client", g_mqtt_client_handle, NULL);
-	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR,	CONFIG_ITC_MQTT_BROKER_PORT, 0);
+	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR, CONFIG_ITC_MQTT_BROKER_PORT, 0);
 	TC_ASSERT_EQ_CLEANUP("mqtt_connect", res, 0, mqtt_deinit_client(g_mqtt_client_handle));
 	ITC_MQTT_WAIT_SIGNAL;
 
@@ -771,8 +756,7 @@ void itc_mqtt_subscribe_p_performance(void)
 
 	res = mqtt_deinit_client(g_mqtt_client_handle);
 	TC_ASSERT_EQ("mqtt_deinit_client", res, 0);
-	printf("\n[Average subscription time: %.2fus]\n",
-			average / ITC_MQTT_LOOP_SIZE);
+	printf("\n[Average subscription time: %.2fus]\n", average / ITC_MQTT_LOOP_SIZE);
 	TC_SUCCESS_RESULT();
 }
 
@@ -793,19 +777,15 @@ void itc_mqtt_publish_p_zero_len_msg(void)
 	g_mqtt_client_handle = mqtt_init_client(&g_mqtt_client_config);
 	TC_ASSERT_NEQ("mqtt_init_client", g_mqtt_client_handle, NULL);
 	res = mqtt_connect(g_mqtt_client_handle, CONFIG_ITC_MQTT_BROKER_ADDR, CONFIG_ITC_MQTT_BROKER_PORT, 0);
-	TC_ASSERT_EQ_CLEANUP("mqtt_connect", res, 0,
-			mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_connect", res, 0, mqtt_deinit_client(g_mqtt_client_handle));
 	ITC_MQTT_WAIT_SIGNAL;
 
-	res = mqtt_publish(g_mqtt_client_handle, ITC_MQTT_TOPIC, msg, sizeof(msg),
-			0, 0);
-	TC_ASSERT_EQ_CLEANUP("mqtt_publish", res, 0,
-		mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
+	res = mqtt_publish(g_mqtt_client_handle, ITC_MQTT_TOPIC, msg, sizeof(msg), 0, 0);
+	TC_ASSERT_EQ_CLEANUP("mqtt_publish", res, 0, mqtt_disconnect(g_mqtt_client_handle); mqtt_deinit_client(g_mqtt_client_handle));
 	ITC_MQTT_WAIT_SIGNAL;
 
 	res = mqtt_disconnect(g_mqtt_client_handle);
-	TC_ASSERT_EQ_CLEANUP("mqtt_disconnect", res, 0,
-			mqtt_deinit_client(g_mqtt_client_handle));
+	TC_ASSERT_EQ_CLEANUP("mqtt_disconnect", res, 0, mqtt_deinit_client(g_mqtt_client_handle));
 	ITC_MQTT_WAIT_SIGNAL;
 
 	res = mqtt_deinit_client(g_mqtt_client_handle);
@@ -814,7 +794,6 @@ void itc_mqtt_publish_p_zero_len_msg(void)
 }
 
 /*******************************************************************************************/
-
 
 #ifdef CONFIG_BUILD_KERNEL
 int main(int argc, FAR char *argv[])

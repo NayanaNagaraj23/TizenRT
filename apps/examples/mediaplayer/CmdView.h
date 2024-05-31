@@ -22,15 +22,13 @@
 #include <vector>
 #include <string>
 
-namespace MediaPlayerApp
-{
-class CmdView
-{
-public:
-	int getUserInput(int min, int max);
-	int selectSource(std::vector<std::string> sourceList);
-	int selectPlayer(void);
-	int selectCommand(void);
-};
+namespace MediaPlayerApp {
+	class CmdView {
+ public:
+		int getUserInput(int min, int max);
+		int selectSource(std::vector < std::string > sourceList);
+		int selectPlayer(void);
+		int selectCommand(void);
+	};
 }
 #endif

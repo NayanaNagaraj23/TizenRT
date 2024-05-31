@@ -12,7 +12,6 @@ extern int utc_security_main(int argc, char *argv[]);
 #endif
 extern int sl_register_linux(void);
 
-
 int main(int argc, char *argv[])
 {
 	int res = sl_register_linux();

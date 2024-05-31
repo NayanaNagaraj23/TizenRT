@@ -66,11 +66,11 @@ static pthread_cond_t cond;
 #ifdef CONFIG_PTHREAD_CLEANUP
 static void thread_cleaner(FAR void *arg)
 {
-	if ((unsigned int)((uintptr_t)arg) == 1) {
+	if ((unsigned int)((uintptr_t) arg) == 1) {
 		pthread_mutex_unlock(&mutex);
 	}
 
-	printf("thread_cleaner #%u\n", (unsigned int)((uintptr_t)arg));
+	printf("thread_cleaner #%u\n", (unsigned int)((uintptr_t) arg));
 }
 #endif
 
@@ -84,7 +84,7 @@ static FAR void *thread_waiter(FAR void *parameter)
 	/* Register some clean-up handlers */
 
 	for (i = 0; i < CONFIG_PTHREAD_CLEANUP_STACKSIZE; i++) {
-		pthread_cleanup_push(thread_cleaner, (FAR void *)((uintptr_t)(i + 1)));
+		pthread_cleanup_push(thread_cleaner, (FAR void *)((uintptr_t) (i + 1)));
 	}
 #endif
 
@@ -132,7 +132,7 @@ static FAR void *thread_waiter(FAR void *parameter)
 	}
 
 	printf("thread_waiter: Exit with status 0x12345678\n");
-	pthread_exit((pthread_addr_t)0x12345678);
+	pthread_exit((pthread_addr_t) 0x12345678);
 	return NULL;
 }
 
@@ -147,7 +147,7 @@ static FAR void *asynch_waiter(FAR void *parameter)
 	/* Register some clean-up handlers */
 
 	for (i = 0; i < CONFIG_PTHREAD_CLEANUP_STACKSIZE; i++) {
-		pthread_cleanup_push(thread_cleaner, (FAR void *)((uintptr_t)(i + 1)));
+		pthread_cleanup_push(thread_cleaner, (FAR void *)((uintptr_t) (i + 1)));
 	}
 #endif
 
@@ -189,12 +189,12 @@ static FAR void *asynch_waiter(FAR void *parameter)
 	/* Set the cancelable state */
 
 	printf("asynch_waiter: Exit with status 0x12345678\n");
-	pthread_exit((pthread_addr_t)0x12345678);
+	pthread_exit((pthread_addr_t) 0x12345678);
 	return NULL;
 }
 #endif
 
-static void start_thread(FAR void *(*entry)(FAR void *), pthread_t *waiter, int cancelable)
+static void start_thread(FAR void *(*entry)(FAR void *), pthread_t * waiter, int cancelable)
 {
 	pthread_attr_t attr;
 	int status;
@@ -230,7 +230,7 @@ static void start_thread(FAR void *(*entry)(FAR void *), pthread_t *waiter, int 
 	/* Start the waiter thread  */
 
 	printf("start_thread: Starting thread\n");
-	status = pthread_create(waiter, &attr, entry, (pthread_addr_t)((uintptr_t)cancelable));
+	status = pthread_create(waiter, &attr, entry, (pthread_addr_t) ((uintptr_t) cancelable));
 	if (status != 0) {
 		printf("start_thread: ERROR pthread_create failed, status=%d\n", status);
 	}
@@ -241,7 +241,7 @@ static void start_thread(FAR void *(*entry)(FAR void *), pthread_t *waiter, int 
 	pthread_yield();
 }
 
-static void restart_thread(FAR void *(*entry)(FAR void *), pthread_t *waiter, int cancelable)
+static void restart_thread(FAR void *(*entry)(FAR void *), pthread_t * waiter, int cancelable)
 {
 	int status;
 

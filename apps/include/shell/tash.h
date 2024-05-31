@@ -111,7 +111,7 @@ int tash_get_cmdscount(void);
  *		tash_get_cmdpair(str, &cb, i );
  * @endcode
  */
-int tash_get_cmdpair(char *str, TASH_CMD_CALLBACK *cb, int index);
+int tash_get_cmdpair(char *str, TASH_CMD_CALLBACK * cb, int index);
 #endif							/*CONFIG_TASH_COMMAND_INTERFACE */
 
 #endif /*__APPS_INCLUDE_SHELL_TASH_H*/

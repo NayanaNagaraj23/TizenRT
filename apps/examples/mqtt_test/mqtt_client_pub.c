@@ -107,7 +107,7 @@ static bool g_debug;
  ****************************************************************************/
 static void my_connect_callback(void *client, int result)
 {
-	mqtt_client_t *mqtt_client = (mqtt_client_t *)client;
+	mqtt_client_t *mqtt_client = (mqtt_client_t *) client;
 	mqtt_msg_t *mqtt_msg = NULL;
 
 	if (mqtt_client == NULL || mqtt_client->config == NULL) {
@@ -119,7 +119,7 @@ static void my_connect_callback(void *client, int result)
 		MQTT_PUB_DEBUG_PRINT(mqtt_client, ">>> connect callback: client_id=%s, connect success!\n", mqtt_client->config->client_id);
 
 		if (mqtt_client->config->user_data) {
-			mqtt_msg = (mqtt_msg_t *)mqtt_client->config->user_data;
+			mqtt_msg = (mqtt_msg_t *) mqtt_client->config->user_data;
 			if (mqtt_publish(mqtt_client, mqtt_msg->topic, mqtt_msg->payload, mqtt_msg->payload_len, mqtt_msg->qos, mqtt_msg->retain) != 0) {
 				fprintf(stderr, "Error: mqtt_publish() failed.\n");
 			}
@@ -152,7 +152,7 @@ static void my_connect_callback(void *client, int result)
 
 static void my_disconnect_callback(void *client, int result)
 {
-	mqtt_client_t *mqtt_client = (mqtt_client_t *)client;
+	mqtt_client_t *mqtt_client = (mqtt_client_t *) client;
 
 	if (mqtt_client == NULL || mqtt_client->config == NULL) {
 		fprintf(stderr, "Error: >>> disconnect callback: %s is NULL.\n", mqtt_client == NULL ? "mqtt_client" : "mqtt_client->config");
@@ -170,7 +170,7 @@ static void my_disconnect_callback(void *client, int result)
 
 static void my_publish_callback(void *client, int msg_id)
 {
-	mqtt_client_t *mqtt_client = (mqtt_client_t *)client;
+	mqtt_client_t *mqtt_client = (mqtt_client_t *) client;
 
 	if (mqtt_client == NULL || mqtt_client->config == NULL) {
 		fprintf(stderr, "Error: >>> publish callback: %s is NULL.\n", mqtt_client == NULL ? "mqtt_client" : "mqtt_client->config");
@@ -339,7 +339,7 @@ static int make_client_config(void)
 
 	return 0;
 
-errout:
+ errout:
 	return -1;
 }
 
@@ -492,7 +492,7 @@ static int process_options(int argc, char *argv[])
 
 	return 0;
 
-unknown_option:
+ unknown_option:
 	fprintf(stderr, "Error: Unknown option '%s'.\n", argv[i]);
 	return 1;
 }
@@ -585,7 +585,7 @@ int mqtt_client_pub_task(void *arg)
 	/* result is success */
 	result = 0;
 
-done:
+ done:
 	if (g_mqtt_client_handle) {
 		MQTT_PUB_DEBUG_PRINT(g_mqtt_client_handle, "deinitialize MQTT client context.\n");
 		if (mqtt_deinit_client(g_mqtt_client_handle) != 0) {
@@ -643,7 +643,7 @@ int mqtt_client_pub_main(int argc, char *argv[])
 	arg.argc = argc;
 	arg.argv = argv;
 
-	ret = pthread_create(&tid, &attr, (pthread_startroutine_t)mqtt_client_pub_task, &arg);
+	ret = pthread_create(&tid, &attr, (pthread_startroutine_t) mqtt_client_pub_task, &arg);
 	if (ret != 0) {
 		fprintf(stderr, "Error: pthread_create() failed. (ret=%d)\n", ret);
 		goto done;
@@ -655,7 +655,7 @@ int mqtt_client_pub_main(int argc, char *argv[])
 	/* result is success */
 	result = 0;
 
-done:
+ done:
 	if (result != 0) {
 		fprintf(stderr, "Error: fail to start %s\n", MQTT_CLIENT_PUB_COMMAND_NAME);
 	}

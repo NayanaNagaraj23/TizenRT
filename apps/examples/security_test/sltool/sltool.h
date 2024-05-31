@@ -27,8 +27,8 @@ typedef enum {
 } sltool_ops;
 
 typedef struct sl_options sl_options_s;
-typedef int (*sl_handler)(sl_options_s *opt);
-typedef sl_handler (*sl_parser_func)(sl_options_s *opt);
+typedef int (*sl_handler)(sl_options_s * opt);
+typedef sl_handler(*sl_parser_func) (sl_options_s * opt);
 
 typedef struct sl_options {
 	int idx;

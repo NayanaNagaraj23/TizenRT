@@ -126,7 +126,7 @@ int preapp_start(int argc, char *argv[])
 #endif
 
 #ifdef CONFIG_HAVE_CXXINITIALIZE
-	sem_t	sem;
+	sem_t sem;
 	sem_init(&sem, 0, 0);
 
 	up_cxxinitialize();

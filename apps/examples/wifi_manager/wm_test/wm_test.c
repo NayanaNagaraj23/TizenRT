@@ -36,7 +36,7 @@
 #define WM_TEST_COUNT 10
 #define TAG "[WT]"
 
-typedef int (*parser_func)(struct wt_options *opt, int argc, char *argv[]);
+typedef int (*parser_func)(struct wt_options * opt, int argc, char *argv[]);
 
 #define WT_TEST_SIGNAL              \
 	do {                            \
@@ -63,7 +63,7 @@ typedef int (*parser_func)(struct wt_options *opt, int argc, char *argv[]);
 	} while (0)
 #define WT_STRESS_MAX_IDX 4
 #define WT_STRESS_MIN_IDX 1
-#define WT_MIN_ARG 2 // wm_test requires more than 2 arguments.
+#define WT_MIN_ARG 2			// wm_test requires more than 2 arguments.
 
 typedef enum {
 #ifdef WT_MEMBER_POOL
@@ -151,7 +151,7 @@ static wifi_manager_cb_s g_wifi_callbacks = {
 
 static sem_t g_wm_sem;
 static sem_t g_wm_func_sem;
-static int g_mode = 0; // check program is running
+static int g_mode = 0;			// check program is running
 
 // if _wt_scan_done is for WT_TYPE_SJOIN then it doesn't need to print
 // scan list. So if g_scan_join is 1 then it doesn't print scan list
@@ -160,6 +160,7 @@ static int g_scanned_result = 0;
 static char g_scanned_ssid[WIFIMGR_SSID_LEN + 1] = {
 	0,
 };
+
 static wifi_manager_ap_auth_type_e g_scanned_auth_type = WIFI_MANAGER_AUTH_OPEN;
 static wifi_manager_ap_crypto_type_e g_scanned_crypto_type = WIFI_MANAGER_CRYPTO_NONE;
 
@@ -167,8 +168,7 @@ static int _parse_security_str(struct wt_options *opt, const char *type, char *p
 {
 	opt->auth_type = wt_get_auth_type(type);
 	opt->password = pwd;
-	if (opt->auth_type == WIFI_MANAGER_AUTH_OPEN ||
-		opt->auth_type == WIFI_MANAGER_AUTH_IBSS_OPEN) {
+	if (opt->auth_type == WIFI_MANAGER_AUTH_OPEN || opt->auth_type == WIFI_MANAGER_AUTH_IBSS_OPEN) {
 		opt->crypto_type = WIFI_MANAGER_CRYPTO_NONE;
 	} else if (opt->auth_type == WIFI_MANAGER_AUTH_WEP_SHARED) {
 		if ((strlen(pwd) == 13) || (strlen(pwd) == 26)) {
@@ -194,9 +194,7 @@ static void _parse_unknown_security_str(struct wt_options *opt, char *pwd)
 	opt->password = pwd;
 }
 
-static int _wt_get_scanned_list(wifi_manager_scan_info_s *slist, char *ssid,
-						 wifi_manager_ap_auth_type_e *atype,
-						 wifi_manager_ap_crypto_type_e *ctype)
+static int _wt_get_scanned_list(wifi_manager_scan_info_s * slist, char *ssid, wifi_manager_ap_auth_type_e * atype, wifi_manager_ap_crypto_type_e * ctype)
 {
 	int ssid_len = strlen(ssid);
 	while (slist) {
@@ -276,10 +274,7 @@ void _wt_scan_done(wifi_manager_cb_msg_s msg, void *arg)
 		/* request type is WT_TYPE_SJOIN. so it doesn't print scan list
 		 * and pass scan list result to _wt_scan_connect;
 		 */
-		g_scanned_result = _wt_get_scanned_list(msg.scanlist,
-												g_scanned_ssid,
-												&g_scanned_auth_type,
-												&g_scanned_crypto_type);
+		g_scanned_result = _wt_get_scanned_list(msg.scanlist, g_scanned_ssid, &g_scanned_auth_type, &g_scanned_crypto_type);
 	}
 	WT_TEST_SIGNAL;
 }
@@ -541,7 +536,7 @@ void _wt_scan(void *arg)
 		WT_LOGE(TAG, "scan Fail");
 		return;
 	}
-	WT_TEST_WAIT; // wait the scan result
+	WT_TEST_WAIT;				// wait the scan result
 	WT_LEAVE;
 }
 
@@ -596,7 +591,7 @@ void _wt_stress_test(void *arg)
 
 void _wt_conn_stable_test(void *arg)
 {
-  wm_test_connect_stable(arg);
+	wm_test_connect_stable(arg);
 }
 
 void _wt_onoff_test(void *arg)
@@ -643,7 +638,7 @@ wt_type_e _wt_get_opt(int argc, char *argv[])
 
 	for (idx = 0; idx < WT_TYPE_MAX; idx++) {
 		if (strcmp(argv[1], g_func_name[idx]) == 0) {
-			return (wt_type_e)idx;
+			return (wt_type_e) idx;
 		}
 	}
 	return WT_TYPE_ERR;
@@ -857,7 +852,7 @@ int _wt_parse_connectbyrssi(struct wt_options *opt, int argc, char *argv[])
 		WT_LOGE(TAG, "Incorrect number of command line arugments, it should be 6");
 		return -1;
 	}
-	
+
 	// rssi connect test argv array
 	// wm_test connect_by_rssi [SSID_NAME][SSID_authentication][SSID_Password][Repeat Count]
 	opt->ssid = argv[2];
@@ -912,7 +907,7 @@ int _wt_parse_commands(struct wt_options *opt, int argc, char *argv[])
 	}
 
 	if (g_parser_table[options]) {
-		ret = (g_parser_table[options])(opt, argc, argv);
+		ret = (g_parser_table[options]) (opt, argc, argv);
 	}
 
 	return ret;
@@ -934,7 +929,7 @@ void _wt_process(int argc, char *argv[])
 		goto exit;
 	}
 	opt.func((void *)&opt);
-exit:
+ exit:
 	WT_TEST_FUNC_SIGNAL;
 }
 
@@ -952,7 +947,7 @@ int wm_test_main(int argc, char *argv[])
 #ifdef __LINUX__
 	_wt_process(argc, argv);
 #else
-	task_create("wifi test sample", 100, 1024 * 10, (main_t)_wt_process, argv);
+	task_create("wifi test sample", 100, 1024 * 10, (main_t) _wt_process, argv);
 #endif
 
 	WT_TEST_FUNC_WAIT;

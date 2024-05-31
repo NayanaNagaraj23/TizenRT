@@ -26,14 +26,12 @@
  */
 #define TEST_SS_PATH "ss/03"
 
-
-void
-test_securestorage(void)
+void test_securestorage(void)
 {
 	unsigned int storage_size;
 	security_handle hnd;
-	security_data input = {NULL, 0};
-	security_data output = {NULL, 0};
+	security_data input = { NULL, 0 };
+	security_data output = { NULL, 0 };
 	input.data = "1234567890123456";
 	input.length = 16;
 
@@ -80,7 +78,7 @@ test_securestorage(void)
 	}
 	printf("ok\n");
 
-exit:
+ exit:
 	free_security_data(&output);
 
 	printf("  . SEC Deinitialize ...\n");
@@ -89,4 +87,3 @@ exit:
 
 	return;
 }
-

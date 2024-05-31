@@ -16,5 +16,5 @@
  *
  ****************************************************************************/
 SLTOOL_KEY_TABLE(SLOPS_GET, sltool_handle_get_key)
-SLTOOL_KEY_TABLE(SLOPS_GEN, sltool_handle_gen_key)
-SLTOOL_KEY_TABLE(SLOPS_REMOVE, sltool_handle_remove_key)
+	SLTOOL_KEY_TABLE(SLOPS_GEN, sltool_handle_gen_key)
+	SLTOOL_KEY_TABLE(SLOPS_REMOVE, sltool_handle_remove_key)

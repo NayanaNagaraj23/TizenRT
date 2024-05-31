@@ -61,7 +61,6 @@
 #include <iotbus/iotbus_gpio.h>
 #include <iotbus/iotbus_error.h>
 
-
 /* To work this sample, below GPIO numbers should be provided.
    Refer Kconfig of this sample.
  */
@@ -93,7 +92,7 @@ iotbus_gpio_context_h right_btn;
 
 static void gpio_event_callback(void *user_data)
 {
-	iotbus_gpio_context_h hnd = (iotbus_gpio_context_h)user_data;
+	iotbus_gpio_context_h hnd = (iotbus_gpio_context_h) user_data;
 
 	if (hnd == left_btn) {
 		int left_btn_read = iotbus_gpio_read(left_btn);
@@ -154,7 +153,7 @@ int iotbus_test_main(int argc, char *argv[])
 
 	return 0;
 
-iotbus_err:
+ iotbus_err:
 	ret = iotbus_gpio_unregister_cb(left_btn);
 	if (ret != IOTBUS_ERROR_NONE) {
 		printf("Unregistering LefttBtn Callback Error!\n");

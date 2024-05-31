@@ -175,10 +175,9 @@ static void nic_display_state(void)
 		}
 
 		for (ifp = ifa; ifp; ifp = ifp->ifa_next) {
-			if (ifp->ifa_addr && ifp->ifa_addr->sa_family == AF_INET6
-				&& !strncmp(ifr->ifr_name, ifp->ifa_name, IFNAMSIZ)) {
+			if (ifp->ifa_addr && ifp->ifa_addr->sa_family == AF_INET6 && !strncmp(ifr->ifr_name, ifp->ifa_name, IFNAMSIZ)) {
 				struct sockaddr_in6 *sin6 = (struct sockaddr_in6 *)ifp->ifa_addr;
-				char ipaddr[INET6_ADDRSTRLEN + 1] = {0,};
+				char ipaddr[INET6_ADDRSTRLEN + 1] = { 0, };
 				memset(ipaddr, 0, INET6_ADDRSTRLEN + 1);
 				inet_ntop(AF_INET6, (void *)&(sin6->sin6_addr), ipaddr, INET6_ADDRSTRLEN);
 				NETCMD_LOG(NTAG, "\tinet6: %s\n", ipaddr);
@@ -186,7 +185,7 @@ static void nic_display_state(void)
 		}
 		NETCMD_LOG(NTAG, "\n");
 	}
-DONE:
+ DONE:
 	netlib_freeifaddrs(ifa);
 	free(ifcfg.ifc_buf);
 	close(fd);
@@ -268,7 +267,7 @@ static int _cmd_ifconfig_parse(int argc, char **argv, struct ifconfig_cmd_info_s
 			info->mask = argv[i + 1];
 			i++;
 #ifdef CONFIG_NET_ETHERNET
-		/* REVISIT: How will we handle Ethernet and SLIP networks together? */
+			/* REVISIT: How will we handle Ethernet and SLIP networks together? */
 		} else if (!strcmp(tmp, "hw")) {
 			ARGC_CHECK(argc, i);
 			info->hw = argv[i + 1];
@@ -289,7 +288,7 @@ static int _cmd_ifconfig_parse(int argc, char **argv, struct ifconfig_cmd_info_s
 		}
 	}
 
-endout:
+ endout:
 	return ret;
 }
 
@@ -392,7 +391,7 @@ static int _cmd_ifconfig_setipaddr(struct ifconfig_cmd_info_s *info)
 				struct in6_addr addr6;
 				inet_pton(AF_INET6, hostip, &addr6);
 				netlib_set_ipv6addr(intf, &addr6);
-#endif /* CONFIG_NET_IPv6 */
+#endif							/* CONFIG_NET_IPv6 */
 			} else {
 				NETCMD_LOGE(NTAG, "hostip is not valid\n");
 				return ERROR;

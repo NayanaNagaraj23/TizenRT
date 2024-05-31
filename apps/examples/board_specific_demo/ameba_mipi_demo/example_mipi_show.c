@@ -7,7 +7,7 @@ int main(int argc, FAR char *argv[])
 #else
 int ameba_mipi_main(int argc, char *argv[])
 #endif
-{	
+{
 	printf("=== MIPI demo ===");
 	MIPIDemoShow();
 

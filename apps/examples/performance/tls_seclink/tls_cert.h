@@ -51,4 +51,4 @@
 
 #define SERVER_NAME "TizenRT Test Device"
 
-#endif // __TLS_SECLINK_TEST_CERT_H__
+#endif							// __TLS_SECLINK_TEST_CERT_H__

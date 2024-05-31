@@ -77,7 +77,7 @@
 
 const builtin_info_t builtin_list[] = {
 #include "builtin_list.h"
-	{ NULL, NULL, 0, 0, 0 }
+	{NULL, NULL, 0, 0, 0}
 };
 
 /****************************************************************************

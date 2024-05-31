@@ -81,7 +81,7 @@
 #endif
 #define NTAG "[NETCMD]"
 
-typedef int (*set_icmp_config)(struct addrinfo *hints);
+typedef int (*set_icmp_config)(struct addrinfo * hints);
 
 static int g_ping_recv_counter;
 static uint16_t g_ping_seq_num;
@@ -154,7 +154,7 @@ static int ping_options(int argc, char **argv, int *count, int *size, char **sta
 
 	return OK;
 
-errout:
+ errout:
 	NETCMD_LOG(NTAG, fmt, argv[0]);
 	ping_usage();
 	return ERROR;
@@ -236,7 +236,6 @@ static void ping_recv(int family, int s, struct timespec *ping_time)
 		} else if (len == 0) {
 			NETCMD_LOGE(NTAG, "ping_recv: timeout\n");
 		}
-
 #ifdef CONFIG_NET_IPv6
 		if (family == AF_INET6) {
 			if (len >= ICMP6_HDR_SIZE) {
@@ -256,16 +255,16 @@ static void ping_recv(int family, int s, struct timespec *ping_time)
 				while (nexth != IP6_NEXTH_NONE) {
 					switch (nexth) {
 					case IP6_NEXTH_FRAGMENT:
-					{
-						struct ip6_frag_hdr *frag_hdr;
+						{
+							struct ip6_frag_hdr *frag_hdr;
 
-						frag_hdr = (struct ip6_frag_hdr *)curp;
+							frag_hdr = (struct ip6_frag_hdr *)curp;
 
-						nexth = frag_hdr->_nexth;
-						curp += (sizeof(struct ip6_frag_hdr));
-						len -= (sizeof(struct ip6_frag_hdr));
-						break;
-					}
+							nexth = frag_hdr->_nexth;
+							curp += (sizeof(struct ip6_frag_hdr));
+							len -= (sizeof(struct ip6_frag_hdr));
+							break;
+						}
 					case IP6_NEXTH_ICMP6:
 						ok = 1;
 						nexth = IP6_NEXTH_NONE;
@@ -287,7 +286,7 @@ static void ping_recv(int family, int s, struct timespec *ping_time)
 				}
 			}
 		} else
-#endif /* CONFIG_NET_IPv6 */
+#endif							/* CONFIG_NET_IPv6 */
 		{
 			if (len >= ICMP_HDR_SIZE) {
 				inet_ntop(family, (void *)&((struct sockaddr_in *)from)->sin_addr, addr_str, 64);
@@ -323,7 +322,7 @@ static void ping_recv(int family, int s, struct timespec *ping_time)
 
 	free(from);
 	return;
-err_out:
+ err_out:
 	if (from) {
 		free(from);
 		from = NULL;
@@ -395,7 +394,7 @@ static int ping_send(int s, struct sockaddr *to, int size)
 		return ERROR;
 	}
 
-	ping_prepare_echo((int)to->sa_family, iecho, (u16_t)icmplen);
+	ping_prepare_echo((int)to->sa_family, iecho, (u16_t) icmplen);
 
 	ret = sendto(s, iecho, icmplen, 0, to, addrlen);
 	if (ret <= 0) {
@@ -406,7 +405,6 @@ static int ping_send(int s, struct sockaddr *to, int size)
 
 	return 0;
 }
-
 
 static int _set_icmp6_config(struct addrinfo *hints)
 {
@@ -457,7 +455,7 @@ static int ping_process(int count, const char *taddr, int size, set_icmp_config 
 
 	/* try to find valid socket with address information */
 	for (rp = result; rp != NULL; rp = rp->ai_next) {
-		if ((s = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol)) < 0) {
+		if ((s = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol)) < 0) {
 			/* continue if open is failed */
 			continue;
 		} else {
@@ -503,14 +501,11 @@ static int ping_process(int count, const char *taddr, int size, set_icmp_config 
 	close(s);
 
 	NETCMD_LOG(NTAG, "--- %s ping statistics ---\n", taddr);
-	NETCMD_LOG(NTAG, "%d packets transmitted, %d received, %f%% packet loss\n",
-			ping_send_counter,
-			g_ping_recv_counter,
-			(100.0f * (float)(ping_send_counter - g_ping_recv_counter) / (float)ping_send_counter));
+	NETCMD_LOG(NTAG, "%d packets transmitted, %d received, %f%% packet loss\n", ping_send_counter, g_ping_recv_counter, (100.0f * (float)(ping_send_counter - g_ping_recv_counter) / (float)ping_send_counter));
 
 	return OK;
 
-err_out:
+ err_out:
 	freeaddrinfo(result);
 	if (s >= 0) {
 		close(s);
@@ -551,4 +546,3 @@ int cmd_ping(int argc, char **argv)
 	set_icmp_config func = _set_icmp4_config;
 	return _ping_start(argc, argv, func);
 }
-

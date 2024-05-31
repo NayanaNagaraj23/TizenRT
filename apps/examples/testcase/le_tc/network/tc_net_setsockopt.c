@@ -377,7 +377,7 @@ static void tc_net_setsockopt_no_check_p(int s)
 static void tc_net_setsockopt_broadcast_p(int s)
 {
 	int ret = 0;
-	int optval = 1; //broadcast value
+	int optval = 1;				//broadcast value
 
 	ret = setsockopt(s, SOL_SOCKET, SO_BROADCAST, &optval, sizeof optval);
 

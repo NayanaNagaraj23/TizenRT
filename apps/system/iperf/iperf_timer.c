@@ -70,7 +70,7 @@ static void getnow(struct timeval *nowP, struct timeval *nowP2)
 	}
 }
 
-static void list_add(Timer *t)
+static void list_add(Timer * t)
 {
 	Timer *t2;
 	Timer *t2prev;
@@ -106,7 +106,7 @@ static void list_add(Timer *t)
 	}
 }
 
-static void list_remove(Timer *t)
+static void list_remove(Timer * t)
 {
 	if (t->prev == NULL) {
 		timers = t->next;
@@ -118,7 +118,7 @@ static void list_remove(Timer *t)
 	}
 }
 
-static void list_resort(Timer *t)
+static void list_resort(Timer * t)
 {
 	/* Remove the timer from the list. */
 	list_remove(t);
@@ -136,7 +136,7 @@ static void add_usecs(struct timeval *t, int64_t usecs)
 	}
 }
 
-Timer *tmr_create(struct timeval *nowP, TimerProc *timer_proc, TimerClientData client_data, int64_t usecs, int periodic)
+Timer *tmr_create(struct timeval *nowP, TimerProc * timer_proc, TimerClientData client_data, int64_t usecs, int periodic)
 {
 	struct timeval now;
 	Timer *t;
@@ -200,7 +200,7 @@ void tmr_run(struct timeval *nowP)
 		if (t->time.tv_sec > now.tv_sec || (t->time.tv_sec == now.tv_sec && t->time.tv_usec > now.tv_usec)) {
 			break;
 		}
-		(t->timer_proc)(t->client_data, &now);
+		(t->timer_proc) (t->client_data, &now);
 		if (t->periodic) {
 			/* Reschedule. */
 			add_usecs(&t->time, t->usecs);
@@ -211,7 +211,7 @@ void tmr_run(struct timeval *nowP)
 	}
 }
 
-void tmr_reset(struct timeval *nowP, Timer *t)
+void tmr_reset(struct timeval *nowP, Timer * t)
 {
 	struct timeval now;
 
@@ -221,7 +221,7 @@ void tmr_reset(struct timeval *nowP, Timer *t)
 	list_resort(t);
 }
 
-void tmr_cancel(Timer *t)
+void tmr_cancel(Timer * t)
 {
 	/* Remove it from the active list. */
 	list_remove(t);

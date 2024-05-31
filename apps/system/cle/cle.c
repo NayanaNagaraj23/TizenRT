@@ -156,14 +156,14 @@
 
 enum cle_key_e {
 	KEY_BEGINLINE = CTRL('A'),	/* Move cursor to start of current line */
-	KEY_LEFT      = CTRL('B'),	/* Move left one character */
-	KEY_DEL       = CTRL('D'),	/* Delete a single character at the cursor position */
-	KEY_ENDLINE   = CTRL('E'),	/* Move cursor to end of current line */
-	KEY_RIGHT     = CTRL('F'),	/* Move right one character */
-	KEY_DELLEFT   = CTRL('H'),	/* Delete character, left (backspace)  */
-	KEY_DELEOL    = CTRL('K'),	/* Delete to the end of the line */
-	KEY_DELLINE   = CTRL('U'),	/* Delete the entire line */
-	KEY_QUOTE     = '\\',		/* The next character is quote (use literal value) */
+	KEY_LEFT = CTRL('B'),		/* Move left one character */
+	KEY_DEL = CTRL('D'),		/* Delete a single character at the cursor position */
+	KEY_ENDLINE = CTRL('E'),	/* Move cursor to end of current line */
+	KEY_RIGHT = CTRL('F'),		/* Move right one character */
+	KEY_DELLEFT = CTRL('H'),	/* Delete character, left (backspace)  */
+	KEY_DELEOL = CTRL('K'),		/* Delete to the end of the line */
+	KEY_DELLINE = CTRL('U'),	/* Delete the entire line */
+	KEY_QUOTE = '\\',			/* The next character is quote (use literal value) */
 };
 
 /* This structure describes the overall state of the editor */
@@ -192,11 +192,11 @@ static int cle_debug(FAR const char *fmt, ...);
 
 static void cle_write(FAR struct cle_s *priv, FAR const char *buffer, uint16_t buflen);
 static void cle_putch(FAR struct cle_s *priv, char ch);
-static int  cle_getch(FAR struct cle_s *priv);
+static int cle_getch(FAR struct cle_s *priv);
 static void cle_cursoron(FAR struct cle_s *priv);
 static void cle_cursoroff(FAR struct cle_s *priv);
 static void cle_setcursor(FAR struct cle_s *priv, uint16_t column);
-static int  cle_getcursor(FAR struct cle_s *priv, uint16_t *prow, uint16_t *pcolumn);
+static int cle_getcursor(FAR struct cle_s *priv, uint16_t * prow, uint16_t * pcolumn);
 static void cle_clrtoeol(FAR struct cle_s *priv);
 
 /* Editor function */
@@ -205,7 +205,7 @@ static bool cle_opentext(FAR struct cle_s *priv, uint16_t pos, uint16_t incremen
 static void cle_closetext(FAR struct cle_s *priv, uint16_t pos, uint16_t size);
 static void cle_showtext(FAR struct cle_s *priv);
 static void cle_insertch(FAR struct cle_s *priv, char ch);
-static int  cle_editloop(FAR struct cle_s *priv);
+static int cle_editloop(FAR struct cle_s *priv);
 
 /****************************************************************************
  * Private Data
@@ -213,10 +213,10 @@ static int  cle_editloop(FAR struct cle_s *priv);
 
 /* VT100 escape sequences */
 
-static const char g_cursoron[]     = VT100_CURSORON;
-static const char g_cursoroff[]    = VT100_CURSOROFF;
-static const char g_getcursor[]    = VT100_GETCURSOR;
-static const char g_erasetoeol[]   = VT100_CLEAREOL;
+static const char g_cursoron[] = VT100_CURSORON;
+static const char g_cursoroff[] = VT100_CURSOROFF;
+static const char g_getcursor[] = VT100_GETCURSOR;
+static const char g_erasetoeol[] = VT100_CLEAREOL;
 static const char g_fmtcursorpos[] = VT100_FMT_CURSORPOS;
 
 /****************************************************************************
@@ -412,7 +412,7 @@ static void cle_setcursor(FAR struct cle_s *priv, uint16_t column)
  *
  ****************************************************************************/
 
-static int cle_getcursor(FAR struct cle_s *priv, FAR uint16_t *prow, FAR uint16_t *pcolumn)
+static int cle_getcursor(FAR struct cle_s *priv, FAR uint16_t * prow, FAR uint16_t * pcolumn)
 {
 	uint32_t row;
 	uint32_t column;
@@ -712,77 +712,77 @@ static int cle_editloop(FAR struct cle_s *priv)
 		/* Then handle the character. */
 
 		switch (ch) {
-		case KEY_BEGINLINE: {	/* Move cursor to start of current line */
-			priv->curpos = 0;
-		}
-		break;
-
-		case KEY_LEFT: {		/* Move the cursor left 1 character */
-			if (priv->curpos > 0) {
-				priv->curpos--;
-			} else {
-				CLE_BEL(priv);
+		case KEY_BEGINLINE:{	/* Move cursor to start of current line */
+				priv->curpos = 0;
 			}
-		}
-		break;
+			break;
+
+		case KEY_LEFT:{		/* Move the cursor left 1 character */
+				if (priv->curpos > 0) {
+					priv->curpos--;
+				} else {
+					CLE_BEL(priv);
+				}
+			}
+			break;
 
 		case KEY_DEL:			/* Delete 1 character at the cursor */
-		case ASCII_DEL: {
-			if (priv->curpos < priv->nchars) {
-				cle_closetext(priv, priv->curpos, 1);
-			} else {
-				CLE_BEL(priv);
+		case ASCII_DEL:{
+				if (priv->curpos < priv->nchars) {
+					cle_closetext(priv, priv->curpos, 1);
+				} else {
+					CLE_BEL(priv);
+				}
 			}
-		}
-		break;
+			break;
 
-		case KEY_ENDLINE: {	/* Move cursor to end of current line */
-			priv->curpos = priv->nchars;
-		}
-		break;
-
-		case KEY_RIGHT: {	/* Move the cursor right one character */
-			if (priv->curpos < priv->nchars) {
-				priv->curpos++;
-			} else {
-				CLE_BEL(priv);
+		case KEY_ENDLINE:{		/* Move cursor to end of current line */
+				priv->curpos = priv->nchars;
 			}
-		}
-		break;
+			break;
+
+		case KEY_RIGHT:{		/* Move the cursor right one character */
+				if (priv->curpos < priv->nchars) {
+					priv->curpos++;
+				} else {
+					CLE_BEL(priv);
+				}
+			}
+			break;
 
 		case KEY_DELLEFT:		/* Delete 1 character before the cursor */
 			//case ASCII_BS:
-		{
-			if (priv->curpos > 0) {
-				cle_closetext(priv, --priv->curpos, 1);
-			} else {
-				CLE_BEL(priv);
+			{
+				if (priv->curpos > 0) {
+					cle_closetext(priv, --priv->curpos, 1);
+				} else {
+					CLE_BEL(priv);
+				}
 			}
-		}
-		break;
+			break;
 
-		case KEY_DELEOL: {	/* Delete to the end of the line */
-			priv->nchars = (priv->nchars > 0 ? priv->curpos + 1 : 0);
-		}
-		break;
-
-		case KEY_DELLINE: {	/* Delete to the end of the line */
-			priv->nchars = 0;
-			priv->curpos = 0;
-		}
-		break;
-
-		case KEY_QUOTE: {	/* Quoted character follows */
-			ch = cle_getch(priv);
-			if (ch < 0) {
-				return -EIO;
+		case KEY_DELEOL:{		/* Delete to the end of the line */
+				priv->nchars = (priv->nchars > 0 ? priv->curpos + 1 : 0);
 			}
+			break;
 
-			/* Insert the next character unconditionally */
+		case KEY_DELLINE:{		/* Delete to the end of the line */
+				priv->nchars = 0;
+				priv->curpos = 0;
+			}
+			break;
 
-			cle_insertch(priv, ch);
-		}
-		break;
+		case KEY_QUOTE:{		/* Quoted character follows */
+				ch = cle_getch(priv);
+				if (ch < 0) {
+					return -EIO;
+				}
+
+				/* Insert the next character unconditionally */
+
+				cle_insertch(priv, ch);
+			}
+			break;
 
 			/* Newline terminates editing.  But what is a newline? */
 
@@ -791,35 +791,35 @@ static int cle_editloop(FAR struct cle_s *priv)
 #elif defined(CONFIG_EOL_IS_LF) || defined(CONFIG_EOL_IS_BOTH_CRLF) || defined(CONFIG_EOL_IS_EITHER_CRLF)
 		case '\n':				/* LF terminates line */
 #endif
-		{
-			/* Add the newline character to the buffer at the end of the line */
+			{
+				/* Add the newline character to the buffer at the end of the line */
 
-			priv->curpos = priv->nchars;
-			cle_insertch(priv, '\n');
-			cle_putch(priv, '\n');
-			return OK;
-		}
-		break;
+				priv->curpos = priv->nchars;
+				cle_insertch(priv, '\n');
+				cle_putch(priv, '\n');
+				return OK;
+			}
+			break;
 
 #if defined(CONFIG_EOL_IS_BOTH_CRLF)
 		case '\r':				/* Wait for the LF */
 			break;
 #endif
 
-		/* Text to insert or unimplemented/invalid keypresses */
+			/* Text to insert or unimplemented/invalid keypresses */
 
-		default: {
-			/* Ignore all control characters except for tab and newline */
+		default:{
+				/* Ignore all control characters except for tab and newline */
 
-			if (!iscntrl(ch) || ch == '\t') {
-				/* Insert the filtered character into the buffer */
+				if (!iscntrl(ch) || ch == '\t') {
+					/* Insert the filtered character into the buffer */
 
-				cle_insertch(priv, ch);
-			} else {
-				CLE_BEL(priv);
+					cle_insertch(priv, ch);
+				} else {
+					CLE_BEL(priv);
+				}
 			}
-		}
-		break;
+			break;
 		}
 	}
 
@@ -843,7 +843,7 @@ static int cle_editloop(FAR struct cle_s *priv)
  *
  ****************************************************************************/
 
-int cle(FAR char *line, uint16_t linelen, FILE *instream, FILE *outstream)
+int cle(FAR char *line, uint16_t linelen, FILE * instream, FILE * outstream)
 {
 	FAR struct cle_s priv;
 	uint16_t column;

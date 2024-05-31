@@ -31,7 +31,7 @@
 
 static const char *TAG = "AP";
 
-static esp_err_t event_handler(void *ctx, system_event_t *event)
+static esp_err_t event_handler(void *ctx, system_event_t * event)
 {
 	switch (event->event_id) {
 	case SYSTEM_EVENT_AP_STACONNECTED:
@@ -64,12 +64,11 @@ static void wifi_init_softap(void)
 	}
 	wifi_config_t wifi_config = {
 		.ap = {
-			.ssid = CONFIG_ESP_WIFI_SSID,
-			.ssid_len = strlen(CONFIG_ESP_WIFI_SSID),
-			.password = CONFIG_ESP_WIFI_PASSWORD,
-			.max_connection = CONFIG_ESP_MAX_STA_CONN,
-			.authmode = WIFI_AUTH_WPA_WPA2_PSK
-		}
+			   .ssid = CONFIG_ESP_WIFI_SSID,
+			   .ssid_len = strlen(CONFIG_ESP_WIFI_SSID),
+			   .password = CONFIG_ESP_WIFI_PASSWORD,
+			   .max_connection = CONFIG_ESP_MAX_STA_CONN,
+			   .authmode = WIFI_AUTH_WPA_WPA2_PSK}
 		,
 	};
 	if (strlen(CONFIG_ESP_WIFI_PASSWORD) == 0) {

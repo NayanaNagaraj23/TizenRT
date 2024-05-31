@@ -188,7 +188,7 @@ int i2ccmd_set(FAR struct i2ctool_s *i2ctool, int argc, FAR char **argv)
 	for (i = 0; i < repititions; i++) {
 		/* Write to the I2C bus */
 
-		ret = i2ctool_set(i2ctool, dev, regaddr, (uint16_t)value);
+		ret = i2ctool_set(i2ctool, dev, regaddr, (uint16_t) value);
 
 		/* Display the result */
 
@@ -238,7 +238,7 @@ int i2ctool_set(FAR struct i2ctool_s *i2ctool, FAR struct i2c_dev_s *dev, uint8_
 	msg[1].addr = i2ctool->addr;
 	msg[1].flags = 0;
 	if (i2ctool->width == 8) {
-		u.data8 = (uint8_t)value;
+		u.data8 = (uint8_t) value;
 		msg[1].buffer = &u.data8;
 		msg[1].length = 1;
 	} else {

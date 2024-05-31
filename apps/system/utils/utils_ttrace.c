@@ -37,12 +37,12 @@ struct tag_list {
 };
 
 static const struct tag_list ttrace_tags[] = {
-	{"none",    "None",          TTRACE_TAG_OFF},
-	{"apps",    "Applications",  TTRACE_TAG_APPS},
-	{"libs",    "Libraries",     TTRACE_TAG_LIBS},
-	{"lock",    "Lock",          TTRACE_TAG_LOCK},
-	{"task",    "TASK",          TTRACE_TAG_TASK},
-	{"ipc",     "IPC",           TTRACE_TAG_IPC},
+	{"none", "None", TTRACE_TAG_OFF},
+	{"apps", "Applications", TTRACE_TAG_APPS},
+	{"libs", "Libraries", TTRACE_TAG_LIBS},
+	{"lock", "Lock", TTRACE_TAG_LOCK},
+	{"task", "TASK", TTRACE_TAG_TASK},
+	{"ipc", "IPC", TTRACE_TAG_IPC},
 };
 
 int param = 0;
@@ -55,36 +55,19 @@ void wait_ttrace_dump(void);
 static int print_uid_packet(struct trace_packet *packet)
 {
 	int8_t uid = packet->codelen & ~TTRACE_CODE_UNIQUE;
-	printf("[%06d:%06d] %03d: %c|%u\r\n",
-		   packet->ts.tv_sec, packet->ts.tv_usec,
-		   packet->pid,
-		   packet->event_type, uid);
+	printf("[%06d:%06d] %03d: %c|%u\r\n", packet->ts.tv_sec, packet->ts.tv_usec, packet->pid, packet->event_type, uid);
 	return sizeof(struct trace_packet) - TTRACE_MSG_BYTES;
 }
 
 static int print_message_packet(struct trace_packet *packet)
 {
-	printf("[%06d:%06d] %03d: %c|%s\r\n",
-		   packet->ts.tv_sec, packet->ts.tv_usec,
-		   packet->pid,
-		   packet->event_type,
-		   packet->msg.message);
+	printf("[%06d:%06d] %03d: %c|%s\r\n", packet->ts.tv_sec, packet->ts.tv_usec, packet->pid, packet->event_type, packet->msg.message);
 	return sizeof(struct trace_packet);
 }
 
 static int print_sched_packet(struct trace_packet *packet)
 {
-	printf("[%06d:%06d] %03d: %c|prev_comm=%s prev_pid=%u prev_prio=%u prev_state=%u ==> next_comm=%s next_pid=%u next_prio=%u\r\n",
-		   packet->ts.tv_sec, packet->ts.tv_usec,
-		   packet->pid,
-		   (char)packet->event_type,
-		   packet->msg.sched_msg.prev_comm,
-		   packet->msg.sched_msg.prev_pid,
-		   packet->msg.sched_msg.prev_prio,
-		   packet->msg.sched_msg.prev_state,
-		   packet->msg.sched_msg.next_comm,
-		   packet->msg.sched_msg.next_pid,
-		   packet->msg.sched_msg.next_prio);
+	printf("[%06d:%06d] %03d: %c|prev_comm=%s prev_pid=%u prev_prio=%u prev_state=%u ==> next_comm=%s next_pid=%u next_prio=%u\r\n", packet->ts.tv_sec, packet->ts.tv_usec, packet->pid, (char)packet->event_type, packet->msg.sched_msg.prev_comm, packet->msg.sched_msg.prev_pid, packet->msg.sched_msg.prev_prio, packet->msg.sched_msg.prev_state, packet->msg.sched_msg.next_comm, packet->msg.sched_msg.next_pid, packet->msg.sched_msg.next_prio);
 	return sizeof(struct trace_packet);
 }
 
@@ -187,7 +170,7 @@ static int check_args_validation(int argc, char **args)
 	return TTRACE_VALID;
 }
 
-static int run_cmd(FILE *fp, int cmd, int arg)
+static int run_cmd(FILE * fp, int cmd, int arg)
 {
 	int ret = ioctl(fp->fs_fd, cmd, (unsigned long)arg);
 	return ret;
@@ -211,7 +194,7 @@ static char *alloc_tracebuffer(int size)
 	return bp;
 }
 
-static void close_ttrace(FILE *file)
+static void close_ttrace(FILE * file)
 {
 	if (file == NULL) {
 		printf("file pointer doesn't opened\r\n");
@@ -231,7 +214,7 @@ static void free_tracebuffer(char *buffer)
 	return;
 }
 
-static int read_tracebuffer(FILE *file, int bufsize)
+static int read_tracebuffer(FILE * file, int bufsize)
 {
 	char *buffer = NULL;
 	int read_len = 0;
@@ -267,7 +250,7 @@ void wait_ttrace_dump()
 	}
 }
 
-static int send_cmds(FILE *file, int cmd)
+static int send_cmds(FILE * file, int cmd)
 {
 	int ret = 0;
 	int bufsize = 0;
@@ -334,4 +317,3 @@ int utils_ttrace(int argc, char **args)
 
 	return OK;
 }
-

@@ -66,17 +66,17 @@ static void utc_crypto_aes_encryption_p(void)
 {
 	int i = 0;
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
+	unsigned int iv_len = strlen((const char *)iv) + 1;
 
 	unsigned char plain_text[] = "plain text";
-	unsigned int plain_text_len = strlen((const char*)plain_text) + 1;
+	unsigned int plain_text_len = strlen((const char *)plain_text) + 1;
 
-	security_data plain = {plain_text, plain_text_len};
-	security_data enc = {NULL, 0};
+	security_data plain = { plain_text, plain_text_len };
+	security_data enc = { NULL, 0 };
 
-	for (; i < sizeof(g_aes_mode_table)/sizeof(security_aes_mode); i++) {
+	for (; i < sizeof(g_aes_mode_table) / sizeof(security_aes_mode); i++) {
 		security_aes_mode mode = g_aes_mode_table[i];
-		security_aes_param param = {mode, iv, iv_len};
+		security_aes_param param = { mode, iv, iv_len };
 		security_error res = crypto_aes_encryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME,
 												   &plain, &enc);
 		TC_ASSERT_EQ("crypto_aes_encryption", res, SECURITY_OK);
@@ -95,14 +95,14 @@ static void utc_crypto_aes_encryption_p(void)
 static void utc_crypto_aes_encryption_hnd_n(void)
 {
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
-	security_aes_param param = {AES_ECB_NOPAD, iv, iv_len};
+	unsigned int iv_len = strlen((const char *)iv) + 1;
+	security_aes_param param = { AES_ECB_NOPAD, iv, iv_len };
 
 	unsigned char plain_text[] = "plain text";
-	unsigned int plain_text_len = strlen((const char*)plain_text) + 1;
+	unsigned int plain_text_len = strlen((const char *)plain_text) + 1;
 
-	security_data plain = {plain_text, plain_text_len};
-	security_data enc = {NULL, 0};
+	security_data plain = { plain_text, plain_text_len };
+	security_data enc = { NULL, 0 };
 
 	security_error res = crypto_aes_encryption(NULL, &param, UTC_CRYPTO_KEY_NAME,
 											   &plain, &enc);
@@ -122,13 +122,13 @@ static void utc_crypto_aes_encryption_hnd_n(void)
 static void utc_crypto_aes_encryption_param_n(void)
 {
 	unsigned char plain_text[] = "plain text";
-	unsigned int plain_text_len = strlen((const char*)plain_text) + 1;
-	security_data plain = {plain_text, plain_text_len};
-	security_data enc = {NULL, 0};
+	unsigned int plain_text_len = strlen((const char *)plain_text) + 1;
+	security_data plain = { plain_text, plain_text_len };
+	security_data enc = { NULL, 0 };
 
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
-	security_aes_param param = {AES_UNKNOWN, iv, iv_len};
+	unsigned int iv_len = strlen((const char *)iv) + 1;
+	security_aes_param param = { AES_UNKNOWN, iv, iv_len };
 	security_error res = crypto_aes_encryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME,
 											   &plain, &enc);
 	TC_ASSERT_EQ("crypto_aes_encryption_param_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -146,14 +146,14 @@ static void utc_crypto_aes_encryption_param_n(void)
 static void utc_crypto_aes_encryption_key_n(void)
 {
 	unsigned char plain_text[] = "plain text";
-	unsigned int plain_text_len = strlen((const char*)plain_text) + 1;
+	unsigned int plain_text_len = strlen((const char *)plain_text) + 1;
 
-	security_data plain = {plain_text, plain_text_len};
-	security_data enc = {NULL, 0};
+	security_data plain = { plain_text, plain_text_len };
+	security_data enc = { NULL, 0 };
 
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
-	security_aes_param param = {AES_ECB_NOPAD, iv, iv_len};
+	unsigned int iv_len = strlen((const char *)iv) + 1;
+	security_aes_param param = { AES_ECB_NOPAD, iv, iv_len };
 
 	security_error res = crypto_aes_encryption(g_hnd, &param, NULL, &plain, &enc);
 
@@ -171,11 +171,11 @@ static void utc_crypto_aes_encryption_key_n(void)
  */
 static void utc_crypto_aes_encryption_input_n(void)
 {
-	security_data enc = {NULL, 0};
+	security_data enc = { NULL, 0 };
 
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
-	security_aes_param param = {AES_ECB_NOPAD, iv, iv_len};
+	unsigned int iv_len = strlen((const char *)iv) + 1;
+	security_aes_param param = { AES_ECB_NOPAD, iv, iv_len };
 
 	security_error res = crypto_aes_encryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME,
 											   NULL, &enc);
@@ -194,11 +194,11 @@ static void utc_crypto_aes_encryption_input_n(void)
  */
 static void utc_crypto_aes_encryption_output_n(void)
 {
-	security_data enc = {NULL, 0};
+	security_data enc = { NULL, 0 };
 
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
-	security_aes_param param = {AES_ECB_NOPAD, iv, iv_len};
+	unsigned int iv_len = strlen((const char *)iv) + 1;
+	security_aes_param param = { AES_ECB_NOPAD, iv, iv_len };
 
 	security_error res = crypto_aes_encryption(g_hnd, &param,
 											   UTC_CRYPTO_KEY_NAME, &enc, NULL);
@@ -219,17 +219,17 @@ static void utc_crypto_aes_decryption_p(void)
 {
 	int i = 0;
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
+	unsigned int iv_len = strlen((const char *)iv) + 1;
 
 	unsigned char enc_text[] = "plain text";
-	unsigned int enc_text_len = strlen((const char*)enc_text) + 1;
+	unsigned int enc_text_len = strlen((const char *)enc_text) + 1;
 
-	security_data enc = {enc_text, enc_text_len};
-	security_data dec = {NULL, 0};
+	security_data enc = { enc_text, enc_text_len };
+	security_data dec = { NULL, 0 };
 
-	for (; i < sizeof(g_aes_mode_table)/sizeof(security_aes_mode); i++) {
+	for (; i < sizeof(g_aes_mode_table) / sizeof(security_aes_mode); i++) {
 		security_aes_mode mode = g_aes_mode_table[i];
-		security_aes_param param = {mode, iv, iv_len};
+		security_aes_param param = { mode, iv, iv_len };
 		security_error res = crypto_aes_decryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME,
 												   &enc, &dec);
 		TC_ASSERT_EQ("crypto_aes_decryption", res, SECURITY_OK);
@@ -248,14 +248,14 @@ static void utc_crypto_aes_decryption_p(void)
 static void utc_crypto_aes_decryption_hnd_n(void)
 {
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
-	security_aes_param param = {AES_ECB_NOPAD, iv, iv_len};
+	unsigned int iv_len = strlen((const char *)iv) + 1;
+	security_aes_param param = { AES_ECB_NOPAD, iv, iv_len };
 
 	unsigned char enc_text[] = "encrypted data";
-	unsigned int enc_text_len = strlen((const char*)enc_text) + 1;
+	unsigned int enc_text_len = strlen((const char *)enc_text) + 1;
 
-	security_data plain = {enc_text, enc_text_len};
-	security_data enc = {NULL, 0};
+	security_data plain = { enc_text, enc_text_len };
+	security_data enc = { NULL, 0 };
 
 	security_error res = crypto_aes_decryption(NULL, &param, UTC_CRYPTO_KEY_NAME,
 											   &plain, &enc);
@@ -275,13 +275,13 @@ static void utc_crypto_aes_decryption_hnd_n(void)
 static void utc_crypto_aes_decryption_param_n(void)
 {
 	unsigned char plain_text[] = "plain text";
-	unsigned int plain_text_len = strlen((const char*)plain_text) + 1;
-	security_data plain = {plain_text, plain_text_len};
-	security_data enc = {NULL, 0};
+	unsigned int plain_text_len = strlen((const char *)plain_text) + 1;
+	security_data plain = { plain_text, plain_text_len };
+	security_data enc = { NULL, 0 };
 
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
-	security_aes_param param = {AES_UNKNOWN, iv, iv_len};
+	unsigned int iv_len = strlen((const char *)iv) + 1;
+	security_aes_param param = { AES_UNKNOWN, iv, iv_len };
 
 	security_error res = crypto_aes_decryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME,
 											   &plain, &enc);
@@ -300,14 +300,14 @@ static void utc_crypto_aes_decryption_param_n(void)
 static void utc_crypto_aes_decryption_key_n(void)
 {
 	unsigned char enc_text[] = "encrypted data";
-	unsigned int enc_text_len = strlen((const char*)enc_text) + 1;
+	unsigned int enc_text_len = strlen((const char *)enc_text) + 1;
 
-	security_data plain = {enc_text, enc_text_len};
-	security_data enc = {NULL, 0};
+	security_data plain = { enc_text, enc_text_len };
+	security_data enc = { NULL, 0 };
 
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
-	security_aes_param param = {AES_ECB_NOPAD, iv, iv_len};
+	unsigned int iv_len = strlen((const char *)iv) + 1;
+	security_aes_param param = { AES_ECB_NOPAD, iv, iv_len };
 
 	security_error res = crypto_aes_decryption(g_hnd, &param, NULL, &plain, &enc);
 
@@ -325,11 +325,11 @@ static void utc_crypto_aes_decryption_key_n(void)
  */
 static void utc_crypto_aes_decryption_input_n(void)
 {
-	security_data enc = {NULL, 0};
+	security_data enc = { NULL, 0 };
 
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
-	security_aes_param param = {AES_ECB_NOPAD, iv, iv_len};
+	unsigned int iv_len = strlen((const char *)iv) + 1;
+	security_aes_param param = { AES_ECB_NOPAD, iv, iv_len };
 
 	security_error res = crypto_aes_decryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME,
 											   NULL, &enc);
@@ -349,12 +349,12 @@ static void utc_crypto_aes_decryption_input_n(void)
 static void utc_crypto_aes_decryption_output_n(void)
 {
 	unsigned char enc_text[] = "encrypted data";
-	unsigned int enc_text_len = strlen((const char*)enc_text) + 1;
-	security_data plain = {enc_text, enc_text_len};
+	unsigned int enc_text_len = strlen((const char *)enc_text) + 1;
+	security_data plain = { enc_text, enc_text_len };
 
 	unsigned char iv[] = "tamp_iv_value";
-	unsigned int iv_len = strlen((const char*)iv) + 1;
-	security_aes_param param = {AES_ECB_NOPAD, iv, iv_len};
+	unsigned int iv_len = strlen((const char *)iv) + 1;
+	security_aes_param param = { AES_ECB_NOPAD, iv, iv_len };
 
 	security_error res = crypto_aes_decryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME,
 											   &plain, NULL);
@@ -374,17 +374,18 @@ static void utc_crypto_aes_decryption_output_n(void)
 static void utc_crypto_rsa_encryption_p(void)
 {
 	unsigned char plain_text[] = "plain text";
-	unsigned int plain_text_len = strlen((const char*)plain_text) + 1;
+	unsigned int plain_text_len = strlen((const char *)plain_text) + 1;
 
-	security_data plain = {plain_text, plain_text_len};
-	security_data enc = {NULL, 0};
+	security_data plain = { plain_text, plain_text_len };
+	security_data enc = { NULL, 0 };
 
 	int i = 0, j = 0, k = 0;
-	for (; i < sizeof(g_rsa_mode_table)/sizeof(security_rsa_mode); i++) {
-		for (; j < sizeof(g_hash_mode_table)/sizeof(security_hash_mode); j++) {
-			for (; k < sizeof(g_hash_mode_table)/sizeof(security_hash_mode); k++) {
-				security_rsa_param param = {g_rsa_mode_table[i], g_hash_mode_table[j],
-										   g_hash_mode_table[k], 0};
+	for (; i < sizeof(g_rsa_mode_table) / sizeof(security_rsa_mode); i++) {
+		for (; j < sizeof(g_hash_mode_table) / sizeof(security_hash_mode); j++) {
+			for (; k < sizeof(g_hash_mode_table) / sizeof(security_hash_mode); k++) {
+				security_rsa_param param = { g_rsa_mode_table[i], g_hash_mode_table[j],
+					g_hash_mode_table[k], 0
+				};
 				security_error res = crypto_rsa_encryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME,
 														   &plain, &enc);
 
@@ -406,11 +407,11 @@ static void utc_crypto_rsa_encryption_p(void)
 static void utc_crypto_rsa_encryption_hnd_n(void)
 {
 	unsigned char plain_text[] = "plain text";
-	unsigned int plain_text_len = strlen((const char*)plain_text) + 1;
+	unsigned int plain_text_len = strlen((const char *)plain_text) + 1;
 
-	security_data plain = {plain_text, plain_text_len};
-	security_data enc = {NULL, 0};
-	security_rsa_param param = {RSASSA_PKCS1_V1_5, HASH_MD5, HASH_MD5, 0};
+	security_data plain = { plain_text, plain_text_len };
+	security_data enc = { NULL, 0 };
+	security_rsa_param param = { RSASSA_PKCS1_V1_5, HASH_MD5, HASH_MD5, 0 };
 
 	security_error res = crypto_rsa_encryption(NULL, &param, UTC_CRYPTO_KEY_NAME, &plain, &enc);
 
@@ -429,11 +430,11 @@ static void utc_crypto_rsa_encryption_hnd_n(void)
 static void utc_crypto_rsa_encryption_param_n(void)
 {
 	unsigned char plain_text[] = "plain text";
-	unsigned int plain_text_len = strlen((const char*)plain_text) + 1;
+	unsigned int plain_text_len = strlen((const char *)plain_text) + 1;
 
-	security_data plain = {plain_text, plain_text_len};
-	security_data enc = {NULL, 0};
-	security_rsa_param param = {RSASSA_UNKNOWN, HASH_MD5, HASH_MD5, 0};
+	security_data plain = { plain_text, plain_text_len };
+	security_data enc = { NULL, 0 };
+	security_rsa_param param = { RSASSA_UNKNOWN, HASH_MD5, HASH_MD5, 0 };
 	security_error res = crypto_rsa_encryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &plain, &enc);
 
 	TC_ASSERT_EQ("crypto_rsa_encryption_param", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -451,11 +452,11 @@ static void utc_crypto_rsa_encryption_param_n(void)
 static void utc_crypto_rsa_encryption_param2_n(void)
 {
 	unsigned char plain_text[] = "plain text";
-	unsigned int plain_text_len = strlen((const char*)plain_text) + 1;
+	unsigned int plain_text_len = strlen((const char *)plain_text) + 1;
 
-	security_data plain = {plain_text, plain_text_len};
-	security_data enc = {NULL, 0};
-	security_rsa_param param = {RSASSA_PKCS1_V1_5, HASH_UNKNOWN, HASH_MD5, 0};
+	security_data plain = { plain_text, plain_text_len };
+	security_data enc = { NULL, 0 };
+	security_rsa_param param = { RSASSA_PKCS1_V1_5, HASH_UNKNOWN, HASH_MD5, 0 };
 	security_error res = crypto_rsa_encryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &plain, &enc);
 
 	TC_ASSERT_EQ("crypto_rsa_encryption_param2", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -473,11 +474,11 @@ static void utc_crypto_rsa_encryption_param2_n(void)
 static void utc_crypto_rsa_encryption_param3_n(void)
 {
 	unsigned char plain_text[] = "plain text";
-	unsigned int plain_text_len = strlen((const char*)plain_text) + 1;
+	unsigned int plain_text_len = strlen((const char *)plain_text) + 1;
 
-	security_data plain = {plain_text, plain_text_len};
-	security_data enc = {NULL, 0};
-	security_rsa_param param = {RSASSA_PKCS1_V1_5, HASH_MD5, HASH_UNKNOWN, 0};
+	security_data plain = { plain_text, plain_text_len };
+	security_data enc = { NULL, 0 };
+	security_rsa_param param = { RSASSA_PKCS1_V1_5, HASH_MD5, HASH_UNKNOWN, 0 };
 	security_error res = crypto_rsa_encryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &plain, &enc);
 
 	TC_ASSERT_EQ("crypto_rsa_encryption_param3", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -494,8 +495,8 @@ static void utc_crypto_rsa_encryption_param3_n(void)
  */
 static void utc_crypto_rsa_encryption_input_n(void)
 {
-	security_data enc = {NULL, 0};
-	security_rsa_param param = {RSASSA_PKCS1_V1_5, HASH_MD5, HASH_MD5, 0};
+	security_data enc = { NULL, 0 };
+	security_rsa_param param = { RSASSA_PKCS1_V1_5, HASH_MD5, HASH_MD5, 0 };
 	security_error res = crypto_rsa_encryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME, NULL, &enc);
 
 	TC_ASSERT_EQ("crypto_rsa_encryption_input", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -513,10 +514,10 @@ static void utc_crypto_rsa_encryption_input_n(void)
 static void utc_crypto_rsa_encryption_output_n(void)
 {
 	unsigned char plain_text[] = "plain text";
-	unsigned int plain_text_len = strlen((const char*)plain_text) + 1;
+	unsigned int plain_text_len = strlen((const char *)plain_text) + 1;
 
-	security_data plain = {plain_text, plain_text_len};
-	security_rsa_param param = {RSASSA_PKCS1_V1_5, HASH_UNKNOWN, HASH_MD5, 0};
+	security_data plain = { plain_text, plain_text_len };
+	security_rsa_param param = { RSASSA_PKCS1_V1_5, HASH_UNKNOWN, HASH_MD5, 0 };
 	security_error res = crypto_rsa_encryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &plain, NULL);
 
 	TC_ASSERT_EQ("crypto_rsa_encryption_output", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -534,17 +535,18 @@ static void utc_crypto_rsa_encryption_output_n(void)
 static void utc_crypto_rsa_decryption_p(void)
 {
 	unsigned char enc_text[] = "RSA encrypted message";
-	unsigned int enc_text_len = strlen((const char*)enc_text) + 1;
+	unsigned int enc_text_len = strlen((const char *)enc_text) + 1;
 
-	security_data enc = {enc_text, enc_text_len};
-	security_data dec = {NULL, 0};
+	security_data enc = { enc_text, enc_text_len };
+	security_data dec = { NULL, 0 };
 
 	int i = 0, j = 0, k = 0;
-	for (; i < sizeof(g_rsa_mode_table)/sizeof(security_rsa_mode); i++) {
-		for (; j < sizeof(g_hash_mode_table)/sizeof(security_hash_mode); j++) {
-			for (; k < sizeof(g_hash_mode_table)/sizeof(security_hash_mode); k++) {
-				security_rsa_param param = {g_rsa_mode_table[i], g_hash_mode_table[j],
-										   g_hash_mode_table[k], 0};
+	for (; i < sizeof(g_rsa_mode_table) / sizeof(security_rsa_mode); i++) {
+		for (; j < sizeof(g_hash_mode_table) / sizeof(security_hash_mode); j++) {
+			for (; k < sizeof(g_hash_mode_table) / sizeof(security_hash_mode); k++) {
+				security_rsa_param param = { g_rsa_mode_table[i], g_hash_mode_table[j],
+					g_hash_mode_table[k], 0
+				};
 				security_error res = crypto_rsa_decryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME,
 														   &enc, &dec);
 
@@ -566,11 +568,11 @@ static void utc_crypto_rsa_decryption_p(void)
 static void utc_crypto_rsa_decryption_hnd_n(void)
 {
 	unsigned char enc_text[] = "RSA encrypted message";
-	unsigned int enc_text_len = strlen((const char*)enc_text) + 1;
+	unsigned int enc_text_len = strlen((const char *)enc_text) + 1;
 
-	security_data enc = {enc_text, enc_text_len};
-	security_data dec = {NULL, 0};
-	security_rsa_param param = {RSASSA_PKCS1_V1_5, HASH_MD5, HASH_MD5, 0};
+	security_data enc = { enc_text, enc_text_len };
+	security_data dec = { NULL, 0 };
+	security_rsa_param param = { RSASSA_PKCS1_V1_5, HASH_MD5, HASH_MD5, 0 };
 
 	security_error res = crypto_rsa_decryption(NULL, &param, UTC_CRYPTO_KEY_NAME, &enc, &dec);
 
@@ -589,11 +591,11 @@ static void utc_crypto_rsa_decryption_hnd_n(void)
 static void utc_crypto_rsa_decryption_param_n(void)
 {
 	unsigned char enc_text[] = "RSA encrypted message";
-	unsigned int enc_text_len = strlen((const char*)enc_text) + 1;
+	unsigned int enc_text_len = strlen((const char *)enc_text) + 1;
 
-	security_data enc = {enc_text, enc_text_len};
-	security_data dec = {NULL, 0};
-	security_rsa_param param = {RSASSA_UNKNOWN, HASH_MD5, HASH_MD5, 0};
+	security_data enc = { enc_text, enc_text_len };
+	security_data dec = { NULL, 0 };
+	security_rsa_param param = { RSASSA_UNKNOWN, HASH_MD5, HASH_MD5, 0 };
 	security_error res = crypto_rsa_decryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &enc, &dec);
 
 	TC_ASSERT_EQ("crypto_rsa_decryption_param", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -611,11 +613,11 @@ static void utc_crypto_rsa_decryption_param_n(void)
 static void utc_crypto_rsa_decryption_param2_n(void)
 {
 	unsigned char enc_text[] = "RSA encrypted message";
-	unsigned int enc_text_len = strlen((const char*)enc_text) + 1;
+	unsigned int enc_text_len = strlen((const char *)enc_text) + 1;
 
-	security_data enc = {enc_text, enc_text_len};
-	security_data dec = {NULL, 0};
-	security_rsa_param param = {RSASSA_PKCS1_V1_5, HASH_UNKNOWN, HASH_MD5, 0};
+	security_data enc = { enc_text, enc_text_len };
+	security_data dec = { NULL, 0 };
+	security_rsa_param param = { RSASSA_PKCS1_V1_5, HASH_UNKNOWN, HASH_MD5, 0 };
 	security_error res = crypto_rsa_decryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &enc, &dec);
 
 	TC_ASSERT_EQ("crypto_rsa_decryption_param2", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -633,11 +635,11 @@ static void utc_crypto_rsa_decryption_param2_n(void)
 static void utc_crypto_rsa_decryption_param3_n(void)
 {
 	unsigned char enc_text[] = "RSA encrypted message";
-	unsigned int enc_text_len = strlen((const char*)enc_text) + 1;
+	unsigned int enc_text_len = strlen((const char *)enc_text) + 1;
 
-	security_data enc = {enc_text, enc_text_len};
-	security_data dec = {NULL, 0};
-	security_rsa_param param = {RSASSA_PKCS1_V1_5, HASH_MD5, HASH_UNKNOWN, 0};
+	security_data enc = { enc_text, enc_text_len };
+	security_data dec = { NULL, 0 };
+	security_rsa_param param = { RSASSA_PKCS1_V1_5, HASH_MD5, HASH_UNKNOWN, 0 };
 	security_error res = crypto_rsa_decryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &enc, &dec);
 
 	TC_ASSERT_EQ("crypto_rsa_decryption_param3", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -654,8 +656,8 @@ static void utc_crypto_rsa_decryption_param3_n(void)
  */
 static void utc_crypto_rsa_decryption_input_n(void)
 {
-	security_data dec = {NULL, 0};
-	security_rsa_param param = {RSASSA_PKCS1_V1_5, HASH_MD5, HASH_MD5, 0};
+	security_data dec = { NULL, 0 };
+	security_rsa_param param = { RSASSA_PKCS1_V1_5, HASH_MD5, HASH_MD5, 0 };
 	security_error res = crypto_rsa_decryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME, NULL, &dec);
 
 	TC_ASSERT_EQ("crypto_rsa_decryption_input", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -673,16 +675,15 @@ static void utc_crypto_rsa_decryption_input_n(void)
 static void utc_crypto_rsa_decryption_output_n(void)
 {
 	unsigned char enc_text[] = "RSA encrypted message";
-	unsigned int enc_text_len = strlen((const char*)enc_text) + 1;
+	unsigned int enc_text_len = strlen((const char *)enc_text) + 1;
 
-	security_data enc = {enc_text, enc_text_len};
-	security_rsa_param param = {RSASSA_PKCS1_V1_5, HASH_UNKNOWN, HASH_MD5, 0};
+	security_data enc = { enc_text, enc_text_len };
+	security_rsa_param param = { RSASSA_PKCS1_V1_5, HASH_UNKNOWN, HASH_MD5, 0 };
 	security_error res = crypto_rsa_decryption(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &enc, NULL);
 
 	TC_ASSERT_EQ("crypto_rsa_decryption_output", res, SECURITY_INVALID_INPUT_PARAMS);
 	TC_SUCCESS_RESULT();
 }
-
 
 void utc_crypto_main(void)
 {
@@ -695,14 +696,14 @@ void utc_crypto_main(void)
 	utc_crypto_aes_encryption_p();
 	utc_crypto_aes_encryption_hnd_n();
 	utc_crypto_aes_encryption_param_n();
-//	utc_crypto_aes_encryption_param2_n();
+//  utc_crypto_aes_encryption_param2_n();
 	utc_crypto_aes_encryption_key_n();
 	utc_crypto_aes_encryption_input_n();
 	utc_crypto_aes_encryption_output_n();
 	utc_crypto_aes_decryption_p();
 	utc_crypto_aes_decryption_hnd_n();
 	utc_crypto_aes_decryption_param_n();
-//	utc_crypto_aes_decryption_param2_n();
+//  utc_crypto_aes_decryption_param2_n();
 	utc_crypto_aes_decryption_key_n();
 	utc_crypto_aes_decryption_input_n();
 	utc_crypto_aes_decryption_output_n();

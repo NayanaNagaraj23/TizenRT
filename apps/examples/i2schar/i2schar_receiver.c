@@ -103,7 +103,6 @@ pthread_addr_t i2schar_receiver(pthread_addr_t arg)
 		pthread_exit(NULL);
 	}
 
-
 	bufsize = sizeof(struct ap_buffer_s) + CONFIG_EXAMPLES_I2SCHAR_BUFSIZE;
 
 	/* Loop for the requested number of times */
@@ -180,7 +179,7 @@ pthread_addr_t i2schar_receiver(pthread_addr_t arg)
 
 	}
 
-exit:
+ exit:
 
 	for (i = 0; i < CONFIG_EXAMPLES_I2SCHAR_TXBUFFERS; i++) {
 		apb_free(apb[i]);

@@ -122,6 +122,7 @@ static void messaging_sample_execute_ntimes(int repetition_num)
 	messaging_sample_show_success_ratio(repetition_num);
 	is_running = false;
 }
+
 #ifdef CONFIG_BUILD_KERNEL
 int main(int argc, FAR char *argv[])
 #else
@@ -190,14 +191,14 @@ int messaging_main(int argc, char *argv[])
 	}
 	return 0;
 
-usage:
+ usage:
 	printf("\nUsage : messaging [OPTIONS]\n");
 	printf("Options:\n");
 	printf(" -r start : Execute messaging sample infinitely until stop cmd.\n");
 	printf("    stop  : Stop the messaging sample infinite execution.\n");
 	printf(" -n COUNT : Execute messaging sample COUNT-iterations.\n");
 	return -1;
-already_running:
+ already_running:
 	printf("There is already running Messaging Sample.\n");
 	printf("New sample can run after that previous sample is finished.\n");
 	return -1;

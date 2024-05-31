@@ -101,4 +101,3 @@ void sysinfo(void)
 		   "\n", sysinfo_str);
 
 }
-

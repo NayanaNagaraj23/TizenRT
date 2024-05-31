@@ -22,7 +22,7 @@
 #include <stdint.h>
 #include <security/security_api.h>
 
-void PrintBuffer(const char *header, unsigned char* buffer, uint32_t len)
+void PrintBuffer(const char *header, unsigned char *buffer, uint32_t len)
 {
 	register uint32_t i = 0;
 	printf("%s : %d\n", header, len);
@@ -35,7 +35,7 @@ void PrintBuffer(const char *header, unsigned char* buffer, uint32_t len)
 	printf("\n");
 }
 
-void free_security_data(security_data *data)
+void free_security_data(security_data * data)
 {
 	if (data->length) {
 		free(data->data);

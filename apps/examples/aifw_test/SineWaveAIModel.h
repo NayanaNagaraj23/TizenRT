@@ -37,23 +37,23 @@ static const char sine_wave_version[] = "123456";
 extern const unsigned char sine_wave_model[];
 
 static const AIModelAttribute gSineWaveModelAttribute = {
-	12345,			/* crc32 */
-	sine_wave_version,	/* version */
-	{'\0'},			/* modelPath */
-	sine_wave_model,	/* model */
-	NULL,			/* features */
-	0,			/* featuresCount */
-	2000,			/* inferenceInterval */
-	12345678,		/* modelCode */
-	1,			/* maxRowsDataBuffer */
-	1,			/* rawDataCount */
-	1,			/* windowSize */
-	1,			/* invokeInputCount */
-	1,			/* invokeOutputCount */
-	1,			/* postProcessResultCount */
-	1,			/* inferenceResultCount */
-	NULL,			/* MeanVals */
-	NULL			/* STDVals */
+	12345,						/* crc32 */
+	sine_wave_version,			/* version */
+	{'\0'},						/* modelPath */
+	sine_wave_model,			/* model */
+	NULL,						/* features */
+	0,							/* featuresCount */
+	2000,						/* inferenceInterval */
+	12345678,					/* modelCode */
+	1,							/* maxRowsDataBuffer */
+	1,							/* rawDataCount */
+	1,							/* windowSize */
+	1,							/* invokeInputCount */
+	1,							/* invokeOutputCount */
+	1,							/* postProcessResultCount */
+	1,							/* inferenceResultCount */
+	NULL,						/* MeanVals */
+	NULL						/* STDVals */
 };
 
 const unsigned char sine_wave_model[] = {
@@ -278,4 +278,3 @@ const unsigned char sine_wave_model[] = {
 	0x00, 0x00, 0x0a, 0x00, 0x0c, 0x00, 0x07, 0x00, 0x00, 0x00, 0x08, 0x00,
 	0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x09, 0x03, 0x00, 0x00, 0x00
 };
-

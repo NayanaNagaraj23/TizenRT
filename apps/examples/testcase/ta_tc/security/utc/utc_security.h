@@ -27,6 +27,4 @@ void utc_crypto_main(void);
 void utc_keymgr_main(void);
 void utc_ss_main(void);
 
-
-
-#endif // _UTC_SECURITY_TEST_H__
+#endif							// _UTC_SECURITY_TEST_H__

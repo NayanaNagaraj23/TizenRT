@@ -192,7 +192,7 @@ static void itc_systemio_spi_open_close_n_invalid_frequecy(void)
 	struct iotbus_spi_config_s st_config = {
 		(char)CONFIG_SYSIO_ITC_SPI_BITS_PER_WORD,
 		CONFIG_SYSIO_ITC_SPI_CHIP_SELECT,
-		13000000, //13Mhz Invalid frequency
+		13000000,				//13Mhz Invalid frequency
 		IOTBUS_SPI_MODE0,
 	};
 

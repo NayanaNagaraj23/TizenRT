@@ -362,7 +362,7 @@ int Nsendfile(int fromfd, int tofd, const char *buf, size_t count)
 	}
 	return count;
 #else							/* HAVE_SENDFILE */
-	set_errno(ENOSYS);				/* error if somehow get called without HAVE_SENDFILE */
+	set_errno(ENOSYS);			/* error if somehow get called without HAVE_SENDFILE */
 	return NET_HARDERROR;
 #endif							/* HAVE_SENDFILE */
 }

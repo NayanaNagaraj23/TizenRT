@@ -50,7 +50,7 @@ static int app_dhcp_main(void)
 	}
 
 	ret = netlib_get_ipv4addr(NET_DEVNAME, &ip_check)
-	if (ret != OK) {
+		if (ret != OK) {
 		return -1;
 	}
 	printf("IP address get %s ----\n", inet_ntoa(ip_check));
@@ -83,7 +83,7 @@ int wifiAutoConnectInit(void)
 	ret = WiFiStart(SLSI_WIFI_STATION_IF, NULL);
 	if (ret == SLSI_STATUS_SUCCESS) {
 		printf("[AutoConnect]STA mode started\n");
-		ret = WiFiNetworkJoin((uint8_t *)CONFIG_DM_AP_SSID, strlen(CONFIG_DM_AP_SSID), NULL, (slsi_security_config_t *)getSecurityConfig(CONFIG_DM_AP_SECURITY, CONFIG_DM_AP_PASS));
+		ret = WiFiNetworkJoin((uint8_t *) CONFIG_DM_AP_SSID, strlen(CONFIG_DM_AP_SSID), NULL, (slsi_security_config_t *) getSecurityConfig(CONFIG_DM_AP_SECURITY, CONFIG_DM_AP_PASS));
 		sleep(1);
 		if (ret == SLSI_STATUS_SUCCESS) {
 			printf("[AutoConnect]Start doJoin with SSID %s\n", CONFIG_DM_AP_SSID);
@@ -144,7 +144,6 @@ int utc_dm_main(int argc, char *argv[])
 	if (testcase_state_handler(TC_START, "DeviceManagement UTC") == ERROR) {
 		return ERROR;
 	}
-
 #ifndef CONFIG_DM_WIFI
 	printf("=== Please Setup WiFi Info ===\n");
 	return 0;

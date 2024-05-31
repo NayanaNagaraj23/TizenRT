@@ -34,7 +34,7 @@ static int rootca_len = sizeof(rootca);
 static const unsigned char TLS_DATA[] = "This is from SERVER";
 
 static unsigned char test_data[4100] = { 0, };
-static int test_size[7] = {64, 128, 256, 512, 1024, 2048, 4096};
+static int test_size[7] = { 64, 128, 256, 512, 1024, 2048, 4096 };
 
 static void my_tls_debug(void *ctx, int level, const char *file, int line, const char *str)
 {
@@ -75,32 +75,29 @@ void *tls_server_seclink_main(void *arg)
 #endif
 
 	/*
-     * 1. Load the certificates and private RSA key
-     */
+	 * 1. Load the certificates and private RSA key
+	 */
 	TLS_SECLINK_SERVER_LOG("  . Loading the server cert. and key...");
 
 	/*
-     * This demonstration program uses embedded test certificates.
-     * Instead, you may want to use mbedtls_x509_crt_parse_file() to read the
-     * server and CA certificates, as well as mbedtls_pk_parse_keyfile().
-     */
+	 * This demonstration program uses embedded test certificates.
+	 * Instead, you may want to use mbedtls_x509_crt_parse_file() to read the
+	 * server and CA certificates, as well as mbedtls_pk_parse_keyfile().
+	 */
 
-	ret = mbedtls_x509_crt_parse(&srvcert, (const unsigned char *)srv_cert,
-								 srv_cert_len);
+	ret = mbedtls_x509_crt_parse(&srvcert, (const unsigned char *)srv_cert, srv_cert_len);
 	if (ret != 0) {
 		TLS_SECLINK_SERVER_LOG(" failed\n  !  mbedtls_x509_crt_parse returned %d\n\n", ret);
 		goto exit;
 	}
 
-	ret = mbedtls_x509_crt_parse(&srvcert, (const unsigned char *)rootca,
-								 rootca_len);
+	ret = mbedtls_x509_crt_parse(&srvcert, (const unsigned char *)rootca, rootca_len);
 	if (ret != 0) {
 		TLS_SECLINK_SERVER_LOG(" failed\n  !  mbedtls_x509_crt_parse returned %d\n\n", ret);
 		goto exit;
 	}
 
-	ret = mbedtls_pk_parse_key(&pkey, (const unsigned char *)srv_key,
-							   srv_key_len, NULL, 0);
+	ret = mbedtls_pk_parse_key(&pkey, (const unsigned char *)srv_key, srv_key_len, NULL, 0);
 	if (ret != 0) {
 		TLS_SECLINK_SERVER_LOG(" failed\n  !  mbedtls_pk_parse_key returned %d\n\n", ret);
 		goto exit;
@@ -108,8 +105,8 @@ void *tls_server_seclink_main(void *arg)
 	TLS_SECLINK_SERVER_LOG(" ok\n");
 
 	/*
-     * 2. Setup the listening TCP socket
-     */
+	 * 2. Setup the listening TCP socket
+	 */
 	TLS_SECLINK_SERVER_LOG("  . Bind on https://localhost:4433/ ...");
 
 	if ((ret = mbedtls_net_bind(&listen_fd, NULL, "4433", MBEDTLS_NET_PROTO_TCP)) != 0) {
@@ -120,13 +117,11 @@ void *tls_server_seclink_main(void *arg)
 	TLS_SECLINK_SERVER_LOG(" ok\n");
 
 	/*
-     * 3. Seed the RNG
-     */
+	 * 3. Seed the RNG
+	 */
 	TLS_SECLINK_SERVER_LOG("  . Seeding the random number generator...");
 
-	if ((ret = mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy,
-									 (const unsigned char *)pers,
-									 strlen(pers))) != 0) {
+	if ((ret = mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy, (const unsigned char *)pers, strlen(pers))) != 0) {
 		TLS_SECLINK_SERVER_LOG(" failed\n  ! mbedtls_ctr_drbg_seed returned %d\n", ret);
 		goto exit;
 	}
@@ -134,14 +129,11 @@ void *tls_server_seclink_main(void *arg)
 	TLS_SECLINK_SERVER_LOG(" ok\n");
 
 	/*
-     * 4. Setup stuff
-     */
+	 * 4. Setup stuff
+	 */
 	TLS_SECLINK_SERVER_LOG("  . Setting up the SSL data....");
 
-	if ((ret = mbedtls_ssl_config_defaults(&conf,
-										   MBEDTLS_SSL_IS_SERVER,
-										   MBEDTLS_SSL_TRANSPORT_STREAM,
-										   MBEDTLS_SSL_PRESET_DEFAULT)) != 0) {
+	if ((ret = mbedtls_ssl_config_defaults(&conf, MBEDTLS_SSL_IS_SERVER, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT)) != 0) {
 		TLS_SECLINK_SERVER_LOG(" failed\n  ! mbedtls_ssl_config_defaults returned %d\n\n", ret);
 		goto exit;
 	}
@@ -162,7 +154,7 @@ void *tls_server_seclink_main(void *arg)
 
 	TLS_SECLINK_SERVER_LOG(" ok\n");
 
-reset:
+ reset:
 #ifdef MBEDTLS_ERROR_C
 	if (ret != 0) {
 		char error_buf[100];
@@ -177,13 +169,12 @@ reset:
 	mbedtls_ssl_session_reset(&ssl);
 
 	/*
-     * 3. Wait until a client connects
-     */
-	
+	 * 3. Wait until a client connects
+	 */
+
 	TLS_SECLINK_SERVER_LOG("  . Waiting for a remote connection ...");
 
-	if ((ret = mbedtls_net_accept(&listen_fd, &client_fd,
-								  NULL, 0, NULL)) != 0) {
+	if ((ret = mbedtls_net_accept(&listen_fd, &client_fd, NULL, 0, NULL)) != 0) {
 		TLS_SECLINK_SERVER_LOG(" failed\n  ! mbedtls_net_accept returned %d\n\n", ret);
 		goto exit;
 	}
@@ -193,8 +184,8 @@ reset:
 	TLS_SECLINK_SERVER_LOG(" ok\n");
 
 	/*
-     * 5. Handshake
-     */
+	 * 5. Handshake
+	 */
 	TLS_SECLINK_SERVER_LOG("  . Performing the SSL/TLS handshake...");
 
 	while ((ret = mbedtls_ssl_handshake(&ssl)) != 0) {
@@ -207,8 +198,8 @@ reset:
 	TLS_SECLINK_SERVER_LOG(" ok\n");
 
 	/*
-     * 6. Read the HTTP Request
-     */
+	 * 6. Read the HTTP Request
+	 */
 	TLS_SECLINK_SERVER_LOG("  < Read from client:\n");
 
 	do {
@@ -245,8 +236,8 @@ reset:
 	} while (1);
 
 	/*
-     * 7. Write the 200 Response
-     */
+	 * 7. Write the 200 Response
+	 */
 	int i;
 	int j;
 
@@ -296,7 +287,7 @@ reset:
 
 	ret = 0;
 
-exit:
+ exit:
 #ifdef MBEDTLS_ERROR_C
 	if (ret != 0) {
 		char error_buf[100];

@@ -166,6 +166,6 @@ int fotahal_update(void);
 #undef EXTERN
 #ifdef __cplusplus
 }
-#endif	/* __cplusplus  */
-#endif	/* __ASSEMBLY__ */
-#endif	/* __APPS_INCLUDE_SYSTEM_FOTA_HAL_H */
+#endif							/* __cplusplus  */
+#endif							/* __ASSEMBLY__ */
+#endif							/* __APPS_INCLUDE_SYSTEM_FOTA_HAL_H */

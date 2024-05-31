@@ -170,7 +170,7 @@ static int write_text_file(int fd, size_t bufsize)
 	}
 
 	ret = OK;
-error_with_fd_sample:
+ error_with_fd_sample:
 	close(fd_sample);
 	return ret;
 }
@@ -207,7 +207,7 @@ static int validate_file(int fd, ssize_t bufsize, int *index, file_type_t type)
 				return ERROR;
 			}
 			crc2 = crc16((const uint8_t *)g_buf.data, bufsize);
-		}  else {
+		} else {
 			ret = read(fd, (void *)&g_buf, bufsize);
 			if (ret != bufsize) {
 				printf("Unable to read file, ret: %d, i: %d\n", ret, i);
@@ -248,14 +248,14 @@ static int create_file(char *path, ssize_t bufsize, file_type_t type)
 	} else {
 		ret = write_text_file(fd, bufsize);
 	}
-		
+
 	if (ret != OK) {
 		printf("write failed path : %s ret : %d bufsize : %d\n", path, ret, bufsize);
 		goto error_with_fd;
 	}
 	ret = OK;
-	
-error_with_fd:
+
+ error_with_fd:
 	close(fd);
 	printf("Created file path : %s ret : %d\n", path, ret);
 	return ret;
@@ -300,7 +300,7 @@ static int init_backup_file(char *path, ssize_t bufsize, file_type_t type)
 		printf("Complete file: %s already exists, size: %d\n", path, bufsize * TEST_WRITECOUNT);
 	}
 
-create_backup_file:
+ create_backup_file:
 	/* If the backup file does not exist, create it now */
 	if (index == FILE_CHUNK_NO_INDEX) {
 		ret = create_file(path, bufsize, type);
@@ -352,7 +352,7 @@ static int create_sample_text_file(void)
 			printf("Failed to unlink old sample file %s, ret : %d, errno : %d\n", SAMPLE_TXT_FILE, ret, errno);
 			return ERROR;
 		}
-	}	
+	}
 
 	fd_sample = open(SAMPLE_TXT_FILE, O_CREAT | O_WROK);
 	if (fd_sample < 0) {
@@ -374,7 +374,7 @@ static int create_sample_text_file(void)
 	}
 
 	ret = OK;
-error_with_fd_sample:
+ error_with_fd_sample:
 	close(fd_sample);
 	return ret;
 }
@@ -385,7 +385,7 @@ static int verify_file(char *path, int bufsize, int *index, file_type_t type)
 	int ret;
 	off_t size;
 	struct stat st;
-	
+
 	fd = open(path, O_RDWR);
 	if (fd < 0) {
 		if (errno == ENOENT) {
@@ -393,7 +393,7 @@ static int verify_file(char *path, int bufsize, int *index, file_type_t type)
 			*index = FILE_CHUNK_NO_INDEX;
 			return OK;
 		}
-		
+
 		printf("Unable to open file : %s for verifying, errno : %d\n", path, errno);
 		return ERROR;
 	}
@@ -404,7 +404,7 @@ static int verify_file(char *path, int bufsize, int *index, file_type_t type)
 	if (((*index) > 0) && ((*index) < TEST_WRITECOUNT)) {
 		/* truncate current file to include valid data only */
 		size = (*index) * bufsize;
-		
+
 		ret = lseek(fd, 0, SEEK_SET);
 		if (ret != 0) {
 			printf("Verify_file : %s, seek to 0 failed, ret : %d, errno : %d\n", path, ret, errno);
@@ -436,12 +436,12 @@ static int verify_file(char *path, int bufsize, int *index, file_type_t type)
 
 	ret = OK;
 
-error_with_fd:
+ error_with_fd:
 	close(fd);
 	return ret;
 }
 
-static int recovery_file(char *src, char* backup, char* backup_dir, int bufsize, int idx)
+static int recovery_file(char *src, char *backup, char *backup_dir, int bufsize, int idx)
 {
 	int fd1;
 	int fd2;
@@ -450,7 +450,7 @@ static int recovery_file(char *src, char* backup, char* backup_dir, int bufsize,
 	off_t offset;
 	off_t start_offset;
 	int filesize;
-	
+
 	printf("Recovering file src : %s idx : %d\n", src, idx);
 	/* If index is FILE_CHUNK_NO_INDEX, There is no tested file, so just rollback backup file
 	 * If index is 0, we should recovery whole of data from back up file, so just rollback it.
@@ -486,7 +486,7 @@ static int recovery_file(char *src, char* backup, char* backup_dir, int bufsize,
 		} else {
 			filesize = idx * bufsize;
 		}
-		
+
 		/* Extend last file, it's not common usage but add it to test ftruncate(extend) */
 		ret = ftruncate(fd1, filesize);
 		if (ret != OK) {
@@ -494,7 +494,7 @@ static int recovery_file(char *src, char* backup, char* backup_dir, int bufsize,
 			ret = ERROR;
 			goto error_with_fd1;
 		}
-		
+
 		if (stat(src, &st) == OK) {
 			if (st.st_size != filesize) {
 				printf("Extended size is wrong, filename : %s, target size : %d, file size : %d\n", src, filesize, st.st_size);
@@ -514,7 +514,7 @@ static int recovery_file(char *src, char* backup, char* backup_dir, int bufsize,
 			ret = ERROR;
 			goto error_with_fd1;
 		}
-		
+
 		start_offset = idx * bufsize;
 		offset = lseek(fd1, start_offset, SEEK_SET);
 		if (offset != start_offset) {
@@ -548,16 +548,16 @@ static int recovery_file(char *src, char* backup, char* backup_dir, int bufsize,
 
 		close(fd1);
 		close(fd2);
-		
+
 		/* Now unlink & remove dir of backup */
 		ret = unlink(backup);
 		if (ret != OK) {
 			printf("unlink %s failed errno : %d\n", backup, errno);
 			return ret;
-		
+
 		}
 	}
-	
+
 	ret = rmdir(backup_dir);
 	if (ret != OK) {
 		printf("rmdir %s failed errno : %d\n", backup_dir, errno);
@@ -565,10 +565,10 @@ static int recovery_file(char *src, char* backup, char* backup_dir, int bufsize,
 	}
 
 	return OK;
-		
-error_with_fd2:
+
+ error_with_fd2:
 	close(fd2);
-error_with_fd1:
+ error_with_fd1:
 	close(fd1);
 	return ret;
 }
@@ -683,7 +683,7 @@ static int do_test(char *src, char *backup, char *backupdir, int bufsize, file_t
 	int ret;
 	int index = TEST_WRITECOUNT;
 	struct stat st;
-	
+
 	ret = verify_file(src, bufsize, &index, type);
 	if (ret == ERROR) {
 		printf("Verification failed for file : %s\n", src);
@@ -777,6 +777,6 @@ int smartfs_powercut_main(int argc, char *argv[])
 			return ret;
 		}
 	}
-	
+
 	return OK;
 }

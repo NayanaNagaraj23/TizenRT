@@ -51,7 +51,7 @@ static void tc_libc_trace_begin(void)
 
 	ret = trace_begin(TTRACE_TAG_APPS, msg);
 	TC_ASSERT_GEQ("trace_begin", ret, 0)
-	TC_SUCCESS_RESULT();
+		TC_SUCCESS_RESULT();
 }
 
 /**
@@ -69,7 +69,7 @@ static void tc_libc_trace_begin_uid(void)
 
 	ret = trace_begin_uid(TTRACE_TAG_APPS, unique_id);
 	TC_ASSERT_GEQ("trace_begin_uid", ret, 0)
-	TC_SUCCESS_RESULT();
+		TC_SUCCESS_RESULT();
 }
 
 /**
@@ -86,7 +86,7 @@ static void tc_libc_trace_end(void)
 
 	ret = trace_end(TTRACE_TAG_APPS);
 	TC_ASSERT_GEQ("trace_end", ret, 0)
-	TC_SUCCESS_RESULT();
+		TC_SUCCESS_RESULT();
 }
 
 /**
@@ -103,7 +103,7 @@ static void tc_libc_trace_end_uid(void)
 
 	ret = trace_end_uid(TTRACE_TAG_APPS);
 	TC_ASSERT_GEQ("trace_end_uid", ret, 0)
-	TC_SUCCESS_RESULT();
+		TC_SUCCESS_RESULT();
 }
 
 /**

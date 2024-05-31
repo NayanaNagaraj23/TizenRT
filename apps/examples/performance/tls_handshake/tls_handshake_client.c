@@ -37,32 +37,16 @@ static char *SERVER_ADDR = NULL;
 
 #define mbedtls_printf printf
 
-static void my_debug(void *ctx, int level,
-					 const char *file, int line,
-					 const char *str)
+static void my_debug(void *ctx, int level, const char *file, int line, const char *str)
 {
 	((void)ctx);
 	((void)level);
 
 	printf("%s:%04d: %s", file, line, str);
-	fflush((FILE *)ctx);
+	fflush((FILE *) ctx);
 }
 
-static unsigned char rootca[] =
-	"-----BEGIN CERTIFICATE-----\r\n"
-	"MIICLTCCAdOgAwIBAgIBATAKBggqhkjOPQQDAjCBjTELMAkGA1UEBhMCS1IxLjAs\r\n"
-	"BgNVBAoMJVNhbXN1bmcgRWxlY3Ryb25pY3MgRGlnaXRhbCBBcHBsaWFuY2UxHDAa\r\n"
-	"BgNVBAsME0RBIFRlc3QgT0NGIFJvb3QgQ0ExMDAuBgNVBAMMJ0RBIFRlc3QgU2Ft\r\n"
-	"c3VuZyBFbGVjdHJvbmljcyBPQ0YgUm9vdCBDQTAgFw0yMTA4MTMwNDIzMzBaGA8y\r\n"
-	"MDY5MTIzMTA0MjMzMFowgY0xCzAJBgNVBAYTAktSMS4wLAYDVQQKDCVTYW1zdW5n\r\n"
-	"IEVsZWN0cm9uaWNzIERpZ2l0YWwgQXBwbGlhbmNlMRwwGgYDVQQLDBNEQSBUZXN0\r\n"
-	"IE9DRiBSb290IENBMTAwLgYDVQQDDCdEQSBUZXN0IFNhbXN1bmcgRWxlY3Ryb25p\r\n"
-	"Y3MgT0NGIFJvb3QgQ0EwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAS2H+PCRt/X\r\n"
-	"7HDgY4inei2uCKsYTq5mcVsaumMHtXqNrs1LF6M0T73hcbjwdFvGhHRPYLBrJRZy\r\n"
-	"UmQwhYTy0KKuoyAwHjAPBgNVHRMBAf8EBTADAQH/MAsGA1UdDwQEAwICxDAKBggq\r\n"
-	"hkjOPQQDAgNIADBFAiBlSErIUCMyKg75TSXQt47WctpwO57cFy398AMl1b+RpAIh\r\n"
-	"AOh+ajEBIKgHNSm6amXOCTBg40J97MBfJflm2DEHLP6v\r\n"
-	"-----END CERTIFICATE-----\r\n";
+static unsigned char rootca[] = "-----BEGIN CERTIFICATE-----\r\n" "MIICLTCCAdOgAwIBAgIBATAKBggqhkjOPQQDAjCBjTELMAkGA1UEBhMCS1IxLjAs\r\n" "BgNVBAoMJVNhbXN1bmcgRWxlY3Ryb25pY3MgRGlnaXRhbCBBcHBsaWFuY2UxHDAa\r\n" "BgNVBAsME0RBIFRlc3QgT0NGIFJvb3QgQ0ExMDAuBgNVBAMMJ0RBIFRlc3QgU2Ft\r\n" "c3VuZyBFbGVjdHJvbmljcyBPQ0YgUm9vdCBDQTAgFw0yMTA4MTMwNDIzMzBaGA8y\r\n" "MDY5MTIzMTA0MjMzMFowgY0xCzAJBgNVBAYTAktSMS4wLAYDVQQKDCVTYW1zdW5n\r\n" "IEVsZWN0cm9uaWNzIERpZ2l0YWwgQXBwbGlhbmNlMRwwGgYDVQQLDBNEQSBUZXN0\r\n" "IE9DRiBSb290IENBMTAwLgYDVQQDDCdEQSBUZXN0IFNhbXN1bmcgRWxlY3Ryb25p\r\n" "Y3MgT0NGIFJvb3QgQ0EwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAS2H+PCRt/X\r\n" "7HDgY4inei2uCKsYTq5mcVsaumMHtXqNrs1LF6M0T73hcbjwdFvGhHRPYLBrJRZy\r\n" "UmQwhYTy0KKuoyAwHjAPBgNVHRMBAf8EBTADAQH/MAsGA1UdDwQEAwICxDAKBggq\r\n" "hkjOPQQDAgNIADBFAiBlSErIUCMyKg75TSXQt47WctpwO57cFy398AMl1b+RpAIh\r\n" "AOh+ajEBIKgHNSm6amXOCTBg40J97MBfJflm2DEHLP6v\r\n" "-----END CERTIFICATE-----\r\n";
 
 static int rootca_len = sizeof(rootca);
 
@@ -82,7 +66,7 @@ int tls_handshake_client(char *ipaddr)
 	int len = 0;
 	struct timespec ts;
 	SERVER_ADDR = ipaddr;
-	ts.tv_sec = 1633074152; // 2021-10-01
+	ts.tv_sec = 1633074152;		// 2021-10-01
 	ts.tv_nsec = 0;
 
 	clock_settime(CLOCK_REALTIME, &ts);
@@ -104,9 +88,7 @@ int tls_handshake_client(char *ipaddr)
 	fflush(stdout);
 
 	mbedtls_entropy_init(&entropy);
-	if ((ret = mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy,
-									 (const unsigned char *)pers,
-									 strlen(pers))) != 0) {
+	if ((ret = mbedtls_ctr_drbg_seed(&ctr_drbg, mbedtls_entropy_func, &entropy, (const unsigned char *)pers, strlen(pers))) != 0) {
 		mbedtls_printf(" failed\n	 ! mbedtls_ctr_drbg_seed returned %d\n", ret);
 		goto exit;
 	}
@@ -114,13 +96,12 @@ int tls_handshake_client(char *ipaddr)
 	mbedtls_printf(" ok\n");
 
 	/*
-		 * 0. Initialize certificates
-		 */
+	 * 0. Initialize certificates
+	 */
 	mbedtls_printf("	. Loading the CA root certificate ...");
 	fflush(stdout);
 
-	ret = mbedtls_x509_crt_parse(&cacert, (const unsigned char *)rootca,
-								 rootca_len);
+	ret = mbedtls_x509_crt_parse(&cacert, (const unsigned char *)rootca, rootca_len);
 	if (ret < 0) {
 		mbedtls_printf(" failed\n	 !	mbedtls_x509_crt_parse returned -0x%x\n\n", (unsigned int)-ret);
 		goto exit;
@@ -129,13 +110,12 @@ int tls_handshake_client(char *ipaddr)
 	mbedtls_printf(" ok (%d skipped)\n", ret);
 
 	/*
-		 * 1. Start the connection
-		 */
+	 * 1. Start the connection
+	 */
 	mbedtls_printf("	. Connecting to tcp/%s/%s...", SERVER_ADDR, SERVER_PORT);
 	fflush(stdout);
 
-	if ((ret = mbedtls_net_connect(&server_fd, SERVER_ADDR,
-								   SERVER_PORT, MBEDTLS_NET_PROTO_TCP)) != 0) {
+	if ((ret = mbedtls_net_connect(&server_fd, SERVER_ADDR, SERVER_PORT, MBEDTLS_NET_PROTO_TCP)) != 0) {
 		mbedtls_printf(" failed\n	 ! mbedtls_net_connect returned %d\n\n", ret);
 		goto exit;
 	}
@@ -143,15 +123,12 @@ int tls_handshake_client(char *ipaddr)
 	mbedtls_printf(" ok\n");
 
 	/*
-		 * 2. Setup stuff
-		 */
+	 * 2. Setup stuff
+	 */
 	mbedtls_printf("	. Setting up the SSL/TLS structure...");
 	fflush(stdout);
 
-	if ((ret = mbedtls_ssl_config_defaults(&conf,
-										   MBEDTLS_SSL_IS_CLIENT,
-										   MBEDTLS_SSL_TRANSPORT_STREAM,
-										   MBEDTLS_SSL_PRESET_DEFAULT)) != 0) {
+	if ((ret = mbedtls_ssl_config_defaults(&conf, MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT)) != 0) {
 		mbedtls_printf(" failed\n	 ! mbedtls_ssl_config_defaults returned %d\n\n", ret);
 		goto exit;
 	}
@@ -159,7 +136,7 @@ int tls_handshake_client(char *ipaddr)
 	mbedtls_printf(" ok\n");
 
 	/* OPTIONAL is not optimal for security,
-		 * but makes interop easier in this simplified example */
+	 * but makes interop easier in this simplified example */
 	mbedtls_ssl_conf_authmode(&conf, MBEDTLS_SSL_VERIFY_REQUIRED);
 	mbedtls_ssl_conf_ca_chain(&conf, &cacert, NULL);
 	mbedtls_ssl_conf_rng(&conf, mbedtls_ctr_drbg_random, &ctr_drbg);
@@ -173,8 +150,8 @@ int tls_handshake_client(char *ipaddr)
 	mbedtls_ssl_set_bio(&ssl, &server_fd, mbedtls_net_send, mbedtls_net_recv, NULL);
 
 	/*
-		 * 4. Handshake
-		 */
+	 * 4. Handshake
+	 */
 	mbedtls_printf("	. Performing the SSL/TLS handshake...");
 	fflush(stdout);
 
@@ -188,8 +165,8 @@ int tls_handshake_client(char *ipaddr)
 	mbedtls_printf(" ok\n");
 
 	/*
-		 * 5. Verify the server certificate
-		 */
+	 * 5. Verify the server certificate
+	 */
 	mbedtls_printf("	. Verifying peer X.509 certificate...");
 
 	/* In real life, we probably want to bail out when ret != 0 */
@@ -205,8 +182,8 @@ int tls_handshake_client(char *ipaddr)
 		mbedtls_printf(" ok\n");
 
 	/*
-		 * 3. Write the GET request
-		 */
+	 * 3. Write the GET request
+	 */
 	mbedtls_printf("	> Write to server:");
 	fflush(stdout);
 
@@ -223,8 +200,8 @@ int tls_handshake_client(char *ipaddr)
 	mbedtls_printf(" %d bytes written\n\n%s", len, (char *)buf);
 
 	/*
-		 * 7. Read the HTTP response
-		 */
+	 * 7. Read the HTTP response
+	 */
 	mbedtls_printf("	< Read from server:");
 	fflush(stdout);
 
@@ -255,7 +232,7 @@ int tls_handshake_client(char *ipaddr)
 
 	mbedtls_ssl_close_notify(&ssl);
 
-exit:
+ exit:
 
 #ifdef MBEDTLS_ERROR_C
 	if (ret != -1) {

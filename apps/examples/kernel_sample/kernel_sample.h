@@ -66,9 +66,9 @@
 /* The task_create task size can be specified in the defconfig file */
 
 #ifdef CONFIG_EXAMPLES_KERNEL_SAMPLE_STACKSIZE
-#  define STACKSIZE CONFIG_EXAMPLES_KERNEL_SAMPLE_STACKSIZE
+#define STACKSIZE CONFIG_EXAMPLES_KERNEL_SAMPLE_STACKSIZE
 #else
-#  define STACKSIZE 8192
+#define STACKSIZE 8192
 #endif
 
 /* The number of times to execute the test can be specified in the defconfig
@@ -76,7 +76,7 @@
  */
 
 #ifndef CONFIG_EXAMPLES_KERNEL_SAMPLE_LOOPS
-#  define CONFIG_EXAMPLES_KERNEL_SAMPLE_LOOPS 1
+#define CONFIG_EXAMPLES_KERNEL_SAMPLE_LOOPS 1
 #endif
 
 /* This is the number of threads that are created in the barrier test.
@@ -85,15 +85,15 @@
  */
 
 #ifndef CONFIG_EXAMPLES_KERNEL_SAMPLE_NBARRIER_THREADS
-#  define CONFIG_EXAMPLES_KERNEL_SAMPLE_NBARRIER_THREADS 8
+#define CONFIG_EXAMPLES_KERNEL_SAMPLE_NBARRIER_THREADS 8
 #endif
 
 /* Priority inheritance */
 
 #if defined(CONFIG_DEBUG) && defined(CONFIG_PRIORITY_INHERITANCE) && defined(CONFIG_SEM_PHDEBUG)
-#  define dump_nfreeholders(s) printf(s " nfreeholders: %d\n", sem_nfreeholders())
+#define dump_nfreeholders(s) printf(s " nfreeholders: %d\n", sem_nfreeholders())
 #else
-#  define dump_nfreeholders(s)
+#define dump_nfreeholders(s)
 #endif
 
 /* If CONFIG_STDIO_LINEBUFFER is defined, the STDIO buffer will be flushed
@@ -103,9 +103,9 @@
 
 #if CONFIG_NFILE_DESCRIPTORS > 0 && CONFIG_NFILE_STREAMS > 0 && \
 	CONFIG_STDIO_BUFFER_SIZE > 0 && !defined(CONFIG_STDIO_LINEBUFFER)
-#  define FFLUSH() fflush(stdout)
+#define FFLUSH() fflush(stdout)
 #else
-#  define FFLUSH()
+#define FFLUSH()
 #endif
 
 /****************************************************************************
@@ -224,11 +224,11 @@ void pthread_test(void);
  */
 
 #if defined(CONFIG_DEBUG) && defined(CONFIG_PRIORITY_INHERITANCE) && defined(CONFIG_SEM_PHDEBUG)
-void sem_enumholders(FAR sem_t *sem);
+void sem_enumholders(FAR sem_t * sem);
 int sem_nfreeholders(void);
 #else
-#  define sem_enumholders(sem)
-#  define sem_nfreeholders()
+#define sem_enumholders(sem)
+#define sem_nfreeholders()
 #endif
 
-#endif /* __APPS_EXAMPLES_KERNEL_SAMPLE_KERNEL_SAMPLE_H */
+#endif							/* __APPS_EXAMPLES_KERNEL_SAMPLE_KERNEL_SAMPLE_H */

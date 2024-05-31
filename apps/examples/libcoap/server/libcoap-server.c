@@ -52,7 +52,7 @@ struct coap_server_input {
 #ifndef FD_SETSIZE
 #define FD_SETSIZE	(CONFIG_NFILE_DESCRIPTORS + CONFIG_NSOCKET_DESCRIPTORS)
 #endif
-#endif /* __TINYARA__ */
+#endif							/* __TINYARA__ */
 
 #define COAP_STANDARD_PORT "5683"
 #define COAP_SECURITY_PORT "5684"
@@ -90,7 +90,7 @@ static void handle_sigint(int signum)
 	"This is a test server made with libcoap (see http://libcoap.sf.net)\n" \
 	"Copyright (C) 2010--2013 Olaf Bergmann <bergmann@tzi.org>\n\n"
 
-void hnd_get_index(coap_context_t *ctx, struct coap_resource_t *resource, coap_address_t *peer, coap_pdu_t *request, str *token, coap_pdu_t *response)
+void hnd_get_index(coap_context_t * ctx, struct coap_resource_t *resource, coap_address_t * peer, coap_pdu_t * request, str * token, coap_pdu_t * response)
 {
 	unsigned char buf[3];
 
@@ -103,7 +103,7 @@ void hnd_get_index(coap_context_t *ctx, struct coap_resource_t *resource, coap_a
 	coap_add_data(response, strlen(INDEX), (unsigned char *)INDEX);
 }
 
-void hnd_get_time(coap_context_t *ctx, struct coap_resource_t *resource, coap_address_t *peer, coap_pdu_t *request, str *token, coap_pdu_t *response)
+void hnd_get_time(coap_context_t * ctx, struct coap_resource_t *resource, coap_address_t * peer, coap_pdu_t * request, str * token, coap_pdu_t * response)
 {
 	coap_opt_iterator_t opt_iter;
 	coap_opt_t *option;
@@ -188,7 +188,7 @@ void hnd_get_time(coap_context_t *ctx, struct coap_resource_t *resource, coap_ad
 	}
 }
 
-void hnd_put_time(coap_context_t *ctx, struct coap_resource_t *resource, coap_address_t *peer, coap_pdu_t *request, str *token, coap_pdu_t *response)
+void hnd_put_time(coap_context_t * ctx, struct coap_resource_t *resource, coap_address_t * peer, coap_pdu_t * request, str * token, coap_pdu_t * response)
 {
 	coap_tick_t t;
 	size_t size;
@@ -221,7 +221,7 @@ void hnd_put_time(coap_context_t *ctx, struct coap_resource_t *resource, coap_ad
 	printf("coap_server : hnd_put_time, my_clock_base changed %ld\n", my_clock_base);
 }
 
-void hnd_delete_time(coap_context_t *ctx, struct coap_resource_t *resource, coap_address_t *peer, coap_pdu_t *request, str *token, coap_pdu_t *response)
+void hnd_delete_time(coap_context_t * ctx, struct coap_resource_t *resource, coap_address_t * peer, coap_pdu_t * request, str * token, coap_pdu_t * response)
 {
 	my_clock_base = 0;			/* mark clock as "deleted" */
 
@@ -230,7 +230,7 @@ void hnd_delete_time(coap_context_t *ctx, struct coap_resource_t *resource, coap
 }
 
 #ifndef WITHOUT_ASYNC
-void hnd_get_async(coap_context_t *ctx, struct coap_resource_t *resource, coap_address_t *peer, coap_pdu_t *request, str *token, coap_pdu_t *response)
+void hnd_get_async(coap_context_t * ctx, struct coap_resource_t *resource, coap_address_t * peer, coap_pdu_t * request, str * token, coap_pdu_t * response)
 {
 	coap_opt_iterator_t opt_iter;
 	coap_opt_t *option;
@@ -280,7 +280,7 @@ void hnd_get_async(coap_context_t *ctx, struct coap_resource_t *resource, coap_a
 	async = coap_register_async(ctx, peer, request, COAP_ASYNC_SEPARATE | COAP_ASYNC_CONFIRM, (void *)(COAP_TICKS_PER_SECOND * delay));
 }
 
-void check_async(coap_context_t *ctx, coap_tick_t now)
+void check_async(coap_context_t * ctx, coap_tick_t now)
 {
 	coap_pdu_t *response;
 	coap_async_state_t *tmp;
@@ -332,7 +332,7 @@ void check_async(coap_context_t *ctx, coap_tick_t now)
 }
 #endif							/* WITHOUT_ASYNC */
 
-void init_resources(coap_context_t *ctx)
+void init_resources(coap_context_t * ctx)
 {
 	coap_resource_t *r;
 
@@ -378,23 +378,13 @@ static void usage(const char *program, const char *version)
 		program = ++p;
 	}
 
-	fprintf(stderr, "%s v%s -- a small CoAP implementation\n"
-					"(c) 2010,2011 Olaf Bergmann <bergmann@tzi.org>\n\n"
-					"usage: %s [-A address] [-p port] [-v level] [-P protocol]\n\n"
-					"\t-A address\tinterface address to bind to\n"
-					"\t-p port\t\tlisten on specified port\n"
-					"\t-v num\t\tverbosity level (default: 3)\n"
+	fprintf(stderr, "%s v%s -- a small CoAP implementation\n" "(c) 2010,2011 Olaf Bergmann <bergmann@tzi.org>\n\n" "usage: %s [-A address] [-p port] [-v level] [-P protocol]\n\n" "\t-A address\tinterface address to bind to\n" "\t-p port\t\tlisten on specified port\n" "\t-v num\t\tverbosity level (default: 3)\n"
 #ifdef WITH_MBEDTLS
-					"\t-P protocol\t\t type of transport protocol\n"
-					"\t\t\t\t - 0 : UDP, 1 : DTLS , 2 : TCP, 3 : TLS (default : 0)\n"
-					"\t-i identity\tPre-Shared Key identity used to security session\n"
-					"\t-s pre-shared key\tPre-Shared Key. Input length MUST be even (e.g, 11, 1111.)\n"
+			"\t-P protocol\t\t type of transport protocol\n" "\t\t\t\t - 0 : UDP, 1 : DTLS , 2 : TCP, 3 : TLS (default : 0)\n" "\t-i identity\tPre-Shared Key identity used to security session\n" "\t-s pre-shared key\tPre-Shared Key. Input length MUST be even (e.g, 11, 1111.)\n"
 #else
-					"\t-P protocol\t\t type of transport protocol\n"
-					"\t\t\t\t - 0 : UDP, 2 : TCP (default : 0)\n"
-#endif /* WITH_MBEDTLS */
-					"\t-Q exit server program\n"
-					, program, version, program);
+			"\t-P protocol\t\t type of transport protocol\n" "\t\t\t\t - 0 : UDP, 2 : TCP (default : 0)\n"
+#endif							/* WITH_MBEDTLS */
+			"\t-Q exit server program\n", program, version, program);
 }
 
 #if defined(__TINYARA__)
@@ -410,7 +400,7 @@ int main(int argc, char **argv)
 	coap_tick_t now;
 	coap_queue_t *nextpdu;
 	char *addr_str = NULL;
-	char port_str[NI_MAXSERV] = {0,};
+	char port_str[NI_MAXSERV] = { 0, };
 	int opt;
 	int invalid_opt = 0;
 	int portChanged = 0;
@@ -450,12 +440,12 @@ int main(int argc, char **argv)
 				coap_log(LOG_CRIT, "memory allocation failure\n");
 				return -1;
 			}
-			strncpy(addr_str, optarg, NI_MAXHOST-1);
+			strncpy(addr_str, optarg, NI_MAXHOST - 1);
 			addr_str[NI_MAXHOST - 1] = '\0';
 			printf("coap-server : address %s\n", addr_str);
 			break;
 		case 'p':
-			strncpy(port_str, optarg, NI_MAXSERV-1);
+			strncpy(port_str, optarg, NI_MAXSERV - 1);
 			port_str[NI_MAXSERV - 1] = '\0';
 			portChanged = 1;
 			printf("coap-server : port %s\n", port_str);
@@ -492,7 +482,7 @@ int main(int argc, char **argv)
 
 	/* Set default port when there are no inserted port number from user */
 	if (!portChanged) {
-		memset(port_str, 0, NI_MAXSERV-1);
+		memset(port_str, 0, NI_MAXSERV - 1);
 		switch (protocol) {
 		case COAP_PROTO_UDP:
 		case COAP_PROTO_TCP:
@@ -508,7 +498,7 @@ int main(int argc, char **argv)
 		}
 	}
 
-	/* Exit program when invalid argument is passed from command line*/
+	/* Exit program when invalid argument is passed from command line */
 	if (invalid_opt)
 		return 0;
 
@@ -540,8 +530,7 @@ int main(int argc, char **argv)
 #ifdef WITH_MBEDTLS
 	/* Initialize TLS context */
 	if (protocol == COAP_PROTO_TLS || protocol == COAP_PROTO_DTLS) {
-		tls_option.transport = (protocol == COAP_PROTO_TLS) ?
-			(MBEDTLS_SSL_TRANSPORT_STREAM) : (MBEDTLS_SSL_TRANSPORT_DATAGRAM);
+		tls_option.transport = (protocol == COAP_PROTO_TLS) ? (MBEDTLS_SSL_TRANSPORT_STREAM) : (MBEDTLS_SSL_TRANSPORT_DATAGRAM);
 		tls_cred cred;
 		memset(&cred, 0, sizeof(tls_cred));
 
@@ -572,7 +561,7 @@ int main(int argc, char **argv)
 		printf("coap-server : not supported protocol\n");
 		goto exit;
 	}
-#endif /* WITH_MBEDTLS */
+#endif							/* WITH_MBEDTLS */
 
 #ifdef WITH_MBEDTLS
 	if (coap_net_bind(ctx, NULL, port_str, (void *)tls_context, (void *)&tls_option) < 0)
@@ -642,7 +631,7 @@ int main(int argc, char **argv)
 #endif							/* WITHOUT_OBSERVE */
 	}
 
-exit:
+ exit:
 #ifdef WITH_MBEDTLS
 	if (ctx->session) {
 		TLSSession_free(ctx->session);
@@ -714,7 +703,7 @@ int coap_server_test_main(int argc, char **argv)
 	arg.argc = argc;
 	arg.argv = argv;
 
-	if ((status = pthread_create(&tid, &attr, (pthread_startroutine_t)coap_server_test_run, &arg)) < 0) {
+	if ((status = pthread_create(&tid, &attr, (pthread_startroutine_t) coap_server_test_run, &arg)) < 0) {
 		printf("coap_server_test_main : failed to run coap-client, errno %d\n", errno);
 		return -1;
 	}
@@ -724,4 +713,4 @@ int coap_server_test_main(int argc, char **argv)
 
 	return 0;
 }
-#endif /* __TINYARA__ */
+#endif							/* __TINYARA__ */

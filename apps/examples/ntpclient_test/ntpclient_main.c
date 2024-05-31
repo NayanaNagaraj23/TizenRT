@@ -156,7 +156,7 @@ static int ntpclient_show_date(unsigned int timezone)
 	/* result is success */
 	result = 0;
 
-done:
+ done:
 	return result;
 }
 
@@ -301,6 +301,6 @@ int ntpclient_main(int argc, char *argv[])
 
 	return 0;
 
-errout:
+ errout:
 	return -1;
 }

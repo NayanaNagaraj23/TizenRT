@@ -109,7 +109,7 @@ int common_args(FAR struct i2ctool_s *i2ctool, FAR char **arg)
 			goto out_of_range;
 		}
 
-		i2ctool->addr = (uint8_t)value;
+		i2ctool->addr = (uint8_t) value;
 		return ret;
 
 	case 'b':
@@ -118,7 +118,7 @@ int common_args(FAR struct i2ctool_s *i2ctool, FAR char **arg)
 			goto out_of_range;
 		}
 
-		i2ctool->bus = (uint8_t)value;
+		i2ctool->bus = (uint8_t) value;
 		return ret;
 
 	case 'f':
@@ -148,7 +148,7 @@ int common_args(FAR struct i2ctool_s *i2ctool, FAR char **arg)
 			goto out_of_range;
 		}
 
-		i2ctool->regaddr = (uint8_t)value;
+		i2ctool->regaddr = (uint8_t) value;
 		return ret;
 
 	case 's':
@@ -161,18 +161,18 @@ int common_args(FAR struct i2ctool_s *i2ctool, FAR char **arg)
 			goto out_of_range;
 		}
 
-		i2ctool->width = (uint8_t)value;
+		i2ctool->width = (uint8_t) value;
 		return ret;
 
 	default:
 		goto invalid_argument;
 	}
 
-invalid_argument:
+ invalid_argument:
 	i2ctool_printf(i2ctool, g_i2carginvalid, ptr);
 	return ERROR;
 
-out_of_range:
+ out_of_range:
 	i2ctool_printf(i2ctool, g_i2cargrange, ptr);
 	return ERROR;
 }

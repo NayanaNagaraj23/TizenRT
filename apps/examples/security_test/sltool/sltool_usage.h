@@ -15,7 +15,7 @@
  * language governing permissions and limitations under the License.
  *
  ****************************************************************************/
- #define SLTOOL_KEY_USAGE \
+#define SLTOOL_KEY_USAGE \
 	"key mode\n"                  \
 	"\tget: get a key index 1\n"    \
 	"\tsltool key get 1\n"\

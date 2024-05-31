@@ -31,7 +31,7 @@
 
 #define WU_INTF_NAME "ble0"
 
-static inline int _send_msg(lwnl_msg *msg)
+static inline int _send_msg(lwnl_msg * msg)
 {
 	int fd = socket(AF_LWNL, SOCK_RAW, LWNL_ROUTE);
 	if (fd < 0) {
@@ -50,12 +50,13 @@ static inline int _send_msg(lwnl_msg *msg)
 
 int utc_control_mock(int cmd, int key, int value, int wait)
 {
-	vble_ioctl_msg_s vmsg = {key, value, wait};
-	trble_msg_s dmsg = {(trble_ioctl_cmd)cmd, (void *)&vmsg};
+	vble_ioctl_msg_s vmsg = { key, value, wait };
+	trble_msg_s dmsg = { (trble_ioctl_cmd) cmd, (void *)&vmsg };
 
 	trble_result_e res = TRBLE_SUCCESS;
-	lwnl_msg msg = {WU_INTF_NAME, {LWNL_REQ_BLE_IOCTL},
-					sizeof(trble_msg_s), (void *)&dmsg, (void *)&res};
+	lwnl_msg msg = { WU_INTF_NAME, {LWNL_REQ_BLE_IOCTL},
+	sizeof(trble_msg_s), (void *)&dmsg, (void *)&res
+	};
 	if (_send_msg(&msg) == LWNL_ERR) {
 		return LWNL_ERR;
 	}

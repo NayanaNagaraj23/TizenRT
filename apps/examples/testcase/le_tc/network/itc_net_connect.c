@@ -93,7 +93,7 @@ static void *server_connect(void *ptr_num_clients)
 	struct sockaddr_in address;
 	int addrlen = sizeof(address);
 	int num_clients = *((int *)ptr_num_clients);
-	char buffer[BUFF_LEN] = {0};
+	char buffer[BUFF_LEN] = { 0 };
 	char *ptr_msg = SERVER_MSG;
 	int recv_len = 0;
 	int send_len = 0;
@@ -189,7 +189,7 @@ static void *client_connect(void *ptr_id)
 	int sock = 0;
 	int ret;
 	struct sockaddr_in serv_addr;
-	char buffer[BUFF_LEN] = {0};
+	char buffer[BUFF_LEN] = { 0 };
 	int *pret = malloc(sizeof(int));
 	if (NULL == pret) {
 		printf("Memory allocation to pret is failed\n");
@@ -318,32 +318,26 @@ static void itc_net_connect_p_multiple_clients(void)
 	pthread_create(&client3_thread, NULL, client_connect, (void *)&id3);
 
 	ret = pthread_join(server_thread, (void *)&pret);
-	TC_ASSERT_EQ_CLEANUP("pthread_join", ret, OK,
-						 free(pret);
+	TC_ASSERT_EQ_CLEANUP("pthread_join", ret, OK, free(pret);
 						 pthread_join(client3_thread, NULL);
 						 pthread_join(client2_thread, NULL);
 						 pthread_join(client1_thread, NULL));
-	TC_ASSERT_EQ_CLEANUP("pthread_join", *pret, OK,
-						 free(pret);
+	TC_ASSERT_EQ_CLEANUP("pthread_join", *pret, OK, free(pret);
 						 pthread_join(client3_thread, NULL);
 						 pthread_join(client2_thread, NULL);
 						 pthread_join(client1_thread, NULL));
 	ret = pthread_join(client3_thread, (void *)&pret);
-	TC_ASSERT_EQ_CLEANUP("pthread_join", ret, OK,
-						 free(pret);
+	TC_ASSERT_EQ_CLEANUP("pthread_join", ret, OK, free(pret);
 						 pthread_join(client2_thread, NULL);
 						 pthread_join(client1_thread, NULL));
-	TC_ASSERT_EQ_CLEANUP("pthread_join", *pret, OK,
-						 free(pret);
+	TC_ASSERT_EQ_CLEANUP("pthread_join", *pret, OK, free(pret);
 						 pthread_join(client2_thread, NULL);
 						 pthread_join(client1_thread, NULL));
 
 	ret = pthread_join(client2_thread, (void *)&pret);
-	TC_ASSERT_EQ_CLEANUP("pthread_join", ret, OK,
-						 free(pret);
+	TC_ASSERT_EQ_CLEANUP("pthread_join", ret, OK, free(pret);
 						 pthread_join(client1_thread, NULL));
-	TC_ASSERT_EQ_CLEANUP("pthread_join", *pret, OK,
-						 free(pret);
+	TC_ASSERT_EQ_CLEANUP("pthread_join", *pret, OK, free(pret);
 						 pthread_join(client1_thread, NULL));
 
 	ret = pthread_join(client1_thread, NULL);

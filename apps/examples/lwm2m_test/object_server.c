@@ -41,19 +41,18 @@
 #include <string.h>
 
 typedef struct _server_instance_ {
-	struct _server_instance_ *next;    // matches lwm2m_list_t::next
-	uint16_t    instanceId;            // matches lwm2m_list_t::id
-	uint16_t    shortServerId;
-	uint32_t    lifetime;
-	uint32_t    defaultMinPeriod;
-	uint32_t    defaultMaxPeriod;
-	uint32_t    disableTimeout;
-	bool        storing;
-	char        binding[4];
+	struct _server_instance_ *next;	// matches lwm2m_list_t::next
+	uint16_t instanceId;		// matches lwm2m_list_t::id
+	uint16_t shortServerId;
+	uint32_t lifetime;
+	uint32_t defaultMinPeriod;
+	uint32_t defaultMaxPeriod;
+	uint32_t disableTimeout;
+	bool storing;
+	char binding[4];
 } server_instance_t;
 
-static uint8_t prv_get_value(lwm2m_data_t *dataP,
-							 server_instance_t *targetP)
+static uint8_t prv_get_value(lwm2m_data_t * dataP, server_instance_t * targetP)
 {
 	switch (dataP->id) {
 	case LWM2M_SERVER_SHORT_ID_ID:
@@ -95,20 +94,16 @@ static uint8_t prv_get_value(lwm2m_data_t *dataP,
 	}
 }
 
-static uint8_t prv_server_read(uint16_t instanceId,
-							   int *numDataP,
-							   lwm2m_data_t **dataArrayP,
-							   lwm2m_object_t *objectP)
+static uint8_t prv_server_read(uint16_t instanceId, int *numDataP, lwm2m_data_t ** dataArrayP, lwm2m_object_t * objectP)
 {
 	server_instance_t *targetP;
 	uint8_t result;
 	int i;
 
-	targetP = (server_instance_t *)lwm2m_list_find(objectP->instanceList, instanceId);
+	targetP = (server_instance_t *) lwm2m_list_find(objectP->instanceList, instanceId);
 	if (NULL == targetP) {
 		return COAP_404_NOT_FOUND;
 	}
-
 	// is the server asking for the full instance ?
 	if (*numDataP == 0) {
 		uint16_t resList[] = {
@@ -127,7 +122,7 @@ static uint8_t prv_server_read(uint16_t instanceId,
 			return COAP_500_INTERNAL_SERVER_ERROR;
 		}
 		*numDataP = nbRes;
-		for (i = 0 ; i < nbRes ; i++) {
+		for (i = 0; i < nbRes; i++) {
 			(*dataArrayP)[i].id = resList[i];
 		}
 	}
@@ -141,10 +136,7 @@ static uint8_t prv_server_read(uint16_t instanceId,
 	return result;
 }
 
-static uint8_t prv_server_discover(uint16_t instanceId,
-								   int *numDataP,
-								   lwm2m_data_t **dataArrayP,
-								   lwm2m_object_t *objectP)
+static uint8_t prv_server_discover(uint16_t instanceId, int *numDataP, lwm2m_data_t ** dataArrayP, lwm2m_object_t * objectP)
 {
 	uint8_t result;
 	int i;
@@ -196,7 +188,7 @@ static uint8_t prv_server_discover(uint16_t instanceId,
 	return result;
 }
 
-static uint8_t prv_set_int_value(lwm2m_data_t *dataArray, uint32_t *data)
+static uint8_t prv_set_int_value(lwm2m_data_t * dataArray, uint32_t * data)
 {
 	uint8_t result;
 	int64_t value;
@@ -214,16 +206,13 @@ static uint8_t prv_set_int_value(lwm2m_data_t *dataArray, uint32_t *data)
 	return result;
 }
 
-static uint8_t prv_server_write(uint16_t instanceId,
-								int numData,
-								lwm2m_data_t *dataArray,
-								lwm2m_object_t *objectP)
+static uint8_t prv_server_write(uint16_t instanceId, int numData, lwm2m_data_t * dataArray, lwm2m_object_t * objectP)
 {
 	server_instance_t *targetP;
 	int i;
 	uint8_t result;
 
-	targetP = (server_instance_t *)lwm2m_list_find(objectP->instanceList, instanceId);
+	targetP = (server_instance_t *) lwm2m_list_find(objectP->instanceList, instanceId);
 	if (NULL == targetP) {
 		return COAP_404_NOT_FOUND;
 	}
@@ -231,18 +220,18 @@ static uint8_t prv_server_write(uint16_t instanceId,
 	i = 0;
 	do {
 		switch (dataArray[i].id) {
-		case LWM2M_SERVER_SHORT_ID_ID: {
-			uint32_t value = targetP->shortServerId;
-			result = prv_set_int_value(dataArray + i, &value);
-			if (COAP_204_CHANGED == result) {
-				if (0 < value && 0xFFFF >= value) {
-					targetP->shortServerId = value;
-				} else {
-					result = COAP_406_NOT_ACCEPTABLE;
+		case LWM2M_SERVER_SHORT_ID_ID:{
+				uint32_t value = targetP->shortServerId;
+				result = prv_set_int_value(dataArray + i, &value);
+				if (COAP_204_CHANGED == result) {
+					if (0 < value && 0xFFFF >= value) {
+						targetP->shortServerId = value;
+					} else {
+						result = COAP_406_NOT_ACCEPTABLE;
+					}
 				}
 			}
-		}
-		break;
+			break;
 
 		case LWM2M_SERVER_LIFETIME_ID:
 			result = prv_set_int_value(dataArray + i, (uint32_t *)&(targetP->lifetime));
@@ -264,27 +253,21 @@ static uint8_t prv_server_write(uint16_t instanceId,
 			result = prv_set_int_value(dataArray + i, &(targetP->disableTimeout));
 			break;
 
-		case LWM2M_SERVER_STORING_ID: {
-			bool value;
+		case LWM2M_SERVER_STORING_ID:{
+				bool value;
 
-			if (1 == lwm2m_data_decode_bool(dataArray + i, &value)) {
-				targetP->storing = value;
-				result = COAP_204_CHANGED;
-			} else {
-				result = COAP_400_BAD_REQUEST;
+				if (1 == lwm2m_data_decode_bool(dataArray + i, &value)) {
+					targetP->storing = value;
+					result = COAP_204_CHANGED;
+				} else {
+					result = COAP_400_BAD_REQUEST;
+				}
 			}
-		}
-		break;
+			break;
 
 		case LWM2M_SERVER_BINDING_ID:
 			if ((dataArray[i].type == LWM2M_TYPE_STRING || dataArray[i].type == LWM2M_TYPE_OPAQUE)
-				&& dataArray[i].value.asBuffer.length > 0 && dataArray[i].value.asBuffer.length <= 3
-				&& (strncmp((char *)dataArray[i].value.asBuffer.buffer, "U", dataArray[i].value.asBuffer.length) == 0
-					|| strncmp((char *)dataArray[i].value.asBuffer.buffer, "UQ", dataArray[i].value.asBuffer.length) == 0
-					|| strncmp((char *)dataArray[i].value.asBuffer.buffer, "S", dataArray[i].value.asBuffer.length) == 0
-					|| strncmp((char *)dataArray[i].value.asBuffer.buffer, "SQ", dataArray[i].value.asBuffer.length) == 0
-					|| strncmp((char *)dataArray[i].value.asBuffer.buffer, "US", dataArray[i].value.asBuffer.length) == 0
-					|| strncmp((char *)dataArray[i].value.asBuffer.buffer, "UQS", dataArray[i].value.asBuffer.length) == 0)) {
+				&& dataArray[i].value.asBuffer.length > 0 && dataArray[i].value.asBuffer.length <= 3 && (strncmp((char *)dataArray[i].value.asBuffer.buffer, "U", dataArray[i].value.asBuffer.length) == 0 || strncmp((char *)dataArray[i].value.asBuffer.buffer, "UQ", dataArray[i].value.asBuffer.length) == 0 || strncmp((char *)dataArray[i].value.asBuffer.buffer, "S", dataArray[i].value.asBuffer.length) == 0 || strncmp((char *)dataArray[i].value.asBuffer.buffer, "SQ", dataArray[i].value.asBuffer.length) == 0 || strncmp((char *)dataArray[i].value.asBuffer.buffer, "US", dataArray[i].value.asBuffer.length) == 0 || strncmp((char *)dataArray[i].value.asBuffer.buffer, "UQS", dataArray[i].value.asBuffer.length) == 0)) {
 				strncpy(targetP->binding, (char *)dataArray[i].value.asBuffer.buffer, dataArray[i].value.asBuffer.length);
 				result = COAP_204_CHANGED;
 			} else {
@@ -305,16 +288,11 @@ static uint8_t prv_server_write(uint16_t instanceId,
 	return result;
 }
 
-static uint8_t prv_server_execute(uint16_t instanceId,
-								  uint16_t resourceId,
-								  uint8_t *buffer,
-								  int length,
-								  lwm2m_object_t *objectP)
-
+static uint8_t prv_server_execute(uint16_t instanceId, uint16_t resourceId, uint8_t * buffer, int length, lwm2m_object_t * objectP)
 {
 	server_instance_t *targetP;
 
-	targetP = (server_instance_t *)lwm2m_list_find(objectP->instanceList, instanceId);
+	targetP = (server_instance_t *) lwm2m_list_find(objectP->instanceList, instanceId);
 	if (NULL == targetP) {
 		return COAP_404_NOT_FOUND;
 	}
@@ -335,12 +313,11 @@ static uint8_t prv_server_execute(uint16_t instanceId,
 	}
 }
 
-static uint8_t prv_server_delete(uint16_t id,
-								 lwm2m_object_t *objectP)
+static uint8_t prv_server_delete(uint16_t id, lwm2m_object_t * objectP)
 {
 	server_instance_t *serverInstance;
 
-	objectP->instanceList = lwm2m_list_remove(objectP->instanceList, id, (lwm2m_list_t **)&serverInstance);
+	objectP->instanceList = lwm2m_list_remove(objectP->instanceList, id, (lwm2m_list_t **) & serverInstance);
 	if (NULL == serverInstance) {
 		return COAP_404_NOT_FOUND;
 	}
@@ -350,15 +327,12 @@ static uint8_t prv_server_delete(uint16_t id,
 	return COAP_202_DELETED;
 }
 
-static uint8_t prv_server_create(uint16_t instanceId,
-								 int numData,
-								 lwm2m_data_t *dataArray,
-								 lwm2m_object_t *objectP)
+static uint8_t prv_server_create(uint16_t instanceId, int numData, lwm2m_data_t * dataArray, lwm2m_object_t * objectP)
 {
 	server_instance_t *serverInstance;
 	uint8_t result;
 
-	serverInstance = (server_instance_t *)lwm2m_malloc(sizeof(server_instance_t));
+	serverInstance = (server_instance_t *) lwm2m_malloc(sizeof(server_instance_t));
 	if (NULL == serverInstance) {
 		return COAP_500_INTERNAL_SERVER_ERROR;
 	}
@@ -378,24 +352,24 @@ static uint8_t prv_server_create(uint16_t instanceId,
 	return result;
 }
 
-void copy_server_object(lwm2m_object_t *objectDest, lwm2m_object_t *objectSrc)
+void copy_server_object(lwm2m_object_t * objectDest, lwm2m_object_t * objectSrc)
 {
 	memcpy(objectDest, objectSrc, sizeof(lwm2m_object_t));
 	objectDest->instanceList = NULL;
 	objectDest->userData = NULL;
-	server_instance_t *instanceSrc = (server_instance_t *)objectSrc->instanceList;
+	server_instance_t *instanceSrc = (server_instance_t *) objectSrc->instanceList;
 	server_instance_t *previousInstanceDest = NULL;
 	while (instanceSrc != NULL) {
-		server_instance_t *instanceDest = (server_instance_t *)lwm2m_malloc(sizeof(server_instance_t));
+		server_instance_t *instanceDest = (server_instance_t *) lwm2m_malloc(sizeof(server_instance_t));
 		if (NULL == instanceDest) {
 			return;
 		}
 		memcpy(instanceDest, instanceSrc, sizeof(server_instance_t));
 		// not sure it's necessary:
 		strcpy(instanceDest->binding, instanceSrc->binding);
-		instanceSrc = (server_instance_t *)instanceSrc->next;
+		instanceSrc = (server_instance_t *) instanceSrc->next;
 		if (previousInstanceDest == NULL) {
-			objectDest->instanceList = (lwm2m_list_t *)instanceDest;
+			objectDest->instanceList = (lwm2m_list_t *) instanceDest;
 		} else {
 			previousInstanceDest->next = instanceDest;
 		}
@@ -403,29 +377,23 @@ void copy_server_object(lwm2m_object_t *objectDest, lwm2m_object_t *objectSrc)
 	}
 }
 
-void display_server_object(lwm2m_object_t *object)
+void display_server_object(lwm2m_object_t * object)
 {
 #ifdef WITH_LOGS
 	fprintf(stdout, "  /%u: Server object, instances:\r\n", object->objID);
-	server_instance_t *serverInstance = (server_instance_t *)object->instanceList;
+	server_instance_t *serverInstance = (server_instance_t *) object->instanceList;
 	while (serverInstance != NULL) {
-		fprintf(stdout, "    /%u/%u: instanceId: %u, shortServerId: %u, lifetime: %u, storing: %s, binding: %s\r\n",
-				object->objID, serverInstance->instanceId,
-				serverInstance->instanceId, serverInstance->shortServerId, serverInstance->lifetime,
-				serverInstance->storing ? "true" : "false", serverInstance->binding);
-		serverInstance = (server_instance_t *)serverInstance->next;
+		fprintf(stdout, "    /%u/%u: instanceId: %u, shortServerId: %u, lifetime: %u, storing: %s, binding: %s\r\n", object->objID, serverInstance->instanceId, serverInstance->instanceId, serverInstance->shortServerId, serverInstance->lifetime, serverInstance->storing ? "true" : "false", serverInstance->binding);
+		serverInstance = (server_instance_t *) serverInstance->next;
 	}
 #endif
 }
 
-lwm2m_object_t *get_server_object(int serverId,
-								  const char *binding,
-								  int lifetime,
-								  bool storing)
+lwm2m_object_t *get_server_object(int serverId, const char *binding, int lifetime, bool storing)
 {
 	lwm2m_object_t *serverObj;
 
-	serverObj = (lwm2m_object_t *)lwm2m_malloc(sizeof(lwm2m_object_t));
+	serverObj = (lwm2m_object_t *) lwm2m_malloc(sizeof(lwm2m_object_t));
 
 	if (NULL != serverObj) {
 		server_instance_t *serverInstance;
@@ -435,7 +403,7 @@ lwm2m_object_t *get_server_object(int serverId,
 		serverObj->objID = 1;
 
 		// Manually create an hardcoded server
-		serverInstance = (server_instance_t *)lwm2m_malloc(sizeof(server_instance_t));
+		serverInstance = (server_instance_t *) lwm2m_malloc(sizeof(server_instance_t));
 		if (NULL == serverInstance) {
 			lwm2m_free(serverObj);
 			return NULL;
@@ -460,10 +428,10 @@ lwm2m_object_t *get_server_object(int serverId,
 	return serverObj;
 }
 
-void clean_server_object(lwm2m_object_t *object)
+void clean_server_object(lwm2m_object_t * object)
 {
 	while (object->instanceList != NULL) {
-		server_instance_t *serverInstance = (server_instance_t *)object->instanceList;
+		server_instance_t *serverInstance = (server_instance_t *) object->instanceList;
 		object->instanceList = object->instanceList->next;
 		lwm2m_free(serverInstance);
 	}

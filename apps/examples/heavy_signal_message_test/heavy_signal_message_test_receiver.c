@@ -84,7 +84,7 @@ static void *heavy_signal_message_test_sig_timedwait(void)
 	pid = getpid();
 	printf("[%d] heavy_signal_message_test_sig_timedwait pthread\n", pid);
 
-	timeout.tv_sec  = 0;
+	timeout.tv_sec = 0;
 	timeout.tv_nsec = HEAVY_SIGNAL_MESSAGE_TEST_NSLEEP;
 
 	sigemptyset(&sig);
@@ -279,7 +279,7 @@ void heavy_signal_message_test_receiver(void)
 	}
 
 	for (i = 0; i < HEAVY_SIGNAL_MESSAGE_TEST_TASK_NUM; ++i) {
-		ret = pthread_create(&pid, NULL, (pthread_startroutine_t)heavy_signal_message_test_sig_timedwait, NULL);
+		ret = pthread_create(&pid, NULL, (pthread_startroutine_t) heavy_signal_message_test_sig_timedwait, NULL);
 		if (ret < 0) {
 			printf("heavy_signal_message_test_sig_timedwait pthread create FAIL\n");
 			return;
@@ -287,7 +287,7 @@ void heavy_signal_message_test_receiver(void)
 		pthread_setname_np(pid, "sig_timedwait");
 		pthread_detach(pid);
 
-		ret = pthread_create(&pid, NULL, (pthread_startroutine_t)heavy_signal_message_test_sem_timedwait, NULL);
+		ret = pthread_create(&pid, NULL, (pthread_startroutine_t) heavy_signal_message_test_sem_timedwait, NULL);
 		if (ret < 0) {
 			printf("heavy_signal_message_test_sem_timedwait pthread create FAIL\n");
 			return;
@@ -295,7 +295,7 @@ void heavy_signal_message_test_receiver(void)
 		pthread_setname_np(pid, "sem_timedwait");
 		pthread_detach(pid);
 
-		ret = pthread_create(&pid, NULL, (pthread_startroutine_t)heavy_signal_message_test_sig_receive, NULL);
+		ret = pthread_create(&pid, NULL, (pthread_startroutine_t) heavy_signal_message_test_sig_receive, NULL);
 		if (ret < 0) {
 			printf("heavy_signal_message_test_sig_receive pthread create FAIL\n");
 			return;
@@ -303,7 +303,7 @@ void heavy_signal_message_test_receiver(void)
 		pthread_setname_np(pid, "sig_receive");
 		pthread_detach(pid);
 
-		ret = pthread_create(&pid, NULL, (pthread_startroutine_t)heavy_signal_message_test_mq_receive, NULL);
+		ret = pthread_create(&pid, NULL, (pthread_startroutine_t) heavy_signal_message_test_mq_receive, NULL);
 		if (ret < 0) {
 			printf("heavy_signal_message_test_mq_receive pthread create FAIL\n");
 			return;

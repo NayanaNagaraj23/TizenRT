@@ -75,7 +75,7 @@ static void *thread_schedself_cb(void *param)
 * @description          :Function for itc_sched_self_p
 * @return               :void
 */
-static void thread_cleanup(pthread_t* array, int thread_cnt)
+static void thread_cleanup(pthread_t * array, int thread_cnt)
 {
 	int exec_index = INIT_ZERO;
 	for (exec_index = 0; exec_index < thread_cnt; exec_index++) {
@@ -147,7 +147,6 @@ static void itc_sched_set_scheduler_invalid_pid_neg(void)
 	struct sched_param st_setparam;
 	int policy = SCHED_FIFO;
 
-	
 	ret_chk = sched_setscheduler(pid, policy, &st_setparam);
 	TC_ASSERT_NEQ("sched_setscheduler", ret_chk, ESRCH);
 
@@ -160,14 +159,11 @@ static void itc_sched_set_scheduler_invalid_policy_neg(void)
 	struct sched_param *st_setparam = NULL;
 	int policy = -1;
 
-	
 	ret_chk = sched_setscheduler(getpid(), policy, st_setparam);
 	TC_ASSERT_NEQ("sched_setscheduler", ret_chk, ESRCH);
 
 	TC_SUCCESS_RESULT();
 }
-
-
 
 /**
 * @fn                   :itc_sched_self_p

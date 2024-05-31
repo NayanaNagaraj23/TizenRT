@@ -133,7 +133,7 @@ static sltool_ops _parse_ops(char *cmd)
 	return SLOPS_UNKNOWN;
 }
 
-static sl_handler _parse_key_handler(sl_options_s *opt)
+static sl_handler _parse_key_handler(sl_options_s * opt)
 {
 	for (int i = 0; i < sizeof(g_key_handler) / sizeof(sl_handler_parser_s); i++) {
 		if (opt->ops == g_key_handler[i].ops) {
@@ -143,7 +143,7 @@ static sl_handler _parse_key_handler(sl_options_s *opt)
 	return NULL;
 }
 
-static sl_handler _parse_auth_handler(sl_options_s *opt)
+static sl_handler _parse_auth_handler(sl_options_s * opt)
 {
 	for (int i = 0; i < sizeof(g_auth_handler) / sizeof(sl_handler_parser_s); i++) {
 		if (opt->ops == g_auth_handler[i].ops) {
@@ -153,7 +153,7 @@ static sl_handler _parse_auth_handler(sl_options_s *opt)
 	return NULL;
 }
 
-static sl_handler _parse_ss_handler(sl_options_s *opt)
+static sl_handler _parse_ss_handler(sl_options_s * opt)
 {
 	for (int i = 0; i < sizeof(g_ss_handler) / sizeof(sl_handler_parser_s); i++) {
 		if (opt->ops == g_ss_handler[i].ops) {
@@ -163,7 +163,7 @@ static sl_handler _parse_ss_handler(sl_options_s *opt)
 	return NULL;
 }
 
-static int _parse_cmd(sl_options_s *opt, int argc, char **argv)
+static int _parse_cmd(sl_options_s * opt, int argc, char **argv)
 {
 	for (int i = 0; i < sizeof(g_parser_str) / sizeof(char *); i++) {
 		if (strncmp(argv[1], g_parser_str[i], strlen(g_parser_str[i]) + 1) == 0) {
@@ -174,7 +174,7 @@ static int _parse_cmd(sl_options_s *opt, int argc, char **argv)
 	return -1;
 }
 
-static int _parse_mode(sl_options_s *opt, int argc, char *argv[])
+static int _parse_mode(sl_options_s * opt, int argc, char *argv[])
 {
 	/*  To-Do parse ss write handler */
 	if (argc != 4 && argc != 6) {

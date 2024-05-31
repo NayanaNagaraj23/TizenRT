@@ -267,7 +267,7 @@ void broadcast_send(uint32_t num_packets, uint32_t sleep_time)
 	}
 	printf("[BRCLIENT] Terminate broadcast sender after sending sufficient messages (%d)\n", num_packets);
 
-return_with_close:
+ return_with_close:
 	close(sock);
 }
 
@@ -332,7 +332,7 @@ void broadcast_receive(uint32_t num_packets)
 		}
 	}
 
-return_with_close:
+ return_with_close:
 	close(sockfd);
 	return;
 }
@@ -422,7 +422,7 @@ void ipmcast_sender_thread(int num_packets, uint32_t sleep_time, const char *int
 		}
 	}
 	printf("[MCASTCLIENT] Terminate multicast sender after sending sufficient messages (%d)\n", num_packets);
-out_with_socket:
+ out_with_socket:
 	close(sd);
 	return;
 }
@@ -527,7 +527,7 @@ void ipmcast_receiver_thread(int num_packets, const char *intf)
 			break;
 		}
 	}
-out_with_socket:
+ out_with_socket:
 	close(sd);
 	return;
 }
@@ -590,8 +590,7 @@ int udp_server_thread(int num_packets)
 					goto out_with_socket;
 				}
 				count++;
-				printf("[UDPSERV] - Received Msg # %d] Received Msg (%s) data size (%d)\n",
-					   count, buf, nbytes);
+				printf("[UDPSERV] - Received Msg # %d] Received Msg (%s) data size (%d)\n", count, buf, nbytes);
 				if (num_packets == 0) {
 					continue;
 				}
@@ -604,7 +603,7 @@ int udp_server_thread(int num_packets)
 			assert(0);
 		}
 	}
-out_with_socket:
+ out_with_socket:
 	close(s);
 	return 0;
 }
@@ -739,8 +738,7 @@ void tcp_server_thread(int num_packets)
 			break;
 		}
 		count++;
-		printf("[TCPSERV] - Received Msg # %d] Received Msg (%s) data size (%d)\n",
-			   count, msg, nbytes);
+		printf("[TCPSERV] - Received Msg # %d] Received Msg (%s) data size (%d)\n", count, msg, nbytes);
 		if (num_packets == 0) {
 			continue;
 		}
@@ -754,7 +752,7 @@ void tcp_server_thread(int num_packets)
 		printf("[TCPSERV] Closed connfd successfully \n");
 	}
 	printf("[TCPSERV] Closed listenfd successfully \n");
-out_with_socket:
+ out_with_socket:
 	close(listenfd);
 	return;
 }
@@ -828,7 +826,7 @@ void tcp_client_thread(int num_packets, uint32_t sleep_time)
 		}
 	}
 	printf("[TCPCLIENT] Terminating tcpclient after sending sufficient messages (%d)\n", num_packets);
-out_with_socket:
+ out_with_socket:
 	close(sockfd);
 	return;
 }
@@ -915,7 +913,7 @@ int nettest_main(int argc, char *argv[])
 		if (pps <= 0) {
 			goto err_with_input;
 		}
-		interval = 1000000ul / pps; /* sleep interval */
+		interval = 1000000ul / pps;	/* sleep interval */
 
 		if (proto == NT_TCP) {
 			tcp_client_thread(num_packets_to_process, interval);
@@ -933,7 +931,7 @@ int nettest_main(int argc, char *argv[])
 	printf("Exiting nettest_main thread, job finished\n");
 	return 0;
 
-err_with_input:
+ err_with_input:
 	show_usage();
 	return -1;
 }

@@ -156,7 +156,7 @@ static void tc_fs_mops_mount(const char *filesystemtype)
 #ifndef CONFIG_BUILD_PROTECTED
 	} else if (strcmp(filesystemtype, "romfs") == 0) {
 		ret = umount("/rom");
-		romdisk_register(0, (FAR uint8_t *)romfs_img, 32, 512);
+		romdisk_register(0, (FAR uint8_t *) romfs_img, 32, 512);
 		ret = mount(ROMFS_MOUNT_DEV_DIR, ROMFS_TEST_MOUNTPOINT, "romfs", 1, NULL);
 
 #endif
@@ -165,17 +165,17 @@ static void tc_fs_mops_mount(const char *filesystemtype)
 		ret = mount(SMARTFS_MOUNT_DEV_DIR, SMARTFS_TEST_MOUNTPOINT, "smartfs", 0, NULL);
 	}
 
-	TC_ASSERT_EQ("mount", ret, OK);	
+	TC_ASSERT_EQ("mount", ret, OK);
 }
 
 static void tc_fs_mops_open(const char *filesystemtype, int *fd)
 {
 	if (strcmp(filesystemtype, "tmpfs") == 0) {
-		*fd = open(TMPFS_TEST_MOUNTPOINT"/test", O_RDWR | O_CREAT | O_TRUNC);
+		*fd = open(TMPFS_TEST_MOUNTPOINT "/test", O_RDWR | O_CREAT | O_TRUNC);
 	} else if (strcmp(filesystemtype, "romfs") == 0) {
 		*fd = open(ROMFS_TEST_FILEPATH, O_RDONLY);
 	} else if (strcmp(filesystemtype, "smartfs") == 0) {
-		*fd = open(SMARTFS_TEST_MOUNTPOINT"/test", O_RDWR | O_CREAT | O_TRUNC);
+		*fd = open(SMARTFS_TEST_MOUNTPOINT "/test", O_RDWR | O_CREAT | O_TRUNC);
 	}
 
 	TC_ASSERT_GEQ("open", fd, 0);
@@ -189,7 +189,7 @@ static void tc_fs_mops_write(const char *filesystemtype, int fd)
 	if (strcmp(filesystemtype, "romfs") == 0) {
 		return;
 	}
-	
+
 	ret = write(fd, write_buf, strlen(write_buf));
 	TC_ASSERT_EQ_CLEANUP("write", ret, strlen(write_buf), close(fd));
 }
@@ -199,7 +199,7 @@ static void tc_fs_mops_sync(const char *filesystemtype, int fd)
 	int ret = -1;
 	if (strcmp(filesystemtype, "smartfs") == 0) {
 		ret = fsync(fd);
-		TC_ASSERT_EQ_CLEANUP("fsync", ret, OK, close(fd));	
+		TC_ASSERT_EQ_CLEANUP("fsync", ret, OK, close(fd));
 	}
 }
 
@@ -262,7 +262,7 @@ static void tc_fs_mops_fstat(const char *filesystemtype, int fd)
 	TC_ASSERT_EQ_CLEANUP("fstat", ret, OK, close(fd));
 }
 
-static void tc_fs_mops_opendir(const char *filesystemtype, DIR **dir)
+static void tc_fs_mops_opendir(const char *filesystemtype, DIR ** dir)
 {
 
 	if (strcmp(filesystemtype, "tmpfs") == 0) {
@@ -276,7 +276,7 @@ static void tc_fs_mops_opendir(const char *filesystemtype, DIR **dir)
 	TC_ASSERT_NEQ("opendir", *dir, NULL);
 }
 
-static void tc_fs_mops_readdir(DIR *dirp)
+static void tc_fs_mops_readdir(DIR * dirp)
 {
 	struct dirent *dirent;
 
@@ -284,12 +284,12 @@ static void tc_fs_mops_readdir(DIR *dirp)
 	TC_ASSERT_NEQ_CLEANUP("opendir", dirent, NULL, closedir(dirp));
 }
 
-static void tc_fs_mops_rewinddir(DIR *dirp)
+static void tc_fs_mops_rewinddir(DIR * dirp)
 {
 	rewinddir(dirp);
 }
 
-static void tc_fs_mops_closedir(const char *filesystemtype, DIR *dir)
+static void tc_fs_mops_closedir(const char *filesystemtype, DIR * dir)
 {
 	int ret = -1;
 
@@ -306,11 +306,11 @@ static void tc_fs_mops_mkdir(const char *filesystemtype)
 	int ret = -1;
 
 	if (strcmp(filesystemtype, "tmpfs") == 0) {
-		ret = mkdir(TMPFS_TEST_MOUNTPOINT"/dir", 0777);
+		ret = mkdir(TMPFS_TEST_MOUNTPOINT "/dir", 0777);
 	} else if (strcmp(filesystemtype, "romfs") == 0) {
 		return;
 	} else if (strcmp(filesystemtype, "smartfs") == 0) {
-		ret = mkdir(SMARTFS_TEST_MOUNTPOINT"/dir", 0777);
+		ret = mkdir(SMARTFS_TEST_MOUNTPOINT "/dir", 0777);
 	}
 
 	TC_ASSERT_EQ("mkdir", ret, OK);
@@ -321,14 +321,14 @@ static void tc_fs_mops_rmdir(const char *filesystemtype)
 	int ret = -1;
 
 	if (strcmp(filesystemtype, "tmpfs") == 0) {
-		ret = rmdir(TMPFS_TEST_MOUNTPOINT"/dir");
+		ret = rmdir(TMPFS_TEST_MOUNTPOINT "/dir");
 	} else if (strcmp(filesystemtype, "romfs") == 0) {
 		return;
 	} else if (strcmp(filesystemtype, "smartfs") == 0) {
-		ret = rmdir(SMARTFS_TEST_MOUNTPOINT"/dir");
+		ret = rmdir(SMARTFS_TEST_MOUNTPOINT "/dir");
 	}
 
-	TC_ASSERT_EQ("rmdir", ret, OK);	
+	TC_ASSERT_EQ("rmdir", ret, OK);
 }
 
 static void tc_fs_mops_stat(const char *filesystemtype)
@@ -338,14 +338,14 @@ static void tc_fs_mops_stat(const char *filesystemtype)
 	char filename[100] = "/rom/init.d/rcS";
 
 	if (strcmp(filesystemtype, "tmpfs") == 0) {
-		ret = stat(TMPFS_TEST_MOUNTPOINT"/test", &st);
+		ret = stat(TMPFS_TEST_MOUNTPOINT "/test", &st);
 	} else if (strcmp(filesystemtype, "romfs") == 0) {
 		ret = stat(filename, &st);
 	} else if (strcmp(filesystemtype, "smartfs") == 0) {
-		ret = stat(SMARTFS_TEST_MOUNTPOINT"/test", &st);
+		ret = stat(SMARTFS_TEST_MOUNTPOINT "/test", &st);
 	}
 
-	TC_ASSERT_EQ("stat", ret, OK);	
+	TC_ASSERT_EQ("stat", ret, OK);
 }
 
 static void tc_fs_mops_rename(const char *filesystemtype)
@@ -353,11 +353,11 @@ static void tc_fs_mops_rename(const char *filesystemtype)
 	int ret = -1;
 
 	if (strcmp(filesystemtype, "tmpfs") == 0) {
-		ret = rename(TMPFS_TEST_MOUNTPOINT"/test", TMPFS_TEST_MOUNTPOINT"/test_new");
+		ret = rename(TMPFS_TEST_MOUNTPOINT "/test", TMPFS_TEST_MOUNTPOINT "/test_new");
 	} else if (strcmp(filesystemtype, "romfs") == 0) {
 		return;
 	} else if (strcmp(filesystemtype, "smartfs") == 0) {
-		ret = rename(SMARTFS_TEST_MOUNTPOINT"/test", SMARTFS_TEST_MOUNTPOINT"/test_new");
+		ret = rename(SMARTFS_TEST_MOUNTPOINT "/test", SMARTFS_TEST_MOUNTPOINT "/test_new");
 	}
 
 	TC_ASSERT_EQ("rename", ret, OK);
@@ -384,11 +384,11 @@ static void tc_fs_mops_unlink(const char *filesystemtype)
 	int ret = -1;
 
 	if (strcmp(filesystemtype, "tmpfs") == 0) {
-		ret = unlink(TMPFS_TEST_MOUNTPOINT"/test_new");
+		ret = unlink(TMPFS_TEST_MOUNTPOINT "/test_new");
 	} else if (strcmp(filesystemtype, "romfs") == 0) {
 		return;
 	} else if (strcmp(filesystemtype, "smartfs") == 0) {
-		ret = unlink(SMARTFS_TEST_MOUNTPOINT"/test_new");
+		ret = unlink(SMARTFS_TEST_MOUNTPOINT "/test_new");
 	}
 
 	TC_ASSERT_EQ("unlink", ret, OK);

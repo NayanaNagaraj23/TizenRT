@@ -91,12 +91,12 @@ static int i2ccmd_unrecognized(FAR struct i2ctool_s *i2ctool, int argc, char **a
 struct i2ctool_s g_i2ctool;
 
 static const struct cmdmap_s g_i2ccmds[] = {
-	{"?",    i2ccmd_help, "Show help     ", NULL},
-	{"bus",  i2ccmd_bus,  "List busses   ", NULL},
-	{"dev",  i2ccmd_dev,  "List devices  ", "[OPTIONS] <first> <last>"},
-	{"get",  i2ccmd_get,  "Read register ", "[OPTIONS] [<repititions>]"},
+	{"?", i2ccmd_help, "Show help     ", NULL},
+	{"bus", i2ccmd_bus, "List busses   ", NULL},
+	{"dev", i2ccmd_dev, "List devices  ", "[OPTIONS] <first> <last>"},
+	{"get", i2ccmd_get, "Read register ", "[OPTIONS] [<repititions>]"},
 	{"help", i2ccmd_help, "Show help     ", NULL},
-	{"set",  i2ccmd_set,  "Write register", "[OPTIONS] <value> [<repititions>]"},
+	{"set", i2ccmd_set, "Write register", "[OPTIONS] <value> [<repititions>]"},
 	{"verf", i2ccmd_verf, "Verify access ", "[OPTIONS] [<value>] [<repititions>]"},
 	{NULL, NULL, NULL, NULL}
 };
@@ -108,12 +108,12 @@ static const struct cmdmap_s g_i2ccmds[] = {
 /* Common, message formats */
 
 const char g_i2cargrequired[] = "i2ctool: %s: missing required argument(s)\n";
-const char g_i2carginvalid[]  = "i2ctool: %s: argument invalid\n";
-const char g_i2cargrange[]    = "i2ctool: %s: value out of range\n";
+const char g_i2carginvalid[] = "i2ctool: %s: argument invalid\n";
+const char g_i2cargrange[] = "i2ctool: %s: value out of range\n";
 const char g_i2ccmdnotfound[] = "i2ctool: %s: command not found\n";
 const char g_i2ctoomanyargs[] = "i2ctool: %s: too many arguments\n";
-const char g_i2ccmdfailed[]   = "i2ctool: %s: %s failed: %d\n";
-const char g_i2cxfrerror[]    = "i2ctool: %s: Transfer failed: %d\n";
+const char g_i2ccmdfailed[] = "i2ctool: %s: %s failed: %d\n";
+const char g_i2cxfrerror[] = "i2ctool: %s: Transfer failed: %d\n";
 
 /****************************************************************************
  * Private Functions

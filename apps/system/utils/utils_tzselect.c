@@ -28,7 +28,6 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-
 #include <tinyara/fs/fs.h>
 #include <tinyara/fs/dirent.h>
 
@@ -73,7 +72,7 @@ bool search_tz(char *dirpath)
 
 	printf("Folder : \n");
 	for (int i = 1; i <= folder_size; i++) {
-		printf("%d) %8s \t", i , folder_name[i - 1]);
+		printf("%d) %8s \t", i, folder_name[i - 1]);
 		if ((i & 3) == 0) {
 			printf("\n");
 		}
@@ -117,7 +116,7 @@ bool search_tz(char *dirpath)
 }
 
 int utils_tzselect(int argc, char **args)
-{	
+{
 	char path[MAX_PATH_LEN];
 	bool ret;
 	strncpy(path, TZDIR, MAX_PATH_LEN);

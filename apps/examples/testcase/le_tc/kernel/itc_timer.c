@@ -26,7 +26,6 @@
 #include <signal.h>
 #include <sys/types.h>
 
-
 /**
 * @fn                   :itc_timer_set_time_n_after_delete
 * @brief                :arm/disarm and fetch state of POSIX per-process timer

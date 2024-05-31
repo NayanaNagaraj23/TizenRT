@@ -54,8 +54,8 @@ static bool memory_allocation(struct alloc_list list[], int numof_size[], int nu
 	struct alloc_list *item;
 	int max_interval;
 	int i;
-	int interval[MAX_SIZE_EXPONENT] = {0, };
-	int cur_interval[MAX_SIZE_EXPONENT] = {0, };
+	int interval[MAX_SIZE_EXPONENT] = { 0, };
+	int cur_interval[MAX_SIZE_EXPONENT] = { 0, };
 
 	/* Calculate the maximum allocation count. */
 	max_interval = numof_size[0];
@@ -94,7 +94,7 @@ static bool memory_allocation(struct alloc_list list[], int numof_size[], int nu
 					cur_interval[i] = interval[i] - 1;
 					continue;
 				}
-					
+
 				item = (struct alloc_list *)malloc(sizeof(struct alloc_list));
 				if (item) {
 					item->data = (char *)malloc((1 << (i + 4) * sizeof(char)));
@@ -144,7 +144,7 @@ static bool memory_free(int num[], int num_alloc[], struct alloc_list list[])
 				temp->prev->next = temp->next;
 				if (temp->next) {
 					temp->next->prev = temp->prev;
-				} 
+				}
 				free(temp->data);
 				free(temp);
 				--num_alloc[i];
@@ -214,9 +214,9 @@ static int memory_fragmentation_test(int argc, char *argv[])
 	int f1;
 	int f2;
 	int r;
-	int num_alloc[MAX_SIZE_EXPONENT] = {0, };
-	int num_alloc_tmp[MAX_SIZE_EXPONENT] = {0, };
-	int num_free[MAX_SIZE_EXPONENT] = {0, };
+	int num_alloc[MAX_SIZE_EXPONENT] = { 0, };
+	int num_alloc_tmp[MAX_SIZE_EXPONENT] = { 0, };
+	int num_free[MAX_SIZE_EXPONENT] = { 0, };
 	struct alloc_list list[MAX_SIZE_EXPONENT];
 
 	/* The number of memory segments whose size is 2^(i+4) where i is the index
@@ -227,7 +227,7 @@ static int memory_fragmentation_test(int argc, char *argv[])
 	// DA easy-setup memory usage 
 	//int numof_size[MAX_SIZE_EXPONENT] = {57, 809, 561, 74, 57, 90, 17, 8, 11, 15, 4, 9};
 	// Three small memory sizes and two large memory sizes
-	int numof_size[MAX_SIZE_EXPONENT] = {700, 300, 200, 0, 0, 0, 0, 0, 70, 50, 0, 0}; 
+	int numof_size[MAX_SIZE_EXPONENT] = { 700, 300, 200, 0, 0, 0, 0, 0, 70, 50, 0, 0 };
 
 	for (i = 0; i < MAX_SIZE_EXPONENT; ++i) {
 		list[i].data = NULL;
@@ -300,7 +300,7 @@ static int memory_fragmentation_test(int argc, char *argv[])
 		for (j = 0; j < MAX_SIZE_EXPONENT; ++j) {
 			num_alloc[j] += num_alloc_tmp[j];
 		}
-		
+
 		/* free allocation according to 'num_free' */
 		if (memory_free(num_alloc_tmp, num_alloc, list) == false) {
 			printf("memory_free failed!\n");

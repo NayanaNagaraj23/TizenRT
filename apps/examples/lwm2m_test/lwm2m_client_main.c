@@ -101,7 +101,7 @@
 #define LWM2M_CLIENT_SCHED_POLICY SCHED_RR
 
 #define OBJ_COUNT 9
-# define BACKUP_OBJECT_COUNT 2
+#define BACKUP_OBJECT_COUNT 2
 
 int g_reboot = 0;
 static int g_quit = 0;
@@ -120,9 +120,10 @@ char *g_pskId = "testpsk";
 uint16_t g_pskLen = 8;
 char *g_pskBuffer = "12345678";
 
-char *g_step[6] = {"STATE_INITIAL", "STATE_BOOTSTRAP_REQUIRED", "STATE_BOOTSTRAPPING", \
-				   "STATE_REGISTER_REQUIRED", "STATE_REGISTERING", "STATE_READY"
-				  };
+char *g_step[6] = { "STATE_INITIAL", "STATE_BOOTSTRAP_REQUIRED", "STATE_BOOTSTRAPPING",
+	"STATE_REGISTER_REQUIRED", "STATE_REGISTERING", "STATE_READY"
+};
+
 const char *server = DEFAULT_SERVER_IPV4;
 const char *serverPort = LWM2M_STANDARD_PORT_STR;
 coap_protocol_t g_proto = COAP_UDP;
@@ -143,7 +144,7 @@ void handle_sigint(int signum)
 
 static int read_input_command_line(char *buf)
 {
-	char buffer[MAX_PACKET_SIZE] = {0,};
+	char buffer[MAX_PACKET_SIZE] = { 0, };
 
 	int nbytes = 0;
 	int pos = 0;
@@ -202,9 +203,9 @@ static int read_input_command_line(char *buf)
 	return pos;
 }
 
-void handle_value_changed(lwm2m_context_t *lwm2mP, lwm2m_uri_t *uri, const char *value, size_t valueLength)
+void handle_value_changed(lwm2m_context_t * lwm2mP, lwm2m_uri_t * uri, const char *value, size_t valueLength)
 {
-	lwm2m_object_t *object = (lwm2m_object_t *)LWM2M_LIST_FIND(lwm2mP->objectList, uri->objectId);
+	lwm2m_object_t *object = (lwm2m_object_t *) LWM2M_LIST_FIND(lwm2mP->objectList, uri->objectId);
 
 	if (NULL != object) {
 		if (object->writeFunc != NULL) {
@@ -287,14 +288,13 @@ void *lwm2m_connect_server(uint16_t secObjInstID, void *userData)
 	connection_t *newConnP = NULL;
 	coap_protocol_t proto = COAP_UDP;
 
-	dataP = (client_data_t *)userData;
+	dataP = (client_data_t *) userData;
 
 	uri = get_server_uri(dataP->securityObjP, secObjInstID);
 
 	if (uri == NULL) {
 		return NULL;
 	}
-
 	// parse uri in the form "coaps://[host]:[port]"
 
 	proto = coap_get_protocol_from_uri(uri);
@@ -349,7 +349,7 @@ void *lwm2m_connect_server(uint16_t secObjInstID, void *userData)
 #endif
 	}
 
-exit:
+ exit:
 	lwm2m_free(uri);
 	return (void *)newConnP;
 }
@@ -358,8 +358,8 @@ void lwm2m_close_connection(void *sessionH, void *userData)
 {
 	client_data_t *app_data;
 	connection_t *targetP;
-	app_data = (client_data_t *)userData;
-	targetP = (connection_t *)sessionH;
+	app_data = (client_data_t *) userData;
+	targetP = (connection_t *) sessionH;
 
 	if (targetP == app_data->connP) {
 		app_data->connP = targetP->next;
@@ -395,7 +395,7 @@ static void prv_output_servers(char *buffer, void *user_data)
 		fprintf(stdout, "No Bootstrap Server.\r\n");
 	} else {
 		fprintf(stdout, "Bootstrap Servers:\r\n");
-		for (targetP = lwm2mH->bootstrapServerList ; targetP != NULL ; targetP = targetP->next) {
+		for (targetP = lwm2mH->bootstrapServerList; targetP != NULL; targetP = targetP->next) {
 			fprintf(stdout, " - Security Object ID %d", targetP->secObjInstID);
 			fprintf(stdout, "\tHold Off Time: %lu s", (unsigned long)targetP->lifetime);
 			fprintf(stdout, "\tstatus: ");
@@ -428,7 +428,7 @@ static void prv_output_servers(char *buffer, void *user_data)
 		fprintf(stdout, "No LWM2M Server.\r\n");
 	} else {
 		fprintf(stdout, "LWM2M Servers:\r\n");
-		for (targetP = lwm2mH->serverList ; targetP != NULL ; targetP = targetP->next) {
+		for (targetP = lwm2mH->serverList; targetP != NULL; targetP = targetP->next) {
 			fprintf(stdout, " - Server ID %d", targetP->shortID);
 			fprintf(stdout, "\tstatus: ");
 			switch (targetP->status) {
@@ -457,8 +457,7 @@ static void prv_output_servers(char *buffer, void *user_data)
 	}
 }
 
-static void prv_change(char *buffer,
-					   void *user_data)
+static void prv_change(char *buffer, void *user_data)
 {
 	lwm2mH = (lwm2m_context_t *) user_data;
 	lwm2m_uri_t uri;
@@ -485,13 +484,13 @@ static void prv_change(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !\n");
 }
 
 static void prv_object_list(char *buffer, void *user_data)
 {
-	lwm2mH = (lwm2m_context_t *)user_data;
+	lwm2mH = (lwm2m_context_t *) user_data;
 	lwm2m_object_t *objectP;
 
 	for (objectP = lwm2mH->objectList; objectP != NULL; objectP = objectP->next) {
@@ -500,7 +499,7 @@ static void prv_object_list(char *buffer, void *user_data)
 		} else {
 			lwm2m_list_t *instanceP;
 
-			for (instanceP = objectP->instanceList; instanceP != NULL ; instanceP = instanceP->next) {
+			for (instanceP = objectP->instanceList; instanceP != NULL; instanceP = instanceP->next) {
 				fprintf(stdout, "/%d/%d  ", objectP->objID, instanceP->id);
 			}
 		}
@@ -508,7 +507,7 @@ static void prv_object_list(char *buffer, void *user_data)
 	}
 }
 
-static void prv_instance_dump(lwm2m_object_t *objectP, uint16_t id)
+static void prv_instance_dump(lwm2m_object_t * objectP, uint16_t id)
 {
 	int numData;
 	lwm2m_data_t *dataArray;
@@ -525,7 +524,6 @@ static void prv_instance_dump(lwm2m_object_t *objectP, uint16_t id)
 
 	dump_tlv(stdout, numData, dataArray, 0);
 }
-
 
 static void prv_object_dump(char *buffer, void *user_data)
 {
@@ -548,7 +546,7 @@ static void prv_object_dump(char *buffer, void *user_data)
 		goto syntax_error;
 	}
 
-	objectP = (lwm2m_object_t *)LWM2M_LIST_FIND(lwm2mH->objectList, uri.objectId);
+	objectP = (lwm2m_object_t *) LWM2M_LIST_FIND(lwm2mH->objectList, uri.objectId);
 	if (objectP == NULL) {
 		fprintf(stdout, "Object not found.\n");
 		return;
@@ -559,7 +557,7 @@ static void prv_object_dump(char *buffer, void *user_data)
 	} else {
 		lwm2m_list_t *instanceP;
 
-		for (instanceP = objectP->instanceList; instanceP != NULL ; instanceP = instanceP->next) {
+		for (instanceP = objectP->instanceList; instanceP != NULL; instanceP = instanceP->next) {
 			fprintf(stdout, "Instance %d:\r\n", instanceP->id);
 			prv_instance_dump(objectP, instanceP->id);
 			fprintf(stdout, "\r\n");
@@ -568,13 +566,13 @@ static void prv_object_dump(char *buffer, void *user_data)
 
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !\n");
 }
 
 static void prv_update(char *buffer, void *user_data)
 {
-	lwm2mH = (lwm2m_context_t *)user_data;
+	lwm2mH = (lwm2m_context_t *) user_data;
 	if (buffer[0] == 0) {
 		goto syntax_error;
 	}
@@ -588,11 +586,11 @@ static void prv_update(char *buffer, void *user_data)
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !\n");
 }
 
-static void update_battery_level(lwm2m_context_t *context)
+static void update_battery_level(lwm2m_context_t * context)
 {
 	static time_t next_change_time = 0;
 	time_t tv_sec;
@@ -626,7 +624,7 @@ static void update_battery_level(lwm2m_context_t *context)
 
 static void prv_add(char *buffer, void *user_data)
 {
-	lwm2mH = (lwm2m_context_t *)user_data;
+	lwm2mH = (lwm2m_context_t *) user_data;
 	lwm2m_object_t *objectP;
 	int res;
 
@@ -650,11 +648,11 @@ static void prv_add(char *buffer, void *user_data)
 
 static void prv_remove(char *buffer, void *user_data)
 {
-	lwm2mH = (lwm2m_context_t *)user_data;
+	lwm2mH = (lwm2m_context_t *) user_data;
 	int res;
 
-	lwm2m_object_t * objectP;
-	objectP = (lwm2m_object_t *)LWM2M_LIST_FIND(lwm2mH->objectList, 1024);
+	lwm2m_object_t *objectP;
+	objectP = (lwm2m_object_t *) LWM2M_LIST_FIND(lwm2mH->objectList, 1024);
 	res = lwm2m_remove_object(lwm2mH, 1024);
 	if (res != 0) {
 		fprintf(stdout, "Removing object 1024 failed: ");
@@ -785,16 +783,15 @@ int lwm2m_init_object(void)
 	} else if (acc_ctrl_obj_add_inst(objArray[8], instId, 3, 0, serverId) == false) {
 		fprintf(stderr, "Failed to create Access Control object instance\r\n");
 		return -1;
-	} else if (acc_ctrl_oi_add_ac_val(objArray[8], instId, 0, 0b000000000001111) == false) {
+	} else if (acc_ctrl_oi_add_ac_val(objArray[8], instId, 0, 0 b000000000001111) == false) {
 		fprintf(stderr, "Failed to create Access Control ACL default resource\r\n");
 		return -1;
-	} else if (acc_ctrl_oi_add_ac_val(objArray[8], instId, 999, 0b000000000000001) == false) {
+	} else if (acc_ctrl_oi_add_ac_val(objArray[8], instId, 999, 0 b000000000000001) == false) {
 		fprintf(stderr, "Failed to create Access Control ACL resource for serverId: 999\r\n");
 		return -1;
 	}
 	return 0;
 }
-
 
 void print_usage(void)
 {
@@ -834,13 +831,13 @@ int lwm2m_client_cb(void *args)
 	 * if you want to change auth_mode, please change 3rd parameter of tls_opt structure
 	 * - auth_mode can be configured (2: mandatory 1: optional, 0: not verify)
 	 */
-	tls_opt option = {MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_DATAGRAM, 0, 1, NULL, };
-	/* set cipher suite to all*/
+	tls_opt option = { MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_DATAGRAM, 0, 1, NULL, };
+	/* set cipher suite to all */
 	option.force_ciphersuites[0] = mbedtls_ssl_get_ciphersuite_id(LWM2M_CIPHERSUIT);
 	option.force_ciphersuites[1] = 0;
 #endif
 
-	struct timeval tv = {60, 0};
+	struct timeval tv = { 60, 0 };
 	argc = ((struct pthread_arg *)args)->argc;
 	argv = ((struct pthread_arg *)args)->argv;
 
@@ -852,19 +849,12 @@ int lwm2m_client_cb(void *args)
 	command_desc_t commands[] = {
 		{"list", "List known servers.", NULL, prv_output_servers, NULL},
 		{
-			"change", "Change the value of resource.", " change URI [DATA]\r\n"
-			"   URI: uri of the resource such as /3/0, /3/0/2\r\n"
-			"   DATA: (optional) new value\r\n", prv_change, NULL
-		},
+		 "change", "Change the value of resource.", " change URI [DATA]\r\n" "   URI: uri of the resource such as /3/0, /3/0/2\r\n" "   DATA: (optional) new value\r\n", prv_change, NULL},
 		{
-			"update", "Trigger a registration update", " update SERVER\r\n"
-			"   SERVER: short server id such as 123\r\n", prv_update, NULL
-		},
+		 "update", "Trigger a registration update", " update SERVER\r\n" "   SERVER: short server id such as 123\r\n", prv_update, NULL},
 		{"ls", "List Objects and Instances", NULL, prv_object_list, NULL},
 		{
-			"dump", "Dump an Object", "dump URI"
-			"URI: uri of the Object or Instance such as /3/0, /1\r\n", prv_object_dump, NULL
-		},
+		 "dump", "Dump an Object", "dump URI" "URI: uri of the Object or Instance such as /3/0, /1\r\n", prv_object_dump, NULL},
 		{"add", "Add support of object 1024", NULL, prv_add, NULL},
 		{"rm", "Remove support of object 1024", NULL, prv_remove, NULL},
 		{"quit", "Quit the client gracefully.", NULL, prv_quit, NULL},
@@ -877,9 +867,7 @@ int lwm2m_client_cb(void *args)
 
 	opt = 1;
 	while (opt < argc) {
-		if (argv[opt] == NULL
-			|| argv[opt][0] != '-'
-			|| argv[opt][2] != 0) {
+		if (argv[opt] == NULL || argv[opt][0] != '-' || argv[opt][2] != 0) {
 			print_usage();
 			return 0;
 		}
@@ -949,7 +937,6 @@ int lwm2m_client_cb(void *args)
 		fprintf(stderr, "Failed to open socket: %d %s\r\n", errno, strerror(errno));
 		return -1;
 	}
-
 #ifdef WITH_MBEDTLS
 	if (g_proto == COAP_TCP_TLS || g_proto == COAP_UDP_DTLS) {
 
@@ -1005,7 +992,7 @@ int lwm2m_client_cb(void *args)
 	}
 
 	/* Register the command line command */
-	for (i = 0 ; commands[i].name != NULL ; i++) {
+	for (i = 0; commands[i].name != NULL; i++) {
 		commands[i].userData = (void *)lwm2mH;
 	}
 	printf("LWM2M Client \"%s\" started on port %s\n>  ", name, serverPort);
@@ -1063,12 +1050,11 @@ int lwm2m_client_cb(void *args)
 		}
 	}
 
-exit:
+ exit:
 	if (g_quit && lwm2mH) {
 		lwm2m_close(lwm2mH);
 		sleep(1);
 	}
-
 #ifdef WITH_MBEDTLS
 	if (data.tls_context) {
 		TLSCtx_free(data.tls_context);
@@ -1138,7 +1124,7 @@ int lwm2m_client_main(int argc, char *argv[])
 	}
 
 	/* 3. create pthread with entry function */
-	if ((r = pthread_create(&tid, &attr, (pthread_startroutine_t)lwm2m_client_cb, (void *)&args)) != 0) {
+	if ((r = pthread_create(&tid, &attr, (pthread_startroutine_t) lwm2m_client_cb, (void *)&args)) != 0) {
 		printf("%s: pthread_create failed, status=%d\n", __func__, r);
 		return -1;
 	}

@@ -147,13 +147,12 @@ int fota_sample(int argc, char *argv[])
 	printf("***********************************************************\n");
 	ret = OK;
 
-close_error:
-param_error:
-write_error:
-fota_exit:
-part_error:
+ close_error:
+ param_error:
+ write_error:
+ fota_exit:
+ part_error:
 	fotahal_close(fotahal_handle);
-open_error:
+ open_error:
 	return ret;
 }
-

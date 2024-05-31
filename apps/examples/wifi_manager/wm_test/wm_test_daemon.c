@@ -42,7 +42,6 @@ static char *WM_SOFTAP_PASSWORD;
 static int WM_SOFTAP_CHANNEL;
 static sem_t g_wm_sem;
 
-
 /*
  * callbacks
  */
@@ -115,7 +114,7 @@ static int run_procedure(void *arg)
 	int nres = 0;
 	wifi_manager_result_e res = WIFI_MANAGER_SUCCESS;
 
-	/* Join to softAP*/
+	/* Join to softAP */
 	WT_LOG(TAG, "connect AP");
 	wifi_manager_ap_config_s apconfig;
 	wm_get_apinfo(&apconfig, WM_AP_SSID, WM_AP_PASSWORD, WM_AP_AUTH, WM_AP_CRYPTO);

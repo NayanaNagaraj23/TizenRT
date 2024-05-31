@@ -29,7 +29,6 @@
 #include <tinyara/os_api_test_drv.h>
 #include "tc_internal.h"
 
-
 /**
  * @fn                           :tc_group_group_add_find_remove_child
  * @brief                        :Add child status structure in given TCB, release a child status structure

@@ -69,7 +69,7 @@
  ***********************************************************************/
 
 #ifndef NULL
-# define NULL (void*)0
+#define NULL (void*)0
 #endif
 
 /***********************************************************************
@@ -99,7 +99,7 @@ static void *poster_func(void *parameter)
 
 void semtimed_test(void)
 {
-	pthread_t poster_thread = (pthread_t)0;
+	pthread_t poster_thread = (pthread_t) 0;
 #ifdef SDCC
 	pthread_addr_t result;
 #endif
@@ -120,7 +120,7 @@ void semtimed_test(void)
 
 	(void)clock_gettime(CLOCK_REALTIME, &before);
 
-	abstime.tv_sec  = before.tv_sec + 2;
+	abstime.tv_sec = before.tv_sec + 2;
 	abstime.tv_nsec = before.tv_nsec;
 
 	printf("semtimed_test: Waiting for two second timeout\n");
@@ -139,10 +139,8 @@ void semtimed_test(void)
 	}
 
 	(void)clock_gettime(CLOCK_REALTIME, &after);
-	printf("BEFORE: (%lu sec, %lu nsec)\n",
-		   (unsigned long)before.tv_sec, (unsigned long)before.tv_nsec);
-	printf("AFTER:  (%lu sec, %lu nsec)\n",
-		   (unsigned long)after.tv_sec, (unsigned long)after.tv_nsec);
+	printf("BEFORE: (%lu sec, %lu nsec)\n", (unsigned long)before.tv_sec, (unsigned long)before.tv_nsec);
+	printf("AFTER:  (%lu sec, %lu nsec)\n", (unsigned long)after.tv_sec, (unsigned long)after.tv_nsec);
 
 	/* Now make sure that the time wait returns successfully if the semaphore is posted */
 	/* Start a poster thread.  It will wait 1 seconds and post the semaphore */
@@ -150,7 +148,7 @@ void semtimed_test(void)
 	printf("semtimed_test: Starting poster thread\n");
 	status = pthread_attr_init(&attr);
 	if (status != OK) {
-		printf("semtimed_test: ERROR: pthread_attr_init failed, status=%d\n",  status);
+		printf("semtimed_test: ERROR: pthread_attr_init failed, status=%d\n", status);
 	}
 
 	prio_min = sched_get_priority_min(SCHED_FIFO);
@@ -160,29 +158,28 @@ void semtimed_test(void)
 	sparam.sched_priority = (prio_mid + prio_max) / 2;
 	status = pthread_attr_setschedparam(&attr, &sparam);
 	if (status != OK) {
-		printf("semtimed_test: ERROR: pthread_attr_setschedparam failed, status=%d\n",  status);
+		printf("semtimed_test: ERROR: pthread_attr_setschedparam failed, status=%d\n", status);
 	} else {
-		printf("semtimed_test: Set thread 1 priority to %d\n",  sparam.sched_priority);
+		printf("semtimed_test: Set thread 1 priority to %d\n", sparam.sched_priority);
 	}
-
 
 	printf("semtimed_test: Starting poster thread 3\n");
 	status = pthread_attr_init(&attr);
 	if (status != 0) {
-		printf("semtimed_test: ERROR: pthread_attr_init failed, status=%d\n",  status);
+		printf("semtimed_test: ERROR: pthread_attr_init failed, status=%d\n", status);
 	}
 
 	sparam.sched_priority = (prio_min + prio_mid) / 2;
 	status = pthread_attr_setschedparam(&attr, &sparam);
 	if (status != OK) {
-		printf("semtimed_test: pthread_attr_setschedparam failed, status=%d\n",  status);
+		printf("semtimed_test: pthread_attr_setschedparam failed, status=%d\n", status);
 	} else {
-		printf("semtimed_test: Set thread 3 priority to %d\n",  sparam.sched_priority);
+		printf("semtimed_test: Set thread 3 priority to %d\n", sparam.sched_priority);
 	}
 
 	status = pthread_create(&poster_thread, &attr, poster_func, NULL);
 	if (status != 0) {
-		printf("semtimed_test: ERROR: Poster thread creation failed: %d\n",  status);
+		printf("semtimed_test: ERROR: Poster thread creation failed: %d\n", status);
 		sem_destroy(&sem);
 		return;
 	}
@@ -191,7 +188,7 @@ void semtimed_test(void)
 
 	(void)clock_gettime(CLOCK_REALTIME, &before);
 
-	abstime.tv_sec  = before.tv_sec + 2;
+	abstime.tv_sec = before.tv_sec + 2;
 	abstime.tv_nsec = before.tv_nsec;
 
 	printf("semtimed_test: Waiting for two second timeout\n");
@@ -206,20 +203,17 @@ void semtimed_test(void)
 	}
 
 	(void)clock_gettime(CLOCK_REALTIME, &after);
-	printf("BEFORE: (%lu sec, %lu nsec)\n",
-		   (unsigned long)before.tv_sec, (unsigned long)before.tv_nsec);
-	printf("AFTER:  (%lu sec, %lu nsec)\n",
-		   (unsigned long)after.tv_sec, (unsigned long)after.tv_nsec);
-
+	printf("BEFORE: (%lu sec, %lu nsec)\n", (unsigned long)before.tv_sec, (unsigned long)before.tv_nsec);
+	printf("AFTER:  (%lu sec, %lu nsec)\n", (unsigned long)after.tv_sec, (unsigned long)after.tv_nsec);
 
 	/* Clean up detritus left by the pthread */
 
 #ifdef SDCC
-	if (poster_thread != (pthread_t)0) {
+	if (poster_thread != (pthread_t) 0) {
 		pthread_join(poster_thread, &result);
 	}
 #else
-	if (poster_thread != (pthread_t)0) {
+	if (poster_thread != (pthread_t) 0) {
 		pthread_join(poster_thread, NULL);
 	}
 #endif

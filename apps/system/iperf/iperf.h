@@ -93,7 +93,7 @@ struct iperf_interval_results {
 	int interval_retrans;
 	int interval_sacks;
 	int snd_cwnd;
-	TAILQ_ENTRY(iperf_interval_results) irlistentries;
+	 TAILQ_ENTRY(iperf_interval_results) irlistentries;
 	void *custom_data;
 	int rtt;
 	int first;
@@ -117,7 +117,7 @@ struct iperf_stream_result {
 	struct timeval start_time;
 	struct timeval end_time;
 	struct timeval start_time_fixed;
-	struct iperf_interval_results * interval_results;
+	struct iperf_interval_results *interval_results;
 	void *data;
 };
 
@@ -177,15 +177,15 @@ struct iperf_stream {
 	struct sockaddr_storage local_addr;
 	struct sockaddr_storage remote_addr;
 
-	int (*rcv)(struct iperf_stream *stream);
-	int (*snd)(struct iperf_stream *stream);
+	int (*rcv)(struct iperf_stream * stream);
+	int (*snd)(struct iperf_stream * stream);
 
 	/* chained send/receive routines for -F mode */
-	int (*rcv2)(struct iperf_stream *stream);
-	int (*snd2)(struct iperf_stream *stream);
+	int (*rcv2)(struct iperf_stream * stream);
+	int (*snd2)(struct iperf_stream * stream);
 
 //    struct iperf_stream *next;
-	SLIST_ENTRY(iperf_stream) streams;
+	 SLIST_ENTRY(iperf_stream) streams;
 
 	void *data;
 };
@@ -200,18 +200,18 @@ struct protocol {
 	int (*send)(struct iperf_stream *);
 	int (*recv)(struct iperf_stream *);
 	int (*init)(struct iperf_test *);
-	SLIST_ENTRY(protocol) protocols;
+	 SLIST_ENTRY(protocol) protocols;
 };
 
 struct iperf_textline {
 	char *line;
-	TAILQ_ENTRY(iperf_textline) textlineentries;
+	 TAILQ_ENTRY(iperf_textline) textlineentries;
 };
 
 struct xbind_entry {
 	char *name;
 	struct addrinfo *ai;
-	TAILQ_ENTRY(xbind_entry) link;
+	 TAILQ_ENTRY(xbind_entry) link;
 };
 
 struct iperf_test {
@@ -223,14 +223,14 @@ struct iperf_test {
 	char *server_hostname;		/* -c option */
 	char *tmp_template;
 	char *bind_address;			/* first -B option */
-	TAILQ_HEAD(xbind_addrhead, xbind_entry) xbind_addrs;	/* all -X opts */
+	 TAILQ_HEAD(xbind_addrhead, xbind_entry) xbind_addrs;	/* all -X opts */
 	int bind_port;				/* --cport option */
 	int server_port;
 	int omit;					/* duration of omit period (-O flag) */
 	int duration;				/* total duration of test (-t flag) */
 	char *diskfile_name;		/* -F option */
 	int affinity;
-	int server_affinity;	/* -A option */
+	int server_affinity;		/* -A option */
 #if defined(HAVE_CPUSET_SETAFFINITY)
 	cpuset_t cpumask;
 #endif							/* HAVE_CPUSET_SETAFFINITY */
@@ -288,11 +288,11 @@ struct iperf_test {
 	char cookie[COOKIE_SIZE];
 //    struct iperf_stream *streams;               /* pointer to list of struct stream */
 
-	sem_t     sem_iperf_api;
-	SLIST_HEAD(slisthead, iperf_stream) streams;
+	sem_t sem_iperf_api;
+	 SLIST_HEAD(slisthead, iperf_stream) streams;
 	struct iperf_settings *settings;
 
-	SLIST_HEAD(plisthead, protocol) protocols;
+	 SLIST_HEAD(plisthead, protocol) protocols;
 
 	/* callback functions */
 	void (*on_new_stream)(struct iperf_stream *);
@@ -312,7 +312,7 @@ struct iperf_test {
 	cJSON *json_server_output;
 
 	/* Server output (use on server side only) */
-	TAILQ_HEAD(iperf_textlisthead, iperf_textline) server_output_list;
+	 TAILQ_HEAD(iperf_textlisthead, iperf_textline) server_output_list;
 
 };
 

@@ -178,14 +178,15 @@ static void tc_libc_stdlib_itoa_pos(void)
 static void tc_libc_stdlib_qsort_pos(void)
 {
 	/* qsort checks that the number of data is greater than 7 or not.
-	  So tc checks with 7 data and 40 data for magic numbers.  */
+	   So tc checks with 7 data and 40 data for magic numbers.  */
 	int qsort_smalldata[QSORT_SMALL_ARRSIZE] = { 40, 10, 100, 90, 20, 25 };
-	int  qsort_smalldata1[QSORT_SMALL_ARRSIZE + 1] = { 1, 2, 3 };
+	int qsort_smalldata1[QSORT_SMALL_ARRSIZE + 1] = { 1, 2, 3 };
 	long lqsort_smalldata[QSORT_SMALL_ARRSIZE + 1] = { 10, 40, 10, 100, 90, 20, 25 };
 	long lqsort_smalldata1[QSORT_SMALL_ARRSIZE + 1] = { 7, 6, 5, 4, 3, 2, 1 };
 	int qsort_bigdata[QSORT_BIG_ARRSIZE] = { 16, 10, 27, 49, 18, 82, 27, 31, 11, 13, 101, 2, 99, 32, 51,
-				72, 182, 939, 1, 61, 83, 5, 60, 131, 52, 39, 33, 127, 29, 19,
-				12, 81, 281, 8, 931, 17, 111, 356, 14, 93, 20, 40, 30, 37, 73 };
+		72, 182, 939, 1, 61, 83, 5, 60, 131, 52, 39, 33, 127, 29, 19,
+		12, 81, 281, 8, 931, 17, 111, 356, 14, 93, 20, 40, 30, 37, 73
+	};
 	int data_idx;
 
 	/* check that the number of data is smaller than 7 */
@@ -443,7 +444,7 @@ static void tc_libc_stdlib_strtod_pos(void)
 {
 	char *pos = NULL;
 	double ret_chk = 0;
-	const double inf = (1.0/0.0);
+	const double inf = (1.0 / 0.0);
 
 	ret_chk = strtod("1234.56abcd", &pos);
 	TC_ASSERT_EQ("strtod", ret_chk, 1234.56);
@@ -571,6 +572,7 @@ static void tc_libc_stdlib_srand_pos(void)
 	TC_SUCCESS_RESULT();
 
 }
+
 /**
  * @fn                   :tc_libc_stdlib_sranddom
  * @brief                :pseudo-random number generator
@@ -667,7 +669,6 @@ static void tc_libc_stdlib_bsearch_invalid_key_neg(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
  * @fn                   :tc_libc_stdlib_abort

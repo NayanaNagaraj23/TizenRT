@@ -77,7 +77,7 @@ static void *accept_handler(void *arg)
 		remain -= nbytes;
 		printf("nbytes received %d\n", nbytes);
 	}
-out_with_socket:
+ out_with_socket:
 	if (connfd > 0) {
 		close(connfd);
 		printf("Closed connfd successfully \n");
@@ -182,7 +182,7 @@ static void *run_client(void *arg)
 		remain -= res;
 	}
 	printf("Terminating tcpclient after sending sufficient messages (%lu)\n", sizeof(buf));
-out_with_socket:
+ out_with_socket:
 	close(sockfd);
 	return NULL;
 }

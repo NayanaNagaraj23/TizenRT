@@ -701,7 +701,7 @@ int smart_test_main(int argc, char *argv[])
 		}
 	}
 
-err_out_with_mem:
+ err_out_with_mem:
 
 	/* Free the memory */
 

@@ -163,7 +163,7 @@ static int timedsend_test(void)
 	attr.mq_flags = 0;
 
 	g_timedsend_mqfd = mq_open("t_mqueue", O_WRONLY | O_CREAT, 0666, &attr);
-	if (g_timedsend_mqfd == (mqd_t)-1) {
+	if (g_timedsend_mqfd == (mqd_t) - 1) {
 		printf("tc_mqueue_mq_timedsend_timedreceive FAIL: mq_open\n");
 		return ERROR;
 	}
@@ -203,7 +203,7 @@ static int timedsend_test(void)
 	memcpy(msg_buffer, TEST_MESSAGE, TEST_MSGLEN);
 
 	g_timedsend_mqfd = mq_open("t_mqueue", O_RDONLY | O_CREAT, 0666, &attr);
-	if (g_timedsend_mqfd == (mqd_t)-1) {
+	if (g_timedsend_mqfd == (mqd_t) - 1) {
 		printf("tc_mqueue_mq_timedsend_timedreceive FAIL: mq_open\n");
 		return ERROR;
 	}
@@ -226,7 +226,7 @@ static int timedsend_test(void)
 	/* Perform the timedsend_test for NULL message queue parameter check */
 
 	g_timedsend_mqfd = mq_open("t_mqueue", O_WRONLY | O_CREAT, 0666, &attr);
-	if (g_timedsend_mqfd == (mqd_t)-1) {
+	if (g_timedsend_mqfd == (mqd_t) - 1) {
 		printf("tc_mqueue_mq_timedsend_timedreceive FAIL: mq_open\n");
 		return ERROR;
 	}
@@ -249,7 +249,7 @@ static int timedsend_test(void)
 	memcpy(msg_buffer, TEST_MESSAGE, TEST_MSGLEN);
 
 	g_timedsend_mqfd = mq_open("t_mqueue", O_WRONLY | O_CREAT, 0666, &attr);
-	if (g_timedsend_mqfd == (mqd_t)-1) {
+	if (g_timedsend_mqfd == (mqd_t) - 1) {
 		printf("tc_mqueue_mq_timedsend_timedreceive FAIL: mq_open\n");
 		return ERROR;
 	}
@@ -274,7 +274,7 @@ static int timedsend_test(void)
 	memcpy(msg_buffer, TEST_MESSAGE, TEST_MSGLEN);
 
 	g_timedsend_mqfd = mq_open("t_mqueue", O_WRONLY | O_CREAT, 0666, &attr);
-	if (g_timedsend_mqfd == (mqd_t)-1) {
+	if (g_timedsend_mqfd == (mqd_t) - 1) {
 		printf("tc_mqueue_mq_timedsend_timedreceive FAIL: mq_open\n");
 		return ERROR;
 	}
@@ -320,7 +320,7 @@ static int timedreceive_test(void)
 	attr.mq_flags = 0;
 
 	g_timedrecv_mqfd = mq_open("t_mqueue", O_RDONLY | O_CREAT, 0666, &attr);
-	if (g_timedrecv_mqfd == (mqd_t)ERROR) {
+	if (g_timedrecv_mqfd == (mqd_t) ERROR) {
 		printf("tc_mqueue_mq_timedsend_timedreceive FAIL : mq_open\n");
 		return ERROR;
 	}
@@ -357,7 +357,7 @@ static int timedreceive_test(void)
 	memset(msg_buffer, 0xaa, TEST_MSGLEN);
 
 	g_timedrecv_mqfd = mq_open("t_mqueue", O_WRONLY | O_CREAT, 0666, &attr);
-	if (g_timedrecv_mqfd == (mqd_t)ERROR) {
+	if (g_timedrecv_mqfd == (mqd_t) ERROR) {
 		printf("tc_mqueue_mq_timedsend_timedreceive FAIL : mq_open\n");
 		return ERROR;
 	}
@@ -382,7 +382,7 @@ static int timedreceive_test(void)
 	memset(msg_buffer, 0xaa, TEST_MSGLEN);
 
 	g_timedrecv_mqfd = mq_open("t_mqueue", O_RDONLY | O_CREAT, 0666, &attr);
-	if (g_timedrecv_mqfd == (mqd_t)ERROR) {
+	if (g_timedrecv_mqfd == (mqd_t) ERROR) {
 		printf("tc_mqueue_mq_timedsend_timedreceive FAIL : mq_open\n");
 		return ERROR;
 	}
@@ -436,9 +436,9 @@ static void *sender_thread(void *arg)
 	 */
 
 	g_send_mqfd = mq_open("mqueue", O_WRONLY | O_CREAT, 0666, &attr);
-	if (g_send_mqfd == (mqd_t)-1) {
+	if (g_send_mqfd == (mqd_t) - 1) {
 		printf("tc_mqueue_mq_open FAIL\n");
-		pthread_exit((pthread_addr_t)1);
+		pthread_exit((pthread_addr_t) 1);
 	}
 
 	/* Fill in a test message buffer to send */
@@ -463,8 +463,8 @@ static void *sender_thread(void *arg)
 		g_send_mqfd = NULL;
 	}
 
-	pthread_exit((pthread_addr_t)nerrors);
-	return (pthread_addr_t)nerrors;
+	pthread_exit((pthread_addr_t) nerrors);
+	return (pthread_addr_t) nerrors;
 }
 
 /**
@@ -498,9 +498,9 @@ static void *receiver_thread(void *arg)
 	 */
 
 	g_recv_mqfd = mq_open("mqueue", O_RDONLY | O_CREAT, 0666, &attr);
-	if (g_recv_mqfd == (mqd_t)ERROR) {
+	if (g_recv_mqfd == (mqd_t) ERROR) {
 		printf("tc_mqueue_mq_open FAIL\n");
-		pthread_exit((pthread_addr_t)1);
+		pthread_exit((pthread_addr_t) 1);
 	}
 
 	/* Perform the receive TEST_RECEIVE_NMSGS times */
@@ -549,8 +549,8 @@ static void *receiver_thread(void *arg)
 		g_recv_mqfd = NULL;
 	}
 
-	pthread_exit((pthread_addr_t)nerrors);
-	return (pthread_addr_t)nerrors;
+	pthread_exit((pthread_addr_t) nerrors);
+	return (pthread_addr_t) nerrors;
 }
 
 /**
@@ -664,8 +664,6 @@ static void tc_mqueue_mq_open_close_send_receive_pos(void)
 	TC_SUCCESS_RESULT();
 }
 
-
-
 static void tc_mqueue_mq_notify_pos(void)
 {
 	mqd_t mqdes;
@@ -675,7 +673,7 @@ static void tc_mqueue_mq_notify_pos(void)
 	unsigned int prio = 1;
 
 	mqdes = mq_open("noti_queue", O_CREAT | O_RDWR, 0666, 0);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)-1);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) - 1);
 
 	notification.sigev_notify = SIGEV_SIGNAL;
 	notification.sigev_signo = SIGUSR1;
@@ -693,7 +691,7 @@ static void tc_mqueue_mq_notify_pos(void)
 	mq_close(mqdes);
 
 	mqdes = mq_open("noti_queue", O_CREAT | O_RDWR, 0666, 0);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)-1);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) - 1);
 
 	notification.sigev_notify = SIGEV_SIGNAL;
 	notification.sigev_signo = SIGUSR1;
@@ -701,24 +699,21 @@ static void tc_mqueue_mq_notify_pos(void)
 	sa.sa_flags = 0;
 	sigaction(SIGUSR1, &sa, NULL);
 
-
 	/* Valid signal number check */
 	notification.sigev_signo = SIGUSR1;
 	TC_ASSERT_EQ_ERROR_CLEANUP("mq_notify", mq_notify(mqdes, &notification), OK, get_errno(), goto cleanup);
 	TC_ASSERT_EQ_ERROR_CLEANUP("mq_notify", mq_notify(mqdes, &notification), ERROR, get_errno(), goto cleanup);
-
 
 	mq_close(mqdes);
 	mq_unlink("noti_queue");
 
 	TC_SUCCESS_RESULT();
 	return;
-cleanup:
+ cleanup:
 
 	mq_close(mqdes);
 	mq_unlink("noti_queue");
 }
-
 
 static void tc_mqueue_mq_notify_null_mqdes_neg(void)
 {
@@ -729,7 +724,7 @@ static void tc_mqueue_mq_notify_null_mqdes_neg(void)
 	unsigned int prio = 1;
 
 	mqdes = mq_open("noti_queue", O_CREAT | O_RDWR, 0666, 0);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)-1);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) - 1);
 
 	notification.sigev_notify = SIGEV_SIGNAL;
 	notification.sigev_signo = SIGUSR1;
@@ -745,11 +740,10 @@ static void tc_mqueue_mq_notify_null_mqdes_neg(void)
 
 	TC_SUCCESS_RESULT();
 	return;
-cleanup:
+ cleanup:
 	mq_close(mqdes);
 	mq_unlink("noti_queue");
 }
-
 
 static void tc_mqueue_mq_notify_invalid_signal_neg(void)
 {
@@ -760,7 +754,7 @@ static void tc_mqueue_mq_notify_invalid_signal_neg(void)
 	unsigned int prio = 1;
 
 	mqdes = mq_open("noti_queue", O_CREAT | O_RDWR, 0666, 0);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)-1);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) - 1);
 
 	notification.sigev_notify = SIGEV_SIGNAL;
 	notification.sigev_signo = SIGUSR1;
@@ -770,7 +764,7 @@ static void tc_mqueue_mq_notify_invalid_signal_neg(void)
 	sigaction(SIGUSR1, &sa, NULL);
 
 	mqdes = mq_open("noti_queue", O_CREAT | O_RDWR, 0666, 0);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)-1);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) - 1);
 
 	notification.sigev_notify = SIGEV_SIGNAL;
 	notification.sigev_signo = SIGUSR1;
@@ -782,18 +776,16 @@ static void tc_mqueue_mq_notify_invalid_signal_neg(void)
 	notification.sigev_signo = 33;
 	TC_ASSERT_EQ_ERROR_CLEANUP("mq_notify", mq_notify(mqdes, &notification), ERROR, get_errno(), goto cleanup);
 
-	
 	mq_close(mqdes);
 	mq_unlink("noti_queue");
 
 	TC_SUCCESS_RESULT();
 	return;
-cleanup:
+ cleanup:
 
 	mq_close(mqdes);
 	mq_unlink("noti_queue");
 }
-
 
 static void tc_mqueue_mq_timedsend_timedreceive_pos(void)
 {
@@ -816,7 +808,7 @@ static void tc_mqueue_mq_unlink_pos(void)
 	mqd_t mqdes;
 
 	mqdes = mq_open("mqunlink", O_CREAT | O_RDWR, 0666, 0);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)-1);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) - 1);
 
 	mq_close(mqdes);
 
@@ -832,7 +824,7 @@ static void tc_mqueue_mq_unlink_neg(void)
 	mqd_t mqdes;
 
 	mqdes = mq_open("mqunlink", O_CREAT | O_RDWR, 0666, 0);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)-1);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) - 1);
 
 	mq_close(mqdes);
 
@@ -876,7 +868,7 @@ static void tc_mqueue_mq_timedsend_timedreceive_neg(void)
 	/* Perform the timedsend_test for NULL time parameter check */
 
 	g_timedsend_mqfd = mq_open("t_mqueues", O_WRONLY | O_CREAT, 0666, &attr);
-	TC_ASSERT_NEQ("timedsend_test", g_timedsend_mqfd, (mqd_t)ERROR);
+	TC_ASSERT_NEQ("timedsend_test", g_timedsend_mqfd, (mqd_t) ERROR);
 
 	/* Perform the send for above failure check case */
 
@@ -900,7 +892,7 @@ static void tc_mqueue_mq_timedsend_timedreceive_neg(void)
 	memset(msg_buffer, 0xaa, TEST_MSGLEN);
 
 	g_timedrecv_mqfd = mq_open("t_mqueuer", O_RDONLY | O_CREAT, 0666, &attr);
-	TC_ASSERT_NEQ_CLEANUP("timedreceive_test", g_timedrecv_mqfd, (mqd_t)ERROR, goto cleanup1);
+	TC_ASSERT_NEQ_CLEANUP("timedreceive_test", g_timedrecv_mqfd, (mqd_t) ERROR, goto cleanup1);
 
 	/* Perform the receive for above failure check cases */
 
@@ -921,7 +913,7 @@ static void tc_mqueue_mq_timedsend_timedreceive_neg(void)
 	memset(msg_buffer, 0xaa, TEST_MSGLEN);
 
 	g_timedrecv_mqfd = mq_open("t_mqueuer", O_RDONLY | O_CREAT, 0666, &attr);
-	TC_ASSERT_NEQ_CLEANUP("timedreceive_test", g_timedrecv_mqfd, (mqd_t)ERROR, goto cleanup1);
+	TC_ASSERT_NEQ_CLEANUP("timedreceive_test", g_timedrecv_mqfd, (mqd_t) ERROR, goto cleanup1);
 
 	/* Perform the receive for above failure check cases */
 
@@ -939,14 +931,13 @@ static void tc_mqueue_mq_timedsend_timedreceive_neg(void)
 	TC_SUCCESS_RESULT();
 	return;
 
-cleanup2:
+ cleanup2:
 	mq_close(g_timedrecv_mqfd);
 	mq_unlink("t_mqueuer");
-cleanup1:
+ cleanup1:
 	mq_close(g_timedsend_mqfd);
 	mq_unlink("t_mqueues");
 }
-
 
 static void tc_mqueue_mq_getattr_pos(void)
 {
@@ -957,13 +948,12 @@ static void tc_mqueue_mq_getattr_pos(void)
 
 	/* Fill in attributes for message queue */
 
-	attr.mq_maxmsg  = 20;
+	attr.mq_maxmsg = 20;
 	attr.mq_msgsize = TEST_MSGLEN;
 
 	mqdes = mq_open("mqgetattr", O_CREAT | O_RDWR, 0666, &attr);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)ERROR);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) ERROR);
 
-	
 	ret_chk = mq_getattr(mqdes, &mq_stat);
 	TC_ASSERT_EQ_CLEANUP("mq_getattr", ret_chk, OK, goto errout);
 	TC_ASSERT_EQ_CLEANUP("mq_getattr", mq_stat.mq_maxmsg, attr.mq_maxmsg, goto errout);
@@ -974,11 +964,10 @@ static void tc_mqueue_mq_getattr_pos(void)
 	TC_SUCCESS_RESULT();
 	return;
 
-errout:
+ errout:
 	mq_close(mqdes);
 	mq_unlink("mqgetattr");
 }
-
 
 static void tc_mqueue_mq_getattr_null_mqdes_neg(void)
 {
@@ -989,11 +978,11 @@ static void tc_mqueue_mq_getattr_null_mqdes_neg(void)
 
 	/* Fill in attributes for message queue */
 
-	attr.mq_maxmsg  = 20;
+	attr.mq_maxmsg = 20;
 	attr.mq_msgsize = TEST_MSGLEN;
 
 	mqdes = mq_open("mqgetattr", O_CREAT | O_RDWR, 0666, &attr);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)ERROR);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) ERROR);
 
 	ret_chk = mq_getattr(NULL, &mq_stat);
 	TC_ASSERT_EQ_CLEANUP("mq_getattr", ret_chk, ERROR, goto errout);
@@ -1005,12 +994,10 @@ static void tc_mqueue_mq_getattr_null_mqdes_neg(void)
 	TC_SUCCESS_RESULT();
 	return;
 
-errout:
+ errout:
 	mq_close(mqdes);
 	mq_unlink("mqgetattr");
 }
-
-
 
 static void tc_mqueue_mq_getattr_null_attr_neg(void)
 {
@@ -1021,11 +1008,11 @@ static void tc_mqueue_mq_getattr_null_attr_neg(void)
 
 	/* Fill in attributes for message queue */
 
-	attr.mq_maxmsg  = 20;
+	attr.mq_maxmsg = 20;
 	attr.mq_msgsize = TEST_MSGLEN;
 
 	mqdes = mq_open("mqgetattr", O_CREAT | O_RDWR, 0666, &attr);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)ERROR);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) ERROR);
 
 	ret_chk = mq_getattr(mqdes, NULL);
 	TC_ASSERT_EQ_CLEANUP("mq_getattr", ret_chk, ERROR, goto errout);
@@ -1037,11 +1024,10 @@ static void tc_mqueue_mq_getattr_null_attr_neg(void)
 	TC_SUCCESS_RESULT();
 	return;
 
-errout:
+ errout:
 	mq_close(mqdes);
 	mq_unlink("mqgetattr");
 }
-
 
 static void tc_mqueue_mq_setattr_pos(void)
 {
@@ -1051,7 +1037,7 @@ static void tc_mqueue_mq_setattr_pos(void)
 	int ret_chk;
 
 	mqdes = mq_open("mqsetattr", O_CREAT | O_RDWR, 0666, 0);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)ERROR);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) ERROR);
 
 	ret_chk = mq_getattr(mqdes, &mq_stat);
 	TC_ASSERT_EQ_CLEANUP("mq_getattr", ret_chk, OK, goto errout);
@@ -1059,7 +1045,6 @@ static void tc_mqueue_mq_setattr_pos(void)
 	ret_chk = mq_setattr(mqdes, &mq_stat, &oldstat);
 	TC_ASSERT_EQ_CLEANUP("mq_setattr", ret_chk, OK, goto errout);
 
-	
 	if (mq_stat.mq_flags & O_NONBLOCK) {
 		mq_stat.mq_flags = mq_stat.mq_flags & (~O_NONBLOCK);
 		ret_chk = mq_setattr(mqdes, &mq_stat, &oldstat);
@@ -1077,9 +1062,9 @@ static void tc_mqueue_mq_setattr_pos(void)
 	TC_SUCCESS_RESULT();
 	return;
 
-errout:
+ errout:
 	mq_close(mqdes);
-	mq_unlink("mqsetattr");	
+	mq_unlink("mqsetattr");
 }
 
 static void tc_mqueue_mq_setattr_null_mqdes_neg(void)
@@ -1090,7 +1075,7 @@ static void tc_mqueue_mq_setattr_null_mqdes_neg(void)
 	int ret_chk;
 
 	mqdes = mq_open("mqsetattr", O_CREAT | O_RDWR, 0666, 0);
-	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t)ERROR);
+	TC_ASSERT_NEQ("mq_open", mqdes, (mqd_t) ERROR);
 
 	ret_chk = mq_getattr(mqdes, &mq_stat);
 	TC_ASSERT_EQ_CLEANUP("mq_getattr", ret_chk, OK, goto errout);
@@ -1098,7 +1083,6 @@ static void tc_mqueue_mq_setattr_null_mqdes_neg(void)
 	ret_chk = mq_setattr(NULL, &mq_stat, &oldstat);
 	TC_ASSERT_EQ_CLEANUP("mq_setattr", ret_chk, ERROR, goto errout);
 
-	
 	if (mq_stat.mq_flags & O_NONBLOCK) {
 		mq_stat.mq_flags = mq_stat.mq_flags & (~O_NONBLOCK);
 		ret_chk = mq_setattr(mqdes, &mq_stat, &oldstat);
@@ -1116,12 +1100,10 @@ static void tc_mqueue_mq_setattr_null_mqdes_neg(void)
 	TC_SUCCESS_RESULT();
 	return;
 
-errout:
+ errout:
 	mq_close(mqdes);
-	mq_unlink("mqsetattr");	
+	mq_unlink("mqsetattr");
 }
-
-
 
 /****************************************************************************
  * Name: mqueue

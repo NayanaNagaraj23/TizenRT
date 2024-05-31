@@ -105,8 +105,8 @@ static int get_results(struct iperf_test *test);
 static int diskfile_send(struct iperf_stream *sp);
 static int diskfile_recv(struct iperf_stream *sp);
 #endif
-static int JSON_write(int fd, cJSON *json);
-static void print_interval_results(struct iperf_test *test, struct iperf_stream *sp, cJSON *json_interval_streams);
+static int JSON_write(int fd, cJSON * json);
+static void print_interval_results(struct iperf_test *test, struct iperf_stream *sp, cJSON * json_interval_streams);
 static cJSON *JSON_read(int fd);
 
 /************************** Iperf semaphore functions **************************/
@@ -467,7 +467,7 @@ void iperf_on_new_stream(struct iperf_stream *sp)
 void iperf_on_test_start(struct iperf_test *test)
 {
 	if (test->json_output) {
-		cJSON_AddItemToObject(test->json_start, "test_start", iperf_json_printf("protocol: %s  num_streams: %d  blksize: %d  omit: %d  duration: %d  bytes: %d  blocks: %d  reverse: %d", test->protocol->name, (int64_t)test->num_streams, (int64_t)test->settings->blksize, (int64_t)test->omit, (int64_t)test->duration, (int64_t)test->settings->bytes, (int64_t)test->settings->blocks, test->reverse ? (int64_t)1 : (int64_t)0));
+		cJSON_AddItemToObject(test->json_start, "test_start", iperf_json_printf("protocol: %s  num_streams: %d  blksize: %d  omit: %d  duration: %d  bytes: %d  blocks: %d  reverse: %d", test->protocol->name, (int64_t) test->num_streams, (int64_t) test->settings->blksize, (int64_t) test->omit, (int64_t) test->duration, (int64_t) test->settings->bytes, (int64_t) test->settings->blocks, test->reverse ? (int64_t) 1 : (int64_t) 0));
 	} else {
 		if (test->verbose) {
 			if (test->settings->bytes) {
@@ -511,17 +511,17 @@ void iperf_on_connect(struct iperf_test *test)
 	socklen_t len;
 	int opt;
 
-	now_secs = time((time_t *)0);
+	now_secs = time((time_t *) 0);
 	(void)strftime(now_str, sizeof(now_str), rfc1123_fmt, gmtime(&now_secs));
 	if (test->json_output) {
-		cJSON_AddItemToObject(test->json_start, "timestamp", iperf_json_printf("time: %s  timesecs: %d", now_str, (int64_t)now_secs));
+		cJSON_AddItemToObject(test->json_start, "timestamp", iperf_json_printf("time: %s  timesecs: %d", now_str, (int64_t) now_secs));
 	} else if (test->verbose) {
 		iprintf(test, report_time, now_str);
 	}
 
 	if (test->role == 'c') {
 		if (test->json_output) {
-			cJSON_AddItemToObject(test->json_start, "connecting_to", iperf_json_printf("host: %s  port: %d", test->server_hostname, (int64_t)test->server_port));
+			cJSON_AddItemToObject(test->json_start, "connecting_to", iperf_json_printf("host: %s  port: %d", test->server_hostname, (int64_t) test->server_port));
 		} else {
 			iprintf(test, report_connecting, test->server_hostname, test->server_port);
 			if (test->reverse) {
@@ -542,7 +542,7 @@ void iperf_on_connect(struct iperf_test *test)
 		}
 		mapped_v4_to_regular_v4(ipr);
 		if (test->json_output) {
-			cJSON_AddItemToObject(test->json_start, "accepted_connection", iperf_json_printf("host: %s  port: %d", ipr, (int64_t)port));
+			cJSON_AddItemToObject(test->json_start, "accepted_connection", iperf_json_printf("host: %s  port: %d", ipr, (int64_t) port));
 		} else {
 			iprintf(test, report_accepted, ipr, port);
 		}
@@ -959,7 +959,7 @@ int iperf_parse_arguments(struct iperf_test *test, int argc, char **argv)
 
 	return 0;
 
-err:
+ err:
 	optind = 0;
 	return -1;
 }
@@ -993,7 +993,7 @@ void iperf_check_throttle(struct iperf_stream *sp, struct timeval *nowP)
 	}
 }
 
-int iperf_send(struct iperf_test *test, fd_set *write_setP)
+int iperf_send(struct iperf_test *test, fd_set * write_setP)
 {
 	register int multisend;
 	register int r;
@@ -1007,7 +1007,7 @@ int iperf_send(struct iperf_test *test, fd_set *write_setP)
 	} else if (test->settings->rate == 0) {
 		multisend = test->multisend;
 	} else {
-		multisend = 1;    /* nope */
+		multisend = 1;			/* nope */
 	}
 
 	for (; multisend > 0; --multisend) {
@@ -1046,18 +1046,18 @@ int iperf_send(struct iperf_test *test, fd_set *write_setP)
 	if (test->settings->burst != 0) {
 		gettimeofday(&now, NULL);
 		SLIST_FOREACH(sp, &test->streams, streams)
-		iperf_check_throttle(sp, &now);
+			iperf_check_throttle(sp, &now);
 	}
 	if (write_setP != NULL)
 		SLIST_FOREACH(sp, &test->streams, streams)
-		if (FD_ISSET(sp->socket, write_setP)) {
+			if (FD_ISSET(sp->socket, write_setP)) {
 			FD_CLR(sp->socket, write_setP);
 		}
 
 	return 0;
 }
 
-int iperf_recv(struct iperf_test *test, fd_set *read_setP)
+int iperf_recv(struct iperf_test *test, fd_set * read_setP)
 {
 	int r;
 	struct iperf_stream *sp;
@@ -1348,7 +1348,7 @@ static int get_parameters(struct iperf_test *test)
 			test->settings->bytes = j_p->valueint;
 		}
 		if ((j_p = cJSON_GetObjectItem(j, "blockcount")) != NULL) {
-			test->settings->blocks = (j_p->valueint > 0 ? (iperf_size_t)j_p->valueint : 0);
+			test->settings->blocks = (j_p->valueint > 0 ? (iperf_size_t) j_p->valueint : 0);
 		}
 		if ((j_p = cJSON_GetObjectItem(j, "MSS")) != NULL) {
 			test->settings->mss = j_p->valueint;
@@ -1575,7 +1575,7 @@ static int get_results(struct iperf_test *test)
 							cerror = j_errors->valueint;
 							pcount = j_packets->valueint;
 							SLIST_FOREACH(sp, &test->streams, streams)
-							if (sp->id == sid) {
+								if (sp->id == sid) {
 								break;
 							}
 							if (sp == NULL) {
@@ -1621,7 +1621,7 @@ static int get_results(struct iperf_test *test)
 
 /*************************************************************/
 
-static int JSON_write(int fd, cJSON *json)
+static int JSON_write(int fd, cJSON * json)
 {
 	uint32_t hsize;
 	uint32_t nsize;
@@ -1728,7 +1728,7 @@ void connect_msg(struct iperf_stream *sp)
 	}
 
 	if (sp->test->json_output) {
-		cJSON_AddItemToArray(sp->test->json_connected, iperf_json_printf("socket: %d  local_host: %s  local_port: %d  remote_host: %s  remote_port: %d", (int64_t)sp->socket, ipl, (int64_t)lport, ipr, (int64_t)rport));
+		cJSON_AddItemToArray(sp->test->json_connected, iperf_json_printf("socket: %d  local_host: %s  local_port: %d  remote_host: %s  remote_port: %d", (int64_t) sp->socket, ipl, (int64_t) lport, ipr, (int64_t) rport));
 	} else {
 		iprintf(sp->test, report_connected, sp->socket, ipl, lport, ipr, rport);
 	}
@@ -2127,7 +2127,7 @@ void iperf_stats_callback(struct iperf_test *test)
 
 		irp = rp->interval_results;
 		/* result->end_time contains timestamp of previous interval */
-		if (irp->first == 0) { /* not the 1st interval */
+		if (irp->first == 0) {	/* not the 1st interval */
 			memcpy(&temp.interval_start_time, &rp->end_time, sizeof(struct timeval));
 		} else {				/* or use timestamp from beginning */
 			memcpy(&temp.interval_start_time, &rp->start_time, sizeof(struct timeval));
@@ -2260,14 +2260,14 @@ static void iperf_print_intermediate(struct iperf_test *test)
 				if (test->sender && test->sender_has_retransmits) {
 					/* Interval sum, TCP with retransmits. */
 					if (test->json_output) {
-						cJSON_AddItemToObject(json_interval, "sum", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  retransmits: %d  omitted: %b", (double)start_time, (double)end_time, (double)irp->interval_duration, (int64_t)bytes, bandwidth * 8, (int64_t)retransmits, irp->omitted));    /* XXX irp->omitted or test->omitting? */
+						cJSON_AddItemToObject(json_interval, "sum", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  retransmits: %d  omitted: %b", (double)start_time, (double)end_time, (double)irp->interval_duration, (int64_t) bytes, bandwidth * 8, (int64_t) retransmits, irp->omitted));	/* XXX irp->omitted or test->omitting? */
 					} else {
-						iprintf(test, report_sum_bw_retrans_format, start_time, end_time, ubuf, nbuf, retransmits, irp->omitted ? report_omitted : "");    /* XXX irp->omitted or test->omitting? */
+						iprintf(test, report_sum_bw_retrans_format, start_time, end_time, ubuf, nbuf, retransmits, irp->omitted ? report_omitted : "");	/* XXX irp->omitted or test->omitting? */
 					}
 				} else {
 					/* Interval sum, TCP without retransmits. */
 					if (test->json_output) {
-						cJSON_AddItemToObject(json_interval, "sum", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  omitted: %b", (double)start_time, (double)end_time, (double)irp->interval_duration, (int64_t)bytes, bandwidth * 8, test->omitting));
+						cJSON_AddItemToObject(json_interval, "sum", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  omitted: %b", (double)start_time, (double)end_time, (double)irp->interval_duration, (int64_t) bytes, bandwidth * 8, test->omitting));
 					} else {
 						iprintf(test, report_sum_bw_format, start_time, end_time, ubuf, nbuf, test->omitting ? report_omitted : "");
 					}
@@ -2276,7 +2276,7 @@ static void iperf_print_intermediate(struct iperf_test *test)
 				/* Interval sum, UDP. */
 				if (test->sender) {
 					if (test->json_output) {
-						cJSON_AddItemToObject(json_interval, "sum", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  packets: %d  omitted: %b", (double)start_time, (double)end_time, (double)irp->interval_duration, (int64_t)bytes, bandwidth * 8, (int64_t)total_packets, test->omitting));
+						cJSON_AddItemToObject(json_interval, "sum", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  packets: %d  omitted: %b", (double)start_time, (double)end_time, (double)irp->interval_duration, (int64_t) bytes, bandwidth * 8, (int64_t) total_packets, test->omitting));
 					} else {
 						iprintf(test, report_sum_bw_udp_sender_format, start_time, end_time, ubuf, nbuf, total_packets, test->omitting ? report_omitted : "");
 					}
@@ -2288,7 +2288,7 @@ static void iperf_print_intermediate(struct iperf_test *test)
 						lost_percent = 0.0;
 					}
 					if (test->json_output) {
-						cJSON_AddItemToObject(json_interval, "sum", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  jitter_ms: %f  lost_packets: %d  packets: %d  lost_percent: %f  omitted: %b", (double)start_time, (double)end_time, (double)irp->interval_duration, (int64_t)bytes, bandwidth * 8, (double)avg_jitter * 1000.0, (int64_t)lost_packets, (int64_t)total_packets, (double)lost_percent, test->omitting));
+						cJSON_AddItemToObject(json_interval, "sum", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  jitter_ms: %f  lost_packets: %d  packets: %d  lost_percent: %f  omitted: %b", (double)start_time, (double)end_time, (double)irp->interval_duration, (int64_t) bytes, bandwidth * 8, (double)avg_jitter * 1000.0, (int64_t) lost_packets, (int64_t) total_packets, (double)lost_percent, test->omitting));
 					} else {
 						iprintf(test, report_sum_bw_udp_format, start_time, end_time, ubuf, nbuf, avg_jitter * 1000.0, lost_packets, total_packets, lost_percent, test->omitting ? report_omitted : "");
 					}
@@ -2389,14 +2389,14 @@ static void iperf_print_results(struct iperf_test *test)
 				if (test->sender_has_retransmits) {
 					/* Summary, TCP with retransmits. */
 					if (test->json_output) {
-						cJSON_AddItemToObject(json_summary_stream, "sender", iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  retransmits: %d  max_snd_cwnd:  %d  max_rtt:  %d  min_rtt:  %d  mean_rtt:  %d", (int64_t)sp->socket, (double)start_time, (double)end_time, (double)end_time, (int64_t)bytes_sent, bandwidth * 8, (int64_t)sp->result->stream_retrans, (int64_t)sp->result->stream_max_snd_cwnd, (int64_t)sp->result->stream_max_rtt, (int64_t)sp->result->stream_min_rtt, (int64_t)((sp->result->stream_count_rtt == 0) ? 0 : sp->result->stream_sum_rtt / sp->result->stream_count_rtt)));
+						cJSON_AddItemToObject(json_summary_stream, "sender", iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  retransmits: %d  max_snd_cwnd:  %d  max_rtt:  %d  min_rtt:  %d  mean_rtt:  %d", (int64_t) sp->socket, (double)start_time, (double)end_time, (double)end_time, (int64_t) bytes_sent, bandwidth * 8, (int64_t) sp->result->stream_retrans, (int64_t) sp->result->stream_max_snd_cwnd, (int64_t) sp->result->stream_max_rtt, (int64_t) sp->result->stream_min_rtt, (int64_t) ((sp->result->stream_count_rtt == 0) ? 0 : sp->result->stream_sum_rtt / sp->result->stream_count_rtt)));
 					} else {
 						iprintf(test, report_bw_retrans_format, sp->socket, start_time, end_time, ubuf, nbuf, sp->result->stream_retrans, report_sender);
 					}
 				} else {
 					/* Summary, TCP without retransmits. */
 					if (test->json_output) {
-						cJSON_AddItemToObject(json_summary_stream, "sender", iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f", (int64_t)sp->socket, (double)start_time, (double)end_time, (double)end_time, (int64_t)bytes_sent, bandwidth * 8));
+						cJSON_AddItemToObject(json_summary_stream, "sender", iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f", (int64_t) sp->socket, (double)start_time, (double)end_time, (double)end_time, (int64_t) bytes_sent, bandwidth * 8));
 					} else {
 						iprintf(test, report_bw_format, sp->socket, start_time, end_time, ubuf, nbuf, report_sender);
 					}
@@ -2409,7 +2409,7 @@ static void iperf_print_results(struct iperf_test *test)
 					lost_percent = 0.0;
 				}
 				if (test->json_output) {
-					cJSON_AddItemToObject(json_summary_stream, "udp", iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  jitter_ms: %f  lost_packets: %d  packets: %d  lost_percent: %f  out_of_order: %d", (int64_t)sp->socket, (double)start_time, (double)end_time, (double)end_time, (int64_t)bytes_sent, bandwidth * 8, (double)sp->jitter * 1000.0, (int64_t)(sp->cnt_error - sp->omitted_cnt_error), (int64_t)(sp->packet_count - sp->omitted_packet_count), (double)lost_percent, (int64_t)(sp->outoforder_packets - sp->omitted_outoforder_packets)));
+					cJSON_AddItemToObject(json_summary_stream, "udp", iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  jitter_ms: %f  lost_packets: %d  packets: %d  lost_percent: %f  out_of_order: %d", (int64_t) sp->socket, (double)start_time, (double)end_time, (double)end_time, (int64_t) bytes_sent, bandwidth * 8, (double)sp->jitter * 1000.0, (int64_t) (sp->cnt_error - sp->omitted_cnt_error), (int64_t) (sp->packet_count - sp->omitted_packet_count), (double)lost_percent, (int64_t) (sp->outoforder_packets - sp->omitted_outoforder_packets)));
 				} else {
 					iprintf(test, report_bw_udp_format, sp->socket, start_time, end_time, ubuf, nbuf, sp->jitter * 1000.0, (sp->cnt_error - sp->omitted_cnt_error), (sp->packet_count - sp->omitted_packet_count), lost_percent, "");
 					if (test->role == 'c') {
@@ -2426,7 +2426,7 @@ static void iperf_print_results(struct iperf_test *test)
 					int percent = (int)(((double)bytes_sent / (double)sb.st_size) * 100.0);
 					unit_snprintf(sbuf, UNIT_LEN, (double)sb.st_size, 'A');
 					if (test->json_output) {
-						cJSON_AddItemToObject(json_summary_stream, "diskfile", iperf_json_printf("sent: %d  size: %d  percent: %d  filename: %s", (int64_t)bytes_sent, (int64_t)sb.st_size, (int64_t)percent, test->diskfile_name));
+						cJSON_AddItemToObject(json_summary_stream, "diskfile", iperf_json_printf("sent: %d  size: %d  percent: %d  filename: %s", (int64_t) bytes_sent, (int64_t) sb.st_size, (int64_t) percent, test->diskfile_name));
 					} else {
 						iprintf(test, report_diskfile, ubuf, sbuf, percent, test->diskfile_name);
 					}
@@ -2438,13 +2438,13 @@ static void iperf_print_results(struct iperf_test *test)
 			unit_snprintf(nbuf, UNIT_LEN, bandwidth, test->settings->unit_format);
 			if (test->protocol->id == Ptcp || test->protocol->id == Psctp) {
 				if (test->json_output) {
-					cJSON_AddItemToObject(json_summary_stream, "receiver", iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f", (int64_t)sp->socket, (double)start_time, (double)end_time, (double)end_time, (int64_t)bytes_received, bandwidth * 8));
+					cJSON_AddItemToObject(json_summary_stream, "receiver", iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f", (int64_t) sp->socket, (double)start_time, (double)end_time, (double)end_time, (int64_t) bytes_received, bandwidth * 8));
 				} else {
 					iprintf(test, report_bw_format, sp->socket, start_time, end_time, ubuf, nbuf, report_receiver);
 				}
 			} else {
 				if (test->json_output)
-					cJSON_AddItemToObject(json_summary_stream, "receiver", iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f", (int64_t)sp->socket, (double)start_time, (double)end_time, (double)end_time, (int64_t)bytes_received, bandwidth * 8));
+					cJSON_AddItemToObject(json_summary_stream, "receiver", iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f", (int64_t) sp->socket, (double)start_time, (double)end_time, (double)end_time, (int64_t) bytes_received, bandwidth * 8));
 				else
 					iprintf(test, report_bw_format, sp->socket, start_time, end_time, ubuf, nbuf, report_receiver);
 			}
@@ -2464,14 +2464,14 @@ static void iperf_print_results(struct iperf_test *test)
 			if (test->sender_has_retransmits) {
 				/* Summary sum, TCP with retransmits. */
 				if (test->json_output) {
-					cJSON_AddItemToObject(test->json_end, "sum_sent", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  retransmits: %d", (double)start_time, (double)end_time, (double)end_time, (int64_t)total_sent, bandwidth * 8, (int64_t)total_retransmits));
+					cJSON_AddItemToObject(test->json_end, "sum_sent", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  retransmits: %d", (double)start_time, (double)end_time, (double)end_time, (int64_t) total_sent, bandwidth * 8, (int64_t) total_retransmits));
 				} else {
 					iprintf(test, report_sum_bw_retrans_format, start_time, end_time, ubuf, nbuf, total_retransmits, report_sender);
 				}
 			} else {
 				/* Summary sum, TCP without retransmits. */
 				if (test->json_output) {
-					cJSON_AddItemToObject(test->json_end, "sum_sent", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f", (double)start_time, (double)end_time, (double)end_time, (int64_t)total_sent, bandwidth * 8));
+					cJSON_AddItemToObject(test->json_end, "sum_sent", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f", (double)start_time, (double)end_time, (double)end_time, (int64_t) total_sent, bandwidth * 8));
 				} else {
 					iprintf(test, report_sum_bw_format, start_time, end_time, ubuf, nbuf, report_sender);
 				}
@@ -2485,7 +2485,7 @@ static void iperf_print_results(struct iperf_test *test)
 			}
 			unit_snprintf(nbuf, UNIT_LEN, bandwidth, test->settings->unit_format);
 			if (test->json_output) {
-				cJSON_AddItemToObject(test->json_end, "sum_received", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f", (double)start_time, (double)end_time, (double)end_time, (int64_t)total_received, bandwidth * 8));
+				cJSON_AddItemToObject(test->json_end, "sum_received", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f", (double)start_time, (double)end_time, (double)end_time, (int64_t) total_received, bandwidth * 8));
 			} else {
 				iprintf(test, report_sum_bw_format, start_time, end_time, ubuf, nbuf, report_receiver);
 			}
@@ -2499,7 +2499,7 @@ static void iperf_print_results(struct iperf_test *test)
 				lost_percent = 0.0;
 			}
 			if (test->json_output) {
-				cJSON_AddItemToObject(test->json_end, "sum", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  jitter_ms: %f  lost_packets: %d  packets: %d  lost_percent: %f", (double)start_time, (double)end_time, (double)end_time, (int64_t)total_sent, bandwidth * 8, (double)avg_jitter * 1000.0, (int64_t)lost_packets, (int64_t)total_packets, (double)lost_percent));
+				cJSON_AddItemToObject(test->json_end, "sum", iperf_json_printf("start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  jitter_ms: %f  lost_packets: %d  packets: %d  lost_percent: %f", (double)start_time, (double)end_time, (double)end_time, (int64_t) total_sent, bandwidth * 8, (double)avg_jitter * 1000.0, (int64_t) lost_packets, (int64_t) total_packets, (double)lost_percent));
 			} else {
 				iprintf(test, report_sum_bw_udp_format, start_time, end_time, ubuf, nbuf, avg_jitter * 1000.0, lost_packets, total_packets, lost_percent, "");
 			}
@@ -2562,7 +2562,7 @@ void iperf_reporter_callback(struct iperf_test *test)
  * This function needs to know about the overall test so it can determine the
  * context for printing headers, separators, etc.
  */
-static void print_interval_results(struct iperf_test *test, struct iperf_stream *sp, cJSON *json_interval_streams)
+static void print_interval_results(struct iperf_test *test, struct iperf_stream *sp, cJSON * json_interval_streams)
 {
 	char ubuf[UNIT_LEN];
 	char nbuf[UNIT_LEN];
@@ -2573,7 +2573,7 @@ static void print_interval_results(struct iperf_test *test, struct iperf_stream 
 	double bandwidth;
 	double lost_percent;
 
-	irp = sp->result->interval_results; /* get last entry in linked list */
+	irp = sp->result->interval_results;	/* get last entry in linked list */
 	if (irp == NULL) {
 		iperf_err(test, "print_interval_results error: interval_results is NULL");
 		return;
@@ -2616,7 +2616,7 @@ static void print_interval_results(struct iperf_test *test, struct iperf_stream 
 		if (test->sender && test->sender_has_retransmits) {
 			/* Interval, TCP with retransmits. */
 			if (test->json_output) {
-				cJSON_AddItemToArray(json_interval_streams, iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  retransmits: %d  snd_cwnd:  %d  rtt:  %d  omitted: %b", (int64_t)sp->socket, (double)st, (double)et, (double)irp->interval_duration, (int64_t)irp->bytes_transferred, bandwidth * 8, (int64_t)irp->interval_retrans, (int64_t)irp->snd_cwnd, (int64_t)irp->rtt, irp->omitted));
+				cJSON_AddItemToArray(json_interval_streams, iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  retransmits: %d  snd_cwnd:  %d  rtt:  %d  omitted: %b", (int64_t) sp->socket, (double)st, (double)et, (double)irp->interval_duration, (int64_t) irp->bytes_transferred, bandwidth * 8, (int64_t) irp->interval_retrans, (int64_t) irp->snd_cwnd, (int64_t) irp->rtt, irp->omitted));
 			} else {
 				unit_snprintf(cbuf, UNIT_LEN, irp->snd_cwnd, 'A');
 				iprintf(test, report_bw_retrans_cwnd_format, sp->socket, st, et, ubuf, nbuf, irp->interval_retrans, cbuf, irp->omitted ? report_omitted : "");
@@ -2624,7 +2624,7 @@ static void print_interval_results(struct iperf_test *test, struct iperf_stream 
 		} else {
 			/* Interval, TCP without retransmits. */
 			if (test->json_output) {
-				cJSON_AddItemToArray(json_interval_streams, iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  omitted: %b", (int64_t)sp->socket, (double)st, (double)et, (double)irp->interval_duration, (int64_t)irp->bytes_transferred, bandwidth * 8, irp->omitted));
+				cJSON_AddItemToArray(json_interval_streams, iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  omitted: %b", (int64_t) sp->socket, (double)st, (double)et, (double)irp->interval_duration, (int64_t) irp->bytes_transferred, bandwidth * 8, irp->omitted));
 			} else {
 				iprintf(test, report_bw_format, sp->socket, st, et, ubuf, nbuf, irp->omitted ? report_omitted : "");
 			}
@@ -2633,7 +2633,7 @@ static void print_interval_results(struct iperf_test *test, struct iperf_stream 
 		/* Interval, UDP. */
 		if (test->sender) {
 			if (test->json_output) {
-				cJSON_AddItemToArray(json_interval_streams, iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  packets: %d  omitted: %b", (int64_t)sp->socket, (double)st, (double)et, (double)irp->interval_duration, (int64_t)irp->bytes_transferred, bandwidth * 8, (int64_t)irp->interval_packet_count, irp->omitted));
+				cJSON_AddItemToArray(json_interval_streams, iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  packets: %d  omitted: %b", (int64_t) sp->socket, (double)st, (double)et, (double)irp->interval_duration, (int64_t) irp->bytes_transferred, bandwidth * 8, (int64_t) irp->interval_packet_count, irp->omitted));
 			} else {
 				iprintf(test, report_bw_udp_sender_format, sp->socket, st, et, ubuf, nbuf, irp->interval_packet_count, irp->omitted ? report_omitted : "");
 			}
@@ -2644,7 +2644,7 @@ static void print_interval_results(struct iperf_test *test, struct iperf_stream 
 				lost_percent = 0.0;
 			}
 			if (test->json_output) {
-				cJSON_AddItemToArray(json_interval_streams, iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  jitter_ms: %f  lost_packets: %d  packets: %d  lost_percent: %f  omitted: %b", (int64_t)sp->socket, (double)st, (double)et, (double)irp->interval_duration, (int64_t)irp->bytes_transferred, bandwidth * 8, (double)irp->jitter * 1000.0, (int64_t)irp->interval_cnt_error, (int64_t)irp->interval_packet_count, (double)lost_percent, irp->omitted));
+				cJSON_AddItemToArray(json_interval_streams, iperf_json_printf("socket: %d  start: %f  end: %f  seconds: %f  bytes: %d  bits_per_second: %f  jitter_ms: %f  lost_packets: %d  packets: %d  lost_percent: %f  omitted: %b", (int64_t) sp->socket, (double)st, (double)et, (double)irp->interval_duration, (int64_t) irp->bytes_transferred, bandwidth * 8, (double)irp->jitter * 1000.0, (int64_t) irp->interval_cnt_error, (int64_t) irp->interval_packet_count, (double)lost_percent, irp->omitted));
 			} else {
 				iprintf(test, report_bw_udp_format, sp->socket, st, et, ubuf, nbuf, irp->jitter * 1000.0, irp->interval_cnt_error, irp->interval_packet_count, lost_percent, irp->omitted ? report_omitted : "");
 			}

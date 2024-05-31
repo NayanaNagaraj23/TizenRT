@@ -136,7 +136,7 @@ static void *heavy_signal_message_test_mq_send(void)
 	attr.mq_msgsize = HEAVY_SIGNAL_MESSAGE_TEST_BUFFER_SIZE;
 	attr.mq_flags = 0;
 
-	/* sender and receiver open the same mq. safe_mq1, safe_mq2 ....*/
+	/* sender and receiver open the same mq. safe_mq1, safe_mq2 .... */
 	snprintf(q_name, HEAVY_SIGNAL_MESSAGE_TEST_MQ_NAME_MAX, "%s%d", HEAVY_SIGNAL_MESSAGE_TEST_MQ, mq_num++);
 
 	fd = mq_open(q_name, O_RDWR | O_CREAT, 0666, &attr);
@@ -212,7 +212,7 @@ void heavy_signal_message_test_sender(void)
 	}
 
 	for (i = 0; i < HEAVY_SIGNAL_MESSAGE_TEST_TASK_NUM; ++i) {
-		ret = pthread_create(&pid, NULL, (pthread_startroutine_t)heavy_signal_message_test_sig_send, NULL);
+		ret = pthread_create(&pid, NULL, (pthread_startroutine_t) heavy_signal_message_test_sig_send, NULL);
 		if (ret < 0) {
 			printf("heavy_signal_message_test_sig_send pthread create FAIL\n");
 			return;
@@ -220,7 +220,7 @@ void heavy_signal_message_test_sender(void)
 		pthread_setname_np(pid, "sig_send");
 		pthread_detach(pid);
 
-		ret = pthread_create(&pid, NULL, (pthread_startroutine_t)heavy_signal_message_test_mq_send, NULL);
+		ret = pthread_create(&pid, NULL, (pthread_startroutine_t) heavy_signal_message_test_mq_send, NULL);
 		if (ret < 0) {
 			printf("heavy_signal_message_test_mq_send pthread create FAIL\n");
 			return;
@@ -228,7 +228,7 @@ void heavy_signal_message_test_sender(void)
 		pthread_setname_np(pid, "mq_send");
 		pthread_detach(pid);
 
-		ret = pthread_create(&pid, NULL, (pthread_startroutine_t)heavy_signal_message_test_usleep, NULL);
+		ret = pthread_create(&pid, NULL, (pthread_startroutine_t) heavy_signal_message_test_usleep, NULL);
 		if (ret < 0) {
 			printf("heavy_signal_message_test_usleep pthread create FAIL\n");
 			return;

@@ -126,7 +126,7 @@ uint16_t format_count = 0;
  * Private Function Prototypes
  ****************************************************************************/
 
-static int write_file(uint8_t *data, size_t len, uint32_t format, uint32_t frame);
+static int write_file(uint8_t * data, size_t len, uint32_t format, uint32_t frame);
 
 /****************************************************************************
  * Private Data
@@ -218,7 +218,7 @@ static int circ_bbuf_push(struct circ_buf *c, struct buf_object buf)
 	if ((c->head == 0 && c->tail == c->maxlen - 1) || (c->tail == (c->head - 1) % (c->maxlen - 1))) {
 		sem_post(&c->sem);
 		return -1;
-	} else if (c->head == -1) { /* Insert First Element */
+	} else if (c->head == -1) {	/* Insert First Element */
 		c->head = c->tail = 0;
 		c->bobj[c->tail] = buf;
 	} else if (c->tail == c->maxlen - 1 && c->head != 0) {
@@ -270,7 +270,7 @@ static pthread_addr_t write_thread(pthread_addr_t arg)
 				goto error;
 			}
 		}
-		write_file((uint8_t *) bobject->userptr, (size_t) bobject->bytesused, bobject->format, bobject->frame);
+		write_file((uint8_t *) bobject->userptr, (size_t)bobject->bytesused, bobject->format, bobject->frame);
 		buf.type = bobject->buf_type;
 		buf.m.userptr = (unsigned long)bobject->userptr;
 		buf.length = bobject->length;
@@ -286,7 +286,7 @@ static pthread_addr_t write_thread(pthread_addr_t arg)
 			goto error;
 		}
 	}
-error:
+ error:
 	pthread_exit(NULL);
 	return NULL;
 }
@@ -343,7 +343,7 @@ static pthread_t create_write_thread(void *arg)
 	return tid;
 }
 
-static int write_file(uint8_t *data, size_t len, uint32_t format, uint32_t frame)
+static int write_file(uint8_t * data, size_t len, uint32_t format, uint32_t frame)
 {
 	FILE *fp;
 
@@ -630,9 +630,10 @@ void get_camera_options(int fd, int flag)
 		fprintf(stdout, SET_INTERVAL);
 	}
 }
+
 void print_error_log(int ctrlIndex)
 {
-	char error_str[50] = {0,};
+	char error_str[50] = { 0, };
 	int idx = 0;
 
 	while (idx < 50) {
@@ -648,6 +649,7 @@ void print_error_log(int ctrlIndex)
 		fprintf(stdout, "%d:%s unsupported option(errno=%d)\n", __LINE__, error_str, errno);
 	}
 }
+
 int set_camera_options(int fd)
 {
 	int i = 0;
@@ -959,7 +961,7 @@ int camera_main(int argc, char *argv[])
 		}
 	}
 
-camera_options:
+ camera_options:
 	if (optind > argc) {
 		fprintf(stderr, "camera: invalid option -- \'%s\'\n", argv[optind]);
 		fprintf(stdout, USAGE);
@@ -1080,7 +1082,7 @@ camera_options:
 
 	exitcode = OK;
 
-errout_with_buffer:
+ errout_with_buffer:
 	if (tid >= 0) {
 		context.loop = 0;
 		sem_post(&context.sem);
@@ -1092,10 +1094,10 @@ errout_with_buffer:
 	free_buffer(buffers_video, VIDEO_BUFNUM);
 	free_buffer(buffers_still, STILL_BUFNUM);
 
-errout_with_close:
+ errout_with_close:
 	close(v_fd);
 
-errout_with_video_init:
+ errout_with_video_init:
 	sem_destroy(&context.sem);
 	fprintf(stderr, "App exited Successfully!!!!\n", errno);
 	return exitcode;

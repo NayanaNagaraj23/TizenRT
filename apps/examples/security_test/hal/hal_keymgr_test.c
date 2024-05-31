@@ -164,8 +164,6 @@ TEST_F(generate_key)
 	ST_END_TEST;
 }
 
-
-
 pthread_addr_t hal_keymgr_test(void)
 {
 	g_se = se_get_device();

@@ -84,7 +84,7 @@ static uint8_t affinity = 0;
 
 static void show_cpu(FAR const char *caller, int threadno)
 {
-      	g_thread_cpu[threadno] = sched_getcpu();
+	g_thread_cpu[threadno] = sched_getcpu();
 	printf("%s[%d]: Running on CPU%d\n", caller, threadno, g_thread_cpu[threadno]);
 }
 
@@ -159,10 +159,10 @@ static void hog_time(FAR const char *caller, int threadno)
 
 static pthread_addr_t barrier_thread(pthread_addr_t parameter)
 {
-	int threadno  = (int)((intptr_t)parameter);
+	int threadno = (int)((intptr_t) parameter);
 	int ret;
 
-	printf("Thread[%d]: Started\n",  threadno);
+	printf("Thread[%d]: Started\n", threadno);
 	show_cpu("Thread", threadno);
 
 	/* Hog some CPU time */
@@ -179,8 +179,7 @@ static pthread_addr_t barrier_thread(pthread_addr_t parameter)
 	if (ret == 0) {
 		printf("Thread[%d]: Back with ret=0 (I am not special)\n", threadno);
 	} else if (ret == PTHREAD_BARRIER_SERIAL_THREAD) {
-		printf("Thread[%d]: Back with ret=PTHREAD_BARRIER_SERIAL_THREAD (I AM SPECIAL)\n" 
-				, threadno);
+		printf("Thread[%d]: Back with ret=PTHREAD_BARRIER_SERIAL_THREAD (I AM SPECIAL)\n", threadno);
 	} else {
 		printf("Thread[%d]: ERROR could not get semaphore value\n", threadno);
 	}
@@ -194,7 +193,7 @@ static pthread_addr_t barrier_thread(pthread_addr_t parameter)
 
 	/* Then exit */
 
-	printf("Thread[%d]: Done\n",  threadno);
+	printf("Thread[%d]: Done\n", threadno);
 	fflush(stdout);
 	show_cpu_conditional("Thread", threadno);
 	return NULL;
@@ -216,13 +215,13 @@ static void set_affinity()
 }
 
 static int normal_task(int argc, char *argv[])
-{	
-	int threadno  = getpid() - g_pid_start;
+{
+	int threadno = getpid() - g_pid_start;
 	int ret;
-  
+
 	set_affinity();
 
-	printf("Thread[%d]: Started\n",  threadno);
+	printf("Thread[%d]: Started\n", threadno);
 	show_cpu("Thread", threadno);
 
 	/* Hog some CPU time */
@@ -251,7 +250,6 @@ int smp_main_prthread(int argc, FAR char *argv[])
 	int ret;
 	int i;
 
-
 	/* Initialize data */
 
 	memset(threadid, 0, sizeof(pthread_t) * CONFIG_TESTING_SMP_NBARRIER_THREADS);
@@ -262,7 +260,6 @@ int smp_main_prthread(int argc, FAR char *argv[])
 		}
 	}
 
-  
 	show_cpu("  Main", 0);
 	printf("  Main[0]: Initializing barrier\n");
 
@@ -276,8 +273,7 @@ int smp_main_prthread(int argc, FAR char *argv[])
 		goto errout;
 	}
 
-	ret = pthread_barrier_init(&g_smp_barrier, &barrierattr, 
-			CONFIG_TESTING_SMP_NBARRIER_THREADS);
+	ret = pthread_barrier_init(&g_smp_barrier, &barrierattr, CONFIG_TESTING_SMP_NBARRIER_THREADS);
 	if (ret != OK) {
 		printf("  Main[0]: pthread_barrier_init failed, ret=%d\n", ret);
 
@@ -295,13 +291,10 @@ int smp_main_prthread(int argc, FAR char *argv[])
 		goto errout_with_barrier;
 	}
 
-
 	for (i = 0; i < CONFIG_TESTING_SMP_NBARRIER_THREADS; i++) {
-		ret = pthread_create(&threadid[i], &attr, barrier_thread, 
-				(pthread_addr_t)((uintptr_t)i + 1));
+		ret = pthread_create(&threadid[i], &attr, barrier_thread, (pthread_addr_t) ((uintptr_t) i + 1));
 		if (ret != 0) {
-			printf("  Main[0]: Error in thread %d create, ret=%d\n", 
-					i + 1, ret);
+			printf("  Main[0]: Error in thread %d create, ret=%d\n", i + 1, ret);
 			printf("  Main[0]: Test aborted with waiting threads\n");
 
 			errcode = EXIT_FAILURE;
@@ -316,7 +309,6 @@ int smp_main_prthread(int argc, FAR char *argv[])
 	fflush(stdout);
 	show_cpu_conditional("  Main", 0);
 
- 
 	/* Wait for all thread instances to complete */
 
 	for (i = 0; i < CONFIG_TESTING_SMP_NBARRIER_THREADS; i++) {
@@ -325,38 +317,33 @@ int smp_main_prthread(int argc, FAR char *argv[])
 			show_cpu_conditional("  Main", 0);
 
 			if (ret != 0) {
-				printf("  Main[0]: Error in thread %d join, ret=%d\n",
-					i + 1, ret);
+				printf("  Main[0]: Error in thread %d join, ret=%d\n", i + 1, ret);
 				errcode = EXIT_FAILURE;
-           		} else {
-				printf("  Main[0]: Thread %d completed with result=%p\n",
-					i + 1, result);
+			} else {
+				printf("  Main[0]: Thread %d completed with result=%p\n", i + 1, result);
 			}
 		}
 	}
 
-  /* Destroy the barrier */
+	/* Destroy the barrier */
 
-errout_with_barrier:
+ errout_with_barrier:
 	ret = pthread_barrier_destroy(&g_smp_barrier);
 	if (ret != OK) {
 		printf("  Main[0]: pthread_barrier_destroy failed, ret=%d\n", ret);
 	}
 
-errout_with_attr:
+ errout_with_attr:
 	ret = pthread_barrierattr_destroy(&barrierattr);
 	if (ret != OK) {
-		printf("  Main[0]: pthread_barrierattr_destroy failed, ret=%d\n",
-             ret);
+		printf("  Main[0]: pthread_barrierattr_destroy failed, ret=%d\n", ret);
 	}
 
-
-errout:
+ errout:
 	fflush(stdout);
 	show_cpu_conditional("  Main", 0);
 	return errcode;
 }
-
 
 int smp_main_task(int argc, FAR char *argv[])
 {
@@ -371,8 +358,7 @@ int smp_main_task(int argc, FAR char *argv[])
 	for (i = 0; i < CONFIG_TESTING_SMP_NBARRIER_THREADS; i++) {
 		pid = task_create("smp_task", 110, 1024, normal_task, (FAR char *const *)NULL);
 		if (pid < 0) {
-			printf("  Main[0]: Error in thread %d create, ret=%d\n",
-					i + 1, pid);
+			printf("  Main[0]: Error in thread %d create, ret=%d\n", i + 1, pid);
 			printf("  Main[0]: Test aborted with waiting threads\n");
 
 			errcode = EXIT_FAILURE;
@@ -389,10 +375,10 @@ int smp_main_task(int argc, FAR char *argv[])
 
 	for (i = 0; i < CONFIG_TESTING_SMP_NBARRIER_THREADS; i++) {
 		task_delete(g_pid_start + i);
-	  	printf("Deleted task %d\n", i);
+		printf("Deleted task %d\n", i);
 	}
-	  
-errout:
+
+ errout:
 	fflush(stdout);
 	show_cpu_conditional("  Main", 0);
 	return errcode;

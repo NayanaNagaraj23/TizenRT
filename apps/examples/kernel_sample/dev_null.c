@@ -103,4 +103,4 @@ int dev_null(void)
 	return 0;
 }
 
-#endif /*CONFIG_NFILE_DESCRIPTORS */
+#endif							/*CONFIG_NFILE_DESCRIPTORS */

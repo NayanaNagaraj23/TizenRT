@@ -30,8 +30,8 @@
 
 static const char *g_res_switch = "/capability/switch/main/0";
 
-extern bool handle_get_request_on_switch(st_things_get_request_message_s *req_msg, st_things_representation_s *resp_rep);
-extern bool handle_set_request_on_switch(st_things_set_request_message_s *req_msg, st_things_representation_s *resp_rep);
+extern bool handle_get_request_on_switch(st_things_get_request_message_s * req_msg, st_things_representation_s * resp_rep);
+extern bool handle_set_request_on_switch(st_things_set_request_message_s * req_msg, st_things_representation_s * resp_rep);
 
 static void handle_things_status_change(st_things_status_e things_status)
 {
@@ -44,7 +44,7 @@ static bool handle_ownership_transfer_request(void)
 	return true;
 }
 
-static bool handle_get_request(st_things_get_request_message_s *req_msg, st_things_representation_s *resp_rep)
+static bool handle_get_request(st_things_get_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	printf("Received a GET request on %s\n", req_msg->resource_uri);
 
@@ -55,7 +55,7 @@ static bool handle_get_request(st_things_get_request_message_s *req_msg, st_thin
 	return false;
 }
 
-static bool handle_set_request(st_things_set_request_message_s *req_msg, st_things_representation_s *resp_rep)
+static bool handle_set_request(st_things_set_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	printf("Received a SET request on %s\n", req_msg->resource_uri);
 

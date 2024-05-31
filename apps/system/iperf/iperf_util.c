@@ -80,7 +80,6 @@ void make_cookie(char *cookie)
 	if (!randomized) {
 		srand((int)time(0) ^ getpid());
 	}
-
 #ifndef CONFIG_NET_LWIP
 	/* Generate a string based on hostname, time, randomness, and filler. */
 	(void)gethostname(hostname, sizeof(hostname));
@@ -185,7 +184,7 @@ int delay(int us)
 
 	tv.tv_sec = 0;
 	tv.tv_usec = us;
-	(void)select(1, (fd_set *)0, (fd_set *)0, (fd_set *)0, &tv);
+	(void)select(1, (fd_set *) 0, (fd_set *) 0, (fd_set *) 0, &tv);
 	return 1;
 }
 #endif
@@ -379,7 +378,7 @@ cJSON *iperf_json_printf(const char *format, ...)
 }
 
 /* Debugging routine to dump out an fd_set. */
-void iperf_dump_fdset(FILE *fp, char *str, int nfds, fd_set *fds)
+void iperf_dump_fdset(FILE * fp, char *str, int nfds, fd_set * fds)
 {
 	int fd;
 	int comma;

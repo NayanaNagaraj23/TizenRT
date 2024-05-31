@@ -111,7 +111,7 @@ static const char *__bt_get_error_message(bt_error_e err)
 	return err_str;
 }
 
-static void __discovery_state_changed_cb(int result, bt_adapter_device_discovery_state_e discovery_state, bt_adapter_device_discovery_info_s *discovery_info, void *user_data)
+static void __discovery_state_changed_cb(int result, bt_adapter_device_discovery_state_e discovery_state, bt_adapter_device_discovery_info_s * discovery_info, void *user_data)
 {
 	int i;
 
@@ -136,8 +136,7 @@ static void __discovery_state_changed_cb(int result, bt_adapter_device_discovery
 	}
 
 	if (discovery_info->manufacturer_data_len > 0) {
-		TC_PRT("manufacturer specific data(len:%d)",
-			discovery_info->manufacturer_data_len);
+		TC_PRT("manufacturer specific data(len:%d)", discovery_info->manufacturer_data_len);
 		printf("data [");
 		for (i = 0; i < discovery_info->manufacturer_data_len; i++)
 			printf("%02x ", discovery_info->manufacturer_data[i]);
@@ -145,7 +144,7 @@ static void __discovery_state_changed_cb(int result, bt_adapter_device_discovery
 	}
 }
 
-static void __le_scan_result_cb(int result, bt_adapter_le_device_scan_result_info_s *info, void *user_data)
+static void __le_scan_result_cb(int result, bt_adapter_le_device_scan_result_info_s * info, void *user_data)
 {
 	int i;
 	bt_adapter_le_packet_type_e pkt_type = BT_ADAPTER_LE_PACKET_ADVERTISING;
@@ -156,10 +155,7 @@ static void __le_scan_result_cb(int result, bt_adapter_le_device_scan_result_inf
 	}
 
 	TC_PRT(" ");
-	TC_PRT("%s Adv %d Scan resp %d RSSI %d Addr_type %d",
-			info->remote_address, info->adv_data_len,
-			info->scan_data_len, info->rssi,
-			info->address_type);
+	TC_PRT("%s Adv %d Scan resp %d RSSI %d Addr_type %d", info->remote_address, info->adv_data_len, info->scan_data_len, info->rssi, info->address_type);
 
 	if (info->adv_data_len > 31 || info->scan_data_len > 31) {
 		TC_PRT("###################");
@@ -181,13 +177,12 @@ static void __le_scan_result_cb(int result, bt_adapter_le_device_scan_result_inf
 		bt_adapter_le_ibeacon_scan_result_info_s *ibeacon_info = NULL;
 
 		pkt_type += i;
-		if (pkt_type == BT_ADAPTER_LE_PACKET_ADVERTISING
-			&& info->adv_data == NULL) continue;
-		if (pkt_type == BT_ADAPTER_LE_PACKET_SCAN_RESPONSE
-			&& info->scan_data == NULL) break;
+		if (pkt_type == BT_ADAPTER_LE_PACKET_ADVERTISING && info->adv_data == NULL)
+			continue;
+		if (pkt_type == BT_ADAPTER_LE_PACKET_SCAN_RESPONSE && info->scan_data == NULL)
+			break;
 
-		if (bt_adapter_le_get_scan_result_service_uuids(
-			info, pkt_type, &uuids, &count) == BT_ERROR_NONE) {
+		if (bt_adapter_le_get_scan_result_service_uuids(info, pkt_type, &uuids, &count) == BT_ERROR_NONE) {
 			int i;
 			for (i = 0; i < count; i++) {
 				TC_PRT("UUID[%d] = %s", i + 1, uuids[i]);
@@ -195,63 +190,49 @@ static void __le_scan_result_cb(int result, bt_adapter_le_device_scan_result_inf
 			}
 			free(uuids);
 		}
-		if (bt_adapter_le_get_scan_result_device_name(
-			info, pkt_type, &device_name) == BT_ERROR_NONE) {
+		if (bt_adapter_le_get_scan_result_device_name(info, pkt_type, &device_name) == BT_ERROR_NONE) {
 			TC_PRT("Device name = %s", device_name);
 			free(device_name);
 		}
-		if (bt_adapter_le_get_scan_result_tx_power_level(
-			info, pkt_type, &tx_power_level) == BT_ERROR_NONE) {
+		if (bt_adapter_le_get_scan_result_tx_power_level(info, pkt_type, &tx_power_level) == BT_ERROR_NONE) {
 			TC_PRT("TX Power level = %d", tx_power_level);
 		}
-		if (bt_adapter_le_get_scan_result_service_solicitation_uuids(
-			info, pkt_type, &uuids, &count) == BT_ERROR_NONE) {
+		if (bt_adapter_le_get_scan_result_service_solicitation_uuids(info, pkt_type, &uuids, &count) == BT_ERROR_NONE) {
 			int i;
 			for (i = 0; i < count; i++) {
-				TC_PRT("Solicitation UUID[%d] = %s",
-					i + 1, uuids[i]);
+				TC_PRT("Solicitation UUID[%d] = %s", i + 1, uuids[i]);
 				free(uuids[i]);
 			}
 			free(uuids);
 		}
-		if (bt_adapter_le_get_scan_result_service_data_list(
-			info, pkt_type, &data_list, &count) == BT_ERROR_NONE) {
+		if (bt_adapter_le_get_scan_result_service_data_list(info, pkt_type, &data_list, &count) == BT_ERROR_NONE) {
 			int i;
 			for (i = 0; i < count; i++)
-				TC_PRT("Service Data[%d] = [0x%2.2X%2.2X:0x%.2X...]",
-					i + 1, data_list[i].service_uuid[0],
-					data_list[i].service_uuid[1],
-					data_list[i].service_data[0]);
+				TC_PRT("Service Data[%d] = [0x%2.2X%2.2X:0x%.2X...]", i + 1, data_list[i].service_uuid[0], data_list[i].service_uuid[1], data_list[i].service_data[0]);
 			bt_adapter_le_free_service_data_list(data_list, count);
 		}
-		if (bt_adapter_le_get_scan_result_appearance(
-			info, pkt_type, &appearance) == BT_ERROR_NONE) {
+		if (bt_adapter_le_get_scan_result_appearance(info, pkt_type, &appearance) == BT_ERROR_NONE) {
 			TC_PRT("Appearance = %d", appearance);
 		}
-		if (bt_adapter_le_get_scan_result_manufacturer_data(
-			info, pkt_type, &manufacturer_id, &manufacturer_data,
-			&manufacturer_data_len) == BT_ERROR_NONE) {
+		if (bt_adapter_le_get_scan_result_manufacturer_data(info, pkt_type, &manufacturer_id, &manufacturer_data, &manufacturer_data_len) == BT_ERROR_NONE) {
 
 			if (manufacturer_data_len > 1) {
-				TC_PRT("Manufacturer data[ID:%.4X, 0x%.2X%.2X...(len:%d)]",
-					manufacturer_id, manufacturer_data[0],
-					manufacturer_data[1], manufacturer_data_len);
+				TC_PRT("Manufacturer data[ID:%.4X, 0x%.2X%.2X...(len:%d)]", manufacturer_id, manufacturer_data[0], manufacturer_data[1], manufacturer_data_len);
 			} else {
 				TC_PRT("Manufacturer data[ID:%.4X, len:%d]", manufacturer_id, manufacturer_data_len);
 			}
 
 			free(manufacturer_data);
 		}
-		if (bt_adapter_le_get_scan_result_ibeacon_report(info, pkt_type,
-								&ibeacon_info) == BT_ERROR_NONE) {
-				TC_PRT("APPLE IBEACON");
-				TC_PRT("Company_id: %d", ibeacon_info->company_id);
-				TC_PRT("ibeacon_type: %d", ibeacon_info->ibeacon_type);
-				TC_PRT("uuid: %s", ibeacon_info->uuid);
-				TC_PRT("major_id: %d", ibeacon_info->major_id);
-				TC_PRT("minor_id: %d", ibeacon_info->minor_id);
-				TC_PRT("measured_power: %d", ibeacon_info->measured_power);
-				bt_adapter_le_free_ibeacon_report(ibeacon_info);
+		if (bt_adapter_le_get_scan_result_ibeacon_report(info, pkt_type, &ibeacon_info) == BT_ERROR_NONE) {
+			TC_PRT("APPLE IBEACON");
+			TC_PRT("Company_id: %d", ibeacon_info->company_id);
+			TC_PRT("ibeacon_type: %d", ibeacon_info->ibeacon_type);
+			TC_PRT("uuid: %s", ibeacon_info->uuid);
+			TC_PRT("major_id: %d", ibeacon_info->major_id);
+			TC_PRT("minor_id: %d", ibeacon_info->minor_id);
+			TC_PRT("measured_power: %d", ibeacon_info->measured_power);
+			bt_adapter_le_free_ibeacon_report(ibeacon_info);
 		}
 	}
 }
@@ -265,7 +246,7 @@ static void __state_changed_cb(int result, bt_adapter_state_e adapter_state, voi
 	TC_PRT("result: %s\n", __bt_get_error_message(result));
 	TC_PRT("state: %s\n", (adapter_state == BT_ADAPTER_ENABLED) ? "ENABLED" : "DISABLED");
 
-//	adapter_enabled = ((adapter_state == BT_ADAPTER_ENABLED) ? true : false);
+//  adapter_enabled = ((adapter_state == BT_ADAPTER_ENABLED) ? true : false);
 
 	if (!(adapter_state == true && result == BT_ERROR_NONE)) {
 		TC_PRT("Adapter is NOT enabled\n");
@@ -313,8 +294,8 @@ int bt_unit_test_main(int argc, char **argv)
 	TC_PRT("bt_adapter_enable() returns %s\n", __bt_get_error_message(ret));
 
 // TODO: temporarily block the code because if EVENTLOOP feature is enabled, can NOT enter TASH shell.
-//	eventloop_add_timer_async(1000, true, __check_adapter_enabled, NULL);
-//	eventloop_loop_run();
+//  eventloop_add_timer_async(1000, true, __check_adapter_enabled, NULL);
+//  eventloop_loop_run();
 /*
 	ret = bt_adapter_set_device_discovery_state_changed_cb(__discovery_state_changed_cb, NULL);
 	TC_PRT("returns %s\n", __bt_get_error_message(ret));

@@ -11,4 +11,4 @@
 #define FAR
 #define ERROR -1
 #define OK 0
-#endif // __TINYARA_CONFIG_H__
+#endif							// __TINYARA_CONFIG_H__

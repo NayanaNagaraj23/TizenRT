@@ -61,7 +61,7 @@ static priv_fotahal_handle_t g_priv_handle;
  ****************************************************************************/
 static int verify_fotahal_handle(fotahal_handle_t handle)
 {
-	priv_fotahal_handle_t *priv_handle = (priv_fotahal_handle_t *)handle;
+	priv_fotahal_handle_t *priv_handle = (priv_fotahal_handle_t *) handle;
 
 	if (priv_handle && priv_handle->priv) {
 		return OK;
@@ -98,7 +98,7 @@ fotahal_handle_t fotahal_open(void)
 	g_binary_set = false;
 #endif
 
-	return (fotahal_handle_t)&g_priv_handle;
+	return (fotahal_handle_t) & g_priv_handle;
 }
 
 #ifdef CONFIG_SYSTEM_FOTA_SET_SPECIFIC
@@ -121,7 +121,7 @@ fota_partition_id_t fotahal_get_partition(fotahal_handle_t handle)
 		return ret;
 	}
 
-	return (fota_partition_id_t)ret;
+	return (fota_partition_id_t) ret;
 }
 
 /****************************************************************************
@@ -184,7 +184,6 @@ fotahal_return_t fotahal_write(fotahal_handle_t handle, const char *buffer, uint
 	if (verify_fotahal_handle(handle) != OK) {
 		return FOTAHAL_RETURN_WRONGHANDLE;
 	}
-
 #ifdef CONFIG_SYSTEM_FOTA_SET_SPECIFIC
 	if (g_partition_set == false) {
 		return FOTAHAL_RETURN_PART_NOTSET;
@@ -217,7 +216,6 @@ fotahal_return_t fotahal_erase(fotahal_handle_t handle)
 	if (verify_fotahal_handle(handle) != OK) {
 		return FOTAHAL_RETURN_WRONGHANDLE;
 	}
-
 #ifdef CONFIG_SYSTEM_FOTA_SET_SPECIFIC
 	if (g_partition_set == false) {
 		return FOTAHAL_RETURN_PART_NOTSET;
@@ -263,7 +261,7 @@ fotahal_return_t fotahal_update_bootparam(fotahal_handle_t handle)
  ****************************************************************************/
 fotahal_return_t fotahal_close(fotahal_handle_t handle)
 {
-	priv_fotahal_handle_t *priv_handle = (priv_fotahal_handle_t *)handle;
+	priv_fotahal_handle_t *priv_handle = (priv_fotahal_handle_t *) handle;
 
 	if (verify_fotahal_handle(handle) != OK) {
 		return FOTAHAL_RETURN_WRONGHANDLE;

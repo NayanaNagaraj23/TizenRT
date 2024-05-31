@@ -99,8 +99,6 @@
  * Private Data
  ****************************************************************************/
 
-
-
 struct webclient_input {
 	int argc;
 	char **argv;
@@ -139,20 +137,7 @@ const char c_ca_crt_rsa[] =
 	"H7xsD821+iO2zt6bETOXpClMfZOfvUq8k+0DGuOPz+VtUFrWlymUWoCwSXrbLpX9\r\n"
 	"uMq/NzgtHj6RQa1wVsfwTz/oMp50ysiQVOnGXw94nZpAPA6sYapeFI+eh6FqUNzX\r\n"
 	"mk6vBbOmcZSccbNQYArHE504B4YCqOmoaSYYkKtMsE8jqzpPhNjfzp/haW+710LX\r\n"
-	"a0Tkx63ubUFfclpxCDezeWWkWaCUN/cALw3CknLa0Dhy2xSoRcRdKn23tNbE7qzN\r\n"
-	"E0S3ySvdQwAl+mG5aWpYIxG3pzOPVnVZ9c0p10a3CitlttNCbxWyuHv77+ldU9U0\r\n"
-	"WicCAwEAAaOB3DCB2TAdBgNVHQ4EFgQUrb2YejS0Jvf6xCZU7wO94CTLVBowCwYD\r\n"
-	"VR0PBAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wgZkGA1UdIwSBkTCBjoAUrb2YejS0\r\n"
-	"Jvf6xCZU7wO94CTLVBqhc6RxMG8xCzAJBgNVBAYTAlNFMRQwEgYDVQQKEwtBZGRU\r\n"
-	"cnVzdCBBQjEmMCQGA1UECxMdQWRkVHJ1c3QgRXh0ZXJuYWwgVFRQIE5ldHdvcmsx\r\n"
-	"IjAgBgNVBAMTGUFkZFRydXN0IEV4dGVybmFsIENBIFJvb3SCAQEwDQYJKoZIhvcN\r\n"
-	"AQEFBQADggEBALCb4IUlwtYj4g+WBpKdQZic2YR5gdkeWxQHIzZlj7DYd7usQWxH\r\n"
-	"YINRsPkyPef89iYTx4AWpb9a/IfPeHmJIZriTAcKhjW88t5RxNKWt9x+Tu5w/Rw5\r\n"
-	"6wwCURQtjr0W4MHfRnXnJK3s9EK0hZNwEGe6nQY1ShjTK3rMUUKhemPR5ruhxSvC\r\n"
-	"Nr4TDea9Y355e6cJDUCrat2PisP29owaQgVR1EX1n6diIWgVIEM8med8vSTYqZEX\r\n"
-	"c4g/VhsxOBi0cQ+azcgOno4uG+GMmIPLHzHxREzGBHNJdmAPx/i9F4BrLunMTA5a\r\n"
-	"mnkPIAou1Z5jJh5VkpTYghdae9C8x49OhgQ=\r\n"
-	"-----END CERTIFICATE-----\r\n";
+	"a0Tkx63ubUFfclpxCDezeWWkWaCUN/cALw3CknLa0Dhy2xSoRcRdKn23tNbE7qzN\r\n" "E0S3ySvdQwAl+mG5aWpYIxG3pzOPVnVZ9c0p10a3CitlttNCbxWyuHv77+ldU9U0\r\n" "WicCAwEAAaOB3DCB2TAdBgNVHQ4EFgQUrb2YejS0Jvf6xCZU7wO94CTLVBowCwYD\r\n" "VR0PBAQDAgEGMA8GA1UdEwEB/wQFMAMBAf8wgZkGA1UdIwSBkTCBjoAUrb2YejS0\r\n" "Jvf6xCZU7wO94CTLVBqhc6RxMG8xCzAJBgNVBAYTAlNFMRQwEgYDVQQKEwtBZGRU\r\n" "cnVzdCBBQjEmMCQGA1UECxMdQWRkVHJ1c3QgRXh0ZXJuYWwgVFRQIE5ldHdvcmsx\r\n" "IjAgBgNVBAMTGUFkZFRydXN0IEV4dGVybmFsIENBIFJvb3SCAQEwDQYJKoZIhvcN\r\n" "AQEFBQADggEBALCb4IUlwtYj4g+WBpKdQZic2YR5gdkeWxQHIzZlj7DYd7usQWxH\r\n" "YINRsPkyPef89iYTx4AWpb9a/IfPeHmJIZriTAcKhjW88t5RxNKWt9x+Tu5w/Rw5\r\n" "6wwCURQtjr0W4MHfRnXnJK3s9EK0hZNwEGe6nQY1ShjTK3rMUUKhemPR5ruhxSvC\r\n" "Nr4TDea9Y355e6cJDUCrat2PisP29owaQgVR1EX1n6diIWgVIEM8med8vSTYqZEX\r\n" "c4g/VhsxOBi0cQ+azcgOno4uG+GMmIPLHzHxREzGBHNJdmAPx/i9F4BrLunMTA5a\r\n" "mnkPIAou1Z5jJh5VkpTYghdae9C8x49OhgQ=\r\n" "-----END CERTIFICATE-----\r\n";
 
 struct http_client_ssl_config_t g_config = {
 	(char *)c_ca_crt_rsa, NULL, NULL,
@@ -239,7 +224,7 @@ int webclient_init_request(void *arg, struct http_client_request_t *request)
 	if (!strncmp(argv[1], "GET", 4)) {
 		request->method = WGET_MODE_GET;
 	} else if (!strncmp(argv[1], "PUT", 4)) {
-			request->method = WGET_MODE_PUT;
+		request->method = WGET_MODE_PUT;
 	} else if (!strncmp(argv[1], "POST", 5)) {
 		request->method = WGET_MODE_POST;
 	} else if (!strncmp(argv[1], "DELETE", 7)) {
@@ -277,7 +262,7 @@ int webclient_init_request(void *arg, struct http_client_request_t *request)
 		if (strncmp(p, "async", 5) == 0) {
 			g_async = atoi(q);
 		} else if (strncmp(p, "entity", 6) == 0) {
-				request->entity = q;
+			request->entity = q;
 		} else if (strncmp(p, "chunked", 7) == 0) {
 			request->encoding = atoi(q);
 		} else if (strncmp(p, "test_entity", 11) == 0) {
@@ -300,7 +285,7 @@ int webclient_init_request(void *arg, struct http_client_request_t *request)
 
 	request->buflen = WEBCLIENT_BUF_SIZE;
 	ret = 0;
-exit:
+ exit:
 	WEBCLIENT_FREE_INPUT(input, input->argc);
 
 	return ret;
@@ -335,7 +320,7 @@ pthread_addr_t webclient_cb(void *arg)
 	 * must initialize response structure
 	 */
 	if (g_async) {
-		if (http_client_send_request_async(&request, ssl_config, (wget_callback_t)callback)) {
+		if (http_client_send_request_async(&request, ssl_config, (wget_callback_t) callback)) {
 			printf("fail to send request\n");
 			goto release_out;
 		}
@@ -361,7 +346,7 @@ pthread_addr_t webclient_cb(void *arg)
 		printf("---------------------------------\n");
 	}
 
-release_out:
+ release_out:
 	if (g_testentity) {
 		free(request.entity);
 		g_testentity = 0;

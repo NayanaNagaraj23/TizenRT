@@ -62,7 +62,7 @@ struct tftpc_args_s {
 	bool binary;				/* true:binary ("octet") false:text ("netascii") */
 	bool allocated;				/* true: destpath is allocated */
 	char *destpath;				/* Path at destination */
-	const char *srcpath;			/* Path at src */
+	const char *srcpath;		/* Path at src */
 	in_addr_t ipaddr;			/* Host IP address */
 };
 

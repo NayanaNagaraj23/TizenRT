@@ -46,7 +46,7 @@ static void itc_net_listen_p_multiple_time(void)
 
 	for (index = 0; index < LOOP_COUNT; index++) {
 		socket_fd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-		TC_ASSERT_GEQ("socket", socket_fd, CONFIG_NFILE_DESCRIPTORS);//If ASSERT FAILS, no need to close(socket_fd) as socket is not created
+		TC_ASSERT_GEQ("socket", socket_fd, CONFIG_NFILE_DESCRIPTORS);	//If ASSERT FAILS, no need to close(socket_fd) as socket is not created
 
 		memset(&sa, 0, sizeof sa);
 

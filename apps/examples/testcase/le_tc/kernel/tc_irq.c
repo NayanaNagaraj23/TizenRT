@@ -28,8 +28,8 @@
 #include <tinyara/irq.h>
 #include "tc_internal.h"
 
-# define TIMER_DEVNAME  "/dev/timer0"
-# define INTERVAL	100
+#define TIMER_DEVNAME  "/dev/timer0"
+#define INTERVAL	100
 
 /**
  * @fn                  :tc_irq
@@ -44,8 +44,8 @@
 static void tc_irq_fin_wait_pos(void)
 {
 	struct timer_notify_s notify;
-	notify.arg   = NULL;
-	notify.pid   = (pid_t)getpid();
+	notify.arg = NULL;
+	notify.pid = (pid_t) getpid();
 	char path[256];
 	int ret = 0;
 
@@ -53,7 +53,7 @@ static void tc_irq_fin_wait_pos(void)
 	int fd = open(path, O_RDONLY);
 	TC_ASSERT_GEQ("open", fd, 0);
 
-	ret = ioctl(fd, TCIOC_NOTIFICATION, (unsigned long)((uintptr_t)&notify));
+	ret = ioctl(fd, TCIOC_NOTIFICATION, (unsigned long)((uintptr_t) & notify));
 	TC_ASSERT_GEQ_CLEANUP("ioctl", ret, 0, close(fd));
 
 	ret = ioctl(fd, TCIOC_SETTIMEOUT, INTERVAL);

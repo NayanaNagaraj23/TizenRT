@@ -16,5 +16,5 @@
  *
  ****************************************************************************/
 SLTOOL_AUTH_TABLE(SLOPS_GET, sltool_handle_get_auth)
-SLTOOL_AUTH_TABLE(SLOPS_SET, sltool_handle_set_auth)
-SLTOOL_AUTH_TABLE(SLOPS_REMOVE, sltool_handle_remove_auth)
+	SLTOOL_AUTH_TABLE(SLOPS_SET, sltool_handle_set_auth)
+	SLTOOL_AUTH_TABLE(SLOPS_REMOVE, sltool_handle_remove_auth)

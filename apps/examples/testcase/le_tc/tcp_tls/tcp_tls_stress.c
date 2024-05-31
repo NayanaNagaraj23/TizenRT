@@ -105,10 +105,7 @@ static void wm_sta_disconnected(wifi_manager_cb_msg_s msg, void *arg);
 /*
  * Global
  */
-unsigned char SIMPLE_GET_REQUEST[] = "GET / HTTP/1.1\r\n"
-									"Host: \r\n"
-									"Connection: close\r\n"
-									"\r\n";
+unsigned char SIMPLE_GET_REQUEST[] = "GET / HTTP/1.1\r\n" "Host: \r\n" "Connection: close\r\n" "\r\n";
 
 static wifi_manager_cb_s g_wifi_callbacks = {
 	wm_sta_connected,
@@ -170,35 +167,21 @@ tcp_tls_result_e tcp_tls_hostname_to_ip4(char *hostname, unsigned int *ip4_addre
 tcp_tls_result_e tcp_tls_config_get(tls_config * config)
 {
 	tcp_tls_result_e ret = TCP_TLS_SUCCESS;
-	static const char facebook_ca_cert[] =  
+	static const char facebook_ca_cert[] =
 		"-----BEGIN CERTIFICATE-----\n"
-		"MIIEsTCCA5mgAwIBAgIQBOHnpNxc8vNtwCtCuF0VnzANBgkqhkiG9w0BAQsFADBs\n" 
-		"MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\n" 
-		"d3cuZGlnaWNlcnQuY29tMSswKQYDVQQDEyJEaWdpQ2VydCBIaWdoIEFzc3VyYW5j\n" 
-		"ZSBFViBSb290IENBMB4XDTEzMTAyMjEyMDAwMFoXDTI4MTAyMjEyMDAwMFowcDEL\n" 
-		"MAkGA1UEBhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3\n" 
-		"LmRpZ2ljZXJ0LmNvbTEvMC0GA1UEAxMmRGlnaUNlcnQgU0hBMiBIaWdoIEFzc3Vy\n" 
-		"YW5jZSBTZXJ2ZXIgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC2\n" 
-		"4C/CJAbIbQRf1+8KZAayfSImZRauQkCbztyfn3YHPsMwVYcZuU+UDlqUH1VWtMIC\n" 
-		"Kq/QmO4LQNfE0DtyyBSe75CxEamu0si4QzrZCwvV1ZX1QK/IHe1NnF9Xt4ZQaJn1\n" 
-		"itrSxwUfqJfJ3KSxgoQtxq2lnMcZgqaFD15EWCo3j/018QsIJzJa9buLnqS9UdAn\n" 
-		"4t07QjOjBSjEuyjMmqwrIw14xnvmXnG3Sj4I+4G3FhahnSMSTeXXkgisdaScus0X\n" 
-		"sh5ENWV/UyU50RwKmmMbGZJ0aAo3wsJSSMs5WqK24V3B3aAguCGikyZvFEohQcft\n" 
-		"bZvySC/zA/WiaJJTL17jAgMBAAGjggFJMIIBRTASBgNVHRMBAf8ECDAGAQH/AgEA\n" 
-		"MA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIw\n" 
-		"NAYIKwYBBQUHAQEEKDAmMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2Vy\n" 
-		"dC5jb20wSwYDVR0fBEQwQjBAoD6gPIY6aHR0cDovL2NybDQuZGlnaWNlcnQuY29t\n" 
-		"L0RpZ2lDZXJ0SGlnaEFzc3VyYW5jZUVWUm9vdENBLmNybDA9BgNVHSAENjA0MDIG\n" 
-		"BFUdIAAwKjAoBggrBgEFBQcCARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQuY29tL0NQ\n" 
-		"UzAdBgNVHQ4EFgQUUWj/kK8CB3U8zNllZGKiErhZcjswHwYDVR0jBBgwFoAUsT7D\n" 
-		"aQP4v0cB1JgmGggC72NkK8MwDQYJKoZIhvcNAQELBQADggEBABiKlYkD5m3fXPwd\n" 
-		"aOpKj4PWUS+Na0QWnqxj9dJubISZi6qBcYRb7TROsLd5kinMLYBq8I4g4Xmk/gNH\n" 
-		"E+r1hspZcX30BJZr01lYPf7TMSVcGDiEo+afgv2MW5gxTs14nhr9hctJqvIni5ly\n" 
-		"/D6q1UEL2tU2ob8cbkdJf17ZSHwD2f2LSaCYJkJA69aSEaRkCldUxPUd1gJea6zu\n" 
-		"xICaEnL6VpPX/78whQYwvwt/Tv9XBZ0k7YXDK/umdaisLRbvfXknsuvCnQsH6qqF\n" 
-		"0wGjIChBWUMo0oHjqvbsezt3tkBigAVBRQHvFwY+3sAzm2fTYS5yh+Rp/BIAV0Ae\n" 
-		"cPUeybQ=\n" 
-		"-----END CERTIFICATE-----";
+		"MIIEsTCCA5mgAwIBAgIQBOHnpNxc8vNtwCtCuF0VnzANBgkqhkiG9w0BAQsFADBs\n"
+		"MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\n"
+		"d3cuZGlnaWNlcnQuY29tMSswKQYDVQQDEyJEaWdpQ2VydCBIaWdoIEFzc3VyYW5j\n"
+		"ZSBFViBSb290IENBMB4XDTEzMTAyMjEyMDAwMFoXDTI4MTAyMjEyMDAwMFowcDEL\n"
+		"MAkGA1UEBhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3\n"
+		"LmRpZ2ljZXJ0LmNvbTEvMC0GA1UEAxMmRGlnaUNlcnQgU0hBMiBIaWdoIEFzc3Vy\n"
+		"YW5jZSBTZXJ2ZXIgQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC2\n"
+		"4C/CJAbIbQRf1+8KZAayfSImZRauQkCbztyfn3YHPsMwVYcZuU+UDlqUH1VWtMIC\n"
+		"Kq/QmO4LQNfE0DtyyBSe75CxEamu0si4QzrZCwvV1ZX1QK/IHe1NnF9Xt4ZQaJn1\n"
+		"itrSxwUfqJfJ3KSxgoQtxq2lnMcZgqaFD15EWCo3j/018QsIJzJa9buLnqS9UdAn\n"
+		"4t07QjOjBSjEuyjMmqwrIw14xnvmXnG3Sj4I+4G3FhahnSMSTeXXkgisdaScus0X\n"
+		"sh5ENWV/UyU50RwKmmMbGZJ0aAo3wsJSSMs5WqK24V3B3aAguCGikyZvFEohQcft\n"
+		"bZvySC/zA/WiaJJTL17jAgMBAAGjggFJMIIBRTASBgNVHRMBAf8ECDAGAQH/AgEA\n" "MA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIw\n" "NAYIKwYBBQUHAQEEKDAmMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2Vy\n" "dC5jb20wSwYDVR0fBEQwQjBAoD6gPIY6aHR0cDovL2NybDQuZGlnaWNlcnQuY29t\n" "L0RpZ2lDZXJ0SGlnaEFzc3VyYW5jZUVWUm9vdENBLmNybDA9BgNVHSAENjA0MDIG\n" "BFUdIAAwKjAoBggrBgEFBQcCARYcaHR0cHM6Ly93d3cuZGlnaWNlcnQuY29tL0NQ\n" "UzAdBgNVHQ4EFgQUUWj/kK8CB3U8zNllZGKiErhZcjswHwYDVR0jBBgwFoAUsT7D\n" "aQP4v0cB1JgmGggC72NkK8MwDQYJKoZIhvcNAQELBQADggEBABiKlYkD5m3fXPwd\n" "aOpKj4PWUS+Na0QWnqxj9dJubISZi6qBcYRb7TROsLd5kinMLYBq8I4g4Xmk/gNH\n" "E+r1hspZcX30BJZr01lYPf7TMSVcGDiEo+afgv2MW5gxTs14nhr9hctJqvIni5ly\n" "/D6q1UEL2tU2ob8cbkdJf17ZSHwD2f2LSaCYJkJA69aSEaRkCldUxPUd1gJea6zu\n" "xICaEnL6VpPX/78whQYwvwt/Tv9XBZ0k7YXDK/umdaisLRbvfXknsuvCnQsH6qqF\n" "0wGjIChBWUMo0oHjqvbsezt3tkBigAVBRQHvFwY+3sAzm2fTYS5yh+Rp/BIAV0Ae\n" "cPUeybQ=\n" "-----END CERTIFICATE-----";
 
 	unsigned int ip4_addr = 0;
 	ret = tcp_tls_hostname_to_ip4("www.facebook.com", &ip4_addr);
@@ -206,14 +189,14 @@ tcp_tls_result_e tcp_tls_config_get(tls_config * config)
 		ndbg("tcp_tls_hostname_to_ip4 fails!\n");
 		return ret;
 	}
-	config->ca_certificate = (char *) facebook_ca_cert;
+	config->ca_certificate = (char *)facebook_ca_cert;
 	config->ca_certificate_length = sizeof(facebook_ca_cert);
 	config->ip4_addr = ip4_addr;
 	config->port_num = 443;
 	return ret;
 }
 
-static void wm_get_apinfo(wifi_manager_ap_config_s *apconfig)
+static void wm_get_apinfo(wifi_manager_ap_config_s * apconfig)
 {
 	strncpy(apconfig->ssid, WM_AP_SSID, sizeof(WM_AP_SSID));
 	apconfig->ssid_length = strlen(WM_AP_SSID);
@@ -225,7 +208,7 @@ static void wm_get_apinfo(wifi_manager_ap_config_s *apconfig)
 	}
 }
 
-static tcp_tls_result_e tcp_tls_create(mbedtls_config *tls)
+static tcp_tls_result_e tcp_tls_create(mbedtls_config * tls)
 {
 	tcp_tls_result_e result = TCP_TLS_SUCCESS;
 	int ret = 0;
@@ -235,7 +218,6 @@ static tcp_tls_result_e tcp_tls_create(mbedtls_config *tls)
 		result = TCP_TLS_INVALID_ARGS;
 		return result;
 	}
-
 #if defined(CONFIG_TLS_WITH_HW_ACCEL)
 	ret = see_init();
 	if (ret != 0) {
@@ -259,18 +241,13 @@ static tcp_tls_result_e tcp_tls_create(mbedtls_config *tls)
 	mbedtls_ssl_config_init(tls->conf);
 	mbedtls_x509_crt_init(tls->cacert);
 
-	ret = mbedtls_ctr_drbg_seed(tls->ctr_drbg, mbedtls_entropy_func,
-			tls->entropy, (const unsigned char *) pers,
-			strlen(pers));
+	ret = mbedtls_ctr_drbg_seed(tls->ctr_drbg, mbedtls_entropy_func, tls->entropy, (const unsigned char *)pers, strlen(pers));
 	if (ret != 0) {
 		printf("failed : mbedtls_ctr_drbg_seed returned %d\n", ret);
 		goto error;
 	}
 
-	ret = mbedtls_ssl_config_defaults(tls->conf,
-			MBEDTLS_SSL_IS_CLIENT,
-			MBEDTLS_SSL_TRANSPORT_STREAM,
-			MBEDTLS_SSL_PRESET_DEFAULT);
+	ret = mbedtls_ssl_config_defaults(tls->conf, MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
 	if (ret != 0) {
 		printf("failed : mbedtls_ssl_config_defaults returned %d\n\n", ret);
 		goto error;
@@ -279,20 +256,19 @@ static tcp_tls_result_e tcp_tls_create(mbedtls_config *tls)
 	mbedtls_ssl_conf_rng(tls->conf, mbedtls_ctr_drbg_random, tls->ctr_drbg);
 	mbedtls_ssl_conf_authmode(tls->conf, MBEDTLS_SSL_VERIFY_REQUIRED);
 
-	mbedtls_ssl_set_timer_cb(tls->tls_ctx, tls->timer,
-			mbedtls_timing_set_delay, mbedtls_timing_get_delay);
+	mbedtls_ssl_set_timer_cb(tls->tls_ctx, tls->timer, mbedtls_timing_set_delay, mbedtls_timing_get_delay);
 
 	printf("TCP_TLS create succeeds: %d\n", result);
 
 	return result;
 
-error:
+ error:
 	result = TCP_TLS_FAIL;
 	printf("TCP_TLS create fails\n");
 	return result;
 }
 
-static tcp_tls_result_e tcp_tls_connect(mbedtls_config *tls, tls_config *tls_conf)
+static tcp_tls_result_e tcp_tls_connect(mbedtls_config * tls, tls_config * tls_conf)
 {
 	tcp_tls_result_e result = TCP_TLS_SUCCESS;
 	int ret = 0;
@@ -304,24 +280,18 @@ static tcp_tls_result_e tcp_tls_connect(mbedtls_config *tls, tls_config *tls_con
 		return result;
 	}
 
-	ret = mbedtls_x509_crt_parse(tls->cacert,
-			(const unsigned char *) tls_conf->ca_certificate,
-			tls_conf->ca_certificate_length);
+	ret = mbedtls_x509_crt_parse(tls->cacert, (const unsigned char *)tls_conf->ca_certificate, tls_conf->ca_certificate_length);
 	if (ret != 0) {
 		printf("failed : mbedtls_x509_crt_parse returned %d\n\n", ret);
 		goto error;
 	}
 
-	sprintf(ip_addr, "%u.%u.%u.%u", (unsigned char)(tls_conf->ip4_addr >> 0),
-			(unsigned char)(tls_conf->ip4_addr >> 8),
-			(unsigned char)(tls_conf->ip4_addr >> 16),
-			(unsigned char)(tls_conf->ip4_addr >> 24));
+	sprintf(ip_addr, "%u.%u.%u.%u", (unsigned char)(tls_conf->ip4_addr >> 0), (unsigned char)(tls_conf->ip4_addr >> 8), (unsigned char)(tls_conf->ip4_addr >> 16), (unsigned char)(tls_conf->ip4_addr >> 24));
 	sprintf(port, "%u", tls_conf->port_num);
 
 	printf("  . Connecting to tcp/%s/%s\n", ip_addr, port);
 	fflush(stdout);
-	ret = mbedtls_net_connect(tls->server_fd, ip_addr, port,
-			MBEDTLS_NET_PROTO_TCP);
+	ret = mbedtls_net_connect(tls->server_fd, ip_addr, port, MBEDTLS_NET_PROTO_TCP);
 	if (ret != 0) {
 		printf("failed : mbedtls_net_connect returned %d\n\n", ret);
 		goto error;
@@ -334,10 +304,9 @@ static tcp_tls_result_e tcp_tls_connect(mbedtls_config *tls, tls_config *tls_con
 		goto error;
 	}
 
-	mbedtls_ssl_set_bio(tls->tls_ctx, tls->server_fd, mbedtls_net_send,
-			NULL, mbedtls_net_recv_timeout);
+	mbedtls_ssl_set_bio(tls->tls_ctx, tls->server_fd, mbedtls_net_send, NULL, mbedtls_net_recv_timeout);
 	//mbedtls_ssl_conf_authmode(tls->conf, MBEDTLS_SSL_VERIFY_OPTIONAL);
-	
+
 	while ((ret = mbedtls_ssl_handshake(tls->tls_ctx)) != 0) {
 		unsigned int flags;
 
@@ -366,13 +335,13 @@ static tcp_tls_result_e tcp_tls_connect(mbedtls_config *tls, tls_config *tls_con
 
 	return result;
 
-error:
+ error:
 	result = TCP_TLS_FAIL;
 	printf("TCP_TLS connect fails\n");
 	return result;
 }
 
-static tcp_tls_result_e tcp_tls_destroy(mbedtls_config *tls)
+static tcp_tls_result_e tcp_tls_destroy(mbedtls_config * tls)
 {
 	tcp_tls_result_e result = TCP_TLS_SUCCESS;
 	if (tls == NULL) {
@@ -412,7 +381,7 @@ static tcp_tls_result_e tcp_tls_destroy(mbedtls_config *tls)
 	return result;
 }
 
-static tcp_tls_result_e tcp_tls_read(mbedtls_config *tls, unsigned char *buffer, unsigned int buffer_size, unsigned int *read_count, int time_out)
+static tcp_tls_result_e tcp_tls_read(mbedtls_config * tls, unsigned char *buffer, unsigned int buffer_size, unsigned int *read_count, int time_out)
 {
 	tcp_tls_result_e result = TCP_TLS_FAIL;
 	int ret = 0;
@@ -425,7 +394,7 @@ static tcp_tls_result_e tcp_tls_read(mbedtls_config *tls, unsigned char *buffer,
 
 	/* Set read_timeout */
 	if (tls->tls_ctx->conf != NULL) {
-		mbedtls_ssl_conf_read_timeout((mbedtls_ssl_config *)tls->tls_ctx->conf, time_out);
+		mbedtls_ssl_conf_read_timeout((mbedtls_ssl_config *) tls->tls_ctx->conf, time_out);
 	}
 	do {
 		ret = mbedtls_ssl_read(tls->tls_ctx, buffer, buffer_size);
@@ -463,7 +432,7 @@ static tcp_tls_result_e tcp_tls_read(mbedtls_config *tls, unsigned char *buffer,
 	return result;
 }
 
-static tcp_tls_result_e tcp_tls_write(mbedtls_config *tls, unsigned char *data, unsigned int data_size, unsigned int *write_count)
+static tcp_tls_result_e tcp_tls_write(mbedtls_config * tls, unsigned char *data, unsigned int data_size, unsigned int *write_count)
 {
 	tcp_tls_result_e result = TCP_TLS_SUCCESS;
 	int ret = 0;
@@ -485,7 +454,7 @@ static tcp_tls_result_e tcp_tls_write(mbedtls_config *tls, unsigned char *data, 
 	*write_count = ret;
 	result = TCP_TLS_SUCCESS;
 	printf("TCP_TLS write succeeds: %d\n", result);
-	
+
 	return result;
 }
 
@@ -513,7 +482,7 @@ void *tcp_tls_sync_time_ntp(void *data)
 				if ((init_tp.tv_sec + 1000) < sync_tp.tv_sec) {
 					time_sync = 1;
 					break;
-				} else if ((init_tp.tv_sec + *((int*) data)) < sync_tp.tv_sec) {
+				} else if ((init_tp.tv_sec + *((int *)data)) < sync_tp.tv_sec) {
 					break;
 				}
 				usleep(100000);
@@ -528,13 +497,13 @@ void *tcp_tls_sync_time_ntp(void *data)
 	} else {
 		printf("ntpc already runnig\n");
 	}
-	
+
 	if (ntpc_stop() < 0) {
 		printf("ntcp_stop() failed.\n");
 	}
 	printf("ntpc_stop() OK.\n");
 
-	return (void*)0;
+	return (void *)0;
 }
 #endif
 
@@ -558,6 +527,7 @@ static void tcp_tls_signal_deinit(void)
 	pthread_mutex_destroy(&g_wm_mutex);
 	pthread_cond_destroy(&g_wm_cond);
 }
+
 /*
  * tcp tls create
  */
@@ -654,7 +624,7 @@ TEST_F(tls_send)
 {
 	ST_START_TEST;
 	unsigned int write_count = 0;
-	ST_EXPECT_EQ(TCP_TLS_SUCCESS, tcp_tls_write(&mbedtls_c, SIMPLE_GET_REQUEST, strlen((void*)SIMPLE_GET_REQUEST), &write_count));
+	ST_EXPECT_EQ(TCP_TLS_SUCCESS, tcp_tls_write(&mbedtls_c, SIMPLE_GET_REQUEST, strlen((void *)SIMPLE_GET_REQUEST), &write_count));
 	ST_END_TEST;
 }
 
@@ -669,7 +639,7 @@ TEST_SETUP(tls_recv)
 	ST_EXPECT_EQ(TCP_TLS_SUCCESS, tcp_tls_create(&mbedtls_c));
 	ST_EXPECT_EQ(TCP_TLS_SUCCESS, tcp_tls_config_get(&tls_c));
 	ST_EXPECT_EQ(TCP_TLS_SUCCESS, tcp_tls_connect(&mbedtls_c, &tls_c));
-	ST_EXPECT_EQ(TCP_TLS_SUCCESS, tcp_tls_write(&mbedtls_c, SIMPLE_GET_REQUEST, strlen((void*)SIMPLE_GET_REQUEST), &write_count));
+	ST_EXPECT_EQ(TCP_TLS_SUCCESS, tcp_tls_write(&mbedtls_c, SIMPLE_GET_REQUEST, strlen((void *)SIMPLE_GET_REQUEST), &write_count));
 	ST_END_TEST;
 }
 
@@ -689,11 +659,9 @@ TEST_F(tls_recv)
 	ST_END_TEST;
 }
 
-
 /*
  * tcp tls run
  */
-
 
 void tcp_tls_stress_test(int argc, FAR char *argv[])
 {
@@ -722,7 +690,7 @@ int tc_tcp_tls_main(int argc, char *argv[])
 	if (res < 0) {
 		return -1;
 	}
-	
+
 	wifi_manager_result_e ret = WIFI_MANAGER_FAIL;
 	ret = wifi_manager_init(&g_wifi_callbacks);
 	if (ret == WIFI_MANAGER_FAIL) {

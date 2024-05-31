@@ -33,8 +33,7 @@
 #define CONFIG_ITC_DM_SERVER_PORT "5683"
 #endif
 
-struct dm_lwm2m_context_s test_data_itc = { { CONFIG_ITC_DM_SERVER_IPADDR, CONFIG_ITC_DM_SERVER_PORT, false }, { LIFE_TIME } };
-
+struct dm_lwm2m_context_s test_data_itc = { {CONFIG_ITC_DM_SERVER_IPADDR, CONFIG_ITC_DM_SERVER_PORT, false}, {LIFE_TIME} };
 
 /**
 * @testcase             itc_dm_lwm2m_start_stop_client_p
@@ -481,7 +480,7 @@ int itc_dm_lwm2m_testcase_main(void)
 #ifdef CONFIG_ITC_DM_DISPLAY_CLIENT_RESOURCE
 	itc_dm_lwm2m_display_client_resource_p();
 	sleep(SEC_1);
-	itc_dm_lwm2m_display_client_resource_p_with_no_data();//TC FAIL, Line no. 407, Should return DM_ERROR_NO_DATA, but it returning DM_ERROR_NONE
+	itc_dm_lwm2m_display_client_resource_p_with_no_data();	//TC FAIL, Line no. 407, Should return DM_ERROR_NO_DATA, but it returning DM_ERROR_NONE
 	sleep(SEC_1);
 	itc_dm_lwm2m_display_client_resource_n();
 	sleep(SEC_1);

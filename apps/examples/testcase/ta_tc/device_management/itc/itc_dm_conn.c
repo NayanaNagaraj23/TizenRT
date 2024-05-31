@@ -723,7 +723,7 @@ int itc_dm_conn_regi_unreg_linkdown_main(void)
 	itc_dm_conn_register_unregister_linkdown_p();
 	itc_dm_conn_register_linkdown_p_reregister();
 	itc_dm_conn_get_address_channel_p_after_register_linkdown();
-	itc_dm_conn_get_interface_rssi_p_after_register_linkdown();//TC FAIL when run along with all other DM TCs, individual TC is PASS, return value is 0xffffffc3 not equal to 0x0
+	itc_dm_conn_get_interface_rssi_p_after_register_linkdown();	//TC FAIL when run along with all other DM TCs, individual TC is PASS, return value is 0xffffffc3 not equal to 0x0
 	itc_dm_conn_setget_tx_power_p_after_register_linkdown();
 	itc_dm_conn_register_linkdown_n();
 	itc_dm_conn_unregister_linkdown_n();

@@ -360,7 +360,7 @@ static void tc_fs_vfs_mount_p(void)
 	ret = mount(MOUNT_DEV_DIR, MOUNT_DIR, TARGET_FS_NAME, 0, NULL);
 	TC_ASSERT_EQ_CLEANUP("mount", ret, OK, vfs_unmount());
 
-	/*search mountpoint operation*/
+	/*search mountpoint operation */
 #if !defined(CONFIG_DISABLE_ENVIRON) && !defined(CONFIG_BUILD_PROTECTED)
 	ret = mount_show();
 	TC_ASSERT_EQ_CLEANUP("mount_show", ret, OK, vfs_unmount());
@@ -504,7 +504,7 @@ static void tc_fs_vfs_open_invalid_path_n(void)
 static void tc_fs_vfs_fdopen_p(void)
 {
 	int fd;
-	struct file_struct *fp ;
+	struct file_struct *fp;
 
 	/* Init */
 	vfs_mount();
@@ -526,7 +526,7 @@ static void tc_fs_vfs_fdopen_p(void)
 static void tc_fs_vfs_fdopen_invalid_fp_n(void)
 {
 	int fd = -1;
-	struct file_struct *fp ;
+	struct file_struct *fp;
 
 	/* Testcase */
 	fp = fs_fdopen(fd, O_WROK, NULL);
@@ -638,13 +638,13 @@ static void tc_fs_vfs_ftruncate_p(void)
 	TC_ASSERT_EQ_CLEANUP("ftruncate", ret, OK, close(fd); vfs_unmount());
 	ret = stat(VFS_FILE_PATH, &st);
 	TC_ASSERT_EQ_CLEANUP("stat", ret, OK, close(fd); vfs_unmount());
-	TC_ASSERT_EQ_CLEANUP("stat", st.st_size, (len + 5), close(fd); vfs_unmount());	
-	
+	TC_ASSERT_EQ_CLEANUP("stat", st.st_size, (len + 5), close(fd); vfs_unmount());
+
 	ret = ftruncate(fd, len);
 	TC_ASSERT_EQ_CLEANUP("ftruncate", ret, OK, close(fd); vfs_unmount());
 	ret = stat(VFS_FILE_PATH, &st);
 	TC_ASSERT_EQ_CLEANUP("stat", ret, OK, close(fd); vfs_unmount());
-	TC_ASSERT_EQ_CLEANUP("stat", st.st_size, len, close(fd); vfs_unmount());	
+	TC_ASSERT_EQ_CLEANUP("stat", st.st_size, len, close(fd); vfs_unmount());
 
 	close(fd);
 	vfs_unmount();
@@ -1145,7 +1145,7 @@ static void tc_fs_vfs_lseek_p(void)
 	TC_ASSERT_GT_CLEANUP("read", ret, 0, vfs_unmount());
 	TC_ASSERT_EQ_CLEANUP("read", strcmp(buf, "IS VFS TEST 2"), 0, vfs_unmount());
 
-	/* empty file seek*/
+	/* empty file seek */
 	fd = open(VFS_FILE1_PATH, O_CREAT);
 	TC_ASSERT_GEQ_CLEANUP("open", fd, 0, vfs_unmount());
 
@@ -1874,7 +1874,7 @@ static void tc_libc_dirent_telldir_p(void)
 
 	/* Nagative case with invalid argument, NULL stream. It will return (off_t)-1 */
 	res = telldir(NULL);
-	TC_ASSERT_EQ("telldir", res, (off_t)-1);
+	TC_ASSERT_EQ("telldir", res, (off_t) - 1);
 
 	TC_SUCCESS_RESULT();
 }
@@ -1893,7 +1893,7 @@ static void tc_libc_dirent_telldir_null_stream_n(void)
 
 	/* Nagative case with invalid argument, NULL stream. It will return (off_t)-1 */
 	ret = telldir(NULL);
-	TC_ASSERT_EQ("telldir", ret, (off_t)-1);
+	TC_ASSERT_EQ("telldir", ret, (off_t) - 1);
 
 	TC_SUCCESS_RESULT();
 }
@@ -1965,7 +1965,7 @@ static void tc_fs_vfs_rmdir_p(void)
 	/* Testcase */
 	vfs_rmdir(VFS_FOLDER_PATH);
 
-	/*Removes the empty directory created*/
+	/*Removes the empty directory created */
 	vfs_rmdir(DEV_EMPTY_FOLDER_PATH);
 
 	/* Deinit */
@@ -2421,7 +2421,7 @@ static void tc_fs_vfs_mkfifo_p(void)
 
 	TC_SUCCESS_RESULT();
 	return;
-errout:
+ errout:
 	pthread_kill(tid, SIGUSR1);
 	close(fd);
 }
@@ -2877,7 +2877,7 @@ static void tc_fs_vfs_rename_exist_path_n(void)
 	ret = rename(old_file, NULL);
 	TC_ASSERT_EQ_CLEANUP("rename", ret, ERROR, vfs_unmount());
 
-	/*Condition where rename is not possible*/
+	/*Condition where rename is not possible */
 	ret = rename(DEV_NULL_PATH, DEV_NEW_NULL_PATH);
 	TC_ASSERT_NEQ_CLEANUP("rename", ret, ERROR, vfs_unmount());
 
@@ -2942,7 +2942,7 @@ static void tc_fs_vfs_rename_not_possible_n(void)
 	int ret;
 
 	/* Testcase */
-	/*Condition where rename is not possible*/
+	/*Condition where rename is not possible */
 	ret = rename(DEV_NULL_PATH, DEV_NEW_NULL_PATH);
 	TC_ASSERT_NEQ("rename", ret, ERROR);
 
@@ -3566,7 +3566,7 @@ static void tc_libc_stdio_feof_p(void)
 	}
 	printf("\n");
 
-	/* Deinit */	
+	/* Deinit */
 	fclose(fp);
 	vfs_unmount();
 
@@ -4513,7 +4513,7 @@ static void tc_libc_stdio_setvbuf_p(void)
 
 	/* setvbuf_test: EINVAL error check
 	 * In case that if a buffer pointer is provided and the buffer size is zero
-     */
+	 */
 	ret = setvbuf(fp, buffer, _IOFBF, 0);
 	TC_ASSERT_LEQ_CLEANUP("setvbuf", ret, 0, fclose(fp); vfs_unmount());
 	TC_ASSERT_EQ_CLEANUP("setvbuf", errno, EINVAL, fclose(fp); vfs_unmount());
@@ -4614,7 +4614,7 @@ static void tc_libc_stdio_memoutstream_p(void)
 
 	lib_memoutstream((FAR struct lib_memoutstream_s *)&memoutstream, buffer, STDIO_BUFLEN);
 	TC_ASSERT_EQ("lib_memoutstream", memoutstream.buffer, (FAR char *)(buffer));
-	TC_ASSERT_EQ("lib_memoutstream", memoutstream.buflen, (STDIO_BUFLEN - 1));	/* Save space for null terminator, hence checking with (STDIO_BUFLEN-1)*/
+	TC_ASSERT_EQ("lib_memoutstream", memoutstream.buflen, (STDIO_BUFLEN - 1));	/* Save space for null terminator, hence checking with (STDIO_BUFLEN-1) */
 
 	memoutstream.public.put((FAR struct lib_outstream_s *)&memoutstream.public, str[0]);
 	TC_ASSERT_EQ("memoutstream_putc", memoutstream.public.nput, 1);
@@ -4661,19 +4661,19 @@ static void tc_libc_stdio_memsistream_p(void)
 	offset = memsistream.public.seek((FAR struct lib_sistream_s *)&memsistream.public, SEEK_OFFSET, SEEK_SET);
 /* Seek from the start of the file */
 	TC_ASSERT_EQ("memsistream_seek", memsistream.offset, SEEK_OFFSET);
-	TC_ASSERT_EQ("memsistream_seek", offset, (off_t)SEEK_OFFSET);
+	TC_ASSERT_EQ("memsistream_seek", offset, (off_t) SEEK_OFFSET);
 
 	offset = memsistream.public.seek((FAR struct lib_sistream_s *)&memsistream.public, SEEK_OFFSET, SEEK_CUR);	/* Seek from the current file offset */
 	TC_ASSERT_EQ("memsistream_seek", memsistream.offset, SEEK_OFFSET * 2);
-	TC_ASSERT_EQ("memsistream_seek", offset, (off_t)(SEEK_OFFSET + SEEK_OFFSET));
+	TC_ASSERT_EQ("memsistream_seek", offset, (off_t) (SEEK_OFFSET + SEEK_OFFSET));
 
 	offset = memsistream.public.seek((FAR struct lib_sistream_s *)&memsistream.public, SEEK_OFFSET, SEEK_END);	/* Seek from the end of the file */
 	TC_ASSERT_EQ("memsistream_seek", memsistream.offset, SEEK_OFFSET * 2);
-	TC_ASSERT_EQ("memsistream_seek", offset, (off_t)ERROR);
+	TC_ASSERT_EQ("memsistream_seek", offset, (off_t) ERROR);
 
 	offset = memsistream.public.seek((FAR struct lib_sistream_s *)&memsistream.public, SEEK_OFFSET, SEEK_DEF);	/* Seek none */
 	TC_ASSERT_EQ("memsistream_seek", memsistream.offset, SEEK_OFFSET * 2);
-	TC_ASSERT_EQ("memsistream_seek", offset, (off_t)ERROR);
+	TC_ASSERT_EQ("memsistream_seek", offset, (off_t) ERROR);
 
 	TC_SUCCESS_RESULT();
 }
@@ -4707,19 +4707,19 @@ static void tc_libc_stdio_memsostream_p(void)
 
 	offset = memsostream.public.seek((FAR struct lib_sostream_s *)&memsostream.public, SEEK_OFFSET, SEEK_SET);	/* Seek from the start of the file */
 	TC_ASSERT_EQ("memsostream_seek", memsostream.offset, SEEK_OFFSET);
-	TC_ASSERT_EQ("memsostream_seek", offset, (off_t)SEEK_OFFSET);
+	TC_ASSERT_EQ("memsostream_seek", offset, (off_t) SEEK_OFFSET);
 
 	offset = memsostream.public.seek((FAR struct lib_sostream_s *)&memsostream.public, SEEK_OFFSET, SEEK_CUR);	/* Seek from the current file offset */
 	TC_ASSERT_EQ("memsostream_seek", memsostream.offset, SEEK_OFFSET * 2);
-	TC_ASSERT_EQ("memsostream_seek", offset, (off_t)(SEEK_OFFSET + SEEK_OFFSET));
+	TC_ASSERT_EQ("memsostream_seek", offset, (off_t) (SEEK_OFFSET + SEEK_OFFSET));
 
 	offset = memsostream.public.seek((FAR struct lib_sostream_s *)&memsostream.public, SEEK_OFFSET, SEEK_END);	/* Seek from the end of the file */
 	TC_ASSERT_EQ("memsostream_seek", memsostream.offset, SEEK_OFFSET * 2);
-	TC_ASSERT_EQ("memsostream_seek", offset, (off_t)ERROR);
+	TC_ASSERT_EQ("memsostream_seek", offset, (off_t) ERROR);
 
 	offset = memsostream.public.seek((FAR struct lib_sostream_s *)&memsostream.public, SEEK_OFFSET, SEEK_DEF);	/* Seek none */
 	TC_ASSERT_EQ("memsostream_seek", memsostream.offset, SEEK_OFFSET * 2);
-	TC_ASSERT_EQ("memsostream_seek", offset, (off_t)ERROR);
+	TC_ASSERT_EQ("memsostream_seek", offset, (off_t) ERROR);
 
 	TC_SUCCESS_RESULT();
 }
@@ -4795,7 +4795,7 @@ static void tc_libc_stdio_rawinstream_p(void)
 	TC_ASSERT_GEQ_CLEANUP("open", fd, 0, vfs_unmount());
 
 	/* Testcase */
-	/* Positive case, one character is read from the rawinstream*/
+	/* Positive case, one character is read from the rawinstream */
 	lib_rawinstream((FAR struct lib_rawinstream_s *)&rawinstream, fd);
 	TC_ASSERT_EQ_CLEANUP("lib_rawinstream", rawinstream.fd, fd, close(fd); vfs_unmount());
 
@@ -4968,7 +4968,7 @@ static void tc_libc_stdio_rawsistream_p(void)
 
 	/* Check seek operation */
 	offset = rawsistream.public.seek((FAR struct lib_sistream_s *)&rawsistream.public, SEEK_OFFSET, SEEK_SET);
-	TC_ASSERT_EQ_CLEANUP("rawsistream_seek", offset, (off_t)SEEK_OFFSET, close(fd); vfs_unmount());
+	TC_ASSERT_EQ_CLEANUP("rawsistream_seek", offset, (off_t) SEEK_OFFSET, close(fd); vfs_unmount());
 
 	/* Deinit */
 	close(fd);
@@ -5057,7 +5057,7 @@ static void tc_libc_stdio_rawsostream_p(void)
 
 	/* Check seek operation */
 	offset = rawsostream.public.seek((FAR struct lib_sostream_s *)&rawsostream.public, SEEK_OFFSET, SEEK_SET);
-	TC_ASSERT_EQ_CLEANUP("rawsostream_seek", offset, (off_t)2, close(fd); vfs_unmount());
+	TC_ASSERT_EQ_CLEANUP("rawsostream_seek", offset, (off_t) 2, close(fd); vfs_unmount());
 
 	/* Deinit */
 	close(fd);
@@ -5327,7 +5327,7 @@ static void tc_libc_stdio_stdsistream_p(void)
 
 	/* Check seek operation */
 	offset = stdsistream.public.seek((FAR struct lib_sistream_s *)&stdsistream.public, SEEK_OFFSET, SEEK_SET);
-	TC_ASSERT_EQ_CLEANUP("stdsistream_seek", offset, (off_t)OK, fclose(stream); vfs_unmount());
+	TC_ASSERT_EQ_CLEANUP("stdsistream_seek", offset, (off_t) OK, fclose(stream); vfs_unmount());
 
 	/* Deinit */
 	fclose(stream);
@@ -5407,7 +5407,7 @@ static void tc_libc_stdio_stdsostream_p(void)
 
 	/* Check seek operation */
 	offset = stdsostream.public.seek(&stdsostream.public, SEEK_OFFSET, SEEK_SET);
-	TC_ASSERT_EQ_CLEANUP("stdsostream_seek", offset, (off_t)OK, fclose(stream); vfs_unmount());
+	TC_ASSERT_EQ_CLEANUP("stdsostream_seek", offset, (off_t) OK, fclose(stream); vfs_unmount());
 
 	/* Check flush operation */
 #if defined(CONFIG_STDIO_LINEBUFFER) && CONFIG_STDIO_BUFFER_SIZE > 0
@@ -5517,7 +5517,7 @@ static void tc_libc_stdio_mktemp_p(void)
 
 	TC_SUCCESS_RESULT();
 
-errout:
+ errout:
 #if defined(CONFIG_FS_TMPFS) || defined(CONFIG_FS_SMARTFS)
 	fclose(fp);
 	if (false == tmpfs_mount_exist) {
@@ -5647,7 +5647,7 @@ static void tc_libc_stdio_mkstemp_p(void)
 
 	TC_SUCCESS_RESULT();
 
-errout:
+ errout:
 #if defined(CONFIG_FS_TMPFS) || defined(CONFIG_FS_SMARTFS)
 	if (false == tmpfs_mount_exist) {
 		umount(CONFIG_LIBC_TMPDIR);
@@ -5718,7 +5718,7 @@ static void tc_libc_stdio_tempnam_p(void)
 	TC_SUCCESS_RESULT();
 
 	/* Deinit */
-errout:
+ errout:
 #if defined(CONFIG_FS_TMPFS) || defined(CONFIG_FS_SMARTFS)
 	if (false == tmpfs_mount_exist) {
 		umount(CONFIG_LIBC_TMPDIR);
@@ -5769,7 +5769,7 @@ static void tc_libc_stdio_tempnam_null_arg_n(void)
 	TC_SUCCESS_RESULT();
 
 	/* Deinit */
-errout:
+ errout:
 #if defined(CONFIG_FS_TMPFS) || defined(CONFIG_FS_SMARTFS)
 	if (false == tmpfs_mount_exist) {
 		umount(CONFIG_LIBC_TMPDIR);
@@ -5821,7 +5821,7 @@ static void tc_libc_stdio_tmpnam_p(void)
 	TC_SUCCESS_RESULT();
 
 	/* Deinit */
-errout:
+ errout:
 #if defined(CONFIG_FS_TMPFS) || defined(CONFIG_FS_SMARTFS)
 	if (false == tmpfs_mount_exist) {
 		umount(CONFIG_LIBC_TMPDIR);
@@ -5872,7 +5872,7 @@ static void tc_libc_stdio_tmpnam_null_string_n(void)
 	TC_SUCCESS_RESULT();
 
 	/* Deinit */
-errout:
+ errout:
 #if defined(CONFIG_FS_TMPFS) || defined(CONFIG_FS_SMARTFS)
 	if (false == tmpfs_mount_exist) {
 		umount(CONFIG_LIBC_TMPDIR);
@@ -5919,13 +5919,13 @@ static void tc_fs_mqueue_ops_p(void)
 	struct mq_attr attr;
 
 	/* Init */
-	attr.mq_maxmsg  = 20;
+	attr.mq_maxmsg = 20;
 	attr.mq_msgsize = 10;
-	attr.mq_flags   = 0;
+	attr.mq_flags = 0;
 
 	/* Testcase */
 	mqd_fd = mq_open("test_mqueue", O_CREAT, 0666, &attr);
-	TC_ASSERT_NEQ("mq_open", mqd_fd, (mqd_t)ERROR);
+	TC_ASSERT_NEQ("mq_open", mqd_fd, (mqd_t) ERROR);
 
 	ret = mq_unlink("test_mqueue");
 	TC_ASSERT_EQ("mq_unlink", ret, OK);
@@ -5948,21 +5948,21 @@ static void tc_fs_mqueue_ops_invalid_param_n(void)
 	struct mq_attr attr;
 
 	/* Init */
-	attr.mq_maxmsg  = 20;
+	attr.mq_maxmsg = 20;
 	attr.mq_msgsize = 10;
-	attr.mq_flags   = 0;
+	attr.mq_flags = 0;
 
 	/* Testcase */
-	/*Invalid param*/
+	/*Invalid param */
 	mqd_fd = mq_open(NULL, O_WRONLY | O_CREAT, 0666, &attr);
-	TC_ASSERT_EQ("mq_open", mqd_fd, (mqd_t)ERROR);
+	TC_ASSERT_EQ("mq_open", mqd_fd, (mqd_t) ERROR);
 
 	mqd_fd = mq_open(MOUNT_DIR, O_RDONLY, 0666, &attr);
-	TC_ASSERT_EQ("mq_open", mqd_fd, (mqd_t)ERROR);
+	TC_ASSERT_EQ("mq_open", mqd_fd, (mqd_t) ERROR);
 
-	/*Opening invalid mqueue*/
+	/*Opening invalid mqueue */
 	mqd_fd = mq_open("Test_mqueue", O_RDONLY, 0666, &attr);
-	TC_ASSERT_EQ("mq_open", mqd_fd, (mqd_t)ERROR);
+	TC_ASSERT_EQ("mq_open", mqd_fd, (mqd_t) ERROR);
 
 	TC_SUCCESS_RESULT();
 }
@@ -6152,7 +6152,6 @@ int tc_filesystem_main(int argc, char *argv[])
 	if (testcase_state_handler(TC_START, "FileSystem TC") == ERROR) {
 		return ERROR;
 	}
-
 #ifdef CONFIG_AUTOMOUNT_USERFS
 	get_userfs_devname();
 #endif

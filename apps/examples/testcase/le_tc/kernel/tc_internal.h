@@ -27,32 +27,32 @@
 #ifdef CONFIG_CPP_HAVE_VARARGS
 
 #ifdef CONFIG_DEBUG_TC_KN
-# define tckndbg(format, ...)    dbg(format, ##__VA_ARGS__)
-# define tcknlldbg(format, ...)  lldbg(format, ##__VA_ARGS__)
-# define tcknvdbg(format, ...)   vdbg(format, ##__VA_ARGS__)
-# define tcknllvdbg(format, ...) llvdbg(format, ##__VA_ARGS__)
+#define tckndbg(format, ...)    dbg(format, ##__VA_ARGS__)
+#define tcknlldbg(format, ...)  lldbg(format, ##__VA_ARGS__)
+#define tcknvdbg(format, ...)   vdbg(format, ##__VA_ARGS__)
+#define tcknllvdbg(format, ...) llvdbg(format, ##__VA_ARGS__)
 #else
-# define tckndbg(...)
-# define tcknlldbg(...)
-# define tcknvdbg(...)
-# define tcknllvdbg(...)
+#define tckndbg(...)
+#define tcknlldbg(...)
+#define tcknvdbg(...)
+#define tcknllvdbg(...)
 #endif
 
-#else /* ! CONFIG_CPP_HAVE_VARARGS */
+#else							/* ! CONFIG_CPP_HAVE_VARARGS */
 
 #ifdef CONFIG_DEBUG_TC_KN
-# define tckndbg       dbg
-# define tcknlldbg     lldbg
-# define tcknvdbg      vdbg
-# define tcknllvdbg    llvdbg
+#define tckndbg       dbg
+#define tcknlldbg     lldbg
+#define tcknvdbg      vdbg
+#define tcknllvdbg    llvdbg
 #else
-# define tckndbg       (void)
-# define tcknlldbg     (void)
-# define tcknvdbg      (void)
-# define tcknllvdbg    (void)
+#define tckndbg       (void)
+#define tcknlldbg     (void)
+#define tcknvdbg      (void)
+#define tcknllvdbg    (void)
 #endif
 
-#endif /* CONFIG_CPP_HAVE_VARARGS */
+#endif							/* CONFIG_CPP_HAVE_VARARGS */
 
 /**********************************************************
 * TC Function Declarations
@@ -102,4 +102,4 @@ int itc_timer_main(void);
 int itc_pthread_main(void);
 int tc_get_drvfd(void);
 
-#endif /* __EXAMPLES_TESTCASE_KERNEL_TC_INTERNAL_H */
+#endif							/* __EXAMPLES_TESTCASE_KERNEL_TC_INTERNAL_H */

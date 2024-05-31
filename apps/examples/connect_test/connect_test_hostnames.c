@@ -81,45 +81,46 @@ void connect_test_add_hostname(void *arg)
 
 static void hostname_to_ip4(char *hostname)
 {
-        if (hostname == NULL) {
-                CT_LOGE(TAG, "Hostname not present");
+	if (hostname == NULL) {
+		CT_LOGE(TAG, "Hostname not present");
 		return;
-        }
+	}
 
-        struct hostent *shost;
-        shost = (struct hostent*)gethostbyname((const char *)hostname);
-        if (shost == NULL) {
-                CT_LOGE(TAG, "gethostbyname fail %d", shost);
-                return;
-        }
-        CT_LOG(TAG, "Hostname: %s IPAddress: %s", hostname,
-		inet_ntoa(*((struct in_addr *)shost->h_addr_list[0])));
+	struct hostent *shost;
+	shost = (struct hostent *)gethostbyname((const char *)hostname);
+	if (shost == NULL) {
+		CT_LOGE(TAG, "gethostbyname fail %d", shost);
+		return;
+	}
+	CT_LOG(TAG, "Hostname: %s IPAddress: %s", hostname, inet_ntoa(*((struct in_addr *)shost->h_addr_list[0])));
 }
 
-static void default_dns_service(void) {
+static void default_dns_service(void)
+{
 	CT_LOG(TAG, "Running default DNS service");
-	char hostname[30]; 
-	char hostnames[3][20] = {"www.google.com", "www.samsung.com", "www.facebook.com"};
+	char hostname[30];
+	char hostnames[3][20] = { "www.google.com", "www.samsung.com", "www.facebook.com" };
 	for (int hname = 0; hname < 3; hname++) {
 		strcpy(hostname, hostnames[hname]);
 		hostname_to_ip4(hostname);
 	}
 }
 
-void dns_service(char *hostname_file) {
+void dns_service(char *hostname_file)
+{
 	if (!hostname_file) {
 		default_dns_service();
 	} else {
 		char *file_name = hostname_file;
-		FILE* file = fopen(file_name, "r"); 
-		if(!file) {
+		FILE *file = fopen(file_name, "r");
+		if (!file) {
 			CT_LOG(TAG, "Unable to open : %s", file_name);
 			default_dns_service();
 		} else {
-			char hostname[30]; 
+			char hostname[30];
 			while (fgets(hostname, sizeof(hostname), file)) {
 				hostname[strlen(hostname) - 1] = '\0';
-				hostname_to_ip4(hostname); 
+				hostname_to_ip4(hostname);
 			}
 			fclose(file);
 		}

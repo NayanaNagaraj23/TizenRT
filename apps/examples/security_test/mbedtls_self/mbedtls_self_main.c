@@ -172,7 +172,7 @@ void *connect_ntp(void *data)
 				if ((init_tp.tv_sec + 1000) < sync_tp.tv_sec) {
 					time_sync = 1;
 					break;
-				} else if ((init_tp.tv_sec + * ((int *)data)) < sync_tp.tv_sec) {
+				} else if ((init_tp.tv_sec + *((int *)data)) < sync_tp.tv_sec) {
 					break;
 				}
 				usleep(100000);
@@ -208,7 +208,7 @@ static int test_snprintf(size_t n, const char ref_buf[10], int ref_ret)
 	const char ref[10] = "xxxxxxxxx";
 
 	ret = mbedtls_snprintf(buf, n, "%s", "123");
-	if ((ret < 0) || ((size_t) ret >= n)) {
+	if ((ret < 0) || ((size_t)ret >= n)) {
 		ret = -1;
 	}
 

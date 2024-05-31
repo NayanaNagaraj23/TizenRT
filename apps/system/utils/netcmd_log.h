@@ -23,4 +23,3 @@
 	printf(tag "[ERR] %s:%d\t"fmt, __FUNCTION__, __LINE__, ##args)
 #define NETCMD_LOGI(tag, fmt, args...)								\
 	printf(tag "[INFO] %s:%d\t"fmt, __FUNCTION__, __LINE__, ##args)
-

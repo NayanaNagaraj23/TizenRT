@@ -136,11 +136,11 @@ void lis3lv02qd_main(int argc, char *argv[])
 	for (i = 0; i < 30; i++) {
 		spi_write(port, LIS3LV02DQ_CONF_REG_1, freq, bits, conf, 0x87);
 
-		x_low  = spi_read(port, LIS3LV02DQ_OUTX_L, freq, bits, conf);
+		x_low = spi_read(port, LIS3LV02DQ_OUTX_L, freq, bits, conf);
 		x_high = spi_read(port, LIS3LV02DQ_OUTX_H, freq, bits, conf);
-		y_low  = spi_read(port, LIS3LV02DQ_OUTY_L, freq, bits, conf);
+		y_low = spi_read(port, LIS3LV02DQ_OUTY_L, freq, bits, conf);
 		y_high = spi_read(port, LIS3LV02DQ_OUTY_H, freq, bits, conf);
-		z_low  = spi_read(port, LIS3LV02DQ_OUTZ_L, freq, bits, conf);
+		z_low = spi_read(port, LIS3LV02DQ_OUTZ_L, freq, bits, conf);
 		z_high = spi_read(port, LIS3LV02DQ_OUTZ_H, freq, bits, conf);
 
 		x = (x_low | (x_high << 8));

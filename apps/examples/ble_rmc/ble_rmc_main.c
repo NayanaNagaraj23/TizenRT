@@ -39,6 +39,7 @@ static int g_scan_done = 0;
 static int g_scan_state = -1;
 static ble_addr g_target = { 0, };
 static ble_client_ctx *ctx_list[RMC_MAX_CONNECTION] = { 0, };
+
 static int ctx_count = 0;
 
 static char *client_state_str[] = {
@@ -69,39 +70,28 @@ static void ble_scan_state_changed_cb(ble_scan_state_e scan_state)
 /* These values can be modified as a developer wants. */
 static uint8_t ble_filter[] = { 0x02, 0x01, 0x05, 0x03, 0x19, 0x80, 0x01, 0x05, 0x03, 0x12, 0x18, 0x0f, 0x18 };
 
-static uint8_t g_adv_raw[] = { 
-	0x02, 0x01, 0x05, 0x03, 0x19, 0x80, 0x01, 0x05, 0x03, 0x12, 0x18, 0x0f, 0x18 
+static uint8_t g_adv_raw[] = {
+	0x02, 0x01, 0x05, 0x03, 0x19, 0x80, 0x01, 0x05, 0x03, 0x12, 0x18, 0x0f, 0x18
 };
+
 static uint8_t g_adv_resp[] = {
 	0x11, 0x09, 'T', 'I', 'Z', 'E', 'N', 'R', 'T', ' ', 'T', 'E', 'S', 'T', '(', '0', '2', ')',
 };
 
-static void ble_device_scanned_cb_for_test(ble_scanned_device *scanned_device)
+static void ble_device_scanned_cb_for_test(ble_scanned_device * scanned_device)
 {
-	RMC_LOG(RMC_CLIENT_TAG, "scanned mac : %02x:%02x:%02x:%02x:%02x:%02x\n", 
-		scanned_device->addr.mac[0],
-		scanned_device->addr.mac[1],
-		scanned_device->addr.mac[2],
-		scanned_device->addr.mac[3],
-		scanned_device->addr.mac[4],
-		scanned_device->addr.mac[5]
-	);
+	RMC_LOG(RMC_CLIENT_TAG, "scanned mac : %02x:%02x:%02x:%02x:%02x:%02x\n", scanned_device->addr.mac[0], scanned_device->addr.mac[1], scanned_device->addr.mac[2], scanned_device->addr.mac[3], scanned_device->addr.mac[4], scanned_device->addr.mac[5]
+		);
 }
 
-static void ble_device_scanned_cb_for_connect(ble_scanned_device *scanned_device)
+static void ble_device_scanned_cb_for_connect(ble_scanned_device * scanned_device)
 {
 	if (g_scan_done == 1) {
 		return;
 	}
 
-	RMC_LOG(RMC_CLIENT_TAG, "Found mac : %02x:%02x:%02x:%02x:%02x:%02x\n", 
-		scanned_device->addr.mac[0],
-		scanned_device->addr.mac[1],
-		scanned_device->addr.mac[2],
-		scanned_device->addr.mac[3],
-		scanned_device->addr.mac[4],
-		scanned_device->addr.mac[5]
-	);
+	RMC_LOG(RMC_CLIENT_TAG, "Found mac : %02x:%02x:%02x:%02x:%02x:%02x\n", scanned_device->addr.mac[0], scanned_device->addr.mac[1], scanned_device->addr.mac[2], scanned_device->addr.mac[3], scanned_device->addr.mac[4], scanned_device->addr.mac[5]
+		);
 
 	if (g_scan_done == 0) {
 		memcpy(g_target.mac, scanned_device->addr.mac, BLE_BD_ADDR_MAX_LEN);
@@ -110,36 +100,25 @@ static void ble_device_scanned_cb_for_connect(ble_scanned_device *scanned_device
 	}
 }
 
-static void ble_device_disconnected_cb(ble_client_ctx *ctx)
+static void ble_device_disconnected_cb(ble_client_ctx * ctx)
 {
 	RMC_LOG(RMC_CLIENT_TAG, "'%s' is called[ID : %d]\n", __FUNCTION__, ctx->conn_handle);
 	return;
 }
 
-static void ble_device_connected_cb(ble_client_ctx *ctx, ble_device_connected *dev)
+static void ble_device_connected_cb(ble_client_ctx * ctx, ble_device_connected * dev)
 {
 	RMC_LOG(RMC_CLIENT_TAG, "'%s' is called[%p]\n", __FUNCTION__, ctx);
 
 	RMC_LOG(RMC_CLIENT_TAG, "Conn Handle : %d\n", dev->conn_handle);
-	RMC_LOG(RMC_CLIENT_TAG, "Bonded : %d / CI : %d / SL : %d / MTU : %d\n", 
-		dev->is_bonded,
-		dev->conn_info.conn_interval,
-		dev->conn_info.slave_latency,
-		dev->conn_info.mtu
-	);
-	RMC_LOG(RMC_CLIENT_TAG, "Conn MAC : %02x:%02x:%02x:%02x:%02x:%02x\n", 
-		dev->conn_info.addr.mac[0],
-		dev->conn_info.addr.mac[1],
-		dev->conn_info.addr.mac[2],
-		dev->conn_info.addr.mac[3],
-		dev->conn_info.addr.mac[4],
-		dev->conn_info.addr.mac[5]
-	);
+	RMC_LOG(RMC_CLIENT_TAG, "Bonded : %d / CI : %d / SL : %d / MTU : %d\n", dev->is_bonded, dev->conn_info.conn_interval, dev->conn_info.slave_latency, dev->conn_info.mtu);
+	RMC_LOG(RMC_CLIENT_TAG, "Conn MAC : %02x:%02x:%02x:%02x:%02x:%02x\n", dev->conn_info.addr.mac[0], dev->conn_info.addr.mac[1], dev->conn_info.addr.mac[2], dev->conn_info.addr.mac[3], dev->conn_info.addr.mac[4], dev->conn_info.addr.mac[5]
+		);
 
 	return;
 }
 
-static void ble_operation_notification_cb(ble_client_ctx *ctx, ble_attr_handle attr_handle, ble_data *read_result)
+static void ble_operation_notification_cb(ble_client_ctx * ctx, ble_attr_handle attr_handle, ble_data * read_result)
 {
 	RMC_LOG(RMC_CLIENT_TAG, "'%s' is called[%p]\n", __FUNCTION__, ctx);
 	printf("attr : %x // len : %d\n", attr_handle, read_result->length);
@@ -154,7 +133,8 @@ static void ble_operation_notification_cb(ble_client_ctx *ctx, ble_attr_handle a
 	return;
 }
 
-void restart_server(void) {
+void restart_server(void)
+{
 	ble_result_e ret = BLE_MANAGER_FAIL;
 	ble_data data[1] = { 0, };
 	data->data = g_adv_raw;
@@ -232,32 +212,31 @@ static void utc_cb_desc_b_1(ble_server_attr_cb_type_e type, ble_conn_handle conn
 
 static ble_server_gatt_t gatt_profile[] = {
 	{
-		.type = BLE_SERVER_GATT_SERVICE,
-		.uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01},
-		.uuid_length = 16,
-		.attr_handle = 0x006a,
-	},
+	 .type = BLE_SERVER_GATT_SERVICE,
+	 .uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01},
+	 .uuid_length = 16,
+	 .attr_handle = 0x006a,
+	 },
 
 	{
-		.type = BLE_SERVER_GATT_CHARACT, 
-		.uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x02}, 
-		.uuid_length = 16, 
-		.property = BLE_ATTR_PROP_RWN | BLE_ATTR_PROP_WRITE_NO_RSP, 
-		.permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT, 
-		.attr_handle = 0x006b, 
-		.cb = utc_cb_charact_a_1, 
-		.arg = "char_a_1"
-	},
+	 .type = BLE_SERVER_GATT_CHARACT,
+	 .uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x02},
+	 .uuid_length = 16,
+	 .property = BLE_ATTR_PROP_RWN | BLE_ATTR_PROP_WRITE_NO_RSP,
+	 .permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT,
+	 .attr_handle = 0x006b,
+	 .cb = utc_cb_charact_a_1,
+	 .arg = "char_a_1"},
 
 	{
-		.type = BLE_SERVER_GATT_DESC, 
-		.uuid = {0x02, 0x29}, 
-		.uuid_length = 2, 
-		.permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT, 
-		.attr_handle = 0x006c, 
-		.cb = utc_cb_desc_b_1, 
-		.arg = "desc_b_1",
-	},
+	 .type = BLE_SERVER_GATT_DESC,
+	 .uuid = {0x02, 0x29},
+	 .uuid_length = 2,
+	 .permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT,
+	 .attr_handle = 0x006c,
+	 .cb = utc_cb_desc_b_1,
+	 .arg = "desc_b_1",
+	 },
 };
 
 static ble_scan_callback_list scan_config = {
@@ -276,9 +255,10 @@ static ble_server_init_config server_config = {
 	ble_server_disconnected_cb,
 	ble_server_mtu_update_cb,
 	true,
-	gatt_profile, sizeof(gatt_profile) / sizeof(ble_server_gatt_t)};
+	gatt_profile, sizeof(gatt_profile) / sizeof(ble_server_gatt_t)
+};
 
-static int ble_connect_common(ble_client_ctx *ctx, ble_addr *addr, bool is_auto)
+static int ble_connect_common(ble_client_ctx * ctx, ble_addr * addr, bool is_auto)
 {
 	ble_result_e ret = BLE_MANAGER_FAIL;
 	ble_attr_handle attr_handle;
@@ -315,7 +295,7 @@ static int ble_connect_common(ble_client_ctx *ctx, ble_addr *addr, bool is_auto)
 	cli_state = ble_client_get_state(ctx);
 	RMC_LOG(RMC_CLIENT_TAG, "Client State [ %s ]\n", __client_state_str(cli_state));
 
-	int wait_time = 10; // Wait 10 seconds
+	int wait_time = 10;			// Wait 10 seconds
 	int count = wait_time * 4;
 	while (count--) {
 		cli_state = ble_client_get_state(ctx);
@@ -350,17 +330,17 @@ static int ble_connect_common(ble_client_ctx *ctx, ble_addr *addr, bool is_auto)
 	return 0;
 }
 
-static void set_scan_timer(uint32_t *scan_time, char *data)
+static void set_scan_timer(uint32_t * scan_time, char *data)
 {
 	int temp = atoi(data);
 	if (temp < 0) {
 		RMC_LOG(RMC_CLIENT_TAG, "Fail to set timer\n");
 	} else {
-		*scan_time = (uint32_t)temp;
+		*scan_time = (uint32_t) temp;
 	}
 }
 
-static void set_scan_filter(ble_scan_filter *filter, uint8_t *raw_data, uint8_t len, bool whitelist_enable, uint32_t scan_duration)
+static void set_scan_filter(ble_scan_filter * filter, uint8_t * raw_data, uint8_t len, bool whitelist_enable, uint32_t scan_duration)
 {
 	memset(filter, 0, sizeof(ble_scan_filter));
 	if (raw_data != NULL && len > 0) {
@@ -449,12 +429,11 @@ int ble_rmc_main(int argc, char *argv[])
 			RMC_LOG(RMC_CLIENT_TAG, "Fail to get bond data[%d]\n", ret);
 			goto ble_rmc_done;
 		}
-		
+
 		RMC_LOG(RMC_CLIENT_TAG, "Bonded Dev Num : %d\n", dev_count);
 		if (dev_count > 0) {
 			addr = &(dev_list[0].bd_addr);
-			RMC_LOG(RMC_CLIENT_TAG, "Bond[%d] %02x:%02x:%02x:%02x:%02x:%02x\n", addr->type, 
-				addr->mac[0], addr->mac[1], addr->mac[2], addr->mac[3], addr->mac[4], addr->mac[5]);
+			RMC_LOG(RMC_CLIENT_TAG, "Bond[%d] %02x:%02x:%02x:%02x:%02x:%02x\n", addr->type, addr->mac[0], addr->mac[1], addr->mac[2], addr->mac[3], addr->mac[4], addr->mac[5]);
 		} else {
 			RMC_LOG(RMC_CLIENT_TAG, "There is no bonded data.");
 		}
@@ -490,7 +469,7 @@ int ble_rmc_main(int argc, char *argv[])
 				ret = ble_manager_get_bonded_device(dev_list, &dev_count);
 
 				RMC_LOG(RMC_CLIENT_TAG, "Bonded Dev : %d\n", dev_count);
-				
+
 				for (int i = 0; i < dev_count; i++) {
 					mac = dev_list[i].bd_addr.mac;
 					RMC_LOG(RMC_CLIENT_TAG, "DEV#%d[%d] : %02x:%02x:%02x:%02x:%02x:%02x\n", i + 1, dev_list[i].bd_addr.type, mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
@@ -552,15 +531,13 @@ int ble_rmc_main(int argc, char *argv[])
 			ble_addr addr[1] = { 0, };
 			int count = 0;
 
-			count = sscanf(argv[3], "%02x:%02x:%02x:%02x:%02x:%02x", &addr->mac[0], &addr->mac[1], &addr->mac[2],
-				&addr->mac[3], &addr->mac[4], &addr->mac[5]);
+			count = sscanf(argv[3], "%02x:%02x:%02x:%02x:%02x:%02x", &addr->mac[0], &addr->mac[1], &addr->mac[2], &addr->mac[3], &addr->mac[4], &addr->mac[5]);
 			if (count != BLE_BD_ADDR_MAX_LEN) {
 				RMC_LOG(RMC_CLIENT_TAG, "Fail to read MAC[%d]\n", count);
 				goto ble_rmc_done;
 			}
 
-			RMC_LOG(RMC_CLIENT_TAG, "Input Mac[%d] : %02x:%02x:%02x:%02x:%02x:%02x\n", addr->type, addr->mac[0], 
-				addr->mac[1], addr->mac[2], addr->mac[3], addr->mac[4], addr->mac[5]);
+			RMC_LOG(RMC_CLIENT_TAG, "Input Mac[%d] : %02x:%02x:%02x:%02x:%02x:%02x\n", addr->type, addr->mac[0], addr->mac[1], addr->mac[2], addr->mac[3], addr->mac[4], addr->mac[5]);
 
 			ret = ble_scan_whitelist_add(addr);
 			if (ret != BLE_MANAGER_SUCCESS) {
@@ -572,15 +549,13 @@ int ble_rmc_main(int argc, char *argv[])
 			ble_addr addr[1] = { 0, };
 			int count = 0;
 
-			count = sscanf(argv[3], "%02x:%02x:%02x:%02x:%02x:%02x", &addr->mac[0], &addr->mac[1], &addr->mac[2],
-				&addr->mac[3], &addr->mac[4], &addr->mac[5]);
+			count = sscanf(argv[3], "%02x:%02x:%02x:%02x:%02x:%02x", &addr->mac[0], &addr->mac[1], &addr->mac[2], &addr->mac[3], &addr->mac[4], &addr->mac[5]);
 			if (count != BLE_BD_ADDR_MAX_LEN) {
 				RMC_LOG(RMC_CLIENT_TAG, "Fail to read MAC[%d]\n", count);
 				goto ble_rmc_done;
 			}
 
-			RMC_LOG(RMC_CLIENT_TAG, "Input Mac[%d] : %02x:%02x:%02x:%02x:%02x:%02x\n", addr->type, addr->mac[0], 
-				addr->mac[1], addr->mac[2], addr->mac[3], addr->mac[4], addr->mac[5]);
+			RMC_LOG(RMC_CLIENT_TAG, "Input Mac[%d] : %02x:%02x:%02x:%02x:%02x:%02x\n", addr->type, addr->mac[0], addr->mac[1], addr->mac[2], addr->mac[3], addr->mac[4], addr->mac[5]);
 
 			ret = ble_scan_whitelist_delete(addr);
 			if (ret != BLE_MANAGER_SUCCESS) {
@@ -605,8 +580,7 @@ int ble_rmc_main(int argc, char *argv[])
 			RMC_LOG(RMC_CLIENT_TAG, "Total List : %u\n", count);
 			for (i = 0; i < count; i++) {
 				addr = &addr_list[i];
-				RMC_LOG(RMC_CLIENT_TAG, "#%d Mac[%d] : %02x:%02x:%02x:%02x:%02x:%02x\n", i+1, addr->type, addr->mac[0], 
-				addr->mac[1], addr->mac[2], addr->mac[3], addr->mac[4], addr->mac[5]);
+				RMC_LOG(RMC_CLIENT_TAG, "#%d Mac[%d] : %02x:%02x:%02x:%02x:%02x:%02x\n", i + 1, addr->type, addr->mac[0], addr->mac[1], addr->mac[2], addr->mac[3], addr->mac[4], addr->mac[5]);
 			}
 
 		} else {
@@ -616,18 +590,18 @@ int ble_rmc_main(int argc, char *argv[])
 	}
 
 	/* 
-	* [ Scan ] Usage :
-	* 1. Normal Scan with MAX Scan Timeout
-	* TASH>> ble_rmc scan 1
-	* 2. Whitelist Scan
-	* TASH>> ble_rmc scan 2 [timer_value]
-	* ( timer_value : optional. this should be in seconds, default : 5s )
-	* 3. Filter Scan
-	* TASH>> ble_rmc scan 3 [timer_value]
-	* ( timer_value : optional. this should be in seconds, default : 5s )
-	* 4. Stop Scan
-	* TASH>> ble_rmc scan
-	*/
+	 * [ Scan ] Usage :
+	 * 1. Normal Scan with MAX Scan Timeout
+	 * TASH>> ble_rmc scan 1
+	 * 2. Whitelist Scan
+	 * TASH>> ble_rmc scan 2 [timer_value]
+	 * ( timer_value : optional. this should be in seconds, default : 5s )
+	 * 3. Filter Scan
+	 * TASH>> ble_rmc scan 3 [timer_value]
+	 * ( timer_value : optional. this should be in seconds, default : 5s )
+	 * 4. Stop Scan
+	 * TASH>> ble_rmc scan
+	 */
 	if (strncmp(argv[1], "scan", 5) == 0) {
 		if (argc >= 3 && strncmp(argv[2], "1", 2) == 0) {
 			RMC_LOG(RMC_CLIENT_TAG, "Scan Start without filter !\n");
@@ -641,7 +615,7 @@ int ble_rmc_main(int argc, char *argv[])
 		} else if (argc >= 3 && strncmp(argv[2], "2", 2) == 0) {
 			RMC_LOG(RMC_CLIENT_TAG, "Scan Start with WhiteList!\n");
 
-			uint32_t scan_time = 5; // Seconds
+			uint32_t scan_time = 5;	// Seconds
 			if (argc == 4) {
 				set_scan_timer(&scan_time, argv[3]);
 			}
@@ -659,7 +633,7 @@ int ble_rmc_main(int argc, char *argv[])
 		} else if (argc >= 3 && strncmp(argv[2], "3", 2) == 0) {
 			RMC_LOG(RMC_CLIENT_TAG, "Scan Start with Packet Filter!\n");
 
-			uint32_t scan_time = 5; // Seconds
+			uint32_t scan_time = 5;	// Seconds
 			if (argc == 4) {
 				set_scan_timer(&scan_time, argv[3]);
 			}
@@ -691,13 +665,13 @@ int ble_rmc_main(int argc, char *argv[])
 		}
 		int id = atoi(argv[2]);
 
-		for (int i = 0; i < RMC_MAX_CONNECTION; i++){
-			if (ctx_list[i] != NULL && ctx_list[i]->conn_handle == id){
+		for (int i = 0; i < RMC_MAX_CONNECTION; i++) {
+			if (ctx_list[i] != NULL && ctx_list[i]->conn_handle == id) {
 				ret = ble_client_disconnect(ctx_list[i]);
 				break;
 			}
 		}
-		
+
 		if (ret != BLE_MANAGER_SUCCESS) {
 			RMC_LOG(RMC_CLIENT_TAG, "disconnect fail[%d]\n", ret);
 			goto ble_rmc_done;
@@ -710,7 +684,7 @@ int ble_rmc_main(int argc, char *argv[])
 			goto ble_rmc_done;
 		}
 		int id = atoi(argv[2]);
-		
+
 		ret = ble_server_disconnect(id);
 		if (ret != BLE_MANAGER_SUCCESS) {
 			RMC_LOG(RMC_CLIENT_TAG, "disconnect fail[%d]\n", ret);
@@ -732,13 +706,13 @@ int ble_rmc_main(int argc, char *argv[])
 
 	if (strncmp(argv[1], "connect", 8) == 0) {
 		ble_client_ctx *ctx = NULL;
-		
+
 		/*
-		1. scan
-		2. delete bond
-		3. create ctx
-		4. connect
-		*/
+		   1. scan
+		   2. delete bond
+		   3. create ctx
+		   4. connect
+		 */
 
 		// 1. scan & delete bond
 		if (g_scan_state == 1) {
@@ -768,7 +742,7 @@ int ble_rmc_main(int argc, char *argv[])
 				}
 				usleep(100 * 1000);
 			}
-			
+
 			if (g_scan_done == 0) {
 				RMC_LOG(RMC_CLIENT_TAG, "No target device\n");
 				goto ble_rmc_done;
@@ -790,14 +764,8 @@ int ble_rmc_main(int argc, char *argv[])
 			goto ble_rmc_done;
 		}
 
-		RMC_LOG(RMC_CLIENT_TAG, "Try to connect! [%02x:%02x:%02x:%02x:%02x:%02x]\n", 
-			g_target.mac[0],
-			g_target.mac[1],
-			g_target.mac[2],
-			g_target.mac[3],
-			g_target.mac[4],
-			g_target.mac[5]
-		);
+		RMC_LOG(RMC_CLIENT_TAG, "Try to connect! [%02x:%02x:%02x:%02x:%02x:%02x]\n", g_target.mac[0], g_target.mac[1], g_target.mac[2], g_target.mac[3], g_target.mac[4], g_target.mac[5]
+			);
 
 		int val;
 		if (argc == 3 && strncmp(argv[2], "auto", 5) == 0) {
@@ -812,7 +780,6 @@ int ble_rmc_main(int argc, char *argv[])
 			ctx_list[ctx_count++] = ctx;
 		}
 	}
-
 
 	/* Server Test */
 	if (strncmp(argv[1], "server", 7) == 0) {
@@ -861,7 +828,7 @@ int ble_rmc_main(int argc, char *argv[])
 		}
 	}
 
-ble_rmc_done:
+ ble_rmc_done:
 	RMC_LOG(RMC_CLIENT_TAG, "done\n");
 	return 0;
 }

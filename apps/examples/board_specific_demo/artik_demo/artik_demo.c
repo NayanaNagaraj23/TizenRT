@@ -52,75 +52,35 @@
 #endif
 
 static const char c_ca_crt_rsa[] = "-----BEGIN CERTIFICATE-----\r\n"
-		"MIIDhzCCAm+gAwIBAgIBADANBgkqhkiG9w0BAQUFADA7MQswCQYDVQQGEwJOTDER\r\n"
-		"MA8GA1UEChMIUG9sYXJTU0wxGTAXBgNVBAMTEFBvbGFyU1NMIFRlc3QgQ0EwHhcN\r\n"
-		"MTEwMjEyMTQ0NDAwWhcNMjEwMjEyMTQ0NDAwWjA7MQswCQYDVQQGEwJOTDERMA8G\r\n"
-		"A1UEChMIUG9sYXJTU0wxGTAXBgNVBAMTEFBvbGFyU1NMIFRlc3QgQ0EwggEiMA0G\r\n"
-		"CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDA3zf8F7vglp0/ht6WMn1EpRagzSHx\r\n"
-		"mdTs6st8GFgIlKXsm8WL3xoemTiZhx57wI053zhdcHgH057Zk+i5clHFzqMwUqny\r\n"
-		"50BwFMtEonILwuVA+T7lpg6z+exKY8C4KQB0nFc7qKUEkHHxvYPZP9al4jwqj+8n\r\n"
-		"YMPGn8u67GB9t+aEMr5P+1gmIgNb1LTV+/Xjli5wwOQuvfwu7uJBVcA0Ln0kcmnL\r\n"
-		"R7EUQIN9Z/SG9jGr8XmksrUuEvmEF/Bibyc+E1ixVA0hmnM3oTDPb5Lc9un8rNsu\r\n"
-		"KNF+AksjoBXyOGVkCeoMbo4bF6BxyLObyavpw/LPh5aPgAIynplYb6LVAgMBAAGj\r\n"
-		"gZUwgZIwDAYDVR0TBAUwAwEB/zAdBgNVHQ4EFgQUtFrkpbPe0lL2udWmlQ/rPrzH\r\n"
-		"/f8wYwYDVR0jBFwwWoAUtFrkpbPe0lL2udWmlQ/rPrzH/f+hP6Q9MDsxCzAJBgNV\r\n"
-		"BAYTAk5MMREwDwYDVQQKEwhQb2xhclNTTDEZMBcGA1UEAxMQUG9sYXJTU0wgVGVz\r\n"
-		"dCBDQYIBADANBgkqhkiG9w0BAQUFAAOCAQEAuP1U2ABUkIslsCfdlc2i94QHHYeJ\r\n"
-		"SsR4EdgHtdciUI5I62J6Mom+Y0dT/7a+8S6MVMCZP6C5NyNyXw1GWY/YR82XTJ8H\r\n"
-		"DBJiCTok5DbZ6SzaONBzdWHXwWwmi5vg1dxn7YxrM9d0IjxM27WNKs4sDQhZBQkF\r\n"
-		"pjmfs2cb4oPl4Y9T9meTx/lvdkRYEug61Jfn6cA+qHpyPYdTH+UshITnmp5/Ztkf\r\n"
-		"m/UTSLBNFNHesiTZeH31NcxYGdHSme9Nc/gfidRa0FLOCfWxRlFqAI47zG9jAQCZ\r\n"
-		"7Z2mCGDNMhjQc+BYcdnl0lPXjdDK6V0qCg1dVewhUBcW5gZKzV7e9+DpVA==\r\n"
-		"-----END CERTIFICATE-----\r\n";
+	"MIIDhzCCAm+gAwIBAgIBADANBgkqhkiG9w0BAQUFADA7MQswCQYDVQQGEwJOTDER\r\n"
+	"MA8GA1UEChMIUG9sYXJTU0wxGTAXBgNVBAMTEFBvbGFyU1NMIFRlc3QgQ0EwHhcN\r\n"
+	"MTEwMjEyMTQ0NDAwWhcNMjEwMjEyMTQ0NDAwWjA7MQswCQYDVQQGEwJOTDERMA8G\r\n"
+	"A1UEChMIUG9sYXJTU0wxGTAXBgNVBAMTEFBvbGFyU1NMIFRlc3QgQ0EwggEiMA0G\r\n"
+	"CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDA3zf8F7vglp0/ht6WMn1EpRagzSHx\r\n"
+	"mdTs6st8GFgIlKXsm8WL3xoemTiZhx57wI053zhdcHgH057Zk+i5clHFzqMwUqny\r\n"
+	"50BwFMtEonILwuVA+T7lpg6z+exKY8C4KQB0nFc7qKUEkHHxvYPZP9al4jwqj+8n\r\n" "YMPGn8u67GB9t+aEMr5P+1gmIgNb1LTV+/Xjli5wwOQuvfwu7uJBVcA0Ln0kcmnL\r\n" "R7EUQIN9Z/SG9jGr8XmksrUuEvmEF/Bibyc+E1ixVA0hmnM3oTDPb5Lc9un8rNsu\r\n" "KNF+AksjoBXyOGVkCeoMbo4bF6BxyLObyavpw/LPh5aPgAIynplYb6LVAgMBAAGj\r\n" "gZUwgZIwDAYDVR0TBAUwAwEB/zAdBgNVHQ4EFgQUtFrkpbPe0lL2udWmlQ/rPrzH\r\n" "/f8wYwYDVR0jBFwwWoAUtFrkpbPe0lL2udWmlQ/rPrzH/f+hP6Q9MDsxCzAJBgNV\r\n" "BAYTAk5MMREwDwYDVQQKEwhQb2xhclNTTDEZMBcGA1UEAxMQUG9sYXJTU0wgVGVz\r\n" "dCBDQYIBADANBgkqhkiG9w0BAQUFAAOCAQEAuP1U2ABUkIslsCfdlc2i94QHHYeJ\r\n" "SsR4EdgHtdciUI5I62J6Mom+Y0dT/7a+8S6MVMCZP6C5NyNyXw1GWY/YR82XTJ8H\r\n" "DBJiCTok5DbZ6SzaONBzdWHXwWwmi5vg1dxn7YxrM9d0IjxM27WNKs4sDQhZBQkF\r\n" "pjmfs2cb4oPl4Y9T9meTx/lvdkRYEug61Jfn6cA+qHpyPYdTH+UshITnmp5/Ztkf\r\n" "m/UTSLBNFNHesiTZeH31NcxYGdHSme9Nc/gfidRa0FLOCfWxRlFqAI47zG9jAQCZ\r\n" "7Z2mCGDNMhjQc+BYcdnl0lPXjdDK6V0qCg1dVewhUBcW5gZKzV7e9+DpVA==\r\n" "-----END CERTIFICATE-----\r\n";
 
 static const char c_srv_crt_rsa[] = "-----BEGIN CERTIFICATE-----\r\n"
-		"MIIDNzCCAh+gAwIBAgIBAjANBgkqhkiG9w0BAQUFADA7MQswCQYDVQQGEwJOTDER\r\n"
-		"MA8GA1UEChMIUG9sYXJTU0wxGTAXBgNVBAMTEFBvbGFyU1NMIFRlc3QgQ0EwHhcN\r\n"
-		"MTEwMjEyMTQ0NDA2WhcNMjEwMjEyMTQ0NDA2WjA0MQswCQYDVQQGEwJOTDERMA8G\r\n"
-		"A1UEChMIUG9sYXJTU0wxEjAQBgNVBAMTCWxvY2FsaG9zdDCCASIwDQYJKoZIhvcN\r\n"
-		"AQEBBQADggEPADCCAQoCggEBAMFNo93nzR3RBNdJcriZrA545Do8Ss86ExbQWuTN\r\n"
-		"owCIp+4ea5anUrSQ7y1yej4kmvy2NKwk9XfgJmSMnLAofaHa6ozmyRyWvP7BBFKz\r\n"
-		"NtSj+uGxdtiQwWG0ZlI2oiZTqqt0Xgd9GYLbKtgfoNkNHC1JZvdbJXNG6AuKT2kM\r\n"
-		"tQCQ4dqCEGZ9rlQri2V5kaHiYcPNQEkI7mgM8YuG0ka/0LiqEQMef1aoGh5EGA8P\r\n"
-		"hYvai0Re4hjGYi/HZo36Xdh98yeJKQHFkA4/J/EwyEoO79bex8cna8cFPXrEAjya\r\n"
-		"HT4P6DSYW8tzS1KW2BGiLICIaTla0w+w3lkvEcf36hIBMJcCAwEAAaNNMEswCQYD\r\n"
-		"VR0TBAIwADAdBgNVHQ4EFgQUpQXoZLjc32APUBJNYKhkr02LQ5MwHwYDVR0jBBgw\r\n"
-		"FoAUtFrkpbPe0lL2udWmlQ/rPrzH/f8wDQYJKoZIhvcNAQEFBQADggEBAJxnXClY\r\n"
-		"oHkbp70cqBrsGXLybA74czbO5RdLEgFs7rHVS9r+c293luS/KdliLScZqAzYVylw\r\n"
-		"UfRWvKMoWhHYKp3dEIS4xTXk6/5zXxhv9Rw8SGc8qn6vITHk1S1mPevtekgasY5Y\r\n"
-		"iWQuM3h4YVlRH3HHEMAD1TnAexfXHHDFQGe+Bd1iAbz1/sH9H8l4StwX6egvTK3M\r\n"
-		"wXRwkKkvjKaEDA9ATbZx0mI8LGsxSuCqe9r9dyjmttd47J1p1Rulz3CLzaRcVIuS\r\n"
-		"RRQfaD8neM9c1S/iJ/amTVqJxA1KOdOS5780WhPfSArA+g4qAmSjelc3p4wWpha8\r\n"
-		"zhuYwjVuX6JHG0c=\r\n"
-		"-----END CERTIFICATE-----\r\n";
+	"MIIDNzCCAh+gAwIBAgIBAjANBgkqhkiG9w0BAQUFADA7MQswCQYDVQQGEwJOTDER\r\n"
+	"MA8GA1UEChMIUG9sYXJTU0wxGTAXBgNVBAMTEFBvbGFyU1NMIFRlc3QgQ0EwHhcN\r\n"
+	"MTEwMjEyMTQ0NDA2WhcNMjEwMjEyMTQ0NDA2WjA0MQswCQYDVQQGEwJOTDERMA8G\r\n"
+	"A1UEChMIUG9sYXJTU0wxEjAQBgNVBAMTCWxvY2FsaG9zdDCCASIwDQYJKoZIhvcN\r\n"
+	"AQEBBQADggEPADCCAQoCggEBAMFNo93nzR3RBNdJcriZrA545Do8Ss86ExbQWuTN\r\n" "owCIp+4ea5anUrSQ7y1yej4kmvy2NKwk9XfgJmSMnLAofaHa6ozmyRyWvP7BBFKz\r\n" "NtSj+uGxdtiQwWG0ZlI2oiZTqqt0Xgd9GYLbKtgfoNkNHC1JZvdbJXNG6AuKT2kM\r\n" "tQCQ4dqCEGZ9rlQri2V5kaHiYcPNQEkI7mgM8YuG0ka/0LiqEQMef1aoGh5EGA8P\r\n" "hYvai0Re4hjGYi/HZo36Xdh98yeJKQHFkA4/J/EwyEoO79bex8cna8cFPXrEAjya\r\n" "HT4P6DSYW8tzS1KW2BGiLICIaTla0w+w3lkvEcf36hIBMJcCAwEAAaNNMEswCQYD\r\n" "VR0TBAIwADAdBgNVHQ4EFgQUpQXoZLjc32APUBJNYKhkr02LQ5MwHwYDVR0jBBgw\r\n" "FoAUtFrkpbPe0lL2udWmlQ/rPrzH/f8wDQYJKoZIhvcNAQEFBQADggEBAJxnXClY\r\n" "oHkbp70cqBrsGXLybA74czbO5RdLEgFs7rHVS9r+c293luS/KdliLScZqAzYVylw\r\n" "UfRWvKMoWhHYKp3dEIS4xTXk6/5zXxhv9Rw8SGc8qn6vITHk1S1mPevtekgasY5Y\r\n" "iWQuM3h4YVlRH3HHEMAD1TnAexfXHHDFQGe+Bd1iAbz1/sH9H8l4StwX6egvTK3M\r\n" "wXRwkKkvjKaEDA9ATbZx0mI8LGsxSuCqe9r9dyjmttd47J1p1Rulz3CLzaRcVIuS\r\n" "RRQfaD8neM9c1S/iJ/amTVqJxA1KOdOS5780WhPfSArA+g4qAmSjelc3p4wWpha8\r\n" "zhuYwjVuX6JHG0c=\r\n" "-----END CERTIFICATE-----\r\n";
 
 static const char c_srv_key_rsa[] = "-----BEGIN RSA PRIVATE KEY-----\r\n"
-		"MIIEpAIBAAKCAQEAwU2j3efNHdEE10lyuJmsDnjkOjxKzzoTFtBa5M2jAIin7h5r\r\n"
-		"lqdStJDvLXJ6PiSa/LY0rCT1d+AmZIycsCh9odrqjObJHJa8/sEEUrM21KP64bF2\r\n"
-		"2JDBYbRmUjaiJlOqq3ReB30Zgtsq2B+g2Q0cLUlm91slc0boC4pPaQy1AJDh2oIQ\r\n"
-		"Zn2uVCuLZXmRoeJhw81ASQjuaAzxi4bSRr/QuKoRAx5/VqgaHkQYDw+Fi9qLRF7i\r\n"
-		"GMZiL8dmjfpd2H3zJ4kpAcWQDj8n8TDISg7v1t7HxydrxwU9esQCPJodPg/oNJhb\r\n"
-		"y3NLUpbYEaIsgIhpOVrTD7DeWS8Rx/fqEgEwlwIDAQABAoIBAQCXR0S8EIHFGORZ\r\n"
-		"++AtOg6eENxD+xVs0f1IeGz57Tjo3QnXX7VBZNdj+p1ECvhCE/G7XnkgU5hLZX+G\r\n"
-		"Z0jkz/tqJOI0vRSdLBbipHnWouyBQ4e/A1yIJdlBtqXxJ1KE/ituHRbNc4j4kL8Z\r\n"
-		"/r6pvwnTI0PSx2Eqs048YdS92LT6qAv4flbNDxMn2uY7s4ycS4Q8w1JXnCeaAnYm\r\n"
-		"WYI5wxO+bvRELR2Mcz5DmVnL8jRyml6l6582bSv5oufReFIbyPZbQWlXgYnpu6He\r\n"
-		"GTc7E1zKYQGG/9+DQUl/1vQuCPqQwny0tQoX2w5tdYpdMdVm+zkLtbajzdTviJJa\r\n"
-		"TWzL6lt5AoGBAN86+SVeJDcmQJcv4Eq6UhtRr4QGMiQMz0Sod6ettYxYzMgxtw28\r\n"
-		"CIrgpozCc+UaZJLo7UxvC6an85r1b2nKPCLQFaggJ0H4Q0J/sZOhBIXaoBzWxveK\r\n"
-		"nupceKdVxGsFi8CDy86DBfiyFivfBj+47BbaQzPBj7C4rK7UlLjab2rDAoGBAN2u\r\n"
-		"AM2gchoFiu4v1HFL8D7lweEpi6ZnMJjnEu/dEgGQJFjwdpLnPbsj4c75odQ4Gz8g\r\n"
-		"sw9lao9VVzbusoRE/JGI4aTdO0pATXyG7eG1Qu+5Yc1YGXcCrliA2xM9xx+d7f+s\r\n"
-		"mPzN+WIEg5GJDYZDjAzHG5BNvi/FfM1C9dOtjv2dAoGAF0t5KmwbjWHBhcVqO4Ic\r\n"
-		"BVvN3BIlc1ue2YRXEDlxY5b0r8N4XceMgKmW18OHApZxfl8uPDauWZLXOgl4uepv\r\n"
-		"whZC3EuWrSyyICNhLY21Ah7hbIEBPF3L3ZsOwC+UErL+dXWLdB56Jgy3gZaBeW7b\r\n"
-		"vDrEnocJbqCm7IukhXHOBK8CgYEAwqdHB0hqyNSzIOGY7v9abzB6pUdA3BZiQvEs\r\n"
-		"3LjHVd4HPJ2x0N8CgrBIWOE0q8+0hSMmeE96WW/7jD3fPWwCR5zlXknxBQsfv0gP\r\n"
-		"3BC5PR0Qdypz+d+9zfMf625kyit4T/hzwhDveZUzHnk1Cf+IG7Q+TOEnLnWAWBED\r\n"
-		"ISOWmrUCgYAFEmRxgwAc/u+D6t0syCwAYh6POtscq9Y0i9GyWk89NzgC4NdwwbBH\r\n"
-		"4AgahOxIxXx2gxJnq3yfkJfIjwf0s2DyP0kY2y6Ua1OeomPeY9mrIS4tCuDQ6LrE\r\n"
-		"TB6l9VGoxJL4fyHnZb8L5gGvnB1bbD8cL6YPaDiOhcRseC9vBiEuVg==\r\n"
-		"-----END RSA PRIVATE KEY-----\r\n";
+	"MIIEpAIBAAKCAQEAwU2j3efNHdEE10lyuJmsDnjkOjxKzzoTFtBa5M2jAIin7h5r\r\n"
+	"lqdStJDvLXJ6PiSa/LY0rCT1d+AmZIycsCh9odrqjObJHJa8/sEEUrM21KP64bF2\r\n"
+	"2JDBYbRmUjaiJlOqq3ReB30Zgtsq2B+g2Q0cLUlm91slc0boC4pPaQy1AJDh2oIQ\r\n"
+	"Zn2uVCuLZXmRoeJhw81ASQjuaAzxi4bSRr/QuKoRAx5/VqgaHkQYDw+Fi9qLRF7i\r\n"
+	"GMZiL8dmjfpd2H3zJ4kpAcWQDj8n8TDISg7v1t7HxydrxwU9esQCPJodPg/oNJhb\r\n"
+	"y3NLUpbYEaIsgIhpOVrTD7DeWS8Rx/fqEgEwlwIDAQABAoIBAQCXR0S8EIHFGORZ\r\n"
+	"++AtOg6eENxD+xVs0f1IeGz57Tjo3QnXX7VBZNdj+p1ECvhCE/G7XnkgU5hLZX+G\r\n"
+	"Z0jkz/tqJOI0vRSdLBbipHnWouyBQ4e/A1yIJdlBtqXxJ1KE/ituHRbNc4j4kL8Z\r\n"
+	"/r6pvwnTI0PSx2Eqs048YdS92LT6qAv4flbNDxMn2uY7s4ycS4Q8w1JXnCeaAnYm\r\n"
+	"WYI5wxO+bvRELR2Mcz5DmVnL8jRyml6l6582bSv5oufReFIbyPZbQWlXgYnpu6He\r\n"
+	"GTc7E1zKYQGG/9+DQUl/1vQuCPqQwny0tQoX2w5tdYpdMdVm+zkLtbajzdTviJJa\r\n"
+	"TWzL6lt5AoGBAN86+SVeJDcmQJcv4Eq6UhtRr4QGMiQMz0Sod6ettYxYzMgxtw28\r\n"
+	"CIrgpozCc+UaZJLo7UxvC6an85r1b2nKPCLQFaggJ0H4Q0J/sZOhBIXaoBzWxveK\r\n" "nupceKdVxGsFi8CDy86DBfiyFivfBj+47BbaQzPBj7C4rK7UlLjab2rDAoGBAN2u\r\n" "AM2gchoFiu4v1HFL8D7lweEpi6ZnMJjnEu/dEgGQJFjwdpLnPbsj4c75odQ4Gz8g\r\n" "sw9lao9VVzbusoRE/JGI4aTdO0pATXyG7eG1Qu+5Yc1YGXcCrliA2xM9xx+d7f+s\r\n" "mPzN+WIEg5GJDYZDjAzHG5BNvi/FfM1C9dOtjv2dAoGAF0t5KmwbjWHBhcVqO4Ic\r\n" "BVvN3BIlc1ue2YRXEDlxY5b0r8N4XceMgKmW18OHApZxfl8uPDauWZLXOgl4uepv\r\n" "whZC3EuWrSyyICNhLY21Ah7hbIEBPF3L3ZsOwC+UErL+dXWLdB56Jgy3gZaBeW7b\r\n" "vDrEnocJbqCm7IukhXHOBK8CgYEAwqdHB0hqyNSzIOGY7v9abzB6pUdA3BZiQvEs\r\n" "3LjHVd4HPJ2x0N8CgrBIWOE0q8+0hSMmeE96WW/7jD3fPWwCR5zlXknxBQsfv0gP\r\n" "3BC5PR0Qdypz+d+9zfMf625kyit4T/hzwhDveZUzHnk1Cf+IG7Q+TOEnLnWAWBED\r\n" "ISOWmrUCgYAFEmRxgwAc/u+D6t0syCwAYh6POtscq9Y0i9GyWk89NzgC4NdwwbBH\r\n" "4AgahOxIxXx2gxJnq3yfkJfIjwf0s2DyP0kY2y6Ua1OeomPeY9mrIS4tCuDQ6LrE\r\n" "TB6l9VGoxJL4fyHnZb8L5gGvnB1bbD8cL6YPaDiOhcRseC9vBiEuVg==\r\n" "-----END RSA PRIVATE KEY-----\r\n";
 
 static const char *tlsname = "araweb_tls_client";
 
@@ -167,8 +127,8 @@ struct wget_s {
 	/*
 	 * These describe the just-received buffer of data
 	 */
-	FAR
-	/* user-provided buffer */
+	 FAR
+		/* user-provided buffer */
 	char *buffer;
 	/* Length of the user provided buffer */
 	int buflen;
@@ -198,11 +158,9 @@ extern int artik_demo_main(int argc, char *argv[]);
 static conn_cb linkUpEvent(void);
 static int wifiAutoConnectInit(void);
 static int wifiAutoConnect(void);
-static void wget_tls_debug(void *ctx, int level, const char *file, int line,
-		const char *str);
+static void wget_tls_debug(void *ctx, int level, const char *file, int line, const char *str);
 static void wget_tls_release(struct http_client_tls_t *client);
-static int webclient_tls_init(struct http_client_tls_t *client,
-		struct http_client_ssl_config_t *ssl_config);
+static int webclient_tls_init(struct http_client_tls_t *client, struct http_client_ssl_config_t *ssl_config);
 static void wget_tls_ssl_release(struct http_client_tls_t *client);
 static int wget_tls_handshake(struct http_client_tls_t *client);
 static int wget_parsestatus(struct wget_s *ws);
@@ -240,7 +198,7 @@ static int app_dhcp_main(void)
 	}
 
 	ret = netlib_get_ipv4addr(NET_DEVNAME, &ip_check)
-	if (ret != OK) {
+		if (ret != OK) {
 		return -1;
 	}
 	printf("IP address get %s ----\n", inet_ntoa(ip_check));
@@ -289,9 +247,7 @@ static int wifiAutoConnectInit()
 	ret = WiFiStart(SLSI_WIFI_STATION_IF, NULL);
 	if (ret == SLSI_STATUS_SUCCESS) {
 		printf("[AutoConnect]STA mode started\n");
-		ret = WiFiNetworkJoin((uint8_t*)CONFIG_AP_SSID, strlen(CONFIG_AP_SSID), NULL,
-				(const slsi_security_config_t *)getSecurityConfig(
-						CONFIG_AP_SECURITY, CONFIG_AP_PASS, SLSI_WIFI_STATION_IF));
+		ret = WiFiNetworkJoin((uint8_t *) CONFIG_AP_SSID, strlen(CONFIG_AP_SSID), NULL, (const slsi_security_config_t *)getSecurityConfig(CONFIG_AP_SECURITY, CONFIG_AP_PASS, SLSI_WIFI_STATION_IF));
 		sleep(1);
 		if (ret == SLSI_STATUS_SUCCESS) {
 			printf("[AutoConnect]Start to Join with SSID %s\n", CONFIG_AP_SSID);
@@ -342,8 +298,7 @@ static int wifiAutoConnect()
 	return 1;
 }
 
-static void wget_tls_debug(void *ctx, int level, const char *file, int line,
-		const char *str)
+static void wget_tls_debug(void *ctx, int level, const char *file, int line, const char *str)
 {
 	ndbg("%s:%04d: %s", file, line, str);
 }
@@ -361,8 +316,7 @@ static void wget_tls_release(struct http_client_tls_t *client)
 	mbedtls_ssl_session_free(&(client->tls_session));
 }
 
-static int webclient_tls_init(struct http_client_tls_t *client,
-		struct http_client_ssl_config_t *ssl_config)
+static int webclient_tls_init(struct http_client_tls_t *client, struct http_client_ssl_config_t *ssl_config)
 {
 	int result = 0;
 
@@ -379,9 +333,7 @@ static int webclient_tls_init(struct http_client_tls_t *client,
 
 	ndbg("  . Seeding the random number generator...");
 
-	if ((result = mbedtls_ctr_drbg_seed(&(client->tls_ctr_drbg),
-			mbedtls_entropy_func, &(client->tls_entropy),
-			(const unsigned char *)tlsname, strlen(tlsname))) != 0) {
+	if ((result = mbedtls_ctr_drbg_seed(&(client->tls_ctr_drbg), mbedtls_entropy_func, &(client->tls_entropy), (const unsigned char *)tlsname, strlen(tlsname))) != 0) {
 		/* Error : mbedtls_ctr_drbg_seed returned */
 		ndbg("Error: mbedtls_ctr_drbg_seed returned %d\n", result);
 		goto TLS_INIT_EXIT;
@@ -395,18 +347,14 @@ static int webclient_tls_init(struct http_client_tls_t *client,
 
 	ndbg("  . Loading the client cert, and key...");
 
-	result = mbedtls_x509_crt_parse(&(client->tls_clicert),
-			(const unsigned char *)ssl_config->dev_cert,
-			ssl_config->dev_cert_len);
+	result = mbedtls_x509_crt_parse(&(client->tls_clicert), (const unsigned char *)ssl_config->dev_cert, ssl_config->dev_cert_len);
 	if (result) {
 		/* Error : srv_cert parse fail */
 		ndbg("Error: srv_cert parse fail, return %d\n", result);
 		goto TLS_INIT_EXIT;
 	}
 
-	result = mbedtls_pk_parse_key(&(client->tls_pkey),
-			(const unsigned char *)ssl_config->private_key,
-			ssl_config->private_key_len, NULL, 0);
+	result = mbedtls_pk_parse_key(&(client->tls_pkey), (const unsigned char *)ssl_config->private_key, ssl_config->private_key_len, NULL, 0);
 	if (result) {
 		/* Error : srv_cert parse fail */
 		ndbg("Error: srv_key parse fail, return %d\n", result);
@@ -421,9 +369,7 @@ static int webclient_tls_init(struct http_client_tls_t *client,
 
 	ndbg("  . Loading the CA cert...");
 
-	result = mbedtls_x509_crt_parse(&(client->tls_clicert),
-			(const unsigned char *)ssl_config->root_ca,
-			ssl_config->root_ca_len);
+	result = mbedtls_x509_crt_parse(&(client->tls_clicert), (const unsigned char *)ssl_config->root_ca, ssl_config->root_ca_len);
 	if (result) {
 		/* Error : CA_cert parse fail */
 		ndbg("Error: CA_cert parse fail, return %d\n", result);
@@ -438,22 +384,17 @@ static int webclient_tls_init(struct http_client_tls_t *client,
 
 	ndbg("  . Setting up the SSL data...");
 
-	if ((result = mbedtls_ssl_config_defaults(&(client->tls_conf),
-	MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_STREAM,
-	MBEDTLS_SSL_PRESET_DEFAULT)) != 0) {
+	if ((result = mbedtls_ssl_config_defaults(&(client->tls_conf), MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT)) != 0) {
 		/* Error : mbedtls_ssl_config_defaults returned */
 		ndbg("Error: mbedtls_ssl_config_defaults returned %d\n", result);
 		goto TLS_INIT_EXIT;
 	}
 
-	mbedtls_ssl_conf_rng(&(client->tls_conf), mbedtls_ctr_drbg_random,
-			&(client->tls_ctr_drbg));
+	mbedtls_ssl_conf_rng(&(client->tls_conf), mbedtls_ctr_drbg_random, &(client->tls_ctr_drbg));
 	mbedtls_ssl_conf_dbg(&(client->tls_conf), wget_tls_debug, stdout);
-	mbedtls_ssl_conf_ca_chain(&(client->tls_conf), client->tls_clicert.next,
-	NULL);
+	mbedtls_ssl_conf_ca_chain(&(client->tls_conf), client->tls_clicert.next, NULL);
 
-	if ((result = mbedtls_ssl_conf_own_cert(&(client->tls_conf),
-			&(client->tls_clicert), &(client->tls_pkey))) != 0) {
+	if ((result = mbedtls_ssl_conf_own_cert(&(client->tls_conf), &(client->tls_clicert), &(client->tls_pkey))) != 0) {
 		/* Error : mbedtls_ssl_conf_own_cert returned */
 		ndbg("Error: mbedtls_ssl_conf_own_cert returned %d\n", result);
 		goto TLS_INIT_EXIT;
@@ -461,7 +402,7 @@ static int webclient_tls_init(struct http_client_tls_t *client,
 	ndbg("Ok\n");
 
 	return 0;
-	TLS_INIT_EXIT: wget_tls_release(client);
+ TLS_INIT_EXIT:wget_tls_release(client);
 	return result;
 }
 
@@ -484,8 +425,7 @@ static int wget_tls_handshake(struct http_client_tls_t *client)
 	 */
 	ndbg("Client TLS Init start..");
 
-	mbedtls_ssl_conf_authmode(&(client->tls_conf),
-	MBEDTLS_SSL_VERIFY_OPTIONAL);
+	mbedtls_ssl_conf_authmode(&(client->tls_conf), MBEDTLS_SSL_VERIFY_OPTIONAL);
 
 	/*
 	 * Init TLS
@@ -510,8 +450,7 @@ static int wget_tls_handshake(struct http_client_tls_t *client)
 		ndbg("Error: mbedtls_hostname fail %d\n", result);
 		goto HANDSHAKE_FAIL;
 	}
-	mbedtls_ssl_set_bio(&(client->tls_ssl), &(client->tls_client_fd),
-			mbedtls_net_send, mbedtls_net_recv, NULL);
+	mbedtls_ssl_set_bio(&(client->tls_ssl), &(client->tls_client_fd), mbedtls_net_send, mbedtls_net_recv, NULL);
 
 	/*
 	 * Handshake
@@ -519,7 +458,7 @@ static int wget_tls_handshake(struct http_client_tls_t *client)
 	ndbg("  . Performing the SSL/TLS handshake...\n");
 
 	while ((result = mbedtls_ssl_handshake(&(client->tls_ssl))) != 0) {
-		if (result != MBEDTLS_ERR_SSL_WANT_READ	&& result != MBEDTLS_ERR_SSL_WANT_WRITE) {
+		if (result != MBEDTLS_ERR_SSL_WANT_READ && result != MBEDTLS_ERR_SSL_WANT_WRITE) {
 			/* Error : mbedtls_ssl_handshake returned */
 			ndbg("Error: mbedtls_ssl_handshake returned %d\n", result);
 			goto HANDSHAKE_FAIL;
@@ -531,7 +470,7 @@ static int wget_tls_handshake(struct http_client_tls_t *client)
 	/*
 	 * Handle Exception Error
 	 */
-HANDSHAKE_FAIL:
+ HANDSHAKE_FAIL:
 	wget_tls_release(client);
 	wget_tls_ssl_release(client);
 	return result;
@@ -566,8 +505,7 @@ static int wget_parsestatus(struct wget_s *ws)
 				 * will contain the new location.
 				 */
 
-				else if (strncmp(dest, g_http301, strlen(g_http301)) == 0 || strncmp(dest, g_http302, strlen(g_http302)) == 0
-						|| strncmp(dest, g_http404, strlen(g_http404)) == 0 || strncmp(dest, g_http500, strlen(g_http500)) == 0) {
+				else if (strncmp(dest, g_http301, strlen(g_http301)) == 0 || strncmp(dest, g_http302, strlen(g_http302)) == 0 || strncmp(dest, g_http404, strlen(g_http404)) == 0 || strncmp(dest, g_http500, strlen(g_http500)) == 0) {
 					ws->state = WEBCLIENT_STATE_DATA;
 					break;
 				}
@@ -644,7 +582,7 @@ static int wget_parseheaders(struct wget_s *ws)
 						*dest = 0;
 					}
 
-					strncpy(ws->mimetype, ws->line + strlen(g_httpcontenttype),	sizeof(ws->mimetype));
+					strncpy(ws->mimetype, ws->line + strlen(g_httpcontenttype), sizeof(ws->mimetype));
 				} else
 #endif
 				if (strncasecmp(ws->line, g_httplocation, strlen(g_httplocation)) == 0) {
@@ -654,7 +592,7 @@ static int wget_parseheaders(struct wget_s *ws)
 					 * retain the current location.
 					 */
 
-					(void) netlib_parsehttpurl(ws->line + strlen(g_httplocation), &ws->port, ws->hostname, CONFIG_WEBCLIENT_MAXHOSTNAME, ws->filename, CONFIG_WEBCLIENT_MAXFILENAME);
+					(void)netlib_parsehttpurl(ws->line + strlen(g_httplocation), &ws->port, ws->hostname, CONFIG_WEBCLIENT_MAXHOSTNAME, ws->filename, CONFIG_WEBCLIENT_MAXFILENAME);
 					nvdbg("New hostname='%s' filename='%s'\n", ws->hostname, ws->filename);
 				}
 			}
@@ -672,7 +610,7 @@ static int wget_parseheaders(struct wget_s *ws)
 		offset++;
 	}
 
-	exit: ws->offset = ++offset;
+ exit:ws->offset = ++offset;
 	ws->ndx = ndx;
 	return 0;
 }
@@ -737,8 +675,7 @@ int send_data_to_artik(int *data)
 		/*
 		 * Try to connect server
 		 */
-		ret = connect(sockfd, (struct sockaddr *)&server,
-				sizeof(struct sockaddr_in));
+		ret = connect(sockfd, (struct sockaddr *)&server, sizeof(struct sockaddr_in));
 		if (ret < 0) {
 			/* ERROR: Connection Failed */
 			ndbg("ERROR: connect failed: %d\n", ret);
@@ -790,7 +727,7 @@ int send_data_to_artik(int *data)
 
 		ndbg("send_message : %s\n", w_message);
 
-		ret = mbedtls_ssl_write(&(client_tls->tls_ssl), (unsigned char*)w_message, strlen(w_message));
+		ret = mbedtls_ssl_write(&(client_tls->tls_ssl), (unsigned char *)w_message, strlen(w_message));
 
 		if (ret < 0) {
 			/* Error Occur */
@@ -805,7 +742,7 @@ int send_data_to_artik(int *data)
 		redirected = false;
 
 		for (;;) {
-			ws.datend = mbedtls_ssl_read(&(client_tls->tls_ssl), (unsigned char*)ws.buffer, ws.buflen);
+			ws.datend = mbedtls_ssl_read(&(client_tls->tls_ssl), (unsigned char *)ws.buffer, ws.buflen);
 
 			if (ws.datend == MBEDTLS_ERR_SSL_CONN_EOF || ws.datend == MBEDTLS_ERR_SSL_PEER_CLOSE_NOTIFY) {
 				/* Disconnected */
@@ -876,14 +813,14 @@ int send_data_to_artik(int *data)
 	return 0;
 
 	/* Release memory and close socket if error */
-error_fd_tls:
+ error_fd_tls:
 	close(sockfd);
 	free(client_tls);
 
 	return ERROR;
 
 	/* Handle Exception */
-errout:
+ errout:
 	close(sockfd);
 	wget_tls_release(client_tls);
 	wget_tls_ssl_release(client_tls);
@@ -951,80 +888,80 @@ int artik_demo_main(int argc, char *argv[])
 	 * - AP_PASS : the password of ap.
 	 *
 	 * - AP_SECURITY : the type of security of ap.
-	 *					this is related to wifi driver.
-	 *					artik uses 'open', 'wep', 'wep_shared', 'wpa2_tkip', 'wpa2_aes',
-     *					'wpa2_mixed', 'wpa_aes', 'wpa_tkip', 'wpa_mixed'
-     *
-     * - ARTIK_CLOUD_BEARER : the User token of Artik Cloud.
-     *							After join to Artik Cloud, user can get it.
-     *
-     * - ARTIK_CLOUD_DID : the Device ID which is using in Artik Cloud.
-     *						Server distinguishes each device by this value.
-     *
-     *
-     *
-     * [How To Get ARTIK_Cloud Info]
-     *
-     * 1. Sign Up in 'https://artik.cloud/'
-     *
-     * 2. To Set Up data type visit
-     *    'https://developer.artik.cloud/dashboard/devicetypes/'
-     *
-     * 3. Input Device display name, unique name
-     *
-     * 4. Click New Manifest.
-     *
-     * 5. You can set any device field, but this is an example for artik demo.
-     * 5-1.  Field Name : rssi		Type : double
-     * 5-2.  Field Name : tx_power	Type : double
-     * 5-3.  Field Name : channel	Type : double
-     *
-     * 6. Click 'NEXT: DEVICE ACTIONS' button.
-     *
-     * 7. To skip this page, click 'NEXT: ACTIVATE MANIFEST'
-     *
-     * 8. Click 'ACTIVATE MANIFEST'
-     *
-     * 9. To get user id, visit
-     *    'https://developer.artik.cloud/api-console/'.
-     *
-     * 10. Click 'Get Current User Profile'
-     *
-     * 11. Click 'TRY IT!'
-     *
-     * 12. Now, you can get '"Authorization": "Bearer ~~~~~~~~~~"'
-     *
-     * 13. After the word 'Bearer', it is the id of users.
-     *
-     * 14. Set ARTIK_CLOUD_BEARER, ARTIK_CLOUD_DID in 'artik_demo.c'
-     *
-     * 15. build and run tinyara.
-     *
-     * 16. TASH>> artik_demo
-     *
-     * 17. Demo App will connect wifi automatically and try to send the data of connectivity.
-     *
-     *
-     * [How To Run]
-     *
-     * 1. tinyara/os$ make menuconfig
-     *  (use base configuration with 'sidk_s5jt200/sidk_tash_wlan')
-     *
-     * 2. External Functions -> DM
-     *
-     * 3. Application Configuration -> Examples -> Artik API Demo Example
-     *
-     * 4. Set up AP's SSID, PASSWORD, SECURITY
-     *
-     * 5. Set up Artik Cloud's bearer, device id
-     *
-     * 6. Build tinyara.
-     *
-     * 7. Install tinyara.
-     *
-     * 8. TASH>> artik_demo
-     *
-     */
+	 *                  this is related to wifi driver.
+	 *                  artik uses 'open', 'wep', 'wep_shared', 'wpa2_tkip', 'wpa2_aes',
+	 *                  'wpa2_mixed', 'wpa_aes', 'wpa_tkip', 'wpa_mixed'
+	 *
+	 * - ARTIK_CLOUD_BEARER : the User token of Artik Cloud.
+	 *                          After join to Artik Cloud, user can get it.
+	 *
+	 * - ARTIK_CLOUD_DID : the Device ID which is using in Artik Cloud.
+	 *                      Server distinguishes each device by this value.
+	 *
+	 *
+	 *
+	 * [How To Get ARTIK_Cloud Info]
+	 *
+	 * 1. Sign Up in 'https://artik.cloud/'
+	 *
+	 * 2. To Set Up data type visit
+	 *    'https://developer.artik.cloud/dashboard/devicetypes/'
+	 *
+	 * 3. Input Device display name, unique name
+	 *
+	 * 4. Click New Manifest.
+	 *
+	 * 5. You can set any device field, but this is an example for artik demo.
+	 * 5-1.  Field Name : rssi      Type : double
+	 * 5-2.  Field Name : tx_power  Type : double
+	 * 5-3.  Field Name : channel   Type : double
+	 *
+	 * 6. Click 'NEXT: DEVICE ACTIONS' button.
+	 *
+	 * 7. To skip this page, click 'NEXT: ACTIVATE MANIFEST'
+	 *
+	 * 8. Click 'ACTIVATE MANIFEST'
+	 *
+	 * 9. To get user id, visit
+	 *    'https://developer.artik.cloud/api-console/'.
+	 *
+	 * 10. Click 'Get Current User Profile'
+	 *
+	 * 11. Click 'TRY IT!'
+	 *
+	 * 12. Now, you can get '"Authorization": "Bearer ~~~~~~~~~~"'
+	 *
+	 * 13. After the word 'Bearer', it is the id of users.
+	 *
+	 * 14. Set ARTIK_CLOUD_BEARER, ARTIK_CLOUD_DID in 'artik_demo.c'
+	 *
+	 * 15. build and run tinyara.
+	 *
+	 * 16. TASH>> artik_demo
+	 *
+	 * 17. Demo App will connect wifi automatically and try to send the data of connectivity.
+	 *
+	 *
+	 * [How To Run]
+	 *
+	 * 1. tinyara/os$ make menuconfig
+	 *  (use base configuration with 'sidk_s5jt200/sidk_tash_wlan')
+	 *
+	 * 2. External Functions -> DM
+	 *
+	 * 3. Application Configuration -> Examples -> Artik API Demo Example
+	 *
+	 * 4. Set up AP's SSID, PASSWORD, SECURITY
+	 *
+	 * 5. Set up Artik Cloud's bearer, device id
+	 *
+	 * 6. Build tinyara.
+	 *
+	 * 7. Install tinyara.
+	 *
+	 * 8. TASH>> artik_demo
+	 *
+	 */
 
 	int pid;
 
@@ -1041,4 +978,3 @@ int artik_demo_main(int argc, char *argv[])
 
 	return 0;
 }
-

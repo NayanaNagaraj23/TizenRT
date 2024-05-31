@@ -25,8 +25,8 @@ struct ct_options {
 	uint16_t channel;
 	char *ssid;
 	char *password;
-	wifi_manager_ap_auth_type_e    auth_type;
-	wifi_manager_ap_crypto_type_e  crypto_type;
+	wifi_manager_ap_auth_type_e auth_type;
+	wifi_manager_ap_crypto_type_e crypto_type;
 	char *softap_ssid;
 	char *softap_password;
 	int softap_channel;

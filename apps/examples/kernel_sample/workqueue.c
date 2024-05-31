@@ -48,7 +48,7 @@ static void wq_test1(FAR void *arg)
 	clock_t cur_time = 0;
 	cur_time = clock();
 
-	printf("workqueue_test: test 1 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t)arg, (uint64_t)cur_time - (uint64_t)start_time);
+	printf("workqueue_test: test 1 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t) arg, (uint64_t) cur_time - (uint64_t) start_time);
 }
 
 static void wq_test2(FAR void *arg)
@@ -56,7 +56,7 @@ static void wq_test2(FAR void *arg)
 	clock_t cur_time = 0;
 	cur_time = clock();
 
-	printf("workqueue_test: test 2 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t)arg, (uint64_t)cur_time - (uint64_t)start_time);
+	printf("workqueue_test: test 2 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t) arg, (uint64_t) cur_time - (uint64_t) start_time);
 }
 
 static void wq_test3(FAR void *arg)
@@ -64,7 +64,7 @@ static void wq_test3(FAR void *arg)
 	clock_t cur_time = 0;
 	cur_time = clock();
 
-	printf("workqueue_test: test 3 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t)arg, (uint64_t)cur_time - (uint64_t)start_time);
+	printf("workqueue_test: test 3 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t) arg, (uint64_t) cur_time - (uint64_t) start_time);
 }
 
 static void wq_test4(FAR void *arg)
@@ -72,7 +72,7 @@ static void wq_test4(FAR void *arg)
 	clock_t cur_time = 0;
 	cur_time = clock();
 
-	printf("workqueue_test: test 4 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t)arg, (uint64_t)cur_time - (uint64_t)start_time);
+	printf("workqueue_test: test 4 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t) arg, (uint64_t) cur_time - (uint64_t) start_time);
 }
 
 /****************************************************************************
@@ -108,7 +108,7 @@ int workqueue_test(void)
 
 	printf("workqueue_test: test4 is queued and will excute it after 90 ticks\n");
 	work_queue(HPWORK, test_wq4, wq_test4, (void *)90, 90);
-	
+
 	sleep(1);
 
 	free(test_wq1);

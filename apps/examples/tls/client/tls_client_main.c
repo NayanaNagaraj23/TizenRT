@@ -322,7 +322,7 @@ struct pthread_arg {
 	"    force_ciphersuite=<name>    default: all enabled\n"\
 	" acceptable ciphersuite names:\n"
 
-#define MAX_DATA_SIZE 100 * 1024 * 1024 /* Maximum transfer size is 100MB */
+#define MAX_DATA_SIZE 100 * 1024 * 1024	/* Maximum transfer size is 100MB */
 
 struct options {
 	const char *server_name;	/* hostname of the server (client only)     */
@@ -366,10 +366,8 @@ struct options {
 	int fallback;				/* is this a fallback connection?           */
 	int extended_ms;			/* negotiate extended master secret?        */
 	int etm;					/* negotiate encrypt then mac?              */
-	int aging;                  /* enable the aging test when value is larger than 0*/
+	int aging;					/* enable the aging test when value is larger than 0 */
 };
-
-
 
 static struct options opt;
 
@@ -384,8 +382,8 @@ static void my_debug(void *ctx, int level, const char *file, int line, const cha
 			basename = p + 1;
 		}
 
-	mbedtls_fprintf((FILE *)ctx, "%s:%04d: |%d| %s", basename, line, level, str);
-	fflush((FILE *)ctx);
+	mbedtls_fprintf((FILE *) ctx, "%s:%04d: |%d| %s", basename, line, level, str);
+	fflush((FILE *) ctx);
 }
 
 /*
@@ -430,7 +428,7 @@ static int my_send(void *ctx, const unsigned char *buf, size_t len)
 /*
  * Enabled if debug_level > 1 in code below
  */
-static int my_verify(void *data, mbedtls_x509_crt *crt, int depth, uint32_t *flags)
+static int my_verify(void *data, mbedtls_x509_crt * crt, int depth, uint32_t * flags)
 {
 	char buf[1024];
 	((void)data);
@@ -518,7 +516,7 @@ int tls_client_cb(void *args)
 #endif
 
 	if (argc == 0) {
-usage:
+ usage:
 		if (ret == 0) {
 			ret = 1;
 		}
@@ -992,8 +990,8 @@ usage:
 		goto exit;
 	}
 
-	char *cert_offset[3] = {NULL, NULL, NULL};
-	int cert_length[3] = {0, 0, 0};
+	char *cert_offset[3] = { NULL, NULL, NULL };
+	int cert_length[3] = { 0, 0, 0 };
 
 	cert_offset[0] = cert_buf;
 	cert_length[0] = (cert_offset[0][2] << 8) + cert_offset[0][3] + 4;
@@ -1032,8 +1030,8 @@ usage:
 		goto exit;
 	}
 
-	((mbedtls_ecdsa_context *)(pkey.pk_ctx))->grp.id = MBEDTLS_ECP_DP_SECP256R1;
-	((mbedtls_ecdsa_context *)(pkey.pk_ctx))->key_index = FACTORYKEY_ARTIK_DEVICE;
+	((mbedtls_ecdsa_context *) (pkey.pk_ctx))->grp.id = MBEDTLS_ECP_DP_SECP256R1;
+	((mbedtls_ecdsa_context *) (pkey.pk_ctx))->key_index = FACTORYKEY_ARTIK_DEVICE;
 
 #if defined(MBEDTLS_X509_CRT_PARSE_C)
 	mbedtls_ssl_conf_ca_chain(&conf, &cacert, NULL);
@@ -1355,7 +1353,7 @@ usage:
 	 * 6. Write the GET request
 	 */
 	retry_left = opt.max_resend;
-send_request:
+ send_request:
 	if (opt.aging > 0) {
 		mbedtls_printf("   start the aging test (%d)B sendbuf size(%d)B\n", opt.aging, sizeof(buf));
 		int send_left = opt.aging;
@@ -1363,19 +1361,17 @@ send_request:
 		// send buf size
 		unsigned int aging_size = htonl(opt.aging);
 		ret = mbedtls_ssl_write(&ssl, (void *)&aging_size, sizeof(unsigned int));
-		if (ret <= 0 && ret != MBEDTLS_ERR_SSL_WANT_READ &&
-			ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
+		if (ret <= 0 && ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
 			mbedtls_printf(" failed to send transfer size to the tls server(%x)\n", -ret);
 			goto exit;
 		}
-		
+
 		while (send_left > 0) {
 			int datasize = send_left < MBEDTLS_SSL_MAX_CONTENT_LEN ? send_left : MBEDTLS_SSL_MAX_CONTENT_LEN;
 			for (written = 0, frags = 0; written < datasize; written += ret, frags++) {
 				int bufsize = datasize - written;
 				while ((ret = mbedtls_ssl_write(&ssl, buf + written, bufsize)) <= 0) {
-					if (ret != MBEDTLS_ERR_SSL_WANT_READ &&
-						ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
+					if (ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
 
 						mbedtls_printf(" failed\n  ! mbedtls_ssl_write returned -0x%x\n\n", -ret);
 						goto exit;
@@ -1389,7 +1385,7 @@ send_request:
 		ret = 0;
 		goto exit;
 	}
-		
+
 	mbedtls_printf("  > Write to server:");
 	fflush(stdout);
 
@@ -1577,7 +1573,7 @@ send_request:
 	/*
 	 * 8. Done, cleanly close the connection
 	 */
-close_notify:
+ close_notify:
 	mbedtls_printf("  . Closing the connection...");
 	fflush(stdout);
 
@@ -1592,7 +1588,7 @@ close_notify:
 	/*
 	 * 9. Reconnect?
 	 */
-reconnect:
+ reconnect:
 	if (opt.reconnect != 0) {
 		--opt.reconnect;
 
@@ -1650,7 +1646,7 @@ reconnect:
 	/*
 	 * Cleanup and exit
 	 */
-exit:
+ exit:
 #ifdef MBEDTLS_ERROR_C
 	if (ret != 0) {
 		char error_buf[100];
@@ -1712,7 +1708,7 @@ int tls_client_main(int argc, char **argv)
 	}
 
 	/* 3. create pthread with entry function */
-	if ((r = pthread_create(&tid, &attr, (pthread_startroutine_t)tls_client_cb, (void *)&args)) != 0) {
+	if ((r = pthread_create(&tid, &attr, (pthread_startroutine_t) tls_client_cb, (void *)&args)) != 0) {
 		printf("%s: pthread_create failed, status=%d\n", __func__, r);
 	}
 

@@ -68,7 +68,7 @@ void libtuv_loop_quit(void)
 	_loop = NULL;
 }
 
-static void _timeout_callback(uv_timer_t *handle)
+static void _timeout_callback(uv_timer_t * handle)
 {
 	struct _timeout *timeout = handle->data;
 
@@ -100,7 +100,7 @@ int libtuv_add_timeout_callback(unsigned int msec, timeout_callback func, void *
 	return 0;
 }
 
-static void _watch_callback(uv_poll_t *handle, int status, int events)
+static void _watch_callback(uv_poll_t * handle, int status, int events)
 {
 	struct _watch *watch = handle->data;
 	enum watch_io io = 0;
@@ -155,7 +155,7 @@ int libtuv_add_fd_watch(int fd, enum watch_io io, watch_callback func, void *use
 	return 0;
 }
 
-static void _idle_callback(uv_idle_t *handle)
+static void _idle_callback(uv_idle_t * handle)
 {
 	struct _idle *idle = handle->data;
 	int ret;

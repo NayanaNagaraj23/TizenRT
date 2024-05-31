@@ -90,7 +90,6 @@ struct webserver_input {
 	char **argv;
 };
 
-
 static const char *root_url = "/";
 static const char *busy_url = "/busy";
 
@@ -105,7 +104,7 @@ struct http_server_t *https_server = NULL;
 
 static int http_send_chunk(struct http_client_t *client)
 {
-	char msg_body[MAX_DATA_SIZE + 1] = {0, };
+	char msg_body[MAX_DATA_SIZE + 1] = { 0, };
 	int ret = 0;
 
 	//add data
@@ -141,7 +140,7 @@ void http_get_root(struct http_client_t *client, struct http_req_message *req)
 	struct http_keyvalue_list_t response_headers;
 	const char *msg = "This is a root page";
 	char contlen[6] = { 0, };
-	int resp_type = 0; // 0 - Normal response, 1 - Chunk response
+	int resp_type = 0;			// 0 - Normal response, 1 - Chunk response
 
 	http_keyvalue_list_init(&response_headers);
 
@@ -152,7 +151,7 @@ void http_get_root(struct http_client_t *client, struct http_req_message *req)
 
 	printf("===== GET_ROOT CALLBACK url : %s =====\n", req->url);
 
-	if (resp_type == 1) { // this is temporary change
+	if (resp_type == 1) {		// this is temporary change
 		if (http_send_chunk(client) < 0) {
 			printf("Error: Fail to send response\n");
 		}
@@ -175,7 +174,7 @@ void http_get_callback(struct http_client_t *client, struct http_req_message *re
 }
 
 /* PUT callback */
-void http_put_callback(struct http_client_t *client,  struct http_req_message *req)
+void http_put_callback(struct http_client_t *client, struct http_req_message *req)
 {
 	printf("===== PUT CALLBACK url : %s entity size : %d =====\n", req->url, strlen(req->entity));
 
@@ -199,7 +198,8 @@ void http_put_busy(struct http_client_t *client, struct http_req_message *req)
 	int i;
 
 	printf("===== PUT BUSY CALLBACK url : %s entity size : %d =====\n", req->url, strlen(req->entity));
-	for (i = 0; i < 100; i++) sleep(1);
+	for (i = 0; i < 100; i++)
+		sleep(1);
 
 	if (http_send_response(client, 200, "PUT BUSY Success", NULL) < 0) {
 		printf("Error: Fail to send response\n");
@@ -227,7 +227,7 @@ void http_post_callback(struct http_client_t *client, struct http_req_message *r
 }
 
 /* DELETE callback */
-void http_delete_callback(struct http_client_t *client,  struct http_req_message *req)
+void http_delete_callback(struct http_client_t *client, struct http_req_message *req)
 {
 	printf("===== DELETE CALLBACK url : %s =====\n", req->url);
 
@@ -238,7 +238,7 @@ void http_delete_callback(struct http_client_t *client,  struct http_req_message
 
 #ifdef CONFIG_NETUTILS_WEBSOCKET
 /* receive packets from TCP socket */
-ssize_t ws_recv_cb(websocket_context_ptr ctx, uint8_t *buf, size_t len, int flags, void *user_data)
+ssize_t ws_recv_cb(websocket_context_ptr ctx, uint8_t * buf, size_t len, int flags, void *user_data)
 {
 	ssize_t r;
 	int fd;
@@ -246,7 +246,7 @@ ssize_t ws_recv_cb(websocket_context_ptr ctx, uint8_t *buf, size_t len, int flag
 	struct websocket_info_t *info = user_data;
 
 	fd = info->data->fd;
-RECV_RETRY:
+ RECV_RETRY:
 	if (info->data->tls_enabled) {
 		r = mbedtls_ssl_read(info->data->tls_ssl, buf, len);
 	} else {
@@ -269,7 +269,7 @@ RECV_RETRY:
 }
 
 /* send packets from TCP socket */
-ssize_t ws_send_cb(websocket_context_ptr ctx, const uint8_t *buf, size_t len, int flags, void *user_data)
+ssize_t ws_send_cb(websocket_context_ptr ctx, const uint8_t * buf, size_t len, int flags, void *user_data)
 {
 	ssize_t r;
 	int fd;
@@ -277,7 +277,7 @@ ssize_t ws_send_cb(websocket_context_ptr ctx, const uint8_t *buf, size_t len, in
 	struct websocket_info_t *info = user_data;
 
 	fd = info->data->fd;
-SEND_RETRY:
+ SEND_RETRY:
 	if (info->data->tls_enabled) {
 		r = mbedtls_ssl_write(info->data->tls_ssl, buf, len);
 	} else {
@@ -297,7 +297,7 @@ SEND_RETRY:
 	return r;
 }
 
-void ws_server_on_msg_cb(websocket_context_ptr ctx, const websocket_on_msg_arg *arg, void *user_data)
+void ws_server_on_msg_cb(websocket_context_ptr ctx, const websocket_on_msg_arg * arg, void *user_data)
 {
 	struct websocket_info_t *info = user_data;
 	websocket_frame_t msgarg = {
@@ -398,7 +398,7 @@ pthread_addr_t httptest_cb(void *arg)
 		goto release;
 	}
 
-start:
+ start:
 	if (http_server != NULL) {
 		printf("Error: HTTP server is already run\n");
 		goto release;
@@ -449,7 +449,7 @@ start:
 	}
 	goto release;
 
-stop:
+ stop:
 	http_server_stop(http_server);
 	deregister_callbacks(http_server);
 	http_server_release(&http_server);
@@ -460,7 +460,7 @@ stop:
 #endif
 	printf("webserver end\n");
 
-release:
+ release:
 	WEBSERVER_FREE_INPUT(input, input->argc);
 	return NULL;
 }

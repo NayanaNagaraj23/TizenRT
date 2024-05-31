@@ -47,7 +47,7 @@ static bool tc_send_chk = TC_OK;
 static bool tc_sync_chk = TC_OK;
 static bool sync_async_flag = SYNC_TEST;
 
-static void async_callback(msg_reply_type_t msg_type, msg_recv_buf_t *recv_data, void *cb_data)
+static void async_callback(msg_reply_type_t msg_type, msg_recv_buf_t * recv_data, void *cb_data)
 {
 	if (strncmp(recv_data->buf, TC_REPLY_MSG, strlen(TC_REPLY_MSG) + 1) != 0) {
 		tc_send_chk = TC_FAIL;
@@ -119,7 +119,7 @@ static void noreply_recv(int argc, FAR char *argv[])
 	sleep(2);
 
 	tc_send_chk = TC_OK;
-cleanup_return:
+ cleanup_return:
 	free(recv_buf.buf);
 	(void)sem_post(&send_sem);
 	return;
@@ -278,7 +278,7 @@ static void reply_recv(int argc, FAR char *argv[])
 	sleep(2);
 
 	tc_send_chk = TC_OK;
-cleanup_return:
+ cleanup_return:
 	free(recv_buf.buf);
 	free(reply_data.msg);
 	(void)sem_post(&send_sem);
@@ -324,10 +324,10 @@ static void utc_messaging_send_sync_p(void)
 	sync_async_flag = SYNC_TEST;
 	sem_init(&send_sem, 0, 1);
 
-	ret = task_create("reply_recv", TASK_PRIO, STACKSIZE, (main_t)reply_recv, (FAR char * const *)NULL);
+	ret = task_create("reply_recv", TASK_PRIO, STACKSIZE, (main_t) reply_recv, (FAR char *const *)NULL);
 	TC_ASSERT_GEQ("messaging_send_sync", ret, 0);
 
-	ret = task_create("send_sync", TASK_PRIO, STACKSIZE, (main_t)send_sync, (FAR char * const *)NULL);
+	ret = task_create("send_sync", TASK_PRIO, STACKSIZE, (main_t) send_sync, (FAR char *const *)NULL);
 	TC_ASSERT_GEQ("messaging_send_sync", ret, 0);
 
 	ret = sem_wait(&send_sem);
@@ -384,10 +384,10 @@ static void utc_messaging_send_async_p(void)
 	sync_async_flag = ASYNC_TEST;
 	sem_init(&send_sem, 0, 1);
 
-	ret = task_create("recv_async", TASK_PRIO, STACKSIZE, (main_t)reply_recv, (FAR char * const *)NULL);
+	ret = task_create("recv_async", TASK_PRIO, STACKSIZE, (main_t) reply_recv, (FAR char *const *)NULL);
 	TC_ASSERT_GEQ("messaging_send_async", ret, 0);
 
-	ret = task_create("send_async", TASK_PRIO, STACKSIZE, (main_t)send_async, (FAR char * const *)NULL);
+	ret = task_create("send_async", TASK_PRIO, STACKSIZE, (main_t) send_async, (FAR char *const *)NULL);
 	TC_ASSERT_GEQ("messaging_send_async", ret, 0);
 
 	ret = sem_wait(&send_sem);
@@ -426,10 +426,10 @@ static void utc_messaging_send_p(void)
 
 	sem_init(&send_sem, 0, 1);
 
-	ret = task_create("noreply_recv", TASK_PRIO, STACKSIZE, (main_t)noreply_recv, (FAR char * const *)NULL);
+	ret = task_create("noreply_recv", TASK_PRIO, STACKSIZE, (main_t) noreply_recv, (FAR char *const *)NULL);
 	TC_ASSERT_GEQ("messaging_send", ret, 0);
 
-	ret = task_create("noreply_send", TASK_PRIO, STACKSIZE, (main_t)noreply_send, (FAR char * const *)NULL);
+	ret = task_create("noreply_send", TASK_PRIO, STACKSIZE, (main_t) noreply_send, (FAR char *const *)NULL);
 	TC_ASSERT_GEQ("messaging_send", ret, 0);
 
 	ret = sem_wait(&send_sem);

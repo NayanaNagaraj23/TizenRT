@@ -94,7 +94,7 @@ static int create_socket(int port)
 	struct sockaddr_in serv_addr;
 
 	fd = socket(AF_INET, SOCK_DGRAM, 0);
-	if (fd  == -1) {
+	if (fd == -1) {
 		return -1;
 	}
 	memset(&serv_addr, 0, sizeof(serv_addr));
@@ -135,11 +135,10 @@ static int write_socket(int fd, char *buf, int len, int port)
 	return sendto(fd, buf, len, 0, (struct sockaddr *)&toaddr, sizeof(struct sockaddr_in));
 }
 
-
 static void main_task(void)
 {
 	fd_set sockfd_set;
-	int max_fd  = 0;
+	int max_fd = 0;
 	unsigned char buffer[4];
 
 	struct timeval tv;
@@ -192,7 +191,7 @@ static void main_task(void)
 #ifdef ENABLE_PIPE_TEST
 		/* Watch g_pipe_handle[0] to see when it has input. */
 		FD_SET(g_pipe_handle[0], &sockfd_set);
-		max_fd = MAX(max_fd , g_pipe_handle[0]);
+		max_fd = MAX(max_fd, g_pipe_handle[0]);
 #endif
 
 		//printf("\n max_fd = %d \n",max_fd);
@@ -249,19 +248,17 @@ static void main_task(void)
 			}
 #endif
 		}
-		exit_select =   filefd_test_success
-						&& fifo_test_success
+		exit_select = filefd_test_success && fifo_test_success
 #ifdef ENABLE_STDIN_TEST
-						&& stdin_test_success
+			&& stdin_test_success
 #endif
 #ifdef ENABLE_MULTIPLE_SOCKET_TEST
-						&& sockfd_test_success
-						&& sockfd2_test_success
+			&& sockfd_test_success && sockfd2_test_success
 #endif
 #ifdef ENABLE_PIPE_TEST
-						&& pipe_test_success
+			&& pipe_test_success
 #endif
-						;
+			;
 
 	}
 #ifdef ENABLE_MULTIPLE_SOCKET_TEST
@@ -293,7 +290,7 @@ static int start_task(void)
 	/* success */
 	result = 0;
 
-done:
+ done:
 	return result;
 
 }
@@ -310,8 +307,6 @@ int select_test_main(int argc, char *argv[])
 		printf("\n[USAGE] select_test a b c d e\n");
 		return 0;
 	}
-
-
 #ifdef ENABLE_MULTIPLE_SOCKET_TEST
 	g_socket_fd = create_socket(SOCKET_TEST_PORT);
 	g_socket2_fd = create_socket(SOCKET2_TEST_PORT);
@@ -376,4 +371,3 @@ int select_test_main(int argc, char *argv[])
 	result = 0;
 	return result;
 }
-

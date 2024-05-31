@@ -231,7 +231,7 @@ int mtdpart_main(int argc, char *argv[])
 
 	/* Get the geometry of the FLASH device */
 
-	ret = master->ioctl(master, MTDIOC_GEOMETRY, (unsigned long)((uintptr_t)&geo));
+	ret = master->ioctl(master, MTDIOC_GEOMETRY, (unsigned long)((uintptr_t) & geo));
 	if (ret < 0) {
 		fdbg("ERROR: mtd->ioctl failed: %d\n", ret);
 		goto out;
@@ -521,11 +521,11 @@ int mtdpart_main(int argc, char *argv[])
 	printf("PASS: Everything looks good\n");
 	fflush(stdout);
 
-out_free_buffer:
+ out_free_buffer:
 	free(buffer);
-out:
+ out:
 	free(g_simflash);
-out_without_free:
+ out_without_free:
 
 	for (i = 0; i <= CONFIG_EXAMPLES_MTDPART_NPARTITIONS; i++) {
 		snprintf(blockname, 32, "/dev/mtdblock%d", i + 2);

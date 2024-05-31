@@ -34,7 +34,7 @@ static void itc_net_fcntl_p_dupfd(void)
 {
 	int ret;
 	int fd = -1;
-	fd = socket(AF_INET, SOCK_STREAM, 0);//If ASSERT FAILS, no need to close(fd) as socket is not created
+	fd = socket(AF_INET, SOCK_STREAM, 0);	//If ASSERT FAILS, no need to close(fd) as socket is not created
 	TC_ASSERT_GEQ("socket", fd, CONFIG_NFILE_DESCRIPTORS);
 
 	int nfd = fcntl(fd, F_DUPFD, 0);

@@ -80,7 +80,7 @@ uint8_t mpu9250_accel_out[3] = {
 	MPU9250_ACCEL_ZOUT_H,
 };
 
-static int mpu9250_get_axis(uint16_t *x, uint16_t *y, uint16_t *z)
+static int mpu9250_get_axis(uint16_t * x, uint16_t * y, uint16_t * z)
 {
 	int i;
 	int ret = OK;
@@ -174,7 +174,7 @@ int mpu9250_main(int argc, char *argv[])
 			printf("get error!\n");
 			goto errout;
 		} else {
-			printf("ACC:      %-10d%-10d%-10d\n", (int16_t)data[0], (int16_t)data[1], (int16_t)data[2]);
+			printf("ACC:      %-10d%-10d%-10d\n", (int16_t) data[0], (int16_t) data[1], (int16_t) data[2]);
 		}
 
 		usleep(500000);
@@ -182,7 +182,7 @@ int mpu9250_main(int argc, char *argv[])
 
 	return OK;
 
-errout:
+ errout:
 	fflush(stdout);
 	return ERROR;
 }

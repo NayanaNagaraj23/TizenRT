@@ -22,4 +22,4 @@
 int cmd_ping(int argc, char **argv);
 int cmd_ping6(int argc, char **argv);
 
-#endif //__APP_SYSTEM_UTILS_NETCMD_PING_H
+#endif							//__APP_SYSTEM_UTILS_NETCMD_PING_H

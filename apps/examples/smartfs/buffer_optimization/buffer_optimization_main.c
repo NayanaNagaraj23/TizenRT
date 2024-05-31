@@ -41,7 +41,7 @@
  ****************************************************************************/
 #define SAMPLE_FILE "/mnt/sample_file"
 #define TIMER_DEVNAME "/dev/timer%d"
-#define READ_TEST_ITR 100	//No. of times file will be read for testing
+#define READ_TEST_ITR 100		//No. of times file will be read for testing
 #define DEFAULT_BUF_SIZE_S 512	//Smaller default buffer size used for demonstration testng
 #define DEFAULT_BUF_SIZE_L 1024	//Larger default buffer size used for demonstration testing
 
@@ -64,8 +64,7 @@ char g_buf[DEFAULT_BUF_SIZE_L + 1];
 void print_test_result(const char *name, int file_size, int itr, int buf_size, uint32_t time)
 {
 	printf("\n**************************************************************************************\n");
-	printf("Throughput while %s %dKb file %d time(s) with %dbyte buffer size = %.02fKbps\n",\
-			name, file_size, itr, buf_size, ((float)file_size * itr) / ((float)time / 1000000));
+	printf("Throughput while %s %dKb file %d time(s) with %dbyte buffer size = %.02fKbps\n", name, file_size, itr, buf_size, ((float)file_size * itr) / ((float)time / 1000000));
 	printf("\n**************************************************************************************\n");
 	return;
 }
@@ -108,7 +107,7 @@ static int create_test_file(int sample_file_size)
 	}
 	ret = OK;
 
-error_with_fd:
+ error_with_fd:
 	close(fd);
 	return ret;
 }
@@ -148,7 +147,7 @@ static int read_test_util(int buf_size)
 	}
 
 	ret = OK;
-errout_with_fd:
+ errout_with_fd:
 	close(fd);
 	return ret;
 }
@@ -171,7 +170,7 @@ static int read_test(int frt_fd, int file_size)
 
 	printf("================================== STARTING READ TESTS ==================================\n\n");
 
-	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&time_1);
+	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & time_1);
 	if (ret < 0) {
 		fprintf(stderr, "ERROR: Failed to get Free Run Timer status: %d\n", errno);
 		return ret;
@@ -183,7 +182,7 @@ static int read_test(int frt_fd, int file_size)
 		return ret;
 	}
 
-	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&time_2);
+	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & time_2);
 	if (ret < 0) {
 		fprintf(stderr, "ERROR: Failed to get Free Run Timer status: %d\n", errno);
 		return ret;
@@ -192,7 +191,7 @@ static int read_test(int frt_fd, int file_size)
 	time_read = time_2.timeleft - time_1.timeleft;
 	print_test_result("reading", file_size * 1024, READ_TEST_ITR, DEFAULT_BUF_SIZE_S, time_read);
 
-	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&time_1);
+	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & time_1);
 	if (ret < 0) {
 		fprintf(stderr, "ERROR: Failed to get Free Run Timer status: %d\n", errno);
 		return ret;
@@ -204,7 +203,7 @@ static int read_test(int frt_fd, int file_size)
 		return ret;
 	}
 
-	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&time_2);
+	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & time_2);
 	if (ret < 0) {
 		fprintf(stderr, "ERROR: Failed to get Free Run Timer status: %d\n", errno);
 		return ret;
@@ -220,7 +219,7 @@ static int read_test(int frt_fd, int file_size)
 	}
 	buf_size = st.st_blksize;
 
-	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&time_1);
+	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & time_1);
 	if (ret < 0) {
 		fprintf(stderr, "ERROR: Failed to get Free Run Timer status: %d\n", errno);
 		return ret;
@@ -232,7 +231,7 @@ static int read_test(int frt_fd, int file_size)
 		return ret;
 	}
 
-	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&time_2);
+	ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & time_2);
 	if (ret < 0) {
 		fprintf(stderr, "ERROR: Failed to get Free Run Timer status: %d\n", errno);
 		return ret;
@@ -322,7 +321,7 @@ int buffer_optimization_main(int argc, char *argv[])
 		printf("Test Example Completed Successfully\n");
 	}
 
-error_with_frt_fd:
+ error_with_frt_fd:
 	close(frt_fd);
 	printf("SmartFs Optimized Buffer Test Example Exits\n\n");
 	return ret;

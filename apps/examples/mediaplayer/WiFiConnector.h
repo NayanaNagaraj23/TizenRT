@@ -23,39 +23,33 @@
 #include <chrono>
 #include <mutex>
 
-namespace MediaPlayerApp
-{
-class WiFiConnector
-{
-public:
-	static int connect(void);
-	static int disconnect(void);
+namespace MediaPlayerApp {
+	class WiFiConnector {
+ public:
+		static int connect(void);
+		static int disconnect(void);
 
-private:
-	static void WIFI_CONNECTED_RESETFLAG(void)
-	{
-		sg_wifiIsConnected = false;
-	}
-	static bool WIFI_CONNECTED_CHECKFLAG(void)
-	{
-		return sg_wifiIsConnected;
-	}
-
-	static void WIFI_CONNECTED_NOTIFY(void)
-	{
-		std::lock_guard<std::mutex> lock(sg_wifiMutex);
-		sg_wifiIsConnected = true;
-		sg_wifiCondv.notify_one();
-	}
-	static void WIFI_CONNECTED_WAIT(void)
-	{
-		std::unique_lock<std::mutex> lock(sg_wifiMutex);
-		sg_wifiCondv.wait_for(lock, WAIT_WIFI_TIMEOUT, [&] { return sg_wifiIsConnected; });
-	}
-	static bool sg_wifiIsConnected;
-	static std::mutex sg_wifiMutex;
-	static std::condition_variable sg_wifiCondv;
-	static std::chrono::seconds WAIT_WIFI_TIMEOUT;
-};
+ private:
+		static void WIFI_CONNECTED_RESETFLAG(void) {
+			sg_wifiIsConnected = false;
+		} static bool WIFI_CONNECTED_CHECKFLAG(void) {
+			return sg_wifiIsConnected;
+		}
+		static void WIFI_CONNECTED_NOTIFY(void) {
+			std::lock_guard < std::mutex > lock(sg_wifiMutex);
+			sg_wifiIsConnected = true;
+			sg_wifiCondv.notify_one();
+		}
+		static void WIFI_CONNECTED_WAIT(void) {
+			std::unique_lock < std::mutex > lock(sg_wifiMutex);
+			sg_wifiCondv.wait_for(lock, WAIT_WIFI_TIMEOUT,[&] {
+								  return sg_wifiIsConnected;}
+			);
+		}
+		static bool sg_wifiIsConnected;
+		static std::mutex sg_wifiMutex;
+		static std::condition_variable sg_wifiCondv;
+		static std::chrono::seconds WAIT_WIFI_TIMEOUT;
+	};
 }
 #endif

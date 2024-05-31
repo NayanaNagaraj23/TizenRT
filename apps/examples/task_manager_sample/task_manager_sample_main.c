@@ -98,7 +98,6 @@ int task_manager_sample_main(int argc, char *argv[])
 		printf("User App is successfully unregistered\n");
 	}
 
-
 	if ((ret_unregister_actionmanager == OK) && (ret_unregister_user == OK)) {
 		printf("\n\nTask Manager Samaple is successfully Ended!\n");
 	} else {

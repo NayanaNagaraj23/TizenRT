@@ -74,8 +74,8 @@ static sem_t sem;
 struct options {
 	char *ssid;
 	char *password;
-	wifi_manager_ap_auth_type_e    auth_type;
-	wifi_manager_ap_crypto_type_e  crypto_type;
+	wifi_manager_ap_auth_type_e auth_type;
+	wifi_manager_ap_crypto_type_e crypto_type;
 };
 
 extern void nd6_cache_debug_print(void);
@@ -89,176 +89,94 @@ static void wm_sta_connected(wifi_manager_cb_msg_s msg, void *arg)
 	sem_post(&sem);
 }
 
-static void wm_sta_disconnected((wifi_manager_cb_msg_s msg, void *arg)
-{
-	sleep(2);
-	printf(" T%d --> %s\n", getpid(), __FUNCTION__);
-}
+static void wm_sta_disconnected((wifi_manager_cb_msg_s msg, void *arg) {
+								sleep(2);
+								printf(" T%d --> %s\n", getpid(), __FUNCTION__);
+								}
 
-static void wm_softap_sta_join(wifi_manager_cb_msg_s msg, void *arg)
-{
-	printf(" T%d --> %s\n", getpid(), __FUNCTION__);
-}
+								static void wm_softap_sta_join(wifi_manager_cb_msg_s msg, void *arg) {
+								printf(" T%d --> %s\n", getpid(), __FUNCTION__);
+								}
 
-static void wm_softap_sta_leave(wifi_manager_cb_msg_s msg, void *arg)
-{
-	printf(" T%d --> %s\n", getpid(), __FUNCTION__);
-}
+								static void wm_softap_sta_leave(wifi_manager_cb_msg_s msg, void *arg) {
+								printf(" T%d --> %s\n", getpid(), __FUNCTION__);
+								}
 
-static void wm_scan_done(wifi_manager_cb_msg_s msg, void *arg)
-{
-	printf(" T%d --> %s\n", getpid(), __FUNCTION__);
-}
+								static void wm_scan_done(wifi_manager_cb_msg_s msg, void *arg) {
+								printf(" T%d --> %s\n", getpid(), __FUNCTION__);
+								}
 
-static wifi_manager_cb_s wifi_callbacks = {
-	wm_sta_connected,
-	wm_sta_disconnected,
-	wm_softap_sta_join,
-	wm_softap_sta_leave,
-	wm_scan_done,
-};
+								static wifi_manager_cb_s wifi_callbacks = {
+								wm_sta_connected,
+								wm_sta_disconnected,
+								wm_softap_sta_join,
+								wm_softap_sta_leave,
+								wm_scan_done,
+								};
 
-static void _print_wifi_ap_profile(wifi_manager_ap_config_s *config, char *title)
-{
-	printf("====================================\n");
-	if (title) {
-		printf("[TAHI] %s\n", title);
-	}
-	printf("------------------------------------\n");
-	printf("[TAHI] SSID: %s\n", config->ssid);
-	if (config->ap_auth_type == WIFI_MANAGER_AUTH_UNKNOWN
-		|| config->ap_crypto_type == WIFI_MANAGER_CRYPTO_UNKNOWN) {
-		printf("[TAHI] SECURITY: unknown\n");
-	} else {
-		printf("[TAHI] SECURITY: %d CRYPTO: %d\n", config->ap_auth_type, config->ap_crypto_type);
-	}
-	printf("====================================\n");
-}
+								static void _print_wifi_ap_profile(wifi_manager_ap_config_s * config, char *title) {
 
-static int _wm_connect(struct options *ap_info)
-{
-	wifi_manager_ap_config_s apconfig;
-	strncpy(apconfig.ssid, ap_info->ssid, WIFIMGR_SSID_LEN);
-	apconfig.ssid_length = strlen(ap_info->ssid);
-	apconfig.ssid[WIFIMGR_SSID_LEN] = '\0';
-	apconfig.ap_auth_type = ap_info->auth_type;
-	apconfig.ap_crypto_type = ap_info->crypto_type;
-	if (ap_info->auth_type != WIFI_MANAGER_AUTH_OPEN || ap_info->crypto_type != WIFI_MANAGER_CRYPTO_NONE) {
-		strncpy(apconfig.passphrase, ap_info->password, WIFIMGR_PASSPHRASE_LEN);
-		apconfig.passphrase[WIFIMGR_PASSPHRASE_LEN] = '\0';
-		apconfig.passphrase_length = strlen(ap_info->password);
-	} else {
-		apconfig.passphrase[0] = '\0';
-		apconfig.passphrase_length = 0;
-	}
+								printf("====================================\n");
+								if (title) {
+								printf("[TAHI] %s\n", title);}
+								printf("------------------------------------\n"); printf("[TAHI] SSID: %s\n", config->ssid); if (config->ap_auth_type == WIFI_MANAGER_AUTH_UNKNOWN || config->ap_crypto_type == WIFI_MANAGER_CRYPTO_UNKNOWN) {
+								printf("[TAHI] SECURITY: unknown\n");}
+								else {
+								printf("[TAHI] SECURITY: %d CRYPTO: %d\n", config->ap_auth_type, config->ap_crypto_type);}
+								printf("====================================\n");}
 
-	_print_wifi_ap_profile(&apconfig, "Connecting AP Info");
+								static int _wm_connect(struct options *ap_info) {
+								wifi_manager_ap_config_s apconfig; strncpy(apconfig.ssid, ap_info->ssid, WIFIMGR_SSID_LEN); apconfig.ssid_length = strlen(ap_info->ssid); apconfig.ssid[WIFIMGR_SSID_LEN] = '\0'; apconfig.ap_auth_type = ap_info->auth_type; apconfig.ap_crypto_type = ap_info->crypto_type; if (ap_info->auth_type != WIFI_MANAGER_AUTH_OPEN || ap_info->crypto_type != WIFI_MANAGER_CRYPTO_NONE) {
+								strncpy(apconfig.passphrase, ap_info->password, WIFIMGR_PASSPHRASE_LEN); apconfig.passphrase[WIFIMGR_PASSPHRASE_LEN] = '\0'; apconfig.passphrase_length = strlen(ap_info->password);}
+								else {
+								apconfig.passphrase[0] = '\0'; apconfig.passphrase_length = 0;}
 
-	wifi_manager_result_e res = wifi_manager_connect_ap(&apconfig);
-	if (res != WIFI_MANAGER_SUCCESS) {
-		printf("[TAHI] AP connect failed\n");
-		return -1;
-	}
-	/* Wait for DHCP connection */
-	printf("[TAHI] wait join done\n");
-	sem_wait(&sem);
+								_print_wifi_ap_profile(&apconfig, "Connecting AP Info"); wifi_manager_result_e res = wifi_manager_connect_ap(&apconfig); if (res != WIFI_MANAGER_SUCCESS) {
+								printf("[TAHI] AP connect failed\n"); return -1;}
+								/* Wait for DHCP connection */
+								printf("[TAHI] wait join done\n"); sem_wait(&sem); return 0;}
 
-	return 0;
-}
-
-static int g_tahi_init = 0;
-
-static void print_help(void)
-{
-	printf("\n");
-	printf("Usage: tahi [OPTIONS]\n");
-
-	printf("\n");
-	printf("And [OPTIONS] include:\n");
-	printf("  1) <type>\n");
-	printf("     <type> set IPv6 address style\n");
-	printf("        0 : EUI-64 (default, you don't need to set value)\n");
-	printf("        1 : Stable Privacy\n");
-	printf("     example 1): tahi 1\n");
-	printf("     example 2): tahi 0\n");
-	printf("  2) log\n");
-	printf("     Show nd6 cache data\n");
-	printf("\n");
-}
+								static int g_tahi_init = 0; static void print_help(void) {
+								printf("\n"); printf("Usage: tahi [OPTIONS]\n"); printf("\n"); printf("And [OPTIONS] include:\n"); printf("  1) <type>\n"); printf("     <type> set IPv6 address style\n"); printf("        0 : EUI-64 (default, you don't need to set value)\n"); printf("        1 : Stable Privacy\n"); printf("     example 1): tahi 1\n"); printf("     example 2): tahi 0\n"); printf("  2) log\n"); printf("     Show nd6 cache data\n"); printf("\n");}
 
 #ifdef CONFIG_BUILD_KERNEL
-int main(int argc, FAR char *argv[])
+								int main(int argc, FAR char *argv[])
 #else
-int tahi_main(int argc, char *argv[])
+								int tahi_main(int argc, char *argv[])
 #endif
-{
-	int ret;
-	int ipv6_type = 0;
-	wifi_manager_result_e res = WIFI_MANAGER_SUCCESS;
+								{
+								int ret; int ipv6_type = 0; wifi_manager_result_e res = WIFI_MANAGER_SUCCESS; printf("[TAHI] IPv6 Test App\n"); if (argc != 2) {
+								print_help(); return 0;}
+								else
+								if (strncmp(argv[1], "log", 4) == 0) {
+								/*  it's available if build mode is flat */
+								nd6_cache_debug_print(); return 0;}
+								else
+								if (g_tahi_init > 0) {
+								printf("already initialized\n"); print_help(); return 0;}
 
-	printf("[TAHI] IPv6 Test App\n");
+								printf("[TAHI] Start to connect WiFi\n"); sem_init(&sem, 0, 1); usleep(100 * 1000); res = wifi_manager_init(&wifi_callbacks); if (res != WIFI_MANAGER_SUCCESS) {
+								printf("[TAHI] wifi_manager_init fail\n");}
 
-	if (argc != 2) {
-		print_help();
-		return 0;
-	} else if (strncmp(argv[1], "log", 4) == 0) {
-		/*  it's available if build mode is flat */
-		nd6_cache_debug_print();
-		return 0;
-	} else if (g_tahi_init > 0) {
-		printf("already initialized\n");
-		print_help();
-		return 0;
-	}
+								usleep(100 * 1000); printf("[TAHI] Disable Power mode\n"); if (wifi_manager_set_powermode(WIFI_MANAGER_POWERMODE_DISABLE)
+																							   != WIFI_MANAGER_SUCCESS) {
+								printf("[TAHI] wifi manager set power mode fail\n"); return -1;}
 
-	printf("[TAHI] Start to connect WiFi\n");
-	sem_init(&sem, 0, 1);
+								if (argv[1][0] == '1') {
+								printf("[TAHI] Stable Privacy\n"); ipv6_type = 1;}
+								else
+								if (argv[1][0] == '0') {
+								printf("[TAHI] EUI-64\n"); ipv6_type = 0;}
+								else {
+								print_help(); return -1;}
+								ret = netlib_set_ipv6type(TAHI_IF_NAME, ipv6_type); if (ret != 0) {
+								printf("[TAHI] Set ipv6 type fail\n");}
 
-	usleep(100 * 1000);
-
-	res = wifi_manager_init(&wifi_callbacks);
-	if (res != WIFI_MANAGER_SUCCESS) {
-		printf("[TAHI] wifi_manager_init fail\n");
-	}
-
-	usleep(100 * 1000);
-
-	printf("[TAHI] Disable Power mode\n");
-	if (wifi_manager_set_powermode(WIFI_MANAGER_POWERMODE_DISABLE)
-		!= WIFI_MANAGER_SUCCESS) {
-		printf("[TAHI] wifi manager set power mode fail\n");
-		return -1;
-	}
-
-	if (argv[1][0] == '1') {
-		printf("[TAHI] Stable Privacy\n");
-		ipv6_type = 1;
-	} else if (argv[1][0] == '0') {
-		printf("[TAHI] EUI-64\n");
-		ipv6_type = 0;
-	} else {
-		print_help();
-		return -1;
-	}
-	ret = netlib_set_ipv6type(TAHI_IF_NAME, ipv6_type);
-	if (ret != 0) {
-		printf("[TAHI] Set ipv6 type fail\n");
-	}
-
-	struct options opt = {
-		.auth_type = WIFI_MANAGER_AUTH_WPA2_PSK,
-		.crypto_type = WIFI_MANAGER_CRYPTO_AES,
-		.ssid = TAHI_SSID,
-		.password = TAHI_PASS
-	};
-
-	if (_wm_connect(&opt) != 0) {
-		printf("[TAHI] Fail to connect WiFi\n");
-		return 0;
-	}
-	printf("[TAHI] WiFi Connected\n");
-
-	g_tahi_init = 1;
-
-	return 0;
-}
+								struct options opt = {
+								.auth_type = WIFI_MANAGER_AUTH_WPA2_PSK,
+								.crypto_type = WIFI_MANAGER_CRYPTO_AES,
+								.ssid = TAHI_SSID,
+								.password = TAHI_PASS
+								}; if (_wm_connect(&opt) != 0) {
+								printf("[TAHI] Fail to connect WiFi\n"); return 0;}
+								printf("[TAHI] WiFi Connected\n"); g_tahi_init = 1; return 0;}

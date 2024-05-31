@@ -142,9 +142,9 @@ int utc_spi_main(void)
 #ifdef CONFIG_SPI_EXCHANGE
 	utc_systemio_spi_transfer_buf_p();
 	utc_systemio_spi_transfer_buf_n();
-#endif	
+#endif
 	utc_systemio_spi_close_n();
-	utc_systemio_spi_close_p();	
+	utc_systemio_spi_close_p();
 
 	return 0;
 }

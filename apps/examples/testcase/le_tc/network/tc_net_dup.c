@@ -43,7 +43,7 @@
 static void tc_net_dup_n(void)
 {
 	/* the sock value is over valid socket descriptors range */
-	/* so dup() check that it is the wrong descriptor and will generate an error*/
+	/* so dup() check that it is the wrong descriptor and will generate an error */
 	int sock = CONFIG_NFILE_DESCRIPTORS + CONFIG_NSOCKET_DESCRIPTORS;
 	int fd = dup(sock);
 	TC_ASSERT_EQ("dup", fd, -1);

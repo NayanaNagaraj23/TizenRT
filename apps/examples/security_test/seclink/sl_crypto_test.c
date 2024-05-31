@@ -65,11 +65,12 @@ typedef enum {
 #define ST_AES_ENC_KEY_IDX 32
 #define ST_AES_DEC_KEY_IDX 33
 sl_ctx g_hnd;
-char g_key_128[16] = {0,};
-char g_key_192[24] = {0,};
-char g_key_256[32] = {0,};
-unsigned char g_plaintext[128] = {0,};
-unsigned char g_ciphertext[128] = {0,};
+char g_key_128[16] = { 0, };
+char g_key_192[24] = { 0, };
+char g_key_256[32] = { 0, };
+unsigned char g_plaintext[128] = { 0, };
+unsigned char g_ciphertext[128] = { 0, };
+
 unsigned char g_iv[16] = {
 	0,
 };
@@ -78,15 +79,13 @@ TESTCASE_SETUP(sl_crypto_global)
 {
 	ST_EXPECT_EQ(SECLINK_OK, sl_init(&g_hnd));
 }
-END_TESTCASE
 
-TESTCASE_TEARDOWN(sl_crypto_global)
+END_TESTCASE TESTCASE_TEARDOWN(sl_crypto_global)
 {
 	ST_EXPECT_EQ(SECLINK_OK, sl_deinit(g_hnd));
 }
-END_TESTCASE
 
-START_TEST_F(aes_ecb)
+END_TESTCASE START_TEST_F(aes_ecb)
 {
 	hal_data aes_key = HAL_DATA_INITIALIZER;
 	hal_data enc = HAL_DATA_INITIALIZER;
@@ -111,9 +110,8 @@ START_TEST_F(aes_ecb)
 	ST_EXPECT_EQ(SECLINK_OK, sl_remove_key(g_hnd, HAL_KEY_AES_128, ST_AES_ENC_KEY_IDX));
 	ST_EXPECT_EQ(SECLINK_OK, sl_remove_key(g_hnd, HAL_KEY_AES_128, ST_AES_DEC_KEY_IDX));
 }
-END_TEST_F
 
-START_TEST_F(aes_cbc)
+END_TEST_F START_TEST_F(aes_cbc)
 {
 	hal_data aes_key = HAL_DATA_INITIALIZER;
 	hal_data enc = HAL_DATA_INITIALIZER;
@@ -141,9 +139,8 @@ START_TEST_F(aes_cbc)
 
 	ST_EXPECT_EQ(SECLINK_OK, sl_remove_key(g_hnd, HAL_KEY_AES_128, ST_AES_ENC_KEY_IDX));
 }
-END_TEST_F
 
-START_TEST_F(aes_cfb128)
+END_TEST_F START_TEST_F(aes_cfb128)
 {
 	hal_data aes_key = HAL_DATA_INITIALIZER;
 	hal_data enc = HAL_DATA_INITIALIZER;
@@ -173,17 +170,16 @@ START_TEST_F(aes_cfb128)
 	ST_EXPECT_EQ(SECLINK_OK, sl_aes_decrypt(g_hnd, &dec, &param, ST_AES_ENC_KEY_IDX, &enc));
 	ST_EXPECT_EQ(SECLINK_OK, sl_remove_key(g_hnd, HAL_KEY_AES_128, ST_AES_ENC_KEY_IDX));
 }
-END_TEST_F
 
-START_TEST_F(aes_ctr)
+END_TEST_F START_TEST_F(aes_ctr)
 {
 	hal_data aes_key = HAL_DATA_INITIALIZER;
 	hal_data enc = HAL_DATA_INITIALIZER;
 	hal_data dec = HAL_DATA_INITIALIZER;
 	HAL_INIT_AES_PARAM(param);
 	unsigned int nc_offset = 0;
-	unsigned char nonce_counter[16] = {0,};
-	unsigned char stream_block[16] = {0,};
+	unsigned char nonce_counter[16] = { 0, };
+	unsigned char stream_block[16] = { 0, };
 	aes_key.data = g_key_128;
 	aes_key.data_len = 16;
 	param.mode = HAL_AES_CTR;
@@ -207,34 +203,32 @@ START_TEST_F(aes_ctr)
 	ST_EXPECT_EQ(SECLINK_OK, sl_aes_decrypt(g_hnd, &dec, &param, ST_AES_ENC_KEY_IDX, &enc));
 	ST_EXPECT_EQ(SECLINK_OK, sl_remove_key(g_hnd, HAL_KEY_AES_128, ST_AES_ENC_KEY_IDX));
 }
-END_TEST_F
 
-void sl_handle_crypto_aes_ecb(sl_options *opt)
+END_TEST_F void sl_handle_crypto_aes_ecb(sl_options * opt)
 {
 	ST_SET_SMOKE1(sl_crypto, opt->count, 0, "aes test", aes_ecb);
 }
 
-void sl_handle_crypto_aes_cbc(sl_options *opt)
+void sl_handle_crypto_aes_cbc(sl_options * opt)
 {
 	ST_SET_SMOKE1(sl_crypto, opt->count, 0, "aes test", aes_cbc);
 }
 
-void sl_handle_crypto_aes_cfb128(sl_options *opt)
+void sl_handle_crypto_aes_cfb128(sl_options * opt)
 {
 	ST_SET_SMOKE1(sl_crypto, opt->count, 0, "aes test", aes_cfb128);
 }
 
-void sl_handle_crypto_aes_ctr(sl_options *opt)
+void sl_handle_crypto_aes_ctr(sl_options * opt)
 {
 	ST_SET_SMOKE1(sl_crypto, opt->count, 0, "aes test", aes_ctr);
 }
 
-void sl_handle_crypto(sl_options *opt)
+void sl_handle_crypto(sl_options * opt)
 {
 	ST_TC_SET_GLOBAL(sl_crypto, sl_crypto_global);
 
-	SL_PARSE_MESSAGE(opt, g_command, sl_crypto_type_e,
-					 g_func_list, SL_CRYPTO_TYPE_MAX, SL_CRYPTO_TYPE_ERR);
+	SL_PARSE_MESSAGE(opt, g_command, sl_crypto_type_e, g_func_list, SL_CRYPTO_TYPE_MAX, SL_CRYPTO_TYPE_ERR);
 	ST_RUN_TEST(sl_crypto);
 	ST_RESULT_TEST(sl_crypto);
 }

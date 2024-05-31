@@ -81,11 +81,11 @@
  ****************************************************************************/
 
 struct ramtest_s {
-	uint8_t   width;
+	uint8_t width;
 	uintptr_t start;
-	size_t    size;
-	size_t    nxfrs;
-	uint32_t  mask;
+	size_t size;
+	size_t nxfrs;
+	uint32_t mask;
 };
 
 /****************************************************************************
@@ -144,7 +144,7 @@ static void parse_commandline(int argc, char **argv, FAR struct ramtest_s *info)
 		show_usage(argv[0], EXIT_FAILURE);
 	}
 
-	info->start = (uintptr_t)strtoul(argv[optind], &ptr, 16);
+	info->start = (uintptr_t) strtoul(argv[optind], &ptr, 16);
 	if (*ptr != '\0') {
 		printf(RAMTEST_PREFIX "Invalid <hex-address>: %s->%lx [%02x]\n", argv[optind], info->start, *ptr);
 		show_usage(argv[0], EXIT_FAILURE);
@@ -191,20 +191,20 @@ static void write_memory(FAR struct ramtest_s *info, uint32_t value)
 	size_t i;
 
 	if (info->width == 32) {
-		uint32_t *ptr = (uint32_t *)info->start;
+		uint32_t *ptr = (uint32_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
 			*ptr++ = value;
 		}
 	} else if (info->width == 16) {
-		uint16_t *ptr = (uint16_t *)info->start;
+		uint16_t *ptr = (uint16_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
-			*ptr++ = (uint16_t)value;
+			*ptr++ = (uint16_t) value;
 		}
 	} else {					/* if (info->width == 8) */
 
-		uint8_t *ptr = (uint8_t *)info->start;
+		uint8_t *ptr = (uint8_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
-			*ptr++ = (uint8_t)value;
+			*ptr++ = (uint8_t) value;
 		}
 	}
 }
@@ -218,7 +218,7 @@ static void verify_memory(FAR struct ramtest_s *info, uint32_t value)
 	size_t i;
 
 	if (info->width == 32) {
-		uint32_t *ptr = (uint32_t *)info->start;
+		uint32_t *ptr = (uint32_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
 			if (*ptr != value) {
 				printf(RAMTEST_PREFIX "ERROR: Address %p Found: %08x Expected %08x\n", ptr, *ptr, value);
@@ -227,8 +227,8 @@ static void verify_memory(FAR struct ramtest_s *info, uint32_t value)
 			ptr++;
 		}
 	} else if (info->width == 16) {
-		uint16_t value16 = (uint16_t)(value & 0x0000ffff);
-		uint16_t *ptr = (uint16_t *)info->start;
+		uint16_t value16 = (uint16_t) (value & 0x0000ffff);
+		uint16_t *ptr = (uint16_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
 			if (*ptr != value16) {
 				printf(RAMTEST_PREFIX "ERROR: Address %p Found: %04x Expected %04x\n", ptr, *ptr, value16);
@@ -238,8 +238,8 @@ static void verify_memory(FAR struct ramtest_s *info, uint32_t value)
 		}
 	} else {					/* if (info->width == 8) */
 
-		uint8_t value8 = (uint8_t)(value & 0x000000ff);
-		uint8_t *ptr = (uint8_t *)info->start;
+		uint8_t value8 = (uint8_t) (value & 0x000000ff);
+		uint8_t *ptr = (uint8_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
 			if (*ptr != value8) {
 				printf(RAMTEST_PREFIX "ERROR: Address %p Found: %02x Expected %02x\n", ptr, *ptr, value8);
@@ -297,23 +297,23 @@ static void write_memory2(FAR struct ramtest_s *info, uint32_t value_1, uint32_t
 	size_t i;
 
 	if (info->width == 32) {
-		uint32_t *ptr = (uint32_t *)info->start;
+		uint32_t *ptr = (uint32_t *) info->start;
 		for (i = 0; i < even_nxfrs; i += 2) {
 			*ptr++ = value_1;
 			*ptr++ = value_2;
 		}
 	} else if (info->width == 16) {
-		uint16_t *ptr = (uint16_t *)info->start;
+		uint16_t *ptr = (uint16_t *) info->start;
 		for (i = 0; i < even_nxfrs; i += 2) {
-			*ptr++ = (uint16_t)value_1;
-			*ptr++ = (uint16_t)value_2;
+			*ptr++ = (uint16_t) value_1;
+			*ptr++ = (uint16_t) value_2;
 		}
 	} else {					/* if (info->width == 8) */
 
-		uint8_t *ptr = (uint8_t *)info->start;
+		uint8_t *ptr = (uint8_t *) info->start;
 		for (i = 0; i < even_nxfrs; i += 2) {
-			*ptr++ = (uint8_t)value_1;
-			*ptr++ = (uint8_t)value_2;
+			*ptr++ = (uint8_t) value_1;
+			*ptr++ = (uint8_t) value_2;
 		}
 	}
 }
@@ -328,7 +328,7 @@ static void verify_memory2(FAR struct ramtest_s *info, uint32_t value_1, uint32_
 	size_t i;
 
 	if (info->width == 32) {
-		uint32_t *ptr = (uint32_t *)info->start;
+		uint32_t *ptr = (uint32_t *) info->start;
 		for (i = 0; i < even_nxfrs; i += 2) {
 			if (ptr[0] != value_1 || ptr[1] != value_2) {
 				printf(RAMTEST_PREFIX "ERROR: Address %p Found: %08x and %08x\n", ptr, ptr[0], ptr[1]);
@@ -338,9 +338,9 @@ static void verify_memory2(FAR struct ramtest_s *info, uint32_t value_1, uint32_
 			ptr += 2;
 		}
 	} else if (info->width == 16) {
-		uint16_t value16_1 = (uint16_t)(value_1 & 0x0000ffff);
-		uint16_t value16_2 = (uint16_t)(value_2 & 0x0000ffff);
-		uint16_t *ptr = (uint16_t *)info->start;
+		uint16_t value16_1 = (uint16_t) (value_1 & 0x0000ffff);
+		uint16_t value16_2 = (uint16_t) (value_2 & 0x0000ffff);
+		uint16_t *ptr = (uint16_t *) info->start;
 		for (i = 0; i < even_nxfrs; i += 2) {
 			if (ptr[0] != value16_1 || ptr[1] != value16_2) {
 				printf(RAMTEST_PREFIX "ERROR: Address %p Found: %04x and %04x\n", ptr, ptr[0], ptr[1]);
@@ -351,9 +351,9 @@ static void verify_memory2(FAR struct ramtest_s *info, uint32_t value_1, uint32_
 		}
 	} else {					/* if (info->width == 8) */
 
-		uint8_t value8_1 = (uint8_t)(value_1 & 0x000000ff);
-		uint8_t value8_2 = (uint8_t)(value_2 & 0x000000ff);
-		uint8_t *ptr = (uint8_t *)info->start;
+		uint8_t value8_1 = (uint8_t) (value_1 & 0x000000ff);
+		uint8_t value8_2 = (uint8_t) (value_2 & 0x000000ff);
+		uint8_t *ptr = (uint8_t *) info->start;
 		for (i = 0; i < even_nxfrs; i += 2) {
 			if (ptr[0] != value8_1 || ptr[1] != value8_2) {
 				printf(RAMTEST_PREFIX "ERROR: Address %p Found: %02x and %02x\n", ptr, ptr[0], ptr[1]);
@@ -386,22 +386,22 @@ static void write_addrinaddr(FAR struct ramtest_s *info)
 	size_t i;
 
 	if (info->width == 32) {
-		uint32_t *ptr = (uint32_t *)info->start;
+		uint32_t *ptr = (uint32_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
-			uint32_t value32 = (uint32_t)((uintptr_t)ptr);
+			uint32_t value32 = (uint32_t) ((uintptr_t) ptr);
 			*ptr++ = value32;
 		}
 	} else if (info->width == 16) {
-		uint16_t *ptr = (uint16_t *)info->start;
+		uint16_t *ptr = (uint16_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
-			uint16_t value16 = (uint16_t)((uintptr_t)ptr & 0x0000ffff);
+			uint16_t value16 = (uint16_t) ((uintptr_t) ptr & 0x0000ffff);
 			*ptr++ = value16;
 		}
 	} else {					/* if (info->width == 8) */
 
-		uint8_t *ptr = (uint8_t *)info->start;
+		uint8_t *ptr = (uint8_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
-			uint8_t value8 = (uint8_t)((uintptr_t)ptr & 0x000000ff);
+			uint8_t value8 = (uint8_t) ((uintptr_t) ptr & 0x000000ff);
 			*ptr++ = value8;
 		}
 	}
@@ -416,9 +416,9 @@ static void verify_addrinaddr(FAR struct ramtest_s *info)
 	size_t i;
 
 	if (info->width == 32) {
-		uint32_t *ptr = (uint32_t *)info->start;
+		uint32_t *ptr = (uint32_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
-			uint32_t value32 = (uint32_t)((uintptr_t)ptr);
+			uint32_t value32 = (uint32_t) ((uintptr_t) ptr);
 			if (*ptr != value32) {
 				printf(RAMTEST_PREFIX "ERROR: Address %p Found: %08x Expected %08x\n", ptr, *ptr, value32);
 			}
@@ -426,9 +426,9 @@ static void verify_addrinaddr(FAR struct ramtest_s *info)
 			ptr++;
 		}
 	} else if (info->width == 16) {
-		uint16_t *ptr = (uint16_t *)info->start;
+		uint16_t *ptr = (uint16_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
-			uint16_t value16 = (uint16_t)((uintptr_t)ptr & 0x0000ffff);
+			uint16_t value16 = (uint16_t) ((uintptr_t) ptr & 0x0000ffff);
 			if (*ptr != value16) {
 				printf(RAMTEST_PREFIX "ERROR: Address %p Found: %04x Expected %04x\n", ptr, *ptr, value16);
 			}
@@ -437,9 +437,9 @@ static void verify_addrinaddr(FAR struct ramtest_s *info)
 		}
 	} else {					/* if (info->width == 8) */
 
-		uint8_t *ptr = (uint8_t *)info->start;
+		uint8_t *ptr = (uint8_t *) info->start;
 		for (i = 0; i < info->nxfrs; i++) {
-			uint16_t value8 = (uint8_t)((uintptr_t)ptr & 0x000000ff);
+			uint16_t value8 = (uint8_t) ((uintptr_t) ptr & 0x000000ff);
 			if (*ptr != value8) {
 				printf(RAMTEST_PREFIX "ERROR: Address %p Found: %02x Expected %02x\n", ptr, *ptr, value8);
 			}

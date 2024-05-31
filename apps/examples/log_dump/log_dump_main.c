@@ -63,7 +63,7 @@ int log_dump_main(int argc, char *argv[])
 
 	printf("\n*********************   LOG DUMP START  *********************\n");
 
-	if (START_LOGDUMP_SAVE(fd) < 0)	{
+	if (START_LOGDUMP_SAVE(fd) < 0) {
 		printf("Failed to start log dump, errno %d\n", get_errno());
 		goto errout;
 	}
@@ -83,13 +83,13 @@ int log_dump_main(int argc, char *argv[])
 		}
 	}
 
-        printf("\n*********************   LOG DUMP END  ***********************\n");
+	printf("\n*********************   LOG DUMP END  ***********************\n");
 
 	CLOSE_LOGDUMP(fd);
 
 	return 0;
 
-errout:
+ errout:
 	CLOSE_LOGDUMP(fd);
 	return -1;
 }

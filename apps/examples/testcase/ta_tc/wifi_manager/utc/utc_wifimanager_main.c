@@ -42,30 +42,30 @@ static struct wifi_mbox *g_queue = NULL;
 static wifi_manager_softap_config_s g_softap_config;
 static wifi_manager_ap_config_s g_ap_config;
 
-void wifi_sta_connected(wifi_manager_cb_msg_s msg, void *arg);	  // in station mode, connected to ap
-void wifi_sta_disconnected(wifi_manager_cb_msg_s msg, void *arg); // in station mode, disconnected from ap
+void wifi_sta_connected(wifi_manager_cb_msg_s msg, void *arg);	// in station mode, connected to ap
+void wifi_sta_disconnected(wifi_manager_cb_msg_s msg, void *arg);	// in station mode, disconnected from ap
 void wifi_sta_dup_connected(wifi_manager_cb_msg_s msg, void *arg);
 void wifi_sta_dup_disconnected(wifi_manager_cb_msg_s msg, void *arg);
 
-void wifi_softap_sta_joined(wifi_manager_cb_msg_s msg, void *arg); // in softap mode, a station joined
-void wifi_softap_sta_left(wifi_manager_cb_msg_s msg, void *arg);   // in softap mode, a station left
-void wifi_scan_ap_done(wifi_manager_cb_msg_s msg, void *arg);	   // called when scanning ap is done
+void wifi_softap_sta_joined(wifi_manager_cb_msg_s msg, void *arg);	// in softap mode, a station joined
+void wifi_softap_sta_left(wifi_manager_cb_msg_s msg, void *arg);	// in softap mode, a station left
+void wifi_scan_ap_done(wifi_manager_cb_msg_s msg, void *arg);	// called when scanning ap is done
 
 static wifi_manager_cb_s wifi_callbacks = {
 	wifi_sta_connected,
 	wifi_sta_disconnected,
-	NULL,			   //wifi_softap_sta_joined,
-	NULL,			   //wifi_softap_sta_left,
-	wifi_scan_ap_done, // this callback function is called when scanning ap is done.
+	NULL,						//wifi_softap_sta_joined,
+	NULL,						//wifi_softap_sta_left,
+	wifi_scan_ap_done,			// this callback function is called when scanning ap is done.
 };
 
 #if 0
 static wifi_manager_cb_s wifi_null_callbacks = {
-	NULL, //wifi_sta_connected,
-	NULL, //wifi_sta_disconnected,
-	NULL, //wifi_softap_sta_joined,
-	NULL, //wifi_softap_sta_left,
-	NULL, // in station mode, this callback function is called when scanning ap is done.
+	NULL,						//wifi_sta_connected,
+	NULL,						//wifi_sta_disconnected,
+	NULL,						//wifi_softap_sta_joined,
+	NULL,						//wifi_softap_sta_left,
+	NULL,						// in station mode, this callback function is called when scanning ap is done.
 };
 
 static wifi_manager_cb_s wifi_dup_callbacks = {
@@ -79,11 +79,11 @@ static wifi_manager_cb_s wifi_dup_callbacks = {
 
 void wifi_sta_connected(wifi_manager_cb_msg_s msg, void *arg)
 {
-  int res = WEVT_CONNECTED;
-  if (msg.res != WIFI_MANAGER_SUCCESS) {
-    res = WEVT_CONNFAIL;
-  }
-  WMBOX_SIGNAL(res, g_queue);
+	int res = WEVT_CONNECTED;
+	if (msg.res != WIFI_MANAGER_SUCCESS) {
+		res = WEVT_CONNFAIL;
+	}
+	WMBOX_SIGNAL(res, g_queue);
 }
 
 void wifi_sta_dup_connected(wifi_manager_cb_msg_s msg, void *arg)
@@ -93,7 +93,7 @@ void wifi_sta_dup_connected(wifi_manager_cb_msg_s msg, void *arg)
 
 void wifi_sta_disconnected(wifi_manager_cb_msg_s msg, void *arg)
 {
-  WMBOX_SIGNAL(WEVT_DISCONNECTED, g_queue);
+	WMBOX_SIGNAL(WEVT_DISCONNECTED, g_queue);
 }
 
 void wifi_sta_dup_disconnected(wifi_manager_cb_msg_s msg, void *arg)
@@ -112,46 +112,36 @@ void wifi_scan_ap_done(wifi_manager_cb_msg_s msg, void *arg)
 	}
 	wifi_manager_scan_info_s *wifi_scan_iter = msg.scanlist;
 	while (wifi_scan_iter != NULL) {
-		printf("SSID: %-20s, BSSID: %-20s, RSSI: %d, CH: %d, Phy_type: %d\n",
-			   wifi_scan_iter->ssid, wifi_scan_iter->bssid, wifi_scan_iter->rssi,
-			   wifi_scan_iter->channel, wifi_scan_iter->phy_mode);
+		printf("SSID: %-20s, BSSID: %-20s, RSSI: %d, CH: %d, Phy_type: %d\n", wifi_scan_iter->ssid, wifi_scan_iter->bssid, wifi_scan_iter->rssi, wifi_scan_iter->channel, wifi_scan_iter->phy_mode);
 		wifi_scan_iter = wifi_scan_iter->next;
 	}
 	WMBOX_SIGNAL(WEVT_SCAN_SUCCESS, g_queue);
 }
 
-static void _set_softap_config(wifi_manager_softap_config_s *config, char *ssid, char *passphrase, int channel)
+static void _set_softap_config(wifi_manager_softap_config_s * config, char *ssid, char *passphrase, int channel)
 {
 	strncpy(config->ssid, ssid, strlen(ssid) + 1);
-  strncpy(config->passphrase, passphrase, strlen(passphrase) + 1);
+	strncpy(config->passphrase, passphrase, strlen(passphrase) + 1);
 	config->channel = channel;
 }
 
-static void _set_ap_config(wifi_manager_ap_config_s *config,
-                           char *ssid,
-                           char *passphrase,
-                           wifi_manager_ap_auth_type_e auth,
-                           wifi_manager_ap_crypto_type_e crypto)
+static void _set_ap_config(wifi_manager_ap_config_s * config, char *ssid, char *passphrase, wifi_manager_ap_auth_type_e auth, wifi_manager_ap_crypto_type_e crypto)
 {
-  config->ssid_length = strlen(ssid);
+	config->ssid_length = strlen(ssid);
 	config->passphrase_length = strlen(passphrase);
 	strncpy(config->ssid, ssid, config->ssid_length + 1);
-	strncpy(config->passphrase, passphrase,
-			config->passphrase_length + 1);
+	strncpy(config->passphrase, passphrase, config->passphrase_length + 1);
 	config->ap_auth_type = auth;
 	config->ap_crypto_type = crypto;
 }
 
-static void _print_ap_config(wifi_manager_ap_config_s *config)
+static void _print_ap_config(wifi_manager_ap_config_s * config)
 {
-	printf("AP config: %s(%d), %s(%d), %d %d\n",
-		   config->ssid, config->ssid_length,
-		   config->passphrase, config->passphrase_length,
-		   config->ap_auth_type, config->ap_crypto_type);
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config->ssid, config->ssid_length, config->passphrase, config->passphrase_length, config->ap_auth_type, config->ap_crypto_type);
 }
 
 #if 0
-static void _print_stats(wifi_manager_stats_s *stats)
+static void _print_stats(wifi_manager_stats_s * stats)
 {
 	printf("=======================================================================\n");
 	printf("CONN    CONNFAIL    DISCONN    RECONN    SCAN    SOFTAP    JOIN    LEFT\n");
@@ -161,13 +151,9 @@ static void _print_stats(wifi_manager_stats_s *stats)
 }
 #endif
 
-static void _print_softap_config(wifi_manager_softap_config_s *apconfig)
+static void _print_softap_config(wifi_manager_softap_config_s * apconfig)
 {
-	printf("SoftAP config: %s(%d), %s(%d), %d\n", apconfig->ssid,
-		   strlen(apconfig->ssid),
-		   apconfig->passphrase,
-		   strlen(apconfig->passphrase),
-		   apconfig->channel);
+	printf("SoftAP config: %s(%d), %s(%d), %d\n", apconfig->ssid, strlen(apconfig->ssid), apconfig->passphrase, strlen(apconfig->passphrase), apconfig->channel);
 }
 
 static void utc_wifimanager_init_n(void)
@@ -251,16 +237,16 @@ static void utc_wifimanager_connect_ap_p(void)
 static void utc_wifimanager_disconnect_ap_p(void)
 {
 	int conn_res = WEVT_OK;
-  TC_ASSERT_EQ("wifi_manager_init", wifi_manager_init(&wifi_callbacks), WIFI_MANAGER_SUCCESS);
-  TC_ASSERT_EQ("wifi_manager_connect_ap", wifi_manager_connect_ap(&g_ap_config), WIFI_MANAGER_SUCCESS);
+	TC_ASSERT_EQ("wifi_manager_init", wifi_manager_init(&wifi_callbacks), WIFI_MANAGER_SUCCESS);
+	TC_ASSERT_EQ("wifi_manager_connect_ap", wifi_manager_connect_ap(&g_ap_config), WIFI_MANAGER_SUCCESS);
 	CONTROL_VVDRIVER(VWIFI_CMD_GEN_EVT, LWNL_EVT_STA_CONNECTED, 0, 100);
 	WMBOX_WAIT(conn_res, g_queue);
-  TC_ASSERT_EQ("wifi_manager_connect_ap cb", conn_res, WEVT_CONNECTED);
+	TC_ASSERT_EQ("wifi_manager_connect_ap cb", conn_res, WEVT_CONNECTED);
 	TC_ASSERT_EQ("wifi_manager_disconnect_ap", wifi_manager_disconnect_ap(), WIFI_MANAGER_SUCCESS);
-  CONTROL_VVDRIVER(VWIFI_CMD_GEN_EVT, LWNL_EVT_STA_DISCONNECTED, 0, 100);
+	CONTROL_VVDRIVER(VWIFI_CMD_GEN_EVT, LWNL_EVT_STA_DISCONNECTED, 0, 100);
 	WMBOX_WAIT(conn_res, g_queue);
 	TC_ASSERT_EQ("wifi_manager_disconnect_ap evt", conn_res, WEVT_DISCONNECTED);
-  TC_ASSERT_EQ("wifi_manager deinit", wifi_manager_deinit(), WIFI_MANAGER_SUCCESS);
+	TC_ASSERT_EQ("wifi_manager deinit", wifi_manager_deinit(), WIFI_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
 
@@ -277,14 +263,14 @@ static void utc_wifimanager_disconnect_ap_n(void)
 	CONTROL_VVDRIVER(VWIFI_CMD_GEN_EVT, LWNL_EVT_STA_DISCONNECTED, 0, 1000);
 	WMBOX_WAIT(conn_res, g_queue);
 	TC_ASSERT_EQ("wifi_manager_disconnect_ap evt", conn_res, WEVT_DISCONNECTED);
-  TC_ASSERT_EQ("wifi_manager_disconnect_ap", wifi_manager_disconnect_ap(), WIFI_MANAGER_FAIL);
-  TC_ASSERT_EQ("wifi_manager deinit", wifi_manager_deinit(), WIFI_MANAGER_SUCCESS);
+	TC_ASSERT_EQ("wifi_manager_disconnect_ap", wifi_manager_disconnect_ap(), WIFI_MANAGER_FAIL);
+	TC_ASSERT_EQ("wifi_manager deinit", wifi_manager_deinit(), WIFI_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
 
 static void utc_wifimanager_deinit_p(void)
 {
-  TC_ASSERT_EQ("wifi_manager_init", wifi_manager_init(&wifi_callbacks), WIFI_MANAGER_SUCCESS);
+	TC_ASSERT_EQ("wifi_manager_init", wifi_manager_init(&wifi_callbacks), WIFI_MANAGER_SUCCESS);
 	TC_ASSERT_EQ("wifi_manager deinit", wifi_manager_deinit(), WIFI_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
@@ -302,7 +288,7 @@ static void utc_wifimanager_scan_ap_n(void)
 {
 	TC_ASSERT_EQ("wifi_manager_init", wifi_manager_init(&wifi_null_callbacks), WIFI_MANAGER_SUCCESS);
 	TC_ASSERT_EQ("wifi_manager_scan_ap", wifi_manager_scan_ap(NULL), WIFI_MANAGER_FAIL);
-  TC_ASSERT_EQ("wifi_manager deinit", wifi_manager_deinit(), WIFI_MANAGER_SUCCESS);
+	TC_ASSERT_EQ("wifi_manager deinit", wifi_manager_deinit(), WIFI_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
 
@@ -316,7 +302,7 @@ static void utc_wifimanager_scan_ap_p(void)
 {
 	TC_ASSERT_EQ("wifi_manager_init", wifi_manager_init(&wifi_callbacks), WIFI_MANAGER_SUCCESS);
 	TC_ASSERT_EQ("wifi_manager_scan_ap", wifi_manager_scan_ap(NULL), WIFI_MANAGER_SUCCESS);
-  TC_ASSERT_EQ("wifi_manager deinit", wifi_manager_deinit(), WIFI_MANAGER_SUCCESS);
+	TC_ASSERT_EQ("wifi_manager deinit", wifi_manager_deinit(), WIFI_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
 
@@ -330,7 +316,7 @@ static void utc_wifimanager_get_stats_n(void)
 {
 	TC_ASSERT_EQ("wifi_manager_init", wifi_manager_init(&wifi_callbacks), WIFI_MANAGER_SUCCESS);
 	TC_ASSERT_EQ("wifi_manager_get_stats_n", wifi_manager_get_stats(NULL), WIFI_MANAGER_INVALID_ARGS);
-  TC_ASSERT_EQ("wifi_manager deinit", wifi_manager_deinit(), WIFI_MANAGER_SUCCESS);
+	TC_ASSERT_EQ("wifi_manager deinit", wifi_manager_deinit(), WIFI_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
 
@@ -477,7 +463,7 @@ static void utc_wifimanager_get_connected_config_p(void)
 	TC_ASSERT_EQ("wifi_manager_get_connected_config_p", ret, WIFI_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
-#endif //CONFIG_WIFI_MANAGER_SAVE_CONFIG
+#endif							//CONFIG_WIFI_MANAGER_SAVE_CONFIG
 
 int wifi_manager_utc(int argc, FAR char *argv[])
 {
@@ -488,38 +474,38 @@ int wifi_manager_utc(int argc, FAR char *argv[])
 	utc_wifimanager_init_n();
 	utc_wifimanager_init_p();
 
-  utc_wifimanager_set_mode_n();
+	utc_wifimanager_set_mode_n();
 	utc_wifimanager_set_mode_p();
 
 	utc_wifimanager_get_mode_n();
-	utc_wifimanager_get_mode_p(); // set softap mode inside this function
+	utc_wifimanager_get_mode_p();	// set softap mode inside this function
 
 	/* shoud define ap config first in utc_wifimanager_connect_ap_n()
 	 * and utc_wifimanager_connect_ap_p() before trying these two tests
 	 * Otherwise, you will get failed.
 	 */
-	utc_wifimanager_connect_ap_n(); // try to connect to ap in softap mode
-	utc_wifimanager_connect_ap_p(); // change to station mode and try to connect to ap
+	utc_wifimanager_connect_ap_n();	// try to connect to ap in softap mode
+	utc_wifimanager_connect_ap_p();	// change to station mode and try to connect to ap
 
 	utc_wifimanager_disconnect_ap_p();
-	utc_wifimanager_disconnect_ap_n(); //  Should be run after positive tc, that is, the second disconnect gets failed.
+	utc_wifimanager_disconnect_ap_n();	//  Should be run after positive tc, that is, the second disconnect gets failed.
 
 	utc_wifimanager_deinit_p();
-	utc_wifimanager_deinit_n(); // Should be run after positive tc, that is, the second deinit gets failed.
+	utc_wifimanager_deinit_n();	// Should be run after positive tc, that is, the second deinit gets failed.
 
-#if 0 // todo wifi manager need additional code to support this
-	utc_wifimanager_scan_ap_n(); // Get failed becasue there is no callback hander for scan results
+#if 0							// todo wifi manager need additional code to support this
+	utc_wifimanager_scan_ap_n();	// Get failed becasue there is no callback hander for scan results
 	utc_wifimanager_scan_specific_ap_n();
-	utc_wifimanager_scan_ap_p(); // Reinitialized wifi manager with the callback hander for scan results
+	utc_wifimanager_scan_ap_p();	// Reinitialized wifi manager with the callback hander for scan results
 	utc_wifimanager_scan_specific_ap_p();
 
 	utc_wifimanager_get_stats_n();
 	utc_wifimanager_get_stats_p();
 
-  // register api is not managed from TizenRT 3.1
-	utc_wifimanager_register_cb_n(); //not initialized yet
+	// register api is not managed from TizenRT 3.1
+	utc_wifimanager_register_cb_n();	//not initialized yet
 	utc_wifimanager_register_cb_p();
-	utc_wifimanager_unregister_cb_n(); // nothing to unregister
+	utc_wifimanager_unregister_cb_n();	// nothing to unregister
 	utc_wifimanager_unregister_cb_p();
 #endif
 
@@ -529,7 +515,7 @@ int wifi_manager_utc(int argc, FAR char *argv[])
 	utc_wifimanager_save_config_n();
 	utc_wifimanager_get_config_n();
 	utc_wifimanager_remove_config_n();
-	utc_wifimanager_save_config_p(); // save correct wifi config
+	utc_wifimanager_save_config_p();	// save correct wifi config
 	utc_wifimanager_get_config_p();
 	utc_wifimanager_remove_config_p();
 #endif
@@ -546,16 +532,11 @@ int utc_wifimanager_main(int argc, char *argv[])
 #endif
 {
 	g_queue = wifi_mbox_init();
-	_set_ap_config(&g_ap_config, CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_SSID,
-				   CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_PASSPHRASE,
-				   CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_AUTHENTICATION,
-				   CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_CRYPTO);
-  _print_ap_config(&g_ap_config);
+	_set_ap_config(&g_ap_config, CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_SSID, CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_PASSPHRASE, CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_AUTHENTICATION, CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_CRYPTO);
+	_print_ap_config(&g_ap_config);
 
-  _set_softap_config(&g_softap_config, CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_SOFTAP_SSID,
-					   CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_SOFTAP_PASSPHRASE,
-					   CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_SOFTAP_CHANNEL);
-  _print_softap_config(&g_softap_config);
+	_set_softap_config(&g_softap_config, CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_SOFTAP_SSID, CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_SOFTAP_PASSPHRASE, CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_SOFTAP_CHANNEL);
+	_print_softap_config(&g_softap_config);
 
 	int ssid_len = strlen(CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_SSID);
 	int passphrase_len = strlen(CONFIG_EXAMPLES_TESTCASE_WIFI_MANAGER_UTC_PASSPHRASE);

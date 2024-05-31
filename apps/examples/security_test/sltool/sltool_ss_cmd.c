@@ -21,9 +21,9 @@
 #include "sltool.h"
 #include "sltool_utils.h"
 
-#define SLT_OUTPUT_SIZE 16384 // 16KB
+#define SLT_OUTPUT_SIZE 16384	// 16KB
 
-int sltool_handle_remove_ss(sl_options_s *opt)
+int sltool_handle_remove_ss(sl_options_s * opt)
 {
 	printf("[sltool] idx %d  %s:%d\n", opt->idx, __FUNCTION__, __LINE__);
 	int fres = 0;
@@ -34,8 +34,7 @@ int sltool_handle_remove_ss(sl_options_s *opt)
 		return -1;
 	}
 	if ((res = sl_delete_storage(hnd, opt->idx)) != SECLINK_OK) {
-		printf("[sltool] error delete message reason(%s) %s:%d\n", sl_strerror(res),
-			   __FUNCTION__, __LINE__);
+		printf("[sltool] error delete message reason(%s) %s:%d\n", sl_strerror(res), __FUNCTION__, __LINE__);
 		fres = -1;
 	}
 	if ((res = sl_deinit(hnd)) != SECLINK_OK) {
@@ -44,11 +43,9 @@ int sltool_handle_remove_ss(sl_options_s *opt)
 	return fres;
 }
 
-int sltool_handle_write_ss(sl_options_s *opt)
+int sltool_handle_write_ss(sl_options_s * opt)
 {
-	printf("[sltool] idx %d  data %02x %ld size %d %s:%d\n",
-		   opt->idx, opt->ss_data, sizeof(opt->ss_data),
-		   opt->ss_write_size, __FUNCTION__, __LINE__);
+	printf("[sltool] idx %d  data %02x %ld size %d %s:%d\n", opt->idx, opt->ss_data, sizeof(opt->ss_data), opt->ss_write_size, __FUNCTION__, __LINE__);
 	int fres = 0;
 	int res = 0;
 	sl_ctx hnd;
@@ -73,12 +70,11 @@ int sltool_handle_write_ss(sl_options_s *opt)
 	}
 	input.data = data;
 	if ((res = sl_write_storage(hnd, opt->idx, &input)) != SECLINK_OK) {
-		printf("[sltool] error to write data %s %s:%d\n", sl_strerror(res),
-			   __FUNCTION__, __LINE__);
+		printf("[sltool] error to write data %s %s:%d\n", sl_strerror(res), __FUNCTION__, __LINE__);
 		fres = -1;
 		goto out;
 	}
-out:
+ out:
 	if ((res = sl_deinit(hnd)) != SECLINK_OK) {
 		printf("[sltool] error %d %s:%d\n", res, __FUNCTION__, __LINE__);
 	}
@@ -88,7 +84,7 @@ out:
 	return fres;
 }
 
-int sltool_handle_get_ss(sl_options_s *opt)
+int sltool_handle_get_ss(sl_options_s * opt)
 {
 	printf("[sltool] idx %d  %s:%d\n", opt->idx, __FUNCTION__, __LINE__);
 	int fres = 0;
@@ -114,15 +110,13 @@ int sltool_handle_get_ss(sl_options_s *opt)
 	/*  If output size is less thatn stored size in a secure storage then 
 	 * it would occur unexpected behavior */
 	if ((res = sl_read_storage(hnd, opt->idx, &output)) != SECLINK_OK) {
-		printf("[sltool] error to write data %s %s:%d\n",
-			   sl_strerror(res),
-			   __FUNCTION__, __LINE__);
+		printf("[sltool] error to write data %s %s:%d\n", sl_strerror(res), __FUNCTION__, __LINE__);
 		fres = -1;
 		goto out;
 	}
 	sltool_print_buffer(output.data, output.data_len, "Secure Storage Output Data");
 
-out:
+ out:
 	if ((res = sl_deinit(hnd)) != SECLINK_OK) {
 		printf("[sltool] error %d %s:%d\n", res, __FUNCTION__, __LINE__);
 	}

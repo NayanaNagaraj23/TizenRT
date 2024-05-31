@@ -90,9 +90,8 @@ void tc_net_send_p(int fd)
 	int ret = send(connect_fd, msg, strlen(msg), 0);
 
 	TC_ASSERT_NEQ_CLEANUP("send", ret, -1, close(connect_fd))
-	TC_SUCCESS_RESULT()
-
-	close(connect_fd);
+		TC_SUCCESS_RESULT()
+		close(connect_fd);
 }
 
 /**
@@ -113,7 +112,7 @@ void *server(void *args)
 		return 0;
 	}
 
-	if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &(int){1}, sizeof(int)) < 0) {
+	if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &(int) { 1 }, sizeof(int)) < 0) {
 		printf("setsockopt(SO_REUSEADDR) failed %s:%d:%d\n", __FUNCTION__, __LINE__, errno);
 		close(socket_fd);
 		return 0;

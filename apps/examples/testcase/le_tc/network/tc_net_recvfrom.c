@@ -272,11 +272,11 @@ void *recvfrom_tcpserver(void *args)
 	struct sockaddr_in sa;
 	int socket_fd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (socket_fd < 0) {
-		printf("Socket creation fail %s:%d\n", __FUNCTION__,  __LINE__);
+		printf("Socket creation fail %s:%d\n", __FUNCTION__, __LINE__);
 		return 0;
 	}
 
-	if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int)) < 0) {
+	if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &(int) { 1 }, sizeof(int)) < 0) {
 		printf("setsockopt(SO_REUSEADDR) failed %s:%d:%d\n", __FUNCTION__, __LINE__, errno);
 		close(socket_fd);
 		return 0;

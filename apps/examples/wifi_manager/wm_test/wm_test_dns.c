@@ -48,13 +48,9 @@ TESTCASE_SETUP(simple_tc)
 	dns_addr.sin_family = AF_INET;
 	inet_pton(AF_INET, "8.8.8.8", (void *)&dns_addr.sin_addr);
 	ST_ASSERT_EQ(0, netlib_setdnsserver((struct sockaddr *)&dns_addr, -1));
-} END_TESTCASE
-
-TESTCASE_TEARDOWN(simple_tc)
+} END_TESTCASE TESTCASE_TEARDOWN(simple_tc)
 {
-} END_TESTCASE
-
-static void _print_result(char *hostname, struct addrinfo *local_res)
+} END_TESTCASE static void _print_result(char *hostname, struct addrinfo *local_res)
 {
 	struct addrinfo *ainfo = NULL;
 	WT_LOGP(TAG, "Host: %s\n", hostname);
@@ -66,7 +62,7 @@ static void _print_result(char *hostname, struct addrinfo *local_res)
 		}
 		struct sockaddr_in *dst = (struct sockaddr_in *)ainfo->ai_addr;
 		struct in_addr info_addr = dst->sin_addr;
-		uint8_t addr[4] = {0,};
+		uint8_t addr[4] = { 0, };
 		addr[0] = info_addr.s_addr & 0xFF;
 		addr[1] = (info_addr.s_addr >> 8) & 0xFF;
 		addr[2] = (info_addr.s_addr >> 16) & 0xFF;
@@ -94,9 +90,9 @@ START_TEST_F(dns_queue)
 	// wait until dns entries are refreshed.
 	sleep(CONFIG_NET_DNS_MAX_TTL);
 #endif
-} END_TEST_F
+}
 
-void wm_run_dns_test(void *arg)
+END_TEST_F void wm_run_dns_test(void *arg)
 {
 	struct wt_options *opt = (struct wt_options *)arg;
 	WT_LOG(TAG, "init sem");

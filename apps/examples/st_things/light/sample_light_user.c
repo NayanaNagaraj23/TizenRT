@@ -45,10 +45,10 @@ static int g_switch_value = 0;
 static int64_t g_dimming_setting = 50;
 static int64_t g_dimming_step = 5;
 static int64_t g_color_temp = 50;
-static int64_t g_dimming_range[] = {0, 100};
-static int64_t g_color_range[] = {0, 100};
+static int64_t g_dimming_range[] = { 0, 100 };
+static int64_t g_color_range[] = { 0, 100 };
 
-bool handle_get_request_on_switch(st_things_get_request_message_s *req_msg, st_things_representation_s *resp_rep)
+bool handle_get_request_on_switch(st_things_get_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	printf("[%s]IN-handle_get_request_on_switch() called..\n", TAG);
 
@@ -61,7 +61,7 @@ bool handle_get_request_on_switch(st_things_get_request_message_s *req_msg, st_t
 	return true;
 }
 
-bool handle_set_request_on_switch(st_things_set_request_message_s *req_msg, st_things_representation_s *resp_rep)
+bool handle_set_request_on_switch(st_things_set_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	printf("[%s]IN-handle_set_request_on_switch() called..\n", TAG);
 	if (req_msg->rep->get_str_value(req_msg->rep, PROPERTY_VALUE_SWITCH, &g_power)) {
@@ -82,7 +82,7 @@ bool handle_set_request_on_switch(st_things_set_request_message_s *req_msg, st_t
 // Change value of switch using switch(702) at artik board
 void change_switch_value(void)
 {
-	printf("[%s] current power value: %s\n", TAG, g_power); 
+	printf("[%s] current power value: %s\n", TAG, g_power);
 	if (g_switch_value == 0) {
 		g_switch_value = 1;
 	} else {
@@ -92,7 +92,7 @@ void change_switch_value(void)
 	printf("[%s] new power value : %s\n", TAG, g_power);
 }
 
-bool handle_get_request_on_dimming(st_things_get_request_message_s *req_msg, st_things_representation_s *resp_rep)
+bool handle_get_request_on_dimming(st_things_get_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	printf("[%s]IN-handle_get_request_on_dimming() called..\n", TAG);
 
@@ -108,7 +108,7 @@ bool handle_get_request_on_dimming(st_things_get_request_message_s *req_msg, st_
 	return true;
 }
 
-bool handle_set_request_on_dimming(st_things_set_request_message_s *req_msg, st_things_representation_s *resp_rep)
+bool handle_set_request_on_dimming(st_things_set_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	printf("[%s]IN-handle_set_request_on_dimming() called..\n", TAG);
 
@@ -122,7 +122,7 @@ bool handle_set_request_on_dimming(st_things_set_request_message_s *req_msg, st_
 	return true;
 }
 
-bool handle_get_request_on_ct(st_things_get_request_message_s *req_msg, st_things_representation_s *resp_rep)
+bool handle_get_request_on_ct(st_things_get_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	printf("[%s]IN-handle_get_request_on_ct() called..\n", TAG);
 
@@ -136,7 +136,7 @@ bool handle_get_request_on_ct(st_things_get_request_message_s *req_msg, st_thing
 	return true;
 }
 
-bool handle_set_request_on_ct(st_things_set_request_message_s *req_msg, st_things_representation_s *resp_rep)
+bool handle_set_request_on_ct(st_things_set_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	printf("[%s]IN-handle_set_request_on_ct() called..\n", TAG);
 

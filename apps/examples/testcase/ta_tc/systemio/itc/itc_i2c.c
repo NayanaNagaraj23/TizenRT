@@ -265,7 +265,7 @@ void itc_systemio_i2c_write_read_p_all_freq(void)
 */
 void itc_systemio_i2c_init_n(void)
 {
-	iotbus_i2c_context_h h_i2c = iotbus_i2c_init(-1);//invalid bus
+	iotbus_i2c_context_h h_i2c = iotbus_i2c_init(-1);	//invalid bus
 	TC_ASSERT_EQ("iotbus_i2c_init", h_i2c, NULL);
 
 	TC_SUCCESS_RESULT();
@@ -281,7 +281,7 @@ void itc_systemio_i2c_init_n(void)
 */
 void itc_systemio_i2c_stop_n(void)
 {
-	int ret = iotbus_i2c_stop(NULL);//invalid handle
+	int ret = iotbus_i2c_stop(NULL);	//invalid handle
 	TC_ASSERT_EQ("iotbus_i2c_stop", ret, IOTBUS_ERROR_INVALID_PARAMETER);
 
 	TC_SUCCESS_RESULT();
@@ -300,7 +300,7 @@ void itc_systemio_i2c_set_frequency_n(void)
 	int ret = IOTBUS_ERROR_NONE;
 	int freq_mode = IOTBUS_I2C_STD;
 
-	ret = iotbus_i2c_set_frequency(NULL, freq_mode);//invalid handle
+	ret = iotbus_i2c_set_frequency(NULL, freq_mode);	//invalid handle
 	TC_ASSERT_EQ("iotbus_i2c_set_frequency", ret, IOTBUS_ERROR_INVALID_PARAMETER);
 
 	TC_SUCCESS_RESULT();
@@ -355,8 +355,8 @@ int itc_i2c_main(void)
 	itc_systemio_i2c_set_frequency_p();
 	itc_systemio_i2c_set_address_p();
 #ifndef CONFIG_DISABLE_MANUAL_TESTCASE
-	itc_systemio_i2c_write_read_p(); // Require hardware to perform write/read operation
-	itc_systemio_i2c_write_read_p_all_freq();//TC FAIL
+	itc_systemio_i2c_write_read_p();	// Require hardware to perform write/read operation
+	itc_systemio_i2c_write_read_p_all_freq();	//TC FAIL
 #endif
 	itc_systemio_i2c_set_frequency_address_p();
 	itc_systemio_i2c_init_n();

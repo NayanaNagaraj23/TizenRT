@@ -193,13 +193,7 @@ static void websocket_tls_debug(void *ctx, int level, const char *file, int line
 	printf("%s:%04d: %s", file, line, str);
 }
 
-websocket_return_t websocket_tls_init(websocket_t *data,
-									  mbedtls_ssl_config *conf,
-									  mbedtls_x509_crt *cert,
-									  mbedtls_pk_context *pkey,
-									  mbedtls_entropy_context *entropy,
-									  mbedtls_ctr_drbg_context *ctr_drbg,
-									  mbedtls_ssl_cache_context *cache)
+websocket_return_t websocket_tls_init(websocket_t * data, mbedtls_ssl_config * conf, mbedtls_x509_crt * cert, mbedtls_pk_context * pkey, mbedtls_entropy_context * entropy, mbedtls_ctr_drbg_context * ctr_drbg, mbedtls_ssl_cache_context * cache)
 {
 	int r;
 	const char *crt = mbedtls_test_srv_crt;
@@ -259,12 +253,12 @@ websocket_return_t websocket_tls_init(websocket_t *data,
 	/* 3. Setup ssl stuff */
 	printf("  . Setting up the SSL data...");
 
-	if ((r = mbedtls_ssl_config_defaults(conf, (data->state == WEBSOCKET_RUN_CLIENT)  ? MBEDTLS_SSL_IS_CLIENT : MBEDTLS_SSL_IS_SERVER, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT)) != 0) {
+	if ((r = mbedtls_ssl_config_defaults(conf, (data->state == WEBSOCKET_RUN_CLIENT) ? MBEDTLS_SSL_IS_CLIENT : MBEDTLS_SSL_IS_SERVER, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT)) != 0) {
 		printf("Error: mbedtls_ssl_config_defaults returned -%4x\n", -r);
 		return WEBSOCKET_INIT_ERROR;
 	}
 
-	/* ToDo: to access web browser it should be a ssl_verify none mode*/
+	/* ToDo: to access web browser it should be a ssl_verify none mode */
 	mbedtls_ssl_conf_authmode(conf, MBEDTLS_SSL_VERIFY_NONE);
 	mbedtls_ssl_conf_rng(conf, mbedtls_ctr_drbg_random, ctr_drbg);
 	mbedtls_ssl_conf_dbg(conf, websocket_tls_debug, stdout);
@@ -284,7 +278,7 @@ websocket_return_t websocket_tls_init(websocket_t *data,
 	return WEBSOCKET_SUCCESS;
 }
 
-void websocket_tls_release(int param, mbedtls_ssl_config *conf, mbedtls_x509_crt *cert, mbedtls_pk_context *pkey, mbedtls_entropy_context *entropy, mbedtls_ctr_drbg_context *ctr_drbg, mbedtls_ssl_cache_context *cache)
+void websocket_tls_release(int param, mbedtls_ssl_config * conf, mbedtls_x509_crt * cert, mbedtls_pk_context * pkey, mbedtls_entropy_context * entropy, mbedtls_ctr_drbg_context * ctr_drbg, mbedtls_ssl_cache_context * cache)
 {
 	if (!param) {
 		mbedtls_ssl_cache_free(cache);
@@ -301,7 +295,7 @@ void websocket_tls_release(int param, mbedtls_ssl_config *conf, mbedtls_x509_crt
  ****************************************************************************/
 
 /* receive packets from TCP socket */
-ssize_t recv_cb(websocket_context_ptr ctx, uint8_t *buf, size_t len, int flags, void *user_data)
+ssize_t recv_cb(websocket_context_ptr ctx, uint8_t * buf, size_t len, int flags, void *user_data)
 {
 	ssize_t r;
 	int fd;
@@ -309,7 +303,7 @@ ssize_t recv_cb(websocket_context_ptr ctx, uint8_t *buf, size_t len, int flags, 
 	struct websocket_info_t *info = user_data;
 
 	fd = info->data->fd;
-RECV_RETRY:
+ RECV_RETRY:
 	if (info->data->tls_enabled) {
 		r = mbedtls_ssl_read(info->data->tls_ssl, buf, len);
 	} else {
@@ -332,7 +326,7 @@ RECV_RETRY:
 }
 
 /* send packets from TCP socket */
-ssize_t send_cb(websocket_context_ptr ctx, const uint8_t *buf, size_t len, int flags, void *user_data)
+ssize_t send_cb(websocket_context_ptr ctx, const uint8_t * buf, size_t len, int flags, void *user_data)
 {
 	ssize_t r;
 	int fd;
@@ -340,7 +334,7 @@ ssize_t send_cb(websocket_context_ptr ctx, const uint8_t *buf, size_t len, int f
 	struct websocket_info_t *info = user_data;
 
 	fd = info->data->fd;
-SEND_RETRY:
+ SEND_RETRY:
 	if (info->data->tls_enabled) {
 		r = mbedtls_ssl_write(info->data->tls_ssl, buf, len);
 	} else {
@@ -360,13 +354,13 @@ SEND_RETRY:
 	return r;
 }
 
-int genmask_cb(websocket_context_ptr ctx, uint8_t *buf, size_t len, void *user_data)
+int genmask_cb(websocket_context_ptr ctx, uint8_t * buf, size_t len, void *user_data)
 {
 	memset(buf, rand(), len);
 	return 0;
 }
 
-void print_on_msg_cb(websocket_context_ptr ctx, const websocket_on_msg_arg *arg, void *user_data)
+void print_on_msg_cb(websocket_context_ptr ctx, const websocket_on_msg_arg * arg, void *user_data)
 {
 	websocket_frame_t msgarg = {
 		arg->opcode, arg->msg, arg->msg_length
@@ -385,7 +379,7 @@ void print_on_msg_cb(websocket_context_ptr ctx, const websocket_on_msg_arg *arg,
 	}
 }
 
-void echoback_on_msg_cb(websocket_context_ptr ctx, const websocket_on_msg_arg *arg, void *user_data)
+void echoback_on_msg_cb(websocket_context_ptr ctx, const websocket_on_msg_arg * arg, void *user_data)
 {
 	struct websocket_info_t *info = user_data;
 	websocket_frame_t msgarg = {
@@ -409,7 +403,7 @@ void echoback_on_msg_cb(websocket_context_ptr ctx, const websocket_on_msg_arg *a
  *  recv_start_cb for example
  *  this cb will be invoked when a new frame starts to be received.
  */
-void recv_start_cb(websocket_context_ptr ctx, const websocket_recv_start_arg *arg, void *user_data)
+void recv_start_cb(websocket_context_ptr ctx, const websocket_recv_start_arg * arg, void *user_data)
 {
 	if (arg->fin == 1) {
 		//this frame is the last.
@@ -425,7 +419,7 @@ void recv_start_cb(websocket_context_ptr ctx, const websocket_recv_start_arg *ar
  *  recv_chunk_cb for example
  *  this cb will be invoked when a chunk of frame payload is received.
  */
-void recv_chunk_cb(websocket_context_ptr ctx, const websocket_recv_chunk_arg *arg, void *user_data)
+void recv_chunk_cb(websocket_context_ptr ctx, const websocket_recv_chunk_arg * arg, void *user_data)
 {
 	if (arg->data_length > 0) {
 		//you can handle the payload (arg->data)
@@ -513,7 +507,7 @@ int websocket_client(void *arg)
 	websocket_cli->fd = -1;
 	websocket_cli->cb = &cb;
 	websocket_cli->tls_enabled = tls;
-	websocket_cli->state = WEBSOCKET_RUN_CLIENT; // websocket state assigned here temporary before easy_TLS api
+	websocket_cli->state = WEBSOCKET_RUN_CLIENT;	// websocket state assigned here temporary before easy_TLS api
 
 	/* TLS init routine */
 	if (tls) {
@@ -577,7 +571,7 @@ int websocket_client(void *arg)
 				printf("websocket client handler is stopped during the test\n");
 				goto WEB_CLI_EXIT;
 			}
-			usleep(100000); // 100 msec
+			usleep(100000);		// 100 msec
 		}
 	}
 
@@ -590,7 +584,7 @@ int websocket_client(void *arg)
 		}
 		usleep(100000);
 	};
-WEB_CLI_EXIT:
+ WEB_CLI_EXIT:
 	r = websocket_queue_close(websocket_cli, NULL);
 	if (r != WEBSOCKET_SUCCESS) {
 		printf("websocket_close returned error : %d\n", r);
@@ -674,7 +668,7 @@ int websocket_server(void *arg)
 	websocket_srv->fd = -1;
 	websocket_srv->cb = &cb;
 	websocket_srv->tls_enabled = tls;
-	websocket_srv->state = WEBSOCKET_RUN_SERVER; // websocket state assigned here temporary before easy_TLS api
+	websocket_srv->state = WEBSOCKET_RUN_SERVER;	// websocket state assigned here temporary before easy_TLS api
 
 	/* TLS init routine */
 	if (tls) {
@@ -695,7 +689,7 @@ int websocket_server(void *arg)
 		goto WEB_SRV_EXIT;
 	}
 
-WEB_SRV_EXIT:
+ WEB_SRV_EXIT:
 	if (tls) {
 		websocket_tls_release(0, &conf, &cert, &pkey, &entropy, &ctr_drbg, &cache);
 	}
@@ -725,7 +719,7 @@ int websocket_main(int argc, char *argv[])
 		goto error_with_input;
 	}
 
-	/* Parsing input parameters*/
+	/* Parsing input parameters */
 	input = (struct options_s *)malloc(sizeof(struct options_s));
 	if (!input) {
 		printf("memory alloc error\n");
@@ -748,8 +742,7 @@ int websocket_main(int argc, char *argv[])
 		int port_len = strlen(argv[3]);
 		int path_len = strlen(argv[4]);
 
-		if (addr_len > WEBSOCKET_EXAMPLE_ADDR_LEN || port_len > WEBSOCKET_EXAMPLE_PORT_LEN
-			|| path_len > WEBSOCKET_EXAMPLE_PATH_LEN) {
+		if (addr_len > WEBSOCKET_EXAMPLE_ADDR_LEN || port_len > WEBSOCKET_EXAMPLE_PORT_LEN || path_len > WEBSOCKET_EXAMPLE_PATH_LEN) {
 			goto error_with_input;
 		}
 		strncpy(input->server_ip, argv[2], addr_len + 1);
@@ -772,14 +765,14 @@ int websocket_main(int argc, char *argv[])
 	pthread_attr_setschedpolicy(&attr, WEBSOCKET_SCHED_POLICY);
 
 	if (memcmp(argv[1], "client", strlen("client")) == 0 && argc == 8) {
-		if ((status = pthread_create(&tid, &attr, (pthread_startroutine_t)websocket_client, (void *)input)) != 0) {
+		if ((status = pthread_create(&tid, &attr, (pthread_startroutine_t) websocket_client, (void *)input)) != 0) {
 			printf("fail to create thread\n");
 			goto error_with_function_failure;
 		}
 		pthread_setname_np(tid, "websocket client");
 		pthread_join(tid, NULL);
 	} else if (memcmp(argv[1], "server", strlen("server")) == 0 && argc == 3) {
-		if ((status = pthread_create(&tid, &attr, (pthread_startroutine_t)websocket_server, (void *)input)) != 0) {
+		if ((status = pthread_create(&tid, &attr, (pthread_startroutine_t) websocket_server, (void *)input)) != 0) {
 			printf("fail to create thread\n");
 			goto error_with_function_failure;
 		}
@@ -795,9 +788,9 @@ int websocket_main(int argc, char *argv[])
 
 	return 0;
 
-error_with_input:
+ error_with_input:
 	printf("%s", WEBSOCKET_USAGE);
-error_with_function_failure:
+ error_with_function_failure:
 	if (input) {
 		free(input);
 	}

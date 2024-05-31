@@ -56,8 +56,8 @@ static void tc_net_netdb_p(void)
 
 	ret = getaddrinfo(NULL, port, &hints, &res);
 	/*
-	* This API has no way to check errors.
-	*/
+	 * This API has no way to check errors.
+	 */
 	freeaddrinfo(res);
 	TC_ASSERT_EQ("getaddrinfo", ret, 0);
 	TC_SUCCESS_RESULT()

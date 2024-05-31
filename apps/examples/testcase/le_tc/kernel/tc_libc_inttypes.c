@@ -100,22 +100,22 @@ static void tc_libc_inttypes_strtoimax(void)
 	/* ret_chk = 2001 for string 2001 in decimal */
 
 	ret_chk = strtoimax(str_lnum, &end_ptr, DECIMAL);
-	TC_ASSERT_EQ("strtoimax", ret_chk, (intmax_t)2001);
+	TC_ASSERT_EQ("strtoimax", ret_chk, (intmax_t) 2001);
 
 	/* ret_chk = 6340800 for string 60c0c0 in hexadecimal */
 
 	ret_chk = strtoimax(end_ptr, &end_ptr, HEXADECIMAL);
-	TC_ASSERT_EQ("strtoimax", ret_chk, (intmax_t)6340800);
+	TC_ASSERT_EQ("strtoimax", ret_chk, (intmax_t) 6340800);
 
 	/* ret_chk = -3624224 for string -1101110100110100100000 in binary */
 
 	ret_chk = strtoimax(end_ptr, &end_ptr, BINARY);
-	TC_ASSERT_EQ("strtoimax", ret_chk, (intmax_t)-3624224);
+	TC_ASSERT_EQ("strtoimax", ret_chk, (intmax_t) - 3624224);
 
 	/* ret_chk = 7340031 for string 0x6fffff with base value 0 */
 
 	ret_chk = strtoimax(end_ptr, NULL, 0);
-	TC_ASSERT_EQ("strtoimax", ret_chk, (intmax_t)7340031);
+	TC_ASSERT_EQ("strtoimax", ret_chk, (intmax_t) 7340031);
 
 	TC_SUCCESS_RESULT();
 }
@@ -136,9 +136,9 @@ static void tc_libc_inttypes_strtoumax(void)
 	char *end_ptr;
 	uintmax_t ret_chk;
 #ifdef __INT64_DEFINED
-	const char str_uintmax_plus_1[21] = "18446744073709551616"; // UINT64_MAX + 1
+	const char str_uintmax_plus_1[21] = "18446744073709551616";	// UINT64_MAX + 1
 #else
-	const char str_uintmax_plus_1[11] = "4294967296"; // UINT32_MAX + 1
+	const char str_uintmax_plus_1[11] = "4294967296";	// UINT32_MAX + 1
 #endif
 
 	/* Negative test with invalid base */
@@ -149,27 +149,27 @@ static void tc_libc_inttypes_strtoumax(void)
 	/* Negative test with overflow */
 
 	ret_chk = strtoumax(str_uintmax_plus_1, &end_ptr, DECIMAL);
-	TC_ASSERT_EQ("strtoumax", ret_chk, (uintmax_t)UINTMAX_MAX);
+	TC_ASSERT_EQ("strtoumax", ret_chk, (uintmax_t) UINTMAX_MAX);
 
 	/* ret_chk = 201 for string 201 in decimal */
 
 	ret_chk = strtoumax(str_ulnum, &end_ptr, DECIMAL);
-	TC_ASSERT_EQ("strtoumax", ret_chk, (uintmax_t)201);
+	TC_ASSERT_EQ("strtoumax", ret_chk, (uintmax_t) 201);
 
 	/* ret_chk = 96 for string 60 in hexadecimal */
 
 	ret_chk = strtoumax(end_ptr, &end_ptr, HEXADECIMAL);
-	TC_ASSERT_EQ("strtoumax", ret_chk, (uintmax_t)96);
+	TC_ASSERT_EQ("strtoumax", ret_chk, (uintmax_t) 96);
 
 	/* ret_chk = 12 for string 1100 in binary */
 
 	ret_chk = strtoumax(end_ptr, &end_ptr, BINARY);
-	TC_ASSERT_EQ("strtoumax", ret_chk, (uintmax_t)12);
+	TC_ASSERT_EQ("strtoumax", ret_chk, (uintmax_t) 12);
 
 	/* ret_chk = 111 for string 0x6f with base 0 */
 
 	ret_chk = strtoumax(end_ptr, NULL, 0);
-	TC_ASSERT_EQ("strtoumax", ret_chk, (uintmax_t)111);
+	TC_ASSERT_EQ("strtoumax", ret_chk, (uintmax_t) 111);
 
 	TC_SUCCESS_RESULT();
 }

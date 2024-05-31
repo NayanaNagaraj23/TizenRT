@@ -127,7 +127,6 @@ int mem_protect_tc_main(int argc, char *argv[])
 				sleep(1);
 				dest = *(obj.addr);
 
-
 				printf("ERROR: User Task made invalid access to Kernel data space\n");
 			}
 		}

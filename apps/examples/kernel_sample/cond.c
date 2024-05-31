@@ -58,13 +58,13 @@
 #include "kernel_sample.h"
 
 #ifndef NULL
-# define NULL (void*)0
+#define NULL (void*)0
 #endif
 
-static volatile enum { RUNNING, MUTEX_WAIT, COND_WAIT} waiter_state;
+static volatile enum { RUNNING, MUTEX_WAIT, COND_WAIT } waiter_state;
 
 static pthread_mutex_t mutex;
-static pthread_cond_t  cond;
+static pthread_cond_t cond;
 static volatile int data_available = 0;
 static int waiter_nloops = 0;
 static int waiter_waits = 0;
@@ -84,7 +84,7 @@ static void *thread_waiter(void *parameter)
 		/* Take the mutex */
 
 		waiter_state = MUTEX_WAIT;
-		status       = pthread_mutex_lock(&mutex);
+		status = pthread_mutex_lock(&mutex);
 		waiter_state = RUNNING;
 
 		if (status != 0) {
@@ -105,7 +105,7 @@ static void *thread_waiter(void *parameter)
 			 */
 
 			waiter_state = COND_WAIT;
-			status       = pthread_cond_wait(&cond, &mutex);
+			status = pthread_cond_wait(&cond, &mutex);
 			waiter_state = RUNNING;
 
 			if (status != 0) {
@@ -193,7 +193,7 @@ static void *thread_signaler(void *parameter)
 
 	printf("thread_signaler: Terminating\n");
 	pthread_exit(NULL);
-	return NULL; /* Non-reachable -- needed for some compilers */
+	return NULL;				/* Non-reachable -- needed for some compilers */
 }
 
 void cond_test(void)

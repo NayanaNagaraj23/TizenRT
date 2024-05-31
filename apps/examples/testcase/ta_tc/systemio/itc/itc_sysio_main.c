@@ -51,7 +51,6 @@ int itc_sysio_main(int argc, char *argv[])
 	if (testcase_state_handler(TC_START, "SystemIO ITC") == ERROR) {
 		return ERROR;
 	}
-
 #ifdef CONFIG_SYSIO_ITC_PWM
 	itc_pwm_main();
 #endif

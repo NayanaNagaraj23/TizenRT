@@ -49,6 +49,7 @@ static bool g_flag;
 
 static db_cursor_t *g_cursor;
 const static char *g_attribute_set[] = { "id", "date", "fruit", "weight" };
+
 struct arastorage_data_type_s {
 	int int_value;
 	long long_value;
@@ -59,16 +60,16 @@ struct arastorage_data_type_s {
 typedef struct arastorage_data_type_s arastorage_data_t;
 
 const static arastorage_data_t g_arastorage_data_set[DATA_SET_NUM] = {
-	{ 1, 20160101, "apple", 1.0001 },
-	{ 2, 20160102, "banana", 2.0002 },
-	{ 3, 20160103, "mango", 3.0003 },
-	{ 4, 20160104, "orange", 4.0004 },
-	{ 5, 20160105, "melon", 5.0005 },
-	{ 6, 20160106, "kiwi", 6.0006 },
-	{ 7, 20160107, "peach", 7.0007 },
-	{ 8, 20160108, "cherry", 8.0008 },
-	{ 9, 20160109, "strawberry", 9.0009 },
-	{10, 20160110, "watermelon", 10.0010 }
+	{1, 20160101, "apple", 1.0001},
+	{2, 20160102, "banana", 2.0002},
+	{3, 20160103, "mango", 3.0003},
+	{4, 20160104, "orange", 4.0004},
+	{5, 20160105, "melon", 5.0005},
+	{6, 20160106, "kiwi", 6.0006},
+	{7, 20160107, "peach", 7.0007},
+	{8, 20160108, "cherry", 8.0008},
+	{9, 20160109, "strawberry", 9.0009},
+	{10, 20160110, "watermelon", 10.0010}
 };
 
 /****************************************************************************
@@ -222,9 +223,7 @@ static void db_insert(const char *rel_name)
 	int index;
 	for (index = 0; index < DATA_SET_NUM; index++) {
 		memset(g_query, 0, QUERY_LENGTH);
-		snprintf(g_query, QUERY_LENGTH, "INSERT (%d, %ld, \'%s\') INTO %s;", g_arastorage_data_set[index].int_value,
-			g_arastorage_data_set[index].long_value, g_arastorage_data_set[index].string_value,
-			rel_name);
+		snprintf(g_query, QUERY_LENGTH, "INSERT (%d, %ld, \'%s\') INTO %s;", g_arastorage_data_set[index].int_value, g_arastorage_data_set[index].long_value, g_arastorage_data_set[index].string_value, rel_name);
 		ret = db_exec(g_query);
 		if (ret != DB_OK) {
 			error_exec(rel_name);
@@ -387,18 +386,14 @@ void itc_arastorage_startup_p(void)
 
 	for (index = 0; index < DATA_SET_NUM; index++) {
 		memset(g_query, 0, QUERY_LENGTH);
-		snprintf(g_query, QUERY_LENGTH, "INSERT (%d, %ld, \'%s\', %f) INTO %s;", g_arastorage_data_set[index].int_value,
-			g_arastorage_data_set[index].long_value, g_arastorage_data_set[index].string_value,
-			g_arastorage_data_set[index].double_value, RELATION_NAME1);
+		snprintf(g_query, QUERY_LENGTH, "INSERT (%d, %ld, \'%s\', %f) INTO %s;", g_arastorage_data_set[index].int_value, g_arastorage_data_set[index].long_value, g_arastorage_data_set[index].string_value, g_arastorage_data_set[index].double_value, RELATION_NAME1);
 		ret = db_exec(g_query);
 		TC_ASSERT_EQ("db_exec", ret, 0);
 	}
 #else
 	for (index = 0; index < DATA_SET_NUM; index++) {
 		memset(g_query, 0, QUERY_LENGTH);
-		snprintf(g_query, QUERY_LENGTH, "INSERT (%d, %ld, \'%s\') INTO %s;", g_arastorage_data_set[index].int_value,
-			g_arastorage_data_set[index].long_value, g_arastorage_data_set[index].string_value,
-			RELATION_NAME1);
+		snprintf(g_query, QUERY_LENGTH, "INSERT (%d, %ld, \'%s\') INTO %s;", g_arastorage_data_set[index].int_value, g_arastorage_data_set[index].long_value, g_arastorage_data_set[index].string_value, RELATION_NAME1);
 		ret = db_exec(g_query);
 		TC_ASSERT_EQ("db_exec", ret, DB_OK);
 	}
@@ -602,23 +597,23 @@ void itc_arastorage_db_get_result_message_p_all_msgs(void)
 	};
 
 	struct db_result_error st_error[] = {
-		{ DB_FINISHED, DB_FINISHED_MSG },
-		{ DB_OK, DB_OK_MSG },
-		{ DB_LIMIT_ERROR, DB_LIMIT_ERROR_MSG },
-		{ DB_ALLOCATION_ERROR, DB_ALLOCATION_ERROR_MSG },
-		{ DB_STORAGE_ERROR, DB_STORAGE_ERROR_MSG },
-		{ DB_PARSING_ERROR, DB_PARSING_ERROR_MSG },
-		{ DB_NAME_ERROR, DB_NAME_ERROR_MSG },
-		{ DB_RELATIONAL_ERROR, DB_RELATIONAL_ERROR_MSG },
-		{ DB_TYPE_ERROR, DB_TYPE_ERROR_MSG },
-		{ DB_IMPLEMENTATION_ERROR, DB_IMPLEMENTATION_ERROR_MSG },
-		{ DB_INDEX_ERROR, DB_INDEX_ERROR_MSG },
-		{ DB_BUSY_ERROR, DB_BUSY_ERROR_MSG },
-		{ DB_INCONSISTENCY_ERROR, DB_INCONSISTENCY_ERROR_MSG },
-		{ DB_ARGUMENT_ERROR, DB_ARGUMENT_ERROR_MSG },
-		{ DB_FULL_ERROR, DB_FULL_ERROR_MSG },
-		{ DB_CURSOR_ERROR, DB_CURSOR_ERROR_MSG },
-		{ DB_EMPTY_CURSOR_ERROR, DB_EMPTY_CURSOR_ERROR_MSG }
+		{DB_FINISHED, DB_FINISHED_MSG},
+		{DB_OK, DB_OK_MSG},
+		{DB_LIMIT_ERROR, DB_LIMIT_ERROR_MSG},
+		{DB_ALLOCATION_ERROR, DB_ALLOCATION_ERROR_MSG},
+		{DB_STORAGE_ERROR, DB_STORAGE_ERROR_MSG},
+		{DB_PARSING_ERROR, DB_PARSING_ERROR_MSG},
+		{DB_NAME_ERROR, DB_NAME_ERROR_MSG},
+		{DB_RELATIONAL_ERROR, DB_RELATIONAL_ERROR_MSG},
+		{DB_TYPE_ERROR, DB_TYPE_ERROR_MSG},
+		{DB_IMPLEMENTATION_ERROR, DB_IMPLEMENTATION_ERROR_MSG},
+		{DB_INDEX_ERROR, DB_INDEX_ERROR_MSG},
+		{DB_BUSY_ERROR, DB_BUSY_ERROR_MSG},
+		{DB_INCONSISTENCY_ERROR, DB_INCONSISTENCY_ERROR_MSG},
+		{DB_ARGUMENT_ERROR, DB_ARGUMENT_ERROR_MSG},
+		{DB_FULL_ERROR, DB_FULL_ERROR_MSG},
+		{DB_CURSOR_ERROR, DB_CURSOR_ERROR_MSG},
+		{DB_EMPTY_CURSOR_ERROR, DB_EMPTY_CURSOR_ERROR_MSG}
 	};
 
 	count = sizeof(st_error) / sizeof(st_error[0]);
@@ -956,8 +951,7 @@ void itc_arastorage_cursor_move_prev_p(void)
 
 	ret = cursor_move_last(g_cursor);
 	TC_ASSERT_EQ("cursor_move_last", DB_ERROR(ret), 0)
-
-	ret = cursor_move_prev(g_cursor);
+		ret = cursor_move_prev(g_cursor);
 	TC_ASSERT_GEQ("cursor_move_previous", ret, 0);
 
 	ret = cursor_get_row(g_cursor);
@@ -1127,8 +1121,7 @@ void itc_arastorage_cursor_is_first_row_n(void)
 
 	/* We need to get valid cursor for this test */
 	memset(g_query, 0, QUERY_LENGTH);
-	snprintf(g_query, QUERY_LENGTH, "SELECT %s, %s, %s FROM %s WHERE %s > 0;", g_attribute_set[0],
-		g_attribute_set[1], g_attribute_set[2], RELATION_NAME1, g_attribute_set[0]);
+	snprintf(g_query, QUERY_LENGTH, "SELECT %s, %s, %s FROM %s WHERE %s > 0;", g_attribute_set[0], g_attribute_set[1], g_attribute_set[2], RELATION_NAME1, g_attribute_set[0]);
 
 	g_cursor = db_query(g_query);
 	TC_ASSERT_NEQ("db_query", g_cursor, NULL);
@@ -1190,8 +1183,7 @@ void itc_arastorage_cursor_is_last_row_n(void)
 
 	/* We need to get valid cursor for this test */
 	memset(g_query, 0, QUERY_LENGTH);
-	snprintf(g_query, QUERY_LENGTH, "SELECT %s, %s, %s FROM %s WHERE %s > 0;", g_attribute_set[0],
-		g_attribute_set[1], g_attribute_set[2], RELATION_NAME1, g_attribute_set[0]);
+	snprintf(g_query, QUERY_LENGTH, "SELECT %s, %s, %s FROM %s WHERE %s > 0;", g_attribute_set[0], g_attribute_set[1], g_attribute_set[2], RELATION_NAME1, g_attribute_set[0]);
 	g_cursor = db_query(g_query);
 	TC_ASSERT_NEQ("db_query", g_cursor, NULL);
 	ret = cursor_move_first(g_cursor);
@@ -1503,8 +1495,7 @@ void itc_arastorage_cursor_get_long_value_p(void)
 
 	value = cursor_get_long_value(g_cursor, 2);;
 	TC_ASSERT_EQ("cursor_get_long_value", value, DB_LONG_ERROR)
-
-	TC_SUCCESS_RESULT();
+		TC_SUCCESS_RESULT();
 }
 
 /**
@@ -1556,11 +1547,9 @@ void itc_arastorage_cursor_get_double_value_p(void)
 
 	value = cursor_get_double_value(g_cursor, 3);
 	TC_ASSERT_GEQ("cursor_get_double_value", value, 0)
-
-	value = cursor_get_double_value(g_cursor, 2);
+		value = cursor_get_double_value(g_cursor, 2);
 	TC_ASSERT_EQ("cursor_get_double_value", value, DB_DOUBLE_ERROR)
-
-	TC_SUCCESS_RESULT();
+		TC_SUCCESS_RESULT();
 }
 
 /**

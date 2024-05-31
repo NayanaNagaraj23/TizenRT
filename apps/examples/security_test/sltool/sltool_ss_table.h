@@ -15,6 +15,6 @@
  * language governing permissions and limitations under the License.
  *
  ****************************************************************************/
- SLTOOL_SS_TABLE(SLOPS_GET, sltool_handle_get_ss)
-SLTOOL_SS_TABLE(SLOPS_WRITE, sltool_handle_write_ss)
-SLTOOL_SS_TABLE(SLOPS_REMOVE, sltool_handle_remove_ss)
+SLTOOL_SS_TABLE(SLOPS_GET, sltool_handle_get_ss)
+	SLTOOL_SS_TABLE(SLOPS_WRITE, sltool_handle_write_ss)
+	SLTOOL_SS_TABLE(SLOPS_REMOVE, sltool_handle_remove_ss)

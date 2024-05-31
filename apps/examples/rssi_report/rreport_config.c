@@ -140,7 +140,7 @@ int rr_set_duration(uint32_t duration)
 	return 0;
 }
 
-int rr_get_duration(uint32_t *duration)
+int rr_get_duration(uint32_t * duration)
 {
 	*duration = g_duration;
 	return 0;

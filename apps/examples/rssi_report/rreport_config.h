@@ -20,25 +20,20 @@
 #define _RREPORT_CONFIG_H_
 
 #define RR_NUM_OF_RSSI 5
-#define RR_INTERVAL 500 // milliseconds
+#define RR_INTERVAL 500			// milliseconds
 #define RR_LOCATION "unknown"
 
-/*NTPC*/
+ /*NTPC*/
 #define RR_NTPC_SERVER "time.google.com"
 #define RR_NTPC_PORT 123
-#define RR_NTPC_INTERVAL_SEC 3600 // 1 hour
-
+#define RR_NTPC_INTERVAL_SEC 3600	// 1 hour
 /*  Wi-fi */
 #define RR_AP_AUTH WIFI_MANAGER_AUTH_WPA2_PSK
 #define RR_AP_CRYPTO WIFI_MANAGER_CRYPTO_AES
-
 /*  HTTP */
-
 /*  Debug */
 #define RR_ERR											\
 	do {												\
 		printf("[ERROR] %s%d\n", __FILE__,  __LINE__);	\
 	} while (0)
-
-#endif // _RREPORT_CONFIG_H_
-
+#endif							// _RREPORT_CONFIG_H_

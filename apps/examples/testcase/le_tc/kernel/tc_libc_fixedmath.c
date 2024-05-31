@@ -32,7 +32,7 @@ static void tc_fixedmath_b16mulb16(void)
 {
 	b16_t num;
 
-	num = b16mulb16(b16TEN , b16TEN);
+	num = b16mulb16(b16TEN, b16TEN);
 	TC_ASSERT_EQ("b16mulb16", num, b16HUNDRED);
 
 	TC_SUCCESS_RESULT();
@@ -42,7 +42,7 @@ static void tc_fixedmath_ub16mulub16(void)
 {
 	ub16_t num;
 
-	num = ub16mulub16(b16TEN , b16TEN);
+	num = ub16mulub16(b16TEN, b16TEN);
 	TC_ASSERT_EQ("ub16mulub16", num, b16HUNDRED);
 
 	TC_SUCCESS_RESULT();
@@ -72,7 +72,7 @@ static void tc_fixedmath_b16divb16(void)
 {
 	b16_t num;
 
-	num = b16divb16(b16HUNDRED , b16TEN);
+	num = b16divb16(b16HUNDRED, b16TEN);
 	TC_ASSERT_EQ("b16divb16", num, b16TEN);
 
 	TC_SUCCESS_RESULT();
@@ -82,7 +82,7 @@ static void tc_fixedmath_ub16divub16(void)
 {
 	ub16_t num;
 
-	num = ub16divub16(b16HUNDRED , b16TEN);
+	num = ub16divub16(b16HUNDRED, b16TEN);
 	TC_ASSERT_EQ("ub16divub16", num, b16TEN);
 
 	TC_SUCCESS_RESULT();
@@ -144,7 +144,7 @@ static void tc_fixedmath_b16atan2(void)
 	b16_t b16_y;
 	b16_t b16output;
 
-	radian = 180 / M_PI ;
+	radian = 180 / M_PI;
 	output = (int)atan2(y, x) * radian;
 
 	b16_x = itob16(x);
@@ -172,4 +172,3 @@ int libc_fixedmath_main(void)
 
 	return 0;
 }
-

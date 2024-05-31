@@ -21,8 +21,8 @@
 #include <tinyara/config.h>
 #include <tinyara/security_hal.h>
 
-void hal_test_free_buffer(hal_data *data);
-int hal_test_malloc_buffer(hal_data *data, int buf_len);
-void hal_test_init_buffer(hal_data *data);
+void hal_test_free_buffer(hal_data * data);
+int hal_test_malloc_buffer(hal_data * data, int buf_len);
+void hal_test_init_buffer(hal_data * data);
 
-#endif // __HAL_TEST_UTILS_H__
+#endif							// __HAL_TEST_UTILS_H__

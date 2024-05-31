@@ -70,7 +70,7 @@ static char g_coap_protocol[COAP_PROTOCOL_MAX][COAP_MAX_URI_PREFIX_SIZE] = {
 
 static int read_input_command_line(char *buf)
 {
-	char buffer[MAX_PACKET_SIZE] = {0,};
+	char buffer[MAX_PACKET_SIZE] = { 0, };
 
 	int nbytes = 0;
 	int pos = 0;
@@ -129,8 +129,7 @@ static int read_input_command_line(char *buf)
 	return pos;
 }
 
-static void prv_quit(char *buffer,
-					 void *user_data)
+static void prv_quit(char *buffer, void *user_data)
 {
 	g_quit = 1;
 }
@@ -169,7 +168,7 @@ static char *prv_dump_binding(lwm2m_binding_t binding)
 	}
 }
 
-static void prv_dump_client(lwm2m_client_t *targetP)
+static void prv_dump_client(lwm2m_client_t * targetP)
 {
 	lwm2m_client_object_t *objectP;
 
@@ -184,13 +183,13 @@ static void prv_dump_client(lwm2m_client_t *targetP)
 	}
 	fprintf(stdout, "\tlifetime: %d sec\r\n", targetP->lifetime);
 	fprintf(stdout, "\tobjects: ");
-	for (objectP = targetP->objectList; objectP != NULL ; objectP = objectP->next) {
+	for (objectP = targetP->objectList; objectP != NULL; objectP = objectP->next) {
 		if (objectP->instanceList == NULL) {
 			fprintf(stdout, "/%d, ", objectP->id);
 		} else {
 			lwm2m_list_t *instanceP;
 
-			for (instanceP = objectP->instanceList; instanceP != NULL ; instanceP = instanceP->next) {
+			for (instanceP = objectP->instanceList; instanceP != NULL; instanceP = instanceP->next) {
 				fprintf(stdout, "/%d/%d, ", objectP->id, instanceP->id);
 			}
 		}
@@ -198,8 +197,7 @@ static void prv_dump_client(lwm2m_client_t *targetP)
 	fprintf(stdout, "\r\n");
 }
 
-static void prv_output_clients(char *buffer,
-							   void *user_data)
+static void prv_output_clients(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	lwm2m_client_t *targetP;
@@ -211,13 +209,12 @@ static void prv_output_clients(char *buffer,
 		return;
 	}
 
-	for (targetP = lwm2mH->clientList ; targetP != NULL ; targetP = targetP->next) {
+	for (targetP = lwm2mH->clientList; targetP != NULL; targetP = targetP->next) {
 		prv_dump_client(targetP);
 	}
 }
 
-static int prv_read_id(char *buffer,
-					   uint16_t *idP)
+static int prv_read_id(char *buffer, uint16_t * idP)
 {
 	int nb;
 	int value;
@@ -234,14 +231,7 @@ static int prv_read_id(char *buffer,
 	return nb;
 }
 
-
-static void prv_result_callback(uint16_t clientID,
-								lwm2m_uri_t *uriP,
-								int status,
-								lwm2m_media_type_t format,
-								uint8_t *data,
-								int dataLength,
-								void *userData)
+static void prv_result_callback(uint16_t clientID, lwm2m_uri_t * uriP, int status, lwm2m_media_type_t format, uint8_t * data, int dataLength, void *userData)
 {
 	fprintf(stdout, "\r\nClient #%d /%d", clientID, uriP->objectId);
 	if (LWM2M_URI_IS_SET_INSTANCE(uriP)) {
@@ -262,13 +252,7 @@ static void prv_result_callback(uint16_t clientID,
 	fflush(stdout);
 }
 
-static void prv_notify_callback(uint16_t clientID,
-								lwm2m_uri_t *uriP,
-								int count,
-								lwm2m_media_type_t format,
-								uint8_t *data,
-								int dataLength,
-								void *userData)
+static void prv_notify_callback(uint16_t clientID, lwm2m_uri_t * uriP, int count, lwm2m_media_type_t format, uint8_t * data, int dataLength, void *userData)
 {
 	fprintf(stdout, "\r\nNotify from client #%d /%d", clientID, uriP->objectId);
 	if (LWM2M_URI_IS_SET_INSTANCE(uriP)) {
@@ -287,8 +271,7 @@ static void prv_notify_callback(uint16_t clientID,
 	fflush(stdout);
 }
 
-static void prv_read_client(char *buffer,
-							void *user_data)
+static void prv_read_client(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	uint16_t clientId;
@@ -324,12 +307,11 @@ static void prv_read_client(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !");
 }
 
-static void prv_discover_client(char *buffer,
-								void *user_data)
+static void prv_discover_client(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	uint16_t clientId;
@@ -365,12 +347,11 @@ static void prv_discover_client(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !");
 }
 
-static void prv_write_client(char *buffer,
-							 void *user_data)
+static void prv_write_client(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	uint16_t clientId;
@@ -402,7 +383,7 @@ static void prv_write_client(char *buffer,
 		goto syntax_error;
 	}
 
-	result = lwm2m_dm_write(lwm2mH, clientId, &uri, LWM2M_CONTENT_TEXT, (uint8_t *)buffer, end - buffer, prv_result_callback, NULL);
+	result = lwm2m_dm_write(lwm2mH, clientId, &uri, LWM2M_CONTENT_TEXT, (uint8_t *) buffer, end - buffer, prv_result_callback, NULL);
 
 	if (result == 0) {
 		fprintf(stdout, "OK");
@@ -411,13 +392,11 @@ static void prv_write_client(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !");
 }
 
-
-static void prv_time_client(char *buffer,
-							void *user_data)
+static void prv_time_client(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	uint16_t clientId;
@@ -487,13 +466,11 @@ static void prv_time_client(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !");
 }
 
-
-static void prv_attr_client(char *buffer,
-							void *user_data)
+static void prv_attr_client(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	uint16_t clientId;
@@ -568,13 +545,11 @@ static void prv_attr_client(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !");
 }
 
-
-static void prv_clear_client(char *buffer,
-							 void *user_data)
+static void prv_clear_client(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	uint16_t clientId;
@@ -599,7 +574,7 @@ static void prv_clear_client(char *buffer,
 	}
 
 	memset(&attr, 0, sizeof(lwm2m_attributes_t));
-	attr.toClear = LWM2M_ATTR_FLAG_LESS_THAN | LWM2M_ATTR_FLAG_GREATER_THAN | LWM2M_ATTR_FLAG_STEP | LWM2M_ATTR_FLAG_MIN_PERIOD | LWM2M_ATTR_FLAG_MAX_PERIOD ;
+	attr.toClear = LWM2M_ATTR_FLAG_LESS_THAN | LWM2M_ATTR_FLAG_GREATER_THAN | LWM2M_ATTR_FLAG_STEP | LWM2M_ATTR_FLAG_MIN_PERIOD | LWM2M_ATTR_FLAG_MAX_PERIOD;
 
 	buffer = get_next_arg(end, &end);
 	if (!check_end_of_args(end)) {
@@ -615,13 +590,11 @@ static void prv_clear_client(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !");
 }
 
-
-static void prv_exec_client(char *buffer,
-							void *user_data)
+static void prv_exec_client(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	uint16_t clientId;
@@ -646,7 +619,6 @@ static void prv_exec_client(char *buffer,
 
 	buffer = get_next_arg(end, &end);
 
-
 	if (buffer[0] == 0) {
 		result = lwm2m_dm_execute(lwm2mH, clientId, &uri, 0, NULL, 0, prv_result_callback, NULL);
 	} else {
@@ -654,7 +626,7 @@ static void prv_exec_client(char *buffer,
 			goto syntax_error;
 		}
 
-		result = lwm2m_dm_execute(lwm2mH, clientId, &uri, LWM2M_CONTENT_TEXT, (uint8_t *)buffer, end - buffer, prv_result_callback, NULL);
+		result = lwm2m_dm_execute(lwm2mH, clientId, &uri, LWM2M_CONTENT_TEXT, (uint8_t *) buffer, end - buffer, prv_result_callback, NULL);
 	}
 
 	if (result == 0) {
@@ -664,12 +636,11 @@ static void prv_exec_client(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !");
 }
 
-static void prv_create_client(char *buffer,
-							  void *user_data)
+static void prv_create_client(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	uint16_t clientId;
@@ -686,7 +657,6 @@ static void prv_create_client(char *buffer,
 	if (result != 1) {
 		goto syntax_error;
 	}
-
 	//Get Uri
 	buffer = get_next_arg(buffer, &end);
 	if (buffer[0] == 0) {
@@ -697,7 +667,6 @@ static void prv_create_client(char *buffer,
 	if (result == 0) {
 		goto syntax_error;
 	}
-
 	//Get Data to Post
 	buffer = get_next_arg(end, &end);
 	if (buffer[0] == 0) {
@@ -707,7 +676,6 @@ static void prv_create_client(char *buffer,
 	if (!check_end_of_args(end)) {
 		goto syntax_error;
 	}
-
 	// TLV
 
 	/* Client dependent part   */
@@ -716,7 +684,7 @@ static void prv_create_client(char *buffer,
 		lwm2m_data_t *dataP;
 
 		value = 0;
-		if (1 != sscanf(buffer, "%"PRId64, &value)) {
+		if (1 != sscanf(buffer, "%" PRId64, &value)) {
 			fprintf(stdout, "Invalid value !");
 			return;
 		}
@@ -733,7 +701,7 @@ static void prv_create_client(char *buffer,
 		temp_length = lwm2m_data_serialize(NULL, 1, dataP, &format, &temp_buffer);
 		lwm2m_data_free(1, dataP);
 	}
-	/* End Client dependent part*/
+	/* End Client dependent part */
 
 	//Create
 	result = lwm2m_dm_create(lwm2mH, clientId, &uri, format, temp_buffer, temp_length, prv_result_callback, NULL);
@@ -749,12 +717,11 @@ static void prv_create_client(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !");
 }
 
-static void prv_delete_client(char *buffer,
-							  void *user_data)
+static void prv_delete_client(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	uint16_t clientId;
@@ -790,12 +757,11 @@ static void prv_delete_client(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !");
 }
 
-static void prv_observe_client(char *buffer,
-							   void *user_data)
+static void prv_observe_client(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	uint16_t clientId;
@@ -831,12 +797,11 @@ static void prv_observe_client(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !");
 }
 
-static void prv_cancel_client(char *buffer,
-							  void *user_data)
+static void prv_cancel_client(char *buffer, void *user_data)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) user_data;
 	uint16_t clientId;
@@ -872,17 +837,11 @@ static void prv_cancel_client(char *buffer,
 	}
 	return;
 
-syntax_error:
+ syntax_error:
 	fprintf(stdout, "Syntax error !");
 }
 
-static void prv_monitor_callback(uint16_t clientID,
-								 lwm2m_uri_t *uriP,
-								 int status,
-								 lwm2m_media_type_t format,
-								 uint8_t *data,
-								 int dataLength,
-								 void *userData)
+static void prv_monitor_callback(uint16_t clientID, lwm2m_uri_t * uriP, int status, lwm2m_media_type_t format, uint8_t * data, int dataLength, void *userData)
 {
 	lwm2m_context_t *lwm2mH = (lwm2m_context_t *) userData;
 	lwm2m_client_t *targetP;
@@ -891,7 +850,7 @@ static void prv_monitor_callback(uint16_t clientID,
 	case COAP_201_CREATED:
 		fprintf(stdout, "\r\nNew client #%d registered.\r\n", clientID);
 
-		targetP = (lwm2m_client_t *)lwm2m_list_find((lwm2m_list_t *)lwm2mH->clientList, clientID);
+		targetP = (lwm2m_client_t *) lwm2m_list_find((lwm2m_list_t *) lwm2mH->clientList, clientID);
 
 		prv_dump_client(targetP);
 		break;
@@ -903,7 +862,7 @@ static void prv_monitor_callback(uint16_t clientID,
 	case COAP_204_CHANGED:
 		fprintf(stdout, "\r\nClient #%d updated.\r\n", clientID);
 
-		targetP = (lwm2m_client_t *)lwm2m_list_find((lwm2m_list_t *)lwm2mH->clientList, clientID);
+		targetP = (lwm2m_client_t *) lwm2m_list_find((lwm2m_list_t *) lwm2mH->clientList, clientID);
 
 		prv_dump_client(targetP);
 		break;
@@ -916,7 +875,6 @@ static void prv_monitor_callback(uint16_t clientID,
 	fprintf(stdout, "\r\n> ");
 	fflush(stdout);
 }
-
 
 #ifdef WITH_MBEDTLS
 
@@ -1017,78 +975,27 @@ int lwm2m_server_cb(void *args)
 	command_desc_t commands[] = {
 		{"list", "List registered clients.", NULL, prv_output_clients, NULL},
 		{
-			"read", "Read from a client.", " read CLIENT# URI\r\n"
-			"   CLIENT#: client number as returned by command 'list'\r\n"
-			"   URI: uri to read such as /3, /3/0/2, /1024/11, /1024/0/1\r\n"
-			"Result will be displayed asynchronously.", prv_read_client, NULL
-		},
+		 "read", "Read from a client.", " read CLIENT# URI\r\n" "   CLIENT#: client number as returned by command 'list'\r\n" "   URI: uri to read such as /3, /3/0/2, /1024/11, /1024/0/1\r\n" "Result will be displayed asynchronously.", prv_read_client, NULL},
 		{
-			"disc", "Discover resources of a client.", " disc CLIENT# URI\r\n"
-			"   CLIENT#: client number as returned by command 'list'\r\n"
-			"   URI: uri to discover such as /3, /3/0/2, /1024/11, /1024/0/1\r\n"
-			"Result will be displayed asynchronously.", prv_discover_client, NULL
-		},
+		 "disc", "Discover resources of a client.", " disc CLIENT# URI\r\n" "   CLIENT#: client number as returned by command 'list'\r\n" "   URI: uri to discover such as /3, /3/0/2, /1024/11, /1024/0/1\r\n" "Result will be displayed asynchronously.", prv_discover_client, NULL},
 		{
-			"write", "Write to a client.", " write CLIENT# URI DATA\r\n"
-			"   CLIENT#: client number as returned by command 'list'\r\n"
-			"   URI: uri to write to such as /3, /3/0/2, /1024/11, /1024/0/1\r\n"
-			"   DATA: data to write\r\n"
-			"Result will be displayed asynchronously.", prv_write_client, NULL
-		},
+		 "write", "Write to a client.", " write CLIENT# URI DATA\r\n" "   CLIENT#: client number as returned by command 'list'\r\n" "   URI: uri to write to such as /3, /3/0/2, /1024/11, /1024/0/1\r\n" "   DATA: data to write\r\n" "Result will be displayed asynchronously.", prv_write_client, NULL},
 		{
-			"time", "Write time-related attributes to a client.", " time CLIENT# URI PMIN PMAX\r\n"
-			"   CLIENT#: client number as returned by command 'list'\r\n"
-			"   URI: uri to write attributes to such as /3, /3/0/2, /1024/11, /1024/0/1\r\n"
-			"   PMIN: Minimum period\r\n"
-			"   PMAX: Maximum period\r\n"
-			"Result will be displayed asynchronously.", prv_time_client, NULL
-		},
+		 "time", "Write time-related attributes to a client.", " time CLIENT# URI PMIN PMAX\r\n" "   CLIENT#: client number as returned by command 'list'\r\n" "   URI: uri to write attributes to such as /3, /3/0/2, /1024/11, /1024/0/1\r\n" "   PMIN: Minimum period\r\n" "   PMAX: Maximum period\r\n" "Result will be displayed asynchronously.", prv_time_client, NULL},
 		{
-			"attr", "Write value-related attributes to a client.", " attr CLIENT# URI LT GT [STEP]\r\n"
-			"   CLIENT#: client number as returned by command 'list'\r\n"
-			"   URI: uri to write attributes to such as /3, /3/0/2, /1024/11, /1024/0/1\r\n"
-			"   LT: \"Less than\" value\r\n"
-			"   GT: \"Greater than\" value\r\n"
-			"   STEP: \"Step\" value\r\n"
-			"Result will be displayed asynchronously.", prv_attr_client, NULL
-		},
+		 "attr", "Write value-related attributes to a client.", " attr CLIENT# URI LT GT [STEP]\r\n" "   CLIENT#: client number as returned by command 'list'\r\n" "   URI: uri to write attributes to such as /3, /3/0/2, /1024/11, /1024/0/1\r\n" "   LT: \"Less than\" value\r\n" "   GT: \"Greater than\" value\r\n" "   STEP: \"Step\" value\r\n" "Result will be displayed asynchronously.", prv_attr_client, NULL},
 		{
-			"clear", "Clear attributes of a client.", " clear CLIENT# URI\r\n"
-			"   CLIENT#: client number as returned by command 'list'\r\n"
-			"   URI: uri to clear attributes of such as /3, /3/0/2, /1024/11, /1024/0/1\r\n"
-			"Result will be displayed asynchronously.", prv_clear_client, NULL
-		},
+		 "clear", "Clear attributes of a client.", " clear CLIENT# URI\r\n" "   CLIENT#: client number as returned by command 'list'\r\n" "   URI: uri to clear attributes of such as /3, /3/0/2, /1024/11, /1024/0/1\r\n" "Result will be displayed asynchronously.", prv_clear_client, NULL},
 		{
-			"exec", "Execute a client resource.", " exec CLIENT# URI\r\n"
-			"   CLIENT#: client number as returned by command 'list'\r\n"
-			"   URI: uri of the resource to execute such as /3/0/2\r\n"
-			"Result will be displayed asynchronously.", prv_exec_client, NULL
-		},
+		 "exec", "Execute a client resource.", " exec CLIENT# URI\r\n" "   CLIENT#: client number as returned by command 'list'\r\n" "   URI: uri of the resource to execute such as /3/0/2\r\n" "Result will be displayed asynchronously.", prv_exec_client, NULL},
 		{
-			"del", "Delete a client Object instance.", " del CLIENT# URI\r\n"
-			"   CLIENT#: client number as returned by command 'list'\r\n"
-			"   URI: uri of the instance to delete such as /1024/11\r\n"
-			"Result will be displayed asynchronously.", prv_delete_client, NULL
-		},
+		 "del", "Delete a client Object instance.", " del CLIENT# URI\r\n" "   CLIENT#: client number as returned by command 'list'\r\n" "   URI: uri of the instance to delete such as /1024/11\r\n" "Result will be displayed asynchronously.", prv_delete_client, NULL},
 		{
-			"create", "create an Object instance.", " create CLIENT# URI DATA\r\n"
-			"   CLIENT#: client number as returned by command 'list'\r\n"
-			"   URI: uri to which create the Object Instance such as /1024, /1024/45 \r\n"
-			"   DATA: data to initialize the new Object Instance (0-255 for object 1024) \r\n"
-			"Result will be displayed asynchronously.", prv_create_client, NULL
-		},
+		 "create", "create an Object instance.", " create CLIENT# URI DATA\r\n" "   CLIENT#: client number as returned by command 'list'\r\n" "   URI: uri to which create the Object Instance such as /1024, /1024/45 \r\n" "   DATA: data to initialize the new Object Instance (0-255 for object 1024) \r\n" "Result will be displayed asynchronously.", prv_create_client, NULL},
 		{
-			"observe", "Observe from a client.", " observe CLIENT# URI\r\n"
-			"   CLIENT#: client number as returned by command 'list'\r\n"
-			"   URI: uri to observe such as /3, /3/0/2, /1024/11\r\n"
-			"Result will be displayed asynchronously.", prv_observe_client, NULL
-		},
+		 "observe", "Observe from a client.", " observe CLIENT# URI\r\n" "   CLIENT#: client number as returned by command 'list'\r\n" "   URI: uri to observe such as /3, /3/0/2, /1024/11\r\n" "Result will be displayed asynchronously.", prv_observe_client, NULL},
 		{
-			"cancel", "Cancel an observe.", " cancel CLIENT# URI\r\n"
-			"   CLIENT#: client number as returned by command 'list'\r\n"
-			"   URI: uri on which to cancel an observe such as /3, /3/0/2, /1024/11\r\n"
-			"Result will be displayed asynchronously.", prv_cancel_client, NULL
-		},
+		 "cancel", "Cancel an observe.", " cancel CLIENT# URI\r\n" "   CLIENT#: client number as returned by command 'list'\r\n" "   URI: uri on which to cancel an observe such as /3, /3/0/2, /1024/11\r\n" "Result will be displayed asynchronously.", prv_cancel_client, NULL},
 
 		{"q", "Quit the server.", NULL, prv_quit, NULL},
 
@@ -1097,9 +1004,7 @@ int lwm2m_server_cb(void *args)
 
 	opt = 1;
 	while (opt < argc) {
-		if (argv[opt] == NULL
-			|| argv[opt][0] != '-'
-			|| argv[opt][2] != 0) {
+		if (argv[opt] == NULL || argv[opt][0] != '-' || argv[opt][2] != 0) {
 			print_usage();
 			return 0;
 		}
@@ -1110,7 +1015,7 @@ int lwm2m_server_cb(void *args)
 				print_usage();
 				return 0;
 			}
-			proto = (coap_protocol_t)atoi(argv[opt]);
+			proto = (coap_protocol_t) atoi(argv[opt]);
 			if (proto >= COAP_PROTOCOL_MAX || proto < 0) {
 				printf("Error : not supported protocol\n");
 				print_usage();
@@ -1152,7 +1057,7 @@ int lwm2m_server_cb(void *args)
 	}
 	lwm2mH->protocol = proto;
 
-	for (i = 0 ; commands[i].name != NULL ; i++) {
+	for (i = 0; commands[i].name != NULL; i++) {
 		commands[i].userData = (void *)lwm2mH;
 	}
 	lwm2m_set_monitoring_callback(lwm2mH, prv_monitor_callback, lwm2mH);
@@ -1195,7 +1100,7 @@ int lwm2m_server_cb(void *args)
 		goto exit;
 	}
 
-recon:
+ recon:
 	/* Step 2. Waiting for a remote connection */
 	printf("Waiting for a remote connection(port : %s) ...\n", localPort);
 	if (proto == COAP_TCP_TLS || proto == COAP_UDP_DTLS) {
@@ -1281,7 +1186,7 @@ recon:
 	}
 
 	/* Step 4. release */
-exit:
+ exit:
 	if (lwm2mH) {
 		lwm2m_close(lwm2mH);
 	}
@@ -1293,7 +1198,6 @@ exit:
 	if (connP) {
 		connection_free(connP);
 	}
-
 #ifdef WITH_MBEDTLS
 	if (tls_context) {
 		TLSCtx_free(tls_context);
@@ -1343,7 +1247,7 @@ int lwm2m_server_main(int argc, char *argv[])
 	}
 
 	/* 3. create pthread with entry function */
-	if ((r = pthread_create(&tid, &attr, (pthread_startroutine_t)lwm2m_server_cb, (void *)&args)) != 0) {
+	if ((r = pthread_create(&tid, &attr, (pthread_startroutine_t) lwm2m_server_cb, (void *)&args)) != 0) {
 		printf("%s: pthread_create failed, status=%d\n", __func__, r);
 		return -1;
 	}

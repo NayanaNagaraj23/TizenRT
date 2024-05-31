@@ -29,11 +29,11 @@ typedef struct ws_test_s {
 	/* Internal status */
 	uint8_t state;
 	uint8_t httpstatus;
-	uint16_t port; /* The port number to use in the connection */
-	char *buffer; /* user-provided buffer */
-	int buflen; /* Length of the user provided buffer */
-	int offset; /* Offset to the beginning of interesting data */
-	int datend; /* Offset+1 to the last valid byte of data in the buffer */
+	uint16_t port;				/* The port number to use in the connection */
+	char *buffer;				/* user-provided buffer */
+	int buflen;					/* Length of the user provided buffer */
+	int offset;					/* Offset to the beginning of interesting data */
+	int datend;					/* Offset+1 to the last valid byte of data in the buffer */
 	/* Buffer HTTP header data and parse line at a time */
 	char hostname[WS_TEST_MAXHOSTNAME];
 } ws_test_s;
@@ -62,7 +62,7 @@ static void ws_test_dump_usage(void)
 }
 
 //retrives IP address
-static int ws_test_gethostip(char *hostname, in_addr_t *ipv4addr)
+static int ws_test_gethostip(char *hostname, in_addr_t * ipv4addr)
 {
 	FUNC_EN;
 	struct hostent *he;
@@ -137,7 +137,7 @@ static int ws_test_msg_construct(char *buf, struct http_client_request_t *param,
 		/* Look for Content-Type in the headers */
 		cur = param->headers->head->next;
 		while (cur != param->headers->tail) {
-			if (!strncmp(cur->key, "Content-Type", strlen("Content-Type")+1)) {
+			if (!strncmp(cur->key, "Content-Type", strlen("Content-Type") + 1)) {
 				break;
 			}
 			cur = cur->next;
@@ -171,7 +171,7 @@ static int ws_test_msg_construct(char *buf, struct http_client_request_t *param,
 			if (dest == NULL) {
 				return WS_TEST_MSG_CONSTRUCT_ERR;
 			}
-		} else { /* chunked param->encoding */
+		} else {				/* chunked param->encoding */
 			dest = ws_test_strcpy(dest, HTTPCHUNKED, param);
 			if (dest == NULL) {
 				return WS_TEST_MSG_CONSTRUCT_ERR;
@@ -229,7 +229,7 @@ static int ws_test_msg_construct(char *buf, struct http_client_request_t *param,
 			if (dest == NULL) {
 				return WS_TEST_MSG_CONSTRUCT_ERR;
 			}
-		} else { /* chunked param->encoding */
+		} else {				/* chunked param->encoding */
 			post_len = strlen(param->entity);
 			if (post_len > param->buflen) {
 				dest = ws_test_chunksize(dest, param->buflen, param);
@@ -311,8 +311,7 @@ static int ws_test_socket_connect(struct ws_test_s *ws)
 	tv.tv_sec = WS_TEST_CONF_TIMEOUT_MSEC / 1000;
 	tv.tv_usec = (WS_TEST_CONF_TIMEOUT_MSEC % 1000) * 1000;
 	PRNT("recv timeout is set to (%d.%d)sec", tv.tv_sec, tv.tv_usec);
-	ret = setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO,
-				   (struct timeval *)&tv, sizeof(struct timeval));
+	ret = setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
 	if (ret < 0) {
 		PRNT("ERROR: setsockopt failed %d", ret);
 		return WS_TEST_SOCKET_CONNECT_ERR;
@@ -344,19 +343,16 @@ static int ws_test_socket_connect(struct ws_test_s *ws)
 }
 
 // to perform chunk transfer
-static int ws_test_chunk_transfer(struct http_client_request_t *param, 
-							int send_len, int sockfd, 
-							struct http_client_tls_t *client_tls) {
+static int ws_test_chunk_transfer(struct http_client_request_t *param, int send_len, int sockfd, struct http_client_tls_t *client_tls)
+{
 	FUNC_EN;
 	int ret, cbuf, chunks = param->chunk_count - 1;
 	//send headers
 	int buf_len = 0;
-	int sndlen = send_len-g_last_clen;
+	int sndlen = send_len - g_last_clen;
 	while (sndlen > 0) {
 		if (param->tls) {
-			ret = mbedtls_ssl_write(&(client_tls->tls_ssl),
-									(const unsigned char *)param->buffer + buf_len,
-									sndlen);
+			ret = mbedtls_ssl_write(&(client_tls->tls_ssl), (const unsigned char *)param->buffer + buf_len, sndlen);
 		} else {
 			ret = send(sockfd, param->buffer + buf_len, sndlen, 0);
 		}
@@ -371,14 +367,12 @@ static int ws_test_chunk_transfer(struct http_client_request_t *param,
 	}
 	//send chunks
 	cbuf = buf_len;
-	while(chunks--) {
+	while (chunks--) {
 		buf_len = cbuf;
 		sndlen = g_normal_clen;
 		while (sndlen > 0) {
 			if (param->tls) {
-				ret = mbedtls_ssl_write(&(client_tls->tls_ssl),
-										(const unsigned char *)param->buffer + buf_len,
-										sndlen);
+				ret = mbedtls_ssl_write(&(client_tls->tls_ssl), (const unsigned char *)param->buffer + buf_len, sndlen);
 			} else {
 				ret = send(sockfd, param->buffer + buf_len, sndlen, 0);
 			}
@@ -397,9 +391,7 @@ static int ws_test_chunk_transfer(struct http_client_request_t *param,
 	sndlen = g_last_clen;
 	while (sndlen > 0) {
 		if (param->tls) {
-			ret = mbedtls_ssl_write(&(client_tls->tls_ssl),
-									(const unsigned char *)param->buffer + buf_len,
-									sndlen);
+			ret = mbedtls_ssl_write(&(client_tls->tls_ssl), (const unsigned char *)param->buffer + buf_len, sndlen);
 		} else {
 			ret = send(sockfd, param->buffer + buf_len, sndlen, 0);
 		}
@@ -417,13 +409,12 @@ static int ws_test_chunk_transfer(struct http_client_request_t *param,
 }
 
 // to make connections and perform tls handshakes
-static int ws_test_connect_func(struct ws_test_s *ws, int handshake_retry,
-							struct http_client_tls_t *client_tls, 
-							struct http_client_request_t *param) {
+static int ws_test_connect_func(struct ws_test_s *ws, int handshake_retry, struct http_client_tls_t *client_tls, struct http_client_request_t *param)
+{
 	FUNC_EN;
 	int sockfd = -1;
-	int ret = 0;						
-	while(handshake_retry-- > 0) {
+	int ret = 0;
+	while (handshake_retry-- > 0) {
 		if ((sockfd = ws_test_socket_connect(ws)) < 0) {
 			PRNT("ERROR: socket failed: %d", errno);
 			if (param->tls) {
@@ -438,9 +429,7 @@ static int ws_test_connect_func(struct ws_test_s *ws, int handshake_retry,
 		}
 		client_tls->client_fd = sockfd;
 		if (param->tls && (ret = ws_test_tls_handshake(client_tls, ws->hostname))) {
-			if (ret == MBEDTLS_ERR_NET_SEND_FAILED ||
-				ret == MBEDTLS_ERR_NET_RECV_FAILED ||
-				ret == MBEDTLS_ERR_SSL_CONN_EOF) {
+			if (ret == MBEDTLS_ERR_NET_SEND_FAILED || ret == MBEDTLS_ERR_NET_RECV_FAILED || ret == MBEDTLS_ERR_SSL_CONN_EOF) {
 				PRNT("Handshake again.... ");
 				mbedtls_net_free(&(client_tls->tls_client_fd));
 				mbedtls_ssl_free(&(client_tls->tls_ssl));
@@ -478,10 +467,10 @@ static int ws_test_base(void *arg)
 	int ret;
 	int buf_len, sndlen, len;
 	int state = HTTP_REQUEST_HEADER;
-	struct http_message_len_t mlen = {0,};
+	struct http_message_len_t mlen = { 0, };
 	struct ws_test_s ws;
 	struct http_client_request_t *param = (struct http_client_request_t *)arg;
-	struct http_client_response_t response = {0, };
+	struct http_client_response_t response = { 0, };
 	int read_finish = false;
 	int send_len;
 
@@ -521,9 +510,9 @@ static int ws_test_base(void *arg)
 		goto errout_before_tlsinit;
 	}
 
-	PRNT("sndlen:%d , param->buffer is:\n%s", sndlen,param->buffer);
+	PRNT("sndlen:%d , param->buffer is:\n%s", sndlen, param->buffer);
 
-	if((sockfd = ws_test_connect_func(&ws, handshake_retry, client_tls, param)) < 0) {
+	if ((sockfd = ws_test_connect_func(&ws, handshake_retry, client_tls, param)) < 0) {
 		return WS_TEST_ERR;
 	}
 
@@ -538,9 +527,7 @@ static int ws_test_base(void *arg)
 			sndlen = send_len;
 			while (sndlen > 0) {
 				if (param->tls) {
-					ret = mbedtls_ssl_write(&(client_tls->tls_ssl),
-											(const unsigned char *)param->buffer + buf_len,
-											sndlen);
+					ret = mbedtls_ssl_write(&(client_tls->tls_ssl), (const unsigned char *)param->buffer + buf_len, sndlen);
 				} else {
 					ret = send(sockfd, param->buffer + buf_len, sndlen, 0);
 				}
@@ -554,7 +541,7 @@ static int ws_test_base(void *arg)
 				}
 			}
 		} else {
-			if(ws_test_chunk_transfer(param, send_len, sockfd, client_tls) == WS_TEST_ERR) {
+			if (ws_test_chunk_transfer(param, send_len, sockfd, client_tls) == WS_TEST_ERR) {
 				goto errout;
 			}
 		}
@@ -587,12 +574,9 @@ static int ws_test_base(void *arg)
 
 			PRNT("Receive start \n");
 			if (param->tls) {
-				len = mbedtls_ssl_read(&(client_tls->tls_ssl),
-									   (unsigned char *)param->response->message,
-									   WS_TEST_CONF_MAX_MESSAGE_SIZE);
+				len = mbedtls_ssl_read(&(client_tls->tls_ssl), (unsigned char *)param->response->message, WS_TEST_CONF_MAX_MESSAGE_SIZE);
 			} else {
-				len = recv(sockfd, param->response->message + buf_msg_len,
-						   WS_TEST_CONF_MAX_MESSAGE_SIZE - buf_msg_len, 0);
+				len = recv(sockfd, param->response->message + buf_msg_len, WS_TEST_CONF_MAX_MESSAGE_SIZE - buf_msg_len, 0);
 			}
 
 			if (len < 0) {
@@ -610,8 +594,7 @@ static int ws_test_base(void *arg)
 			}
 
 			buf_msg_len += len;
-			read_finish = parse_message(param->response->message, buf_msg_len, param->response->url,
-							 			&param->response->entity, &state, &mlen, param->response);
+			read_finish = parse_message(param->response->message, buf_msg_len, param->response->url, &param->response->entity, &state, &mlen, param->response);
 			++loopcount;
 			PRNT("====== loopcount : %d read_finish : %d=====", loopcount, read_finish);
 			if (read_finish == WS_TEST_ERR) {
@@ -630,7 +613,7 @@ static int ws_test_base(void *arg)
 	if (param->callback) {
 		ws_test_http_client_response_release(param->response);
 	}
-	
+
 	if (param->tls) {
 		ws_test_tls_release(client_tls);
 		ws_test_tls_ssl_release(client_tls);
@@ -643,14 +626,14 @@ static int ws_test_base(void *arg)
 	FUNC_EX;
 	return WS_TEST_OK;
 
-errout:
+ errout:
 	if (param->callback && param->response) {
 		ws_test_http_client_response_release(param->response);
 	}
 	if (param->tls) {
 		ws_test_tls_ssl_release(client_tls);
 	}
-errout_before_tlsinit:
+ errout_before_tlsinit:
 	if (param->tls) {
 		ws_test_tls_release(client_tls);
 	}
@@ -665,8 +648,7 @@ errout_before_tlsinit:
 }
 
 //validates the request and passes it to ws_test_base() for sending
-static int ws_test_http_client_send_request(struct http_client_request_t *request,
-		 void *ssl_config, struct http_client_response_t *response, wget_callback_t cb)
+static int ws_test_http_client_send_request(struct http_client_request_t *request, void *ssl_config, struct http_client_response_t *response, wget_callback_t cb)
 {
 	FUNC_EN;
 	int res = WS_TEST_ERR;
@@ -708,7 +690,6 @@ static int ws_test_http_client_send_request(struct http_client_request_t *reques
 	request->response = response;
 	request->callback = cb;
 
-
 	if (ssl_conf) {
 		request->tls = true;
 		memcpy(&request->ssl_config, ssl_conf, sizeof(struct http_client_ssl_config_t));
@@ -729,13 +710,13 @@ static int ws_test_http_client_send_request(struct http_client_request_t *reques
 	FUNC_EX;
 	return res;
 
-ret_error:
+ ret_error:
 	FUNC_EX;
 	return WS_TEST_ERR;
 }
 
 //takes in user arguments and accordingly creates the request
-static int ws_test_prepare_request(int argc, char** argv, struct http_client_request_t *request)
+static int ws_test_prepare_request(int argc, char **argv, struct http_client_request_t *request)
 {
 	FUNC_EN;
 	char *p, *q;
@@ -759,9 +740,7 @@ static int ws_test_prepare_request(int argc, char** argv, struct http_client_req
 
 	if (!strncmp(request->url, "https", 5)) {
 		request->https = 1;
-	} else
-
-	if (!strncmp(request->url, "http", 4)) {
+	} else if (!strncmp(request->url, "http", 4)) {
 		request->https = 0;
 	} else {
 		PRNT("issue with url");
@@ -779,7 +758,7 @@ static int ws_test_prepare_request(int argc, char** argv, struct http_client_req
 		if (strncmp(p, "test_entity", 11) == 0) {
 			int t = atoi(q);
 			if (t > 0 && t <= WS_TEST_CONF_MAX_ENTITY_SIZE) {
-				request->entity = (char *)malloc(t+1);
+				request->entity = (char *)malloc(t + 1);
 				if (request->entity == NULL) {
 					PRNT("no memory allocated");
 					return WS_TEST_ERR;
@@ -788,21 +767,17 @@ static int ws_test_prepare_request(int argc, char** argv, struct http_client_req
 				memset(request->entity, '1', t);
 				request->entity[t] = '\0';
 			} else {
-				PRNT("%d is out of range",t);
+				PRNT("%d is out of range", t);
 				return WS_TEST_ERR;
 			}
-		}
-		else  if (strncmp(p, "keep-alive", 10) == 0) {
+		} else if (strncmp(p, "keep-alive", 10) == 0) {
 			request->keep_alive_count = atoi(q);
-		}
-		else if (strncmp(p, "chunk-count", 11) == 0) {
+		} else if (strncmp(p, "chunk-count", 11) == 0) {
 			request->encoding = 1;
 			request->chunk_count = atoi(q);
-		}
-		else if (strncmp(p, "trailer", 7) == 0) {
+		} else if (strncmp(p, "trailer", 7) == 0) {
 			request->trailer = atoi(q);
-		}
-		else {
+		} else {
 			PRNT("issue with optional args");
 			return WS_TEST_ERR;
 		}
@@ -814,10 +789,7 @@ static int ws_test_prepare_request(int argc, char** argv, struct http_client_req
 }
 
 //calls for sending the request and checks if response has status 200
-static int ws_test_process_query(int argc, char** argv, int result,
-								struct http_client_request_t request,
-								struct http_keyvalue_list_t headers,
-								struct http_client_ssl_config_t *ssl_config)
+static int ws_test_process_query(int argc, char **argv, int result, struct http_client_request_t request, struct http_keyvalue_list_t headers, struct http_client_ssl_config_t *ssl_config)
 {
 	FUNC_EN;
 	struct http_client_response_t response;
@@ -835,7 +807,7 @@ static int ws_test_process_query(int argc, char** argv, int result,
 		g_tc_pass++;
 	}
 
-release_out:
+ release_out:
 	ws_test_http_client_response_release(&response);
 	PRNT("request ended");
 
@@ -858,7 +830,6 @@ int webserver_test_main(int argc, char *argv[])
 		PRNT("iters < 1 || iters > 10000");
 		return WS_TEST_ERR;
 	}
-
 	//generate report
 	g_tc_pass = 0;
 
@@ -877,22 +848,20 @@ int webserver_test_main(int argc, char *argv[])
 		return result;
 	}
 
-	if(request.https) {
+	if (request.https) {
 		struct http_client_ssl_config_t temp_ssl_config = {
 			(char *)mbedtls_test_ca_crt, NULL, NULL,
 			mbedtls_test_ca_crt_len, 0, 0, WS_TEST_SSL_VERIFY_REQUIRED
 		};
 		ssl_config = &temp_ssl_config;
 	}
-
 	// before sending request, initialize keyvalue list for request headers
 	result = http_keyvalue_list_init(&headers);
 	if (result != 0) {
 		PRNT("http_keyvalue_list_init() failed %d", result);
 		goto release_out;
 	}
-
-	//	keep alive header
+	//  keep alive header
 	if (request.keep_alive_count > 0) {
 		http_keyvalue_list_add(&headers, HEADERFIELD_CONNECT, HEADERFIELD_KEEPALIVE);
 		http_keyvalue_list_add(&headers, HEADERFIELD_KA, HEADERFIELD_KA_PARAMETERS);
@@ -916,7 +885,7 @@ int webserver_test_main(int argc, char *argv[])
 	PRNT("Result: %d/%d Passed", g_tc_pass, iters);
 	PRNT("---------------------------");
 
-release_out:
+ release_out:
 	if (request.is_test_entity) {
 		free(request.entity);
 	}

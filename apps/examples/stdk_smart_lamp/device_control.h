@@ -61,7 +61,7 @@ enum button_gpio_state {
 	BUTTON_GPIO_PRESSED = 0,
 };
 
-#else //default esp32
+#else							//default esp32
 
 #define GPIO_OUTPUT_NOTIFICATION_LED 4
 #define GPIO_INPUT_BUTTON 5

@@ -67,10 +67,7 @@ static struct wo_queue *g_wo_queue = NULL;
 void wm_cb_sta_connected(wifi_manager_cb_msg_s msg, void *arg)
 {
 	WT_LOG(TAG, "--> res(%d)", msg.res);
-	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x",
-		   msg.bssid[0], msg.bssid[1],
-		   msg.bssid[2], msg.bssid[3],
-		   msg.bssid[4], msg.bssid[5]);
+	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x", msg.bssid[0], msg.bssid[1], msg.bssid[2], msg.bssid[3], msg.bssid[4], msg.bssid[5]);
 	int conn = 0;
 	if (WIFI_MANAGER_SUCCESS == msg.res) {
 		conn = WO_CONN_SUCCESS;
@@ -89,10 +86,7 @@ void wm_cb_sta_disconnected(wifi_manager_cb_msg_s msg, void *arg)
 void wm_cb_softap_sta_join(wifi_manager_cb_msg_s msg, void *arg)
 {
 	WT_LOG(TAG, "--> res(%d)", msg.res);
-	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x",
-		   msg.bssid[0], msg.bssid[1],
-		   msg.bssid[2], msg.bssid[3],
-		   msg.bssid[4], msg.bssid[5]);
+	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x", msg.bssid[0], msg.bssid[1], msg.bssid[2], msg.bssid[3], msg.bssid[4], msg.bssid[5]);
 	WO_TEST_SIGNAL(WO_CONN_SUCCESS, g_wo_queue);
 }
 
@@ -244,7 +238,7 @@ static int _run_procedure(void)
 
 	CONTROL_VDRIVER(VWIFI_CMD_GEN_EVT, LWNL_EVT_SCAN_DONE, 0, 1000);
 	WT_LOG(TAG, "wait scan done event in STA mode");
-	WO_TEST_WAIT(conn, g_wo_queue); /*  wait scan event */
+	WO_TEST_WAIT(conn, g_wo_queue);	/*  wait scan event */
 
 	/*  connect to AP */
 	WT_LOG(TAG, "connect AP");
@@ -301,7 +295,7 @@ static int _run_procedure(void)
 	}
 	CONTROL_VDRIVER(VWIFI_CMD_GEN_EVT, LWNL_EVT_SCAN_DONE, 0, 1000);
 	WT_LOG(TAG, "wait scan done event in connected state of STA mode");
-	WO_TEST_WAIT(conn, g_wo_queue); /*  wait scan event */
+	WO_TEST_WAIT(conn, g_wo_queue);	/*  wait scan event */
 
 	wres = wifi_manager_get_stats(&stats);
 	if (wres != WIFI_MANAGER_SUCCESS && wres != WIFI_MANAGER_NOT_AVAILABLE) {
@@ -503,15 +497,13 @@ TESTCASE_SETUP(global_config)
 {
 	ST_EXPECT_EQ(WIFI_MANAGER_SUCCESS, wifi_manager_init(&g_wifi_callbacks));
 }
-END_TESTCASE
 
-TESTCASE_TEARDOWN(global_config)
+END_TESTCASE TESTCASE_TEARDOWN(global_config)
 {
 	ST_EXPECT_EQ(WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 }
-END_TESTCASE
 
-START_TEST_F(connect_stress)
+END_TESTCASE START_TEST_F(connect_stress)
 {
 	int conn = 0;
 	wifi_manager_ap_config_s apconfig;
@@ -543,9 +535,8 @@ START_TEST_F(connect_stress)
 	WT_LOG(TAG, "wait disconnect success event");
 	WO_TEST_WAIT(conn, g_wo_queue);
 }
-END_TEST_F
 
-void wm_run_stress_test4(struct wt_options *opt)
+END_TEST_F void wm_run_stress_test4(struct wt_options *opt)
 {
 	WM_AP_SSID = opt->ssid;
 	WM_AP_PASSWORD = opt->password;

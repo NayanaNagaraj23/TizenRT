@@ -77,11 +77,11 @@
 #if defined(SDCC) || defined(__ZILOG__)
 /* Cannot use strlen in array size */
 
-#  define TEST_MSGLEN         (31)
+#define TEST_MSGLEN         (31)
 #else
 /* Message lenght is the size of the message plus the null terminator */
 
-#  define TEST_MSGLEN         (strlen(TEST_MESSAGE) + 1)
+#define TEST_MSGLEN         (strlen(TEST_MESSAGE) + 1)
 #endif
 
 #define TEST_SEND_NMSGS     (10)
@@ -126,9 +126,9 @@ static void *sender_thread(void *arg)
 
 	/* Fill in attributes for message queue */
 
-	attr.mq_maxmsg  = TEST_SEND_NMSGS - 1;
+	attr.mq_maxmsg = TEST_SEND_NMSGS - 1;
 	attr.mq_msgsize = TEST_MSGLEN;
-	attr.mq_flags   = 0;
+	attr.mq_flags = 0;
 
 	/* Set the flags for the open of the queue.
 	 * Make it a blocking open on the queue, meaning it will block if
@@ -142,9 +142,9 @@ static void *sender_thread(void *arg)
 	 */
 
 	g_send_mqfd = mq_open("timedmq", O_WRONLY | O_CREAT, 0666, &attr);
-	if (g_send_mqfd == (mqd_t)-1) {
+	if (g_send_mqfd == (mqd_t) - 1) {
 		printf("sender_thread: ERROR mq_open failed\n");
-		pthread_exit((pthread_addr_t)1);
+		pthread_exit((pthread_addr_t) 1);
 	}
 
 	/* Fill in a test message buffer to send */
@@ -193,7 +193,7 @@ static void *sender_thread(void *arg)
 
 	printf("sender_thread: returning nerrors=%d\n", nerrors);
 	FFLUSH();
-	return (pthread_addr_t)nerrors;
+	return (pthread_addr_t) nerrors;
 }
 
 static void *receiver_thread(void *arg)
@@ -208,9 +208,9 @@ static void *receiver_thread(void *arg)
 
 	/* Fill in attributes for message queue */
 
-	attr.mq_maxmsg  = TEST_SEND_NMSGS - 1;
+	attr.mq_maxmsg = TEST_SEND_NMSGS - 1;
 	attr.mq_msgsize = TEST_MSGLEN;
-	attr.mq_flags   = 0;
+	attr.mq_flags = 0;
 
 	/* Set the flags for the open of the queue.
 	 * Make it a blocking open on the queue, meaning it will block if
@@ -224,9 +224,9 @@ static void *receiver_thread(void *arg)
 	 */
 
 	g_recv_mqfd = mq_open("timedmq", O_RDONLY | O_CREAT, 0666, &attr);
-	if (g_recv_mqfd == (mqd_t)-1) {
+	if (g_recv_mqfd == (mqd_t) - 1) {
 		printf("receiver_thread: ERROR mq_open failed\n");
-		pthread_exit((pthread_addr_t)1);
+		pthread_exit((pthread_addr_t) 1);
 	}
 
 	/* Perform the receive TEST_RECEIVE_NMSGS times */
@@ -263,15 +263,12 @@ static void *receiver_thread(void *arg)
 
 			for (j = 0; j < TEST_MSGLEN - 1; j++) {
 				if (isprint(msg_buffer[j])) {
-					printf("receiver_thread:                  %2d %02x (%c) %02x (%c)\n",
-						   j, TEST_MESSAGE[j], TEST_MESSAGE[j], msg_buffer[j], msg_buffer[j]);
+					printf("receiver_thread:                  %2d %02x (%c) %02x (%c)\n", j, TEST_MESSAGE[j], TEST_MESSAGE[j], msg_buffer[j], msg_buffer[j]);
 				} else {
-					printf("receiver_thread:                  %2d %02x (%c) %02x\n",
-						   j, TEST_MESSAGE[j], TEST_MESSAGE[j], msg_buffer[j]);
+					printf("receiver_thread:                  %2d %02x (%c) %02x\n", j, TEST_MESSAGE[j], TEST_MESSAGE[j], msg_buffer[j]);
 				}
 			}
-			printf("receiver_thread:                  %2d 00      %02x\n",
-				   j, msg_buffer[j]);
+			printf("receiver_thread:                  %2d 00      %02x\n", j, msg_buffer[j]);
 		} else if (i == TEST_SEND_NMSGS - 1) {
 			printf("receiver_thread: ERROR mq_timedreceive of msg %d succeeded\n", i);
 			nerrors++;
@@ -291,8 +288,8 @@ static void *receiver_thread(void *arg)
 
 	printf("receiver_thread: returning nerrors=%d\n", nerrors);
 	FFLUSH();
-	pthread_exit((pthread_addr_t)nerrors);
-	return (pthread_addr_t)nerrors;
+	pthread_exit((pthread_addr_t) nerrors);
+	return (pthread_addr_t) nerrors;
 }
 
 void timedmqueue_test(void)
@@ -352,8 +349,7 @@ void timedmqueue_test(void)
 	printf("timedmqueue_test: Waiting for receiver to complete\n");
 	pthread_join(receiver, &result);
 	if (result != (void *)0) {
-		printf("timedmqueue_test: ERROR receiver thread exited with %d errors\n",
-			   (int)result);
+		printf("timedmqueue_test: ERROR receiver thread exited with %d errors\n", (int)result);
 	}
 
 	/* Make sure that the message queues were properly closed (otherwise, we
@@ -382,5 +378,3 @@ void timedmqueue_test(void)
 
 	printf("timedmqueue_test: Test complete\n");
 }
-
-

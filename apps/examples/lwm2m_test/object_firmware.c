@@ -58,21 +58,16 @@ typedef struct {
 	uint8_t result;
 } firmware_data_t;
 
-
-static uint8_t prv_firmware_read(uint16_t instanceId,
-								 int *numDataP,
-								 lwm2m_data_t **dataArrayP,
-								 lwm2m_object_t *objectP)
+static uint8_t prv_firmware_read(uint16_t instanceId, int *numDataP, lwm2m_data_t ** dataArrayP, lwm2m_object_t * objectP)
 {
 	int i;
 	uint8_t result;
-	firmware_data_t *data = (firmware_data_t *)(objectP->userData);
+	firmware_data_t *data = (firmware_data_t *) (objectP->userData);
 
 	// this is a single instance object
 	if (instanceId != 0) {
 		return COAP_404_NOT_FOUND;
 	}
-
 	// is the server asking for the full object ?
 	if (*numDataP == 0) {
 		*dataArrayP = lwm2m_data_new(3);
@@ -120,14 +115,11 @@ static uint8_t prv_firmware_read(uint16_t instanceId,
 	return result;
 }
 
-static uint8_t prv_firmware_write(uint16_t instanceId,
-								  int numData,
-								  lwm2m_data_t *dataArray,
-								  lwm2m_object_t *objectP)
+static uint8_t prv_firmware_write(uint16_t instanceId, int numData, lwm2m_data_t * dataArray, lwm2m_object_t * objectP)
 {
 	int i;
 	uint8_t result;
-	firmware_data_t *data = (firmware_data_t *)(objectP->userData);
+	firmware_data_t *data = (firmware_data_t *) (objectP->userData);
 
 	// this is a single instance object
 	if (instanceId != 0) {
@@ -166,13 +158,9 @@ static uint8_t prv_firmware_write(uint16_t instanceId,
 	return result;
 }
 
-static uint8_t prv_firmware_execute(uint16_t instanceId,
-									uint16_t resourceId,
-									uint8_t *buffer,
-									int length,
-									lwm2m_object_t *objectP)
+static uint8_t prv_firmware_execute(uint16_t instanceId, uint16_t resourceId, uint8_t * buffer, int length, lwm2m_object_t * objectP)
 {
-	firmware_data_t *data = (firmware_data_t *)(objectP->userData);
+	firmware_data_t *data = (firmware_data_t *) (objectP->userData);
 
 	// this is a single instance object
 	if (instanceId != 0) {
@@ -182,7 +170,6 @@ static uint8_t prv_firmware_execute(uint16_t instanceId,
 	if (length != 0) {
 		return COAP_400_BAD_REQUEST;
 	}
-
 	// for execute callback, resId is always set.
 	switch (resourceId) {
 	case RES_M_UPDATE:
@@ -200,14 +187,13 @@ static uint8_t prv_firmware_execute(uint16_t instanceId,
 	}
 }
 
-void display_firmware_object(lwm2m_object_t *object)
+void display_firmware_object(lwm2m_object_t * object)
 {
 #ifdef WITH_LOGS
-	firmware_data_t *data = (firmware_data_t *)object->userData;
+	firmware_data_t *data = (firmware_data_t *) object->userData;
 	fprintf(stdout, "  /%u: Firmware object:\r\n", object->objID);
 	if (NULL != data) {
-		fprintf(stdout, "    state: %u, supported: %s, result: %u\r\n",
-				data->state, data->supported ? "true" : "false", data->result);
+		fprintf(stdout, "    state: %u, supported: %s, result: %u\r\n", data->state, data->supported ? "true" : "false", data->result);
 	}
 #endif
 }
@@ -219,7 +205,7 @@ lwm2m_object_t *get_object_firmware(void)
 	 */
 	lwm2m_object_t *firmwareObj;
 
-	firmwareObj = (lwm2m_object_t *)lwm2m_malloc(sizeof(lwm2m_object_t));
+	firmwareObj = (lwm2m_object_t *) lwm2m_malloc(sizeof(lwm2m_object_t));
 
 	if (NULL != firmwareObj) {
 		memset(firmwareObj, 0, sizeof(lwm2m_object_t));
@@ -234,7 +220,7 @@ lwm2m_object_t *get_object_firmware(void)
 		 * and its unique instance
 		 *
 		 */
-		firmwareObj->instanceList = (lwm2m_list_t *)lwm2m_malloc(sizeof(lwm2m_list_t));
+		firmwareObj->instanceList = (lwm2m_list_t *) lwm2m_malloc(sizeof(lwm2m_list_t));
 		if (NULL != firmwareObj->instanceList) {
 			memset(firmwareObj->instanceList, 0, sizeof(lwm2m_list_t));
 		} else {
@@ -247,18 +233,18 @@ lwm2m_object_t *get_object_firmware(void)
 		 * Those function will be called when a read/write/execute query is made by the server. In fact the library don't need to
 		 * know the resources of the object, only the server does.
 		 */
-		firmwareObj->readFunc    = prv_firmware_read;
-		firmwareObj->writeFunc   = prv_firmware_write;
+		firmwareObj->readFunc = prv_firmware_read;
+		firmwareObj->writeFunc = prv_firmware_write;
 		firmwareObj->executeFunc = prv_firmware_execute;
-		firmwareObj->userData    = lwm2m_malloc(sizeof(firmware_data_t));
+		firmwareObj->userData = lwm2m_malloc(sizeof(firmware_data_t));
 
 		/*
 		 * Also some user data can be stored in the object with a private structure containing the needed variables
 		 */
 		if (NULL != firmwareObj->userData) {
-			((firmware_data_t *)firmwareObj->userData)->state = 1;
-			((firmware_data_t *)firmwareObj->userData)->supported = false;
-			((firmware_data_t *)firmwareObj->userData)->result = 0;
+			((firmware_data_t *) firmwareObj->userData)->state = 1;
+			((firmware_data_t *) firmwareObj->userData)->supported = false;
+			((firmware_data_t *) firmwareObj->userData)->result = 0;
 		} else {
 			lwm2m_free(firmwareObj);
 			firmwareObj = NULL;
@@ -268,7 +254,7 @@ lwm2m_object_t *get_object_firmware(void)
 	return firmwareObj;
 }
 
-void free_object_firmware(lwm2m_object_t *objectP)
+void free_object_firmware(lwm2m_object_t * objectP)
 {
 	if (NULL != objectP->userData) {
 		lwm2m_free(objectP->userData);
@@ -280,4 +266,3 @@ void free_object_firmware(lwm2m_object_t *objectP)
 	}
 	lwm2m_free(objectP);
 }
-

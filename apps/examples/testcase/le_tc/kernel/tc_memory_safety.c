@@ -52,7 +52,7 @@
 /// @file tc_memory_safety.c
 
 /// @brief Test Case for checking heap memory safety 
-///				when sending/receiving bulk message (i.e., 8K) through message queue
+///             when sending/receiving bulk message (i.e., 8K) through message queue
 
 /**************************************************************************
 * Included Files
@@ -123,9 +123,9 @@ static void *sender_thread(void *arg)
 	 */
 
 	g_send_mqfd = mq_open("mqueue", O_WRONLY | O_CREAT, 0666, &attr);
-	if (g_send_mqfd == (mqd_t)-1) {
+	if (g_send_mqfd == (mqd_t) - 1) {
 		printf("tc_mqueue_mq_open FAIL\n");
-		pthread_exit((pthread_addr_t)1);
+		pthread_exit((pthread_addr_t) 1);
 	}
 
 	/* Fill in a test message buffer to send */
@@ -151,8 +151,8 @@ static void *sender_thread(void *arg)
 		g_send_mqfd = NULL;
 	}
 
-	pthread_exit((pthread_addr_t)nerrors);
-	return (pthread_addr_t)nerrors;
+	pthread_exit((pthread_addr_t) nerrors);
+	return (pthread_addr_t) nerrors;
 }
 
 /**
@@ -186,9 +186,9 @@ static void *receiver_thread(void *arg)
 	 */
 
 	g_recv_mqfd = mq_open("mqueue", O_RDONLY | O_CREAT, 0666, &attr);
-	if (g_recv_mqfd == (mqd_t)ERROR) {
+	if (g_recv_mqfd == (mqd_t) ERROR) {
 		printf("tc_mqueue_mq_open FAIL\n");
-		pthread_exit((pthread_addr_t)1);
+		pthread_exit((pthread_addr_t) 1);
 	}
 
 	/* Perform the receive TEST_RECEIVE_NMSGS times */
@@ -237,8 +237,8 @@ static void *receiver_thread(void *arg)
 		g_recv_mqfd = NULL;
 	}
 
-	pthread_exit((pthread_addr_t)nerrors);
-	return (pthread_addr_t)nerrors;
+	pthread_exit((pthread_addr_t) nerrors);
+	return (pthread_addr_t) nerrors;
 }
 
 /**
@@ -346,7 +346,7 @@ static void tc_memory_safety_with_mqueue_pos(void)
 	TC_ASSERT_EQ("pthread_join", result, (void *)0);
 
 	g_exit = 1;
-	
+
 #ifndef CONFIG_DISABLE_SIGNALS
 	/* Wake up the receiver thread with a signal */
 
@@ -397,7 +397,6 @@ static void tc_memory_safety_with_mqueue_pos(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /****************************************************************************
  * Name: memory_safety

@@ -81,41 +81,41 @@ static void _utc_mqtt_deinit(void)
 
 static void on_connect(void *client, int result)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (!id || !id->config) {
 		goto send_signal;
 	}
 
 	UTC_MQTT_LOGD("%s: %s, %d\n", __FUNCTION__, id->config->client_id, result);
-send_signal:
+ send_signal:
 	UTC_MQTT_SEND_SIGNAL;
 }
 
 static void on_disconnect(void *client, int result)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (!id || !id->config) {
 		goto send_signal;
 	}
 	UTC_MQTT_LOGD("%s: %s, %d\n", __FUNCTION__, id->config->client_id, result);
-send_signal:
+ send_signal:
 	UTC_MQTT_SEND_SIGNAL;
 }
 
 static void on_publish(void *client, int msg_id)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (!id || !id->config) {
 		goto send_signal;
 	}
 	UTC_MQTT_LOGD("%s: %s, %d\n", __FUNCTION__, id->config->client_id, msg_id);
-send_signal:
+ send_signal:
 	UTC_MQTT_SEND_SIGNAL;
 }
 
-static void on_message(void *client, mqtt_msg_t *msg)
+static void on_message(void *client, mqtt_msg_t * msg)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (!id || !id->config) {
 		return;
 	}
@@ -124,7 +124,7 @@ static void on_message(void *client, mqtt_msg_t *msg)
 
 static void on_subscribe(void *client, int msg_id, int qos_count, const int *granted_qos)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (!id || !id->config) {
 		return;
 	}
@@ -133,13 +133,12 @@ static void on_subscribe(void *client, int msg_id, int qos_count, const int *gra
 
 static void on_unsubscribe(void *client, int msg_id)
 {
-	mqtt_client_t *id = (mqtt_client_t *)client;
+	mqtt_client_t *id = (mqtt_client_t *) client;
 	if (!id || !id->config) {
 		return;
 	}
 	UTC_MQTT_LOGD("%s: %s, %d\n", __FUNCTION__, id->config->client_id, msg_id);
 }
-
 
 static mqtt_client_config_t g_mqtt_pub_config = {
 	UTC_PUB_CLIENT_ID,
@@ -149,7 +148,8 @@ static mqtt_client_config_t g_mqtt_pub_config = {
 	on_publish,
 	on_message,
 	on_subscribe,
-	on_unsubscribe};
+	on_unsubscribe
+};
 
 static mqtt_client_config_t g_mqtt_sub_config = {
 	UTC_SUB_CLIENT_ID,
@@ -159,8 +159,8 @@ static mqtt_client_config_t g_mqtt_sub_config = {
 	on_publish,
 	on_message,
 	on_subscribe,
-	on_unsubscribe};
-
+	on_unsubscribe
+};
 
 /**
  * @testcase         utc_mqtt_init_client_n
@@ -177,7 +177,6 @@ static void utc_mqtt_init_client_n(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /**
  * @testcase         utc_mqtt_init_client_p
  * @brief            Initialize mqtt stack
@@ -193,7 +192,6 @@ static void utc_mqtt_init_client_p(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /**
  * @testcase         utc_mqtt_connect_n
  * @brief            connect to broker
@@ -208,7 +206,6 @@ static void utc_mqtt_connect_n(void)
 	TC_ASSERT_LT("mqtt_connect", res, 0);
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
  * @testcase         utc_mqtt_connect_p
@@ -228,7 +225,6 @@ static void utc_mqtt_connect_p(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /**
  * @testcase         utc_mqtt_subscribe_n
  * @brief            subscribe a message from broker with an invalid input
@@ -244,7 +240,6 @@ static void utc_mqtt_subscribe_n(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /**
  * @testcase         utc_mqtt_subscribe_p
  * @brief            subscribe a message from broker with a valid input
@@ -259,7 +254,6 @@ static void utc_mqtt_subscribe_p(void)
 	TC_ASSERT_EQ("mqtt_subscribe", res, 0);
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
  * @testcase         utc_mqtt_publish_n
@@ -277,7 +271,6 @@ static void utc_mqtt_publish_n(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /**
  * @testcase         utc_mqtt_publish_p
  * @brief            publish a message
@@ -288,18 +281,18 @@ static void utc_mqtt_publish_n(void)
  */
 static void utc_mqtt_publish_p(void)
 {
-	/* Prepare the publisher*/
+	/* Prepare the publisher */
 	g_mqtt_pub_handle = mqtt_init_client(&g_mqtt_pub_config);
 	if (!g_mqtt_pub_handle) {
 		UTC_MQTT_LOGE;
-		return ;
+		return;
 	}
 
 	int res = mqtt_connect(g_mqtt_pub_handle, CONFIG_EXAMPLES_TESTCASE_MQTT_BROKER_ADDR,
 						   CONFIG_EXAMPLES_TESTCASE_MQTT_BROKER_PORT, 0);
 	if (res < 0) {
 		UTC_MQTT_LOGE;
-		return ;
+		return;
 	}
 
 	UTC_MQTT_WAIT_SIGNAL;
@@ -308,7 +301,6 @@ static void utc_mqtt_publish_p(void)
 	UTC_MQTT_WAIT_SIGNAL;
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
  * @testcase         utc_mqtt_unsubscribe_n
@@ -325,7 +317,6 @@ static void utc_mqtt_unsubscribe_n(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /**
  * @testcase         utc_mqtt_unsubscribe_p
  * @brief            stop subscribing from a broker
@@ -341,7 +332,6 @@ static void utc_mqtt_unsubscribe_p(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /**
  * @testcase         utc_mqtt_disconnect_n
  * @brief            disconnect to broker
@@ -356,7 +346,6 @@ static void utc_mqtt_disconnect_n(void)
 	TC_ASSERT_LT("mqtt_disconnect", res, 0);
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
  * @testcase         utc_mqtt_disconnect_p
@@ -375,7 +364,6 @@ static void utc_mqtt_disconnect_p(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /**
  * @testcase         utc_mqtt_deinit_client_n
  * @brief            free all resources used to mqtt stack
@@ -390,7 +378,6 @@ static void utc_mqtt_deinit_client_n(void)
 	TC_ASSERT_LT("mqtt_deinit_client", res, 0);
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
  * @testcase         utc_mqtt_deinit_client_p
@@ -410,7 +397,6 @@ static void utc_mqtt_deinit_client_p(void)
 	TC_ASSERT_EQ("mqtt_deinit_client", res, 0);
 	TC_SUCCESS_RESULT();
 }
-
 
 #ifdef CONFIG_BUILD_KERNEL
 int main(int argc, FAR char *argv[])
@@ -443,7 +429,7 @@ int utc_mqtt_main(int argc, char *argv[])
 	utc_mqtt_deinit_client_p();
 
 	_utc_mqtt_deinit();
-exit:
+ exit:
 	(void)testcase_state_handler(TC_END, "MQTT UTC");
 
 	return 0;

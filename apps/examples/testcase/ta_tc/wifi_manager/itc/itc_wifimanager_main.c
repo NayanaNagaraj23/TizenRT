@@ -62,7 +62,7 @@ static wifi_manager_cb_s wifi_callbacks = {
 	wifi_sta_disconnected_cb,
 	NULL,
 	NULL,
-	wifi_scan_ap_done_cb, // this callback function is called when scanning ap is done.
+	wifi_scan_ap_done_cb,		// this callback function is called when scanning ap is done.
 };
 
 static void wifi_sta_connected_cb(wifi_manager_cb_msg_s msg, void *arg)
@@ -91,9 +91,7 @@ static void wifi_scan_ap_done_cb(wifi_manager_cb_msg_s msg, void *arg)
 
 	wifi_manager_scan_info_s *wifi_scan_iter = msg.scanlist;
 	while (wifi_scan_iter != NULL) {
-		printf("SSID: %-20s, BSSID: %-20s, RSSI: %d, CH: %d, Phy_type: %d\n", \
-				wifi_scan_iter->ssid, wifi_scan_iter->bssid, wifi_scan_iter->rssi, \
-				wifi_scan_iter->channel, wifi_scan_iter->phy_mode);
+		printf("SSID: %-20s, BSSID: %-20s, RSSI: %d, CH: %d, Phy_type: %d\n", wifi_scan_iter->ssid, wifi_scan_iter->bssid, wifi_scan_iter->rssi, wifi_scan_iter->channel, wifi_scan_iter->phy_mode);
 		wifi_scan_iter = wifi_scan_iter->next;
 	}
 	WIFITEST_SIGNAL;
@@ -181,15 +179,12 @@ static void itc_wifimanager_set_mode_p(void)
 
 	wifi_manager_softap_config_s ap_config;
 
-	strncpy(ap_config.ssid, TEST_SOFTAP_SSID,
-			strlen(TEST_SOFTAP_SSID) + 1);
+	strncpy(ap_config.ssid, TEST_SOFTAP_SSID, strlen(TEST_SOFTAP_SSID) + 1);
 
 	ap_config.channel = TEST_SOFTAP_CHANNEL;
-	strncpy(ap_config.passphrase, TEST_SOFTAP_PASSWORD,
-			strlen(TEST_SOFTAP_PASSWORD) + 1);
+	strncpy(ap_config.passphrase, TEST_SOFTAP_PASSWORD, strlen(TEST_SOFTAP_PASSWORD) + 1);
 
-	printf("SoftAP config: %s(%d), %s(%d), %d\n", ap_config.ssid, strlen(TEST_SOFTAP_SSID),
-			ap_config.passphrase, strlen(TEST_SOFTAP_PASSWORD), ap_config.channel);
+	printf("SoftAP config: %s(%d), %s(%d), %d\n", ap_config.ssid, strlen(TEST_SOFTAP_SSID), ap_config.passphrase, strlen(TEST_SOFTAP_PASSWORD), ap_config.channel);
 
 	ret = wifi_manager_set_mode(SOFTAP_MODE, &ap_config);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_set_mode", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
@@ -224,12 +219,10 @@ static void itc_wifimanager_get_mode_p(void)
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_get_info", info.mode, STA_MODE, wifi_manager_deinit());
 
 	wifi_manager_softap_config_s ap_config;
-	strncpy(ap_config.ssid, TEST_SOFTAP_SSID,
-			strlen(TEST_SOFTAP_SSID) + 1);
+	strncpy(ap_config.ssid, TEST_SOFTAP_SSID, strlen(TEST_SOFTAP_SSID) + 1);
 
 	ap_config.channel = TEST_SOFTAP_CHANNEL;
-	strncpy(ap_config.passphrase, TEST_SOFTAP_PASSWORD,
-			strlen(TEST_SOFTAP_PASSWORD) + 1);
+	strncpy(ap_config.passphrase, TEST_SOFTAP_PASSWORD, strlen(TEST_SOFTAP_PASSWORD) + 1);
 
 	ret = wifi_manager_set_mode(SOFTAP_MODE, &ap_config);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_set_mode", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
@@ -265,10 +258,9 @@ static void itc_wifimanager_connect_disconnect_ap_p(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
 	ret = wifi_manager_connect_ap(&config);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_connect_ap", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
@@ -304,12 +296,11 @@ static void itc_wifimanager_connect_ap_config_p(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
-	ret =  wifi_manager_connect_ap(&config);
+	ret = wifi_manager_connect_ap(&config);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_connect_ap", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 	WIFITEST_WAIT;
 
@@ -342,12 +333,11 @@ static void itc_wifimanager_connect_ap_config_n(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
-	ret =  wifi_manager_connect_ap(&config);
+	ret = wifi_manager_connect_ap(&config);
 	TC_ASSERT_NEQ_CLEANUP("wifi_manager_connect_ap", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
 	ret = wifi_manager_disconnect_ap();
@@ -380,15 +370,14 @@ static void itc_wifimanager_save_get_config_p(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
-	ret =  wifi_manager_save_config(&config);
+	ret = wifi_manager_save_config(&config);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_save_config", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
-	ret =  wifi_manager_get_config(&getconfig);
+	ret = wifi_manager_get_config(&getconfig);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_get_config", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
 	ret = strncmp(config.ssid, getconfig.ssid, strlen(TEST_SSID));
@@ -424,12 +413,11 @@ static void itc_wifimanager_get_config_n(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
-	ret =  wifi_manager_get_config(&gconfig);
+	ret = wifi_manager_get_config(&gconfig);
 	TC_ASSERT_NEQ_CLEANUP("wifi_manager_get_config", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
 	ret = wifi_manager_deinit();
@@ -437,7 +425,6 @@ static void itc_wifimanager_get_config_n(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
  * @testcase         itc_wifimanager_remove_get_config_p
@@ -460,21 +447,20 @@ static void itc_wifimanager_remove_get_config_p(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
-	ret =  wifi_manager_save_config(&config);
+	ret = wifi_manager_save_config(&config);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_save_config", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
-	ret =  wifi_manager_get_config(&gconfig);
+	ret = wifi_manager_get_config(&gconfig);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_get_config", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
-	ret =  wifi_manager_remove_config();
+	ret = wifi_manager_remove_config();
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_remove_config", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
-	ret =  wifi_manager_get_config(&gconfig);
+	ret = wifi_manager_get_config(&gconfig);
 	TC_ASSERT_NEQ_CLEANUP("wifi_manager_get_config", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
 	ret = wifi_manager_deinit();
@@ -504,21 +490,20 @@ static void itc_wifimanager_reremove_n(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
-	ret =  wifi_manager_save_config(&config);
+	ret = wifi_manager_save_config(&config);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_save_config", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
-	ret =  wifi_manager_get_config(&gconfig);
+	ret = wifi_manager_get_config(&gconfig);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_get_config", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
-	ret =  wifi_manager_remove_config();
+	ret = wifi_manager_remove_config();
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_remove_config", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
-	ret =  wifi_manager_remove_config();
+	ret = wifi_manager_remove_config();
 	TC_ASSERT_NEQ_CLEANUP("wifi_manager_remove_config", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 
 	ret = wifi_manager_deinit();
@@ -526,7 +511,6 @@ static void itc_wifimanager_reremove_n(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
  * @testcase         itc_wifimanager_scan_ap_p
@@ -621,10 +605,9 @@ static void itc_wifimanager_reconnect_p(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
 	ret = wifi_manager_connect_ap(&config);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_connect_ap", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
@@ -665,10 +648,9 @@ static void itc_wifimanager_connect_long_ssid_p(void)
 	config.passphrase_length = strlen(passphrase);
 	strncpy(config.ssid, ssid, sizeof(config.ssid));
 	strncpy(config.passphrase, passphrase, sizeof(config.passphrase));
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
 	ret = wifi_manager_connect_ap(&config);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_connect_ap", ret, WIFI_MANAGER_INVALID_ARGS, wifi_manager_deinit());
@@ -698,10 +680,9 @@ static void itc_wifimanager_redisconnect_p(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
 	ret = wifi_manager_connect_ap(&config);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_connect_ap", ret, WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
@@ -744,10 +725,9 @@ static void itc_wifimanager_average_joining_ap(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
 	for (i = 1; i <= LOOP_SIZE; i++) {
 		gettimeofday(&start_t, NULL);
@@ -791,10 +771,9 @@ static void itc_wifimanager_average_leaving_ap(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
 	for (i = 1; i <= LOOP_SIZE; i++) {
 		ret = wifi_manager_connect_ap(&config);
@@ -842,10 +821,9 @@ static void itc_wifimanager_success_ratio_ap(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
 	for (i = 0; i < LOOP_SIZE; i++) {
 		init_cnt++;
@@ -919,10 +897,9 @@ static void itc_wifimanager_average_stoping_ap(void)
 	config.passphrase_length = strlen(TEST_PASSWORD);
 	strncpy(config.ssid, TEST_SSID, config.ssid_length + 1);
 	strncpy(config.passphrase, TEST_PASSWORD, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
 	for (i = 1; i <= LOOP_SIZE; i++) {
 		ret = wifi_manager_init(&wifi_callbacks);
@@ -988,10 +965,9 @@ static void itc_wifimanager_connect_ap_n(void)
 	config.passphrase_length = strlen(passphrase);
 	strncpy(config.ssid, ssid, config.ssid_length + 1);
 	strncpy(config.passphrase, passphrase, config.passphrase_length + 1);
-	config.ap_auth_type = (wifi_manager_ap_auth_type_e)TEST_AUTH_TYPE;
-	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e)TEST_CRYPTO_TYPE;
-	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, \
-			config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
+	config.ap_auth_type = (wifi_manager_ap_auth_type_e) TEST_AUTH_TYPE;
+	config.ap_crypto_type = (wifi_manager_ap_crypto_type_e) TEST_CRYPTO_TYPE;
+	printf("AP config: %s(%d), %s(%d), %d %d\n", config.ssid, config.ssid_length, config.passphrase, config.passphrase_length, config.ap_auth_type, config.ap_crypto_type);
 
 	ret = wifi_manager_connect_ap(&config);
 	TC_ASSERT_EQ_CLEANUP("wifi_manager_connect_ap", ret, WIFI_MANAGER_FAIL, wifi_manager_deinit());
@@ -1022,6 +998,7 @@ static void itc_wifimanager_connect_set_mode_n(void)
 	TC_ASSERT_EQ("wifi_manager_deinit", ret, WIFI_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
+
 /**
  * @testcase         itc_wifimanager_get_stats_p
  * @brief            get net config information
@@ -1046,6 +1023,7 @@ static void itc_wifimanager_get_stats_p(void)
 	TC_ASSERT_EQ("wifi_manager_get_stats_p", nRet, WIFI_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
+
 /**
  * @testcase         itc_wifimanager_get_stats_n
  * @brief            get net config information for NULL ssid
@@ -1062,6 +1040,7 @@ static void itc_wifimanager_get_stats_n(void)
 	TC_ASSERT_EQ("wifi_manager_get_stats", nRet, WIFI_MANAGER_INVALID_ARGS);
 	TC_SUCCESS_RESULT();
 }
+
 /**
  * @testcase         itc_wifimanager_get_connected_config_p
  * @brief            get connected config information
@@ -1083,9 +1062,9 @@ static void itc_wifimanager_get_connected_config_p(void)
 		printf("CYPTO TYPE: %d\n", apconfig.ap_crypto_type);
 		printf("====================================\n");
 	}
-	if (((strncmp(apconfig.ssid, TEST_SSID, strnlen(TEST_SSID)) != 0)) 
-			|| (apconfig.ap_auth_type !=  TEST_AUTH_TYPE)
-			|| (apconfig.ap_crypto_type != TEST_CRYPTO_TYPE)) {
+	if (((strncmp(apconfig.ssid, TEST_SSID, strnlen(TEST_SSID)) != 0))
+		|| (apconfig.ap_auth_type != TEST_AUTH_TYPE)
+		|| (apconfig.ap_crypto_type != TEST_CRYPTO_TYPE)) {
 		printf("\nConfig Mismatch nRet = %d \n", nRet);
 		return;
 	}
@@ -1093,6 +1072,7 @@ static void itc_wifimanager_get_connected_config_p(void)
 	TC_ASSERT_EQ("wifi_manager_get_connected_config", nRet, WIFI_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
+
 /**
  * @testcase         itc_wifimanager_get_connected_config_n
  * @brief            get connected config information when config file not present
@@ -1139,10 +1119,10 @@ int wifi_manager_itc(int argc, FAR char *argv[])
 
 	itc_wifimanager_set_mode_p();
 
-	itc_wifimanager_get_mode_p(); // set softap mode inside this function
-	itc_wifimanager_connect_disconnect_ap_p(); // change to station mode and try to connect to ap
+	itc_wifimanager_get_mode_p();	// set softap mode inside this function
+	itc_wifimanager_connect_disconnect_ap_p();	// change to station mode and try to connect to ap
 
-	itc_wifimanager_scan_ap_p(); // Reinitialized wifi manager with the callback hander for scan results
+	itc_wifimanager_scan_ap_p();	// Reinitialized wifi manager with the callback hander for scan results
 
 	itc_wifimanager_reinit_p();
 
@@ -1151,11 +1131,11 @@ int wifi_manager_itc(int argc, FAR char *argv[])
 	itc_wifimanager_redisconnect_p();
 
 	itc_wifimanager_connect_long_ssid_p();
-	itc_wifimanager_average_joining_ap(); // Disable DoS preventation from Access Point
+	itc_wifimanager_average_joining_ap();	// Disable DoS preventation from Access Point
 
-	itc_wifimanager_average_leaving_ap(); // Disable DoS preventation from Access Point
+	itc_wifimanager_average_leaving_ap();	// Disable DoS preventation from Access Point
 
-	itc_wifimanager_average_stoping_ap(); // Disable DoS preventation from Access Point
+	itc_wifimanager_average_stoping_ap();	// Disable DoS preventation from Access Point
 
 	itc_wifimanager_success_ratio_ap();
 	itc_wifimanager_init_deinit_n();
@@ -1177,15 +1157,13 @@ int wifi_manager_itc(int argc, FAR char *argv[])
 	itc_wifimanager_reremove_n();
 
 	itc_wifimanager_get_connected_config_n();
-	itc_wifimanager_connect_ap_config_p();//To make correct connection
+	itc_wifimanager_connect_ap_config_p();	//To make correct connection
 	itc_wifimanager_get_stats_p();
 	itc_wifimanager_get_stats_n();
 	itc_wifimanager_get_connected_config_p();
 	//itc_wifimanager_get_connected_config_n();
 
-
-
-	itc_wifimanager_reconnect_p(); // System is crashing tested manually
+	itc_wifimanager_reconnect_p();	// System is crashing tested manually
 
 	(void)testcase_state_handler(TC_END, "WiFiManager ITC");
 

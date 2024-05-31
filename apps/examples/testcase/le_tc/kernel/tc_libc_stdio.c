@@ -103,12 +103,8 @@ static void tc_libc_stdio_vasprintf(const char *format, ...)
 	ret_chk = vasprintf(&buffer, format, args);
 	va_end(args);
 	TC_ASSERT_NEQ("avsprintf", buffer, NULL);
-	TC_ASSERT_EQ_CLEANUP("avsprintf",
-						 ret_chk, strlen(printable_chars),
-						 TC_FREE_MEMORY(buffer));
-	TC_ASSERT_EQ_CLEANUP("avsprintf",
-						 strcmp(printable_chars, buffer), 0,
-						 TC_FREE_MEMORY(buffer));
+	TC_ASSERT_EQ_CLEANUP("avsprintf", ret_chk, strlen(printable_chars), TC_FREE_MEMORY(buffer));
+	TC_ASSERT_EQ_CLEANUP("avsprintf", strcmp(printable_chars, buffer), 0, TC_FREE_MEMORY(buffer));
 
 	TC_FREE_MEMORY(buffer);
 	TC_SUCCESS_RESULT();
@@ -200,7 +196,6 @@ static void tc_libc_stdio_sprintf(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /**
 * @fn                  :tc_libc_stdio_sscanf
 * @brief               :this tc tests sscanf
@@ -215,18 +210,18 @@ static void tc_libc_stdio_sprintf(void)
 static void tc_libc_stdio_sscanf(void)
 {
 	char val_str[BUFF_SIZE];
-	char    val_char[2]          = {NOT_USED, NOT_USED};
-	uint8_t val_uint8[NUM_TEST_VAL_IN_CHAR + 1]  = {NOT_USED, NOT_USED, NOT_USED, NOT_USED, NOT_USED};
-	short   val_short[NUM_TEST_VAL_IN_SHORT + 1] = {NOT_USED, NOT_USED, NOT_USED};
-	int     val_int[2]           = {NOT_USED, NOT_USED};
-	long    val_long[2]          = {NOT_USED, NOT_USED};
+	char val_char[2] = { NOT_USED, NOT_USED };
+	uint8_t val_uint8[NUM_TEST_VAL_IN_CHAR + 1] = { NOT_USED, NOT_USED, NOT_USED, NOT_USED, NOT_USED };
+	short val_short[NUM_TEST_VAL_IN_SHORT + 1] = { NOT_USED, NOT_USED, NOT_USED };
+	int val_int[2] = { NOT_USED, NOT_USED };
+	long val_long[2] = { NOT_USED, NOT_USED };
 #ifdef CONFIG_LIBC_LONG_LONG
-	long long    val_longlong[2] = {NOT_USED, NOT_USED};
+	long long val_longlong[2] = { NOT_USED, NOT_USED };
 #endif
 #ifdef CONFIG_LIBC_FLOATINGPOINT
-	float   val_float[2]         = {NOT_USED, NOT_USED};
+	float val_float[2] = { NOT_USED, NOT_USED };
 #ifdef CONFIG_HAVE_DOUBLE
-	double  val_double[2]        = {NOT_USED, NOT_USED};
+	double val_double[2] = { NOT_USED, NOT_USED };
 #endif
 #endif
 	int ret_chk;
@@ -270,51 +265,51 @@ static void tc_libc_stdio_sscanf(void)
 
 	/* %duxob */
 
-	ret_chk = sscanf(TEST_VAL, "%hhd", &val_uint8[0]); // %hhd with char buff
+	ret_chk = sscanf(TEST_VAL, "%hhd", &val_uint8[0]);	// %hhd with char buff
 	TC_ASSERT_EQ("sscanf", ret_chk, 1);
 	TC_ASSERT_EQ("sscanf", val_uint8[0], 1);
-	TC_ASSERT_EQ("sscanf", val_uint8[1], (uint8_t)NOT_USED);
-	TC_ASSERT_EQ("sscanf", val_uint8[2], (uint8_t)NOT_USED);
-	TC_ASSERT_EQ("sscanf", val_uint8[3], (uint8_t)NOT_USED);
-	TC_ASSERT_EQ("sscanf", val_uint8[4], (uint8_t)NOT_USED);
+	TC_ASSERT_EQ("sscanf", val_uint8[1], (uint8_t) NOT_USED);
+	TC_ASSERT_EQ("sscanf", val_uint8[2], (uint8_t) NOT_USED);
+	TC_ASSERT_EQ("sscanf", val_uint8[3], (uint8_t) NOT_USED);
+	TC_ASSERT_EQ("sscanf", val_uint8[4], (uint8_t) NOT_USED);
 
-	ret_chk = sscanf(TEST_VAL, "%hd", &val_uint8[0]); // %hd with char buff
+	ret_chk = sscanf(TEST_VAL, "%hd", &val_uint8[0]);	// %hd with char buff
 	TC_ASSERT_EQ("sscanf", ret_chk, 1);
 	TC_ASSERT_EQ("sscanf", val_uint8[0], 1);
 	TC_ASSERT_EQ("sscanf", val_uint8[1], 0);
-	TC_ASSERT_EQ("sscanf", val_uint8[2], (uint8_t)NOT_USED);
-	TC_ASSERT_EQ("sscanf", val_uint8[3], (uint8_t)NOT_USED);
-	TC_ASSERT_EQ("sscanf", val_uint8[4], (uint8_t)NOT_USED);
+	TC_ASSERT_EQ("sscanf", val_uint8[2], (uint8_t) NOT_USED);
+	TC_ASSERT_EQ("sscanf", val_uint8[3], (uint8_t) NOT_USED);
+	TC_ASSERT_EQ("sscanf", val_uint8[4], (uint8_t) NOT_USED);
 
-	ret_chk = sscanf(TEST_VAL, "%d", &val_uint8[0]); // %d with char buff
+	ret_chk = sscanf(TEST_VAL, "%d", &val_uint8[0]);	// %d with char buff
 	TC_ASSERT_EQ("sscanf", ret_chk, 1);
 	TC_ASSERT_EQ("sscanf", val_uint8[0], 1);
 	TC_ASSERT_EQ("sscanf", val_uint8[1], 0);
 	TC_ASSERT_EQ("sscanf", val_uint8[2], 0);
 	TC_ASSERT_EQ("sscanf", val_uint8[3], 0);
-	TC_ASSERT_EQ("sscanf", val_uint8[4], (uint8_t)NOT_USED);
+	TC_ASSERT_EQ("sscanf", val_uint8[4], (uint8_t) NOT_USED);
 
-	ret_chk = sscanf(TEST_VAL, "%hhd:%hhd:%hhd:%hhd", &val_uint8[0], &val_uint8[1], &val_uint8[2], &val_uint8[3]); // %hhd with char buff
+	ret_chk = sscanf(TEST_VAL, "%hhd:%hhd:%hhd:%hhd", &val_uint8[0], &val_uint8[1], &val_uint8[2], &val_uint8[3]);	// %hhd with char buff
 	TC_ASSERT_EQ("sscanf", ret_chk, NUM_TEST_VAL_IN_CHAR);
 	TC_ASSERT_EQ("sscanf", val_uint8[0], 1);
 	TC_ASSERT_EQ("sscanf", val_uint8[1], 23);
 	TC_ASSERT_EQ("sscanf", val_uint8[2], 45);
 	TC_ASSERT_EQ("sscanf", val_uint8[3], 67);
-	TC_ASSERT_EQ("sscanf", val_uint8[4], (uint8_t)NOT_USED);
+	TC_ASSERT_EQ("sscanf", val_uint8[4], (uint8_t) NOT_USED);
 
-	ret_chk = sscanf(TEST_VAL, "%hd", &val_short[0]); // %hd with short buff
+	ret_chk = sscanf(TEST_VAL, "%hd", &val_short[0]);	// %hd with short buff
 	TC_ASSERT_EQ("sscanf", ret_chk, 1);
 	TC_ASSERT_EQ("sscanf", val_short[0], 1);
 	TC_ASSERT_EQ("sscanf", val_short[1], (short)NOT_USED);
 	TC_ASSERT_EQ("sscanf", val_short[2], (short)NOT_USED);
 
-	ret_chk = sscanf(TEST_VAL, "%d", &val_short[0]); // %d with short buff
+	ret_chk = sscanf(TEST_VAL, "%d", &val_short[0]);	// %d with short buff
 	TC_ASSERT_EQ("sscanf", ret_chk, 1);
 	TC_ASSERT_EQ("sscanf", val_short[0], 1);
 	TC_ASSERT_EQ("sscanf", val_short[1], 0);
 	TC_ASSERT_EQ("sscanf", val_short[2], (short)NOT_USED);
 
-	ret_chk = sscanf(TEST_VAL, "%hd:%hd", &val_short[0], &val_short[1]); // %hd with short buff
+	ret_chk = sscanf(TEST_VAL, "%hd:%hd", &val_short[0], &val_short[1]);	// %hd with short buff
 	TC_ASSERT_EQ("sscanf", ret_chk, NUM_TEST_VAL_IN_SHORT);
 	TC_ASSERT_EQ("sscanf", val_short[0], 1);
 	TC_ASSERT_EQ("sscanf", val_short[1], 23);
@@ -628,12 +623,8 @@ static void tc_libc_stdio_asprintf(void)
 	ret_chk = asprintf(&buffer, "%s", printable_chars);
 
 	TC_ASSERT_NEQ("asprintf", buffer, NULL);
-	TC_ASSERT_EQ_CLEANUP("asprintf",
-						 ret_chk, strlen(printable_chars),
-						 TC_FREE_MEMORY(buffer));
-	TC_ASSERT_EQ_CLEANUP("asprintf",
-						 strcmp(printable_chars, buffer), 0,
-						 TC_FREE_MEMORY(buffer));
+	TC_ASSERT_EQ_CLEANUP("asprintf", ret_chk, strlen(printable_chars), TC_FREE_MEMORY(buffer));
+	TC_ASSERT_EQ_CLEANUP("asprintf", strcmp(printable_chars, buffer), 0, TC_FREE_MEMORY(buffer));
 
 	TC_FREE_MEMORY(buffer);
 	TC_SUCCESS_RESULT();
@@ -686,4 +677,3 @@ int libc_stdio_main(void)
 
 	return 0;
 }
-

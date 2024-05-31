@@ -37,7 +37,7 @@
 #define AUDIO_DEFAULT_CHANNELS 2
 #define AUDIO_DEFAULT_RATE 16000
 #define AUDIO_DEFAULT_FORMAT PCM_FORMAT_S16_LE
-#define AUDIO_RECORD_DURATION 3//3sec
+#define AUDIO_RECORD_DURATION 3	//3sec
 #define INPUT_STR_LEN 16
 #define SEC_2 2
 #define PREPARE_RETRY_COUNT 10
@@ -289,8 +289,7 @@ static void itc_audio_pcm_open_by_name_p(void)
 {
 	g_pcm = pcm_open_by_name("hw:0,0", PCM_IN, NULL);
 	TC_ASSERT_GT_CLEANUP("pcm_open_by_name", pcm_get_file_descriptor(g_pcm), 0, pcm_close(g_pcm))
-
-	TC_ASSERT_EQ("pcm_close", pcm_close(g_pcm), 0);
+		TC_ASSERT_EQ("pcm_close", pcm_close(g_pcm), 0);
 	TC_SUCCESS_RESULT();
 }
 
@@ -604,7 +603,7 @@ static void itc_audio_pcm_get_file_descriptor_n(void)
 	int fd;
 	fd = pcm_get_file_descriptor(NULL);
 	TC_ASSERT_LEQ("pcm_get_file_descriptor", fd, -1)
-	TC_SUCCESS_RESULT();
+		TC_SUCCESS_RESULT();
 }
 
 /**

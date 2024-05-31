@@ -110,14 +110,14 @@ static const char HEADERFIELD_KA_PARAMETERS[] = "timeout=300, max=500";
 static const char HEADERFIELD_USERAGENT[] = "User-Agent";
 static const char HEADERFIELD_TINYARA[] = "TinyARA";
 
-#define PRNT(fmt,args...) printf("\n[WS_TEST]%s():%d: "fmt, __func__, __LINE__,##args); 
+#define PRNT(fmt,args...) printf("\n[WS_TEST]%s():%d: "fmt, __func__, __LINE__,##args);
 
 #define FUNC_EN PRNT("entry")
 #define FUNC_EX PRNT("exit")
 
 enum {
-	HTTP_REQUEST_HEADER, 
-	HTTP_REQUEST_PARAMETERS, 
+	HTTP_REQUEST_HEADER,
+	HTTP_REQUEST_PARAMETERS,
 	HTTP_REQUEST_BODY
 };
 
@@ -129,17 +129,17 @@ typedef void (*wget_callback_t)(httprsp);
  */
 struct http_client_tls_t {
 	int client_fd;
-	mbedtls_ssl_context       tls_ssl;
-	mbedtls_net_context       tls_client_fd;
+	mbedtls_ssl_context tls_ssl;
+	mbedtls_net_context tls_client_fd;
 
-	int                       tls_init;
-	mbedtls_ssl_config        tls_conf;
-	mbedtls_entropy_context   tls_entropy;
-	mbedtls_ctr_drbg_context  tls_ctr_drbg;
-	mbedtls_x509_crt          tls_rootca;
-	mbedtls_x509_crt          tls_clicert;
-	mbedtls_pk_context        tls_pkey;
-	mbedtls_ssl_session       tls_session;
+	int tls_init;
+	mbedtls_ssl_config tls_conf;
+	mbedtls_entropy_context tls_entropy;
+	mbedtls_ctr_drbg_context tls_ctr_drbg;
+	mbedtls_x509_crt tls_rootca;
+	mbedtls_x509_crt tls_clicert;
+	mbedtls_pk_context tls_pkey;
+	mbedtls_ssl_session tls_session;
 };
 
 /**
@@ -228,30 +228,20 @@ struct http_message_len_t {
 	int content_len;
 };
 
-char* ws_test_strcpy(char *dest, const char *src, struct http_client_request_t *ws);
-char* ws_test_strlencpy(char *dest, const char *src, int len, struct http_client_request_t *ws);
+char *ws_test_strcpy(char *dest, const char *src, struct http_client_request_t *ws);
+char *ws_test_strlencpy(char *dest, const char *src, int len, struct http_client_request_t *ws);
 int ws_test_http_client_response_init(struct http_client_response_t *response);
 void ws_test_http_client_response_release(struct http_client_response_t *response);
-char* ws_test_chunksize(char *dest, int len, struct http_client_request_t *ws);
+char *ws_test_chunksize(char *dest, int len, struct http_client_request_t *ws);
 
 int find_first_crlf(const char *src, int len, int start);
 int separate_status_line(const char *src, int *status, char *phrase);
 int separate_keyvalue(const char *src, char *key, char *value);
 
-int parsehttpurl(const char *url, uint16_t *port, char *hostname, int hostlen);
-void parse_header(struct http_message_len_t *len, char *buf, int buf_len,
-					 struct http_client_response_t *response, int *state,
-					 int *read_finish, int *process_finish);
-int parse_parameter(struct http_message_len_t *len, char *buf, int buf_len,
-					 struct http_client_response_t *response, int *state,
-					 int *process_finish);
-void parse_body(struct http_message_len_t *len, char *buf, int buf_len,
-					 struct http_client_response_t *response, int *state,
-					 char **body, int *read_finish, int *process_finish);
-int parse_message(char *buf, int buf_len, char *url,
-				  char **body, int *state,
-				  struct http_message_len_t *len,
-				  struct http_client_response_t *response);
-
+int parsehttpurl(const char *url, uint16_t * port, char *hostname, int hostlen);
+void parse_header(struct http_message_len_t *len, char *buf, int buf_len, struct http_client_response_t *response, int *state, int *read_finish, int *process_finish);
+int parse_parameter(struct http_message_len_t *len, char *buf, int buf_len, struct http_client_response_t *response, int *state, int *process_finish);
+void parse_body(struct http_message_len_t *len, char *buf, int buf_len, struct http_client_response_t *response, int *state, char **body, int *read_finish, int *process_finish);
+int parse_message(char *buf, int buf_len, char *url, char **body, int *state, struct http_message_len_t *len, struct http_client_response_t *response);
 
 #endif

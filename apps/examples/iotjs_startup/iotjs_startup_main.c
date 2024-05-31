@@ -50,7 +50,6 @@ extern int iotjs(int argc, char *argv[]);
 
 static bool g_is_connected = false;
 
-
 #ifdef CONFIG_EXAMPLES_IOTJS_STARTUP_WIFI
 
 static void iotjs_startup_wifi_connect(void);
@@ -59,8 +58,7 @@ static void iotjs_startup_wifi_sta_connected(wifi_manager_cb_msg_s msg, void *ar
 {
 	wifi_manager_result_e status = msg.res;
 	printf("log: %s status=0x%x\n", __FUNCTION__, status);
-	g_is_connected = ((status == WIFI_MANAGER_SUCCESS) ||
-			  (status == WIFI_MANAGER_ALREADY_CONNECTED));
+	g_is_connected = ((status == WIFI_MANAGER_SUCCESS) || (status == WIFI_MANAGER_ALREADY_CONNECTED));
 }
 
 static void iotjs_startup_wifi_sta_disconnected(wifi_manager_cb_msg_s msg, void *arg)

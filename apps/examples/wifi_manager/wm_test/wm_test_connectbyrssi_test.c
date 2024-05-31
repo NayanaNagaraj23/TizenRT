@@ -51,7 +51,6 @@ static char g_connected_ap_mac[20];
 		sem_wait(&g_wm_sem);       \
 	} while (0)
 
-
 static void _wt_sta_connected(wifi_manager_cb_msg_s msg, void *arg);
 static void _wt_sta_disconnected(wifi_manager_cb_msg_s msg, void *arg);
 static void _wt_scan_done(wifi_manager_cb_msg_s msg, void *arg);
@@ -67,17 +66,11 @@ static wifi_manager_cb_s g_wifi_callbacks = {
 void _wt_sta_connected(wifi_manager_cb_msg_s msg, void *arg)
 {
 	WT_LOG(TAG, "-->res(%d)", msg.res);
-	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x",
-		msg.bssid[0], msg.bssid[1],
-		msg.bssid[2], msg.bssid[3],
-		msg.bssid[4], msg.bssid[5]);
+	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x", msg.bssid[0], msg.bssid[1], msg.bssid[2], msg.bssid[3], msg.bssid[4], msg.bssid[5]);
 
 	if (WIFI_MANAGER_SUCCESS == msg.res) {
 		WT_LOG(TAG, "Station Connected");
-		snprintf(g_connected_ap_mac, sizeof(g_connected_ap_mac), "%02x:%02x:%02x:%02x:%02x:%02x",
-			msg.bssid[0], msg.bssid[1],
-			msg.bssid[2], msg.bssid[3],
-			msg.bssid[4], msg.bssid[5]);
+		snprintf(g_connected_ap_mac, sizeof(g_connected_ap_mac), "%02x:%02x:%02x:%02x:%02x:%02x", msg.bssid[0], msg.bssid[1], msg.bssid[2], msg.bssid[3], msg.bssid[4], msg.bssid[5]);
 	} else {
 		WT_LOGE(TAG, "Station Not Connected");
 	}
@@ -150,7 +143,7 @@ static wifi_manager_result_e _wt_scan(void)
 		WT_LOGE(TAG, "Failed to scan");
 		return res;
 	}
-	WM_TEST_WAIT; // wait the scan result
+	WM_TEST_WAIT;				// wait the scan result
 	WT_LEAVE;
 	return res;
 }
@@ -205,7 +198,6 @@ static void _wt_disconnect()
 	WT_LEAVE;
 }
 
-
 static void wm_run_connect_by_rssi(void *arg)
 {
 	WT_ENTER;
@@ -218,7 +210,7 @@ static void wm_run_connect_by_rssi(void *arg)
 		if (ret != WIFI_MANAGER_SUCCESS) {
 			WT_LOGE(TAG, "wm_connect_by_rssi_init failed");
 			failed++;
-			sleep(1); //sleep for 1 sec before next iteration
+			sleep(1);			//sleep for 1 sec before next iteration
 			goto next_iteration;
 		}
 		memset(g_bssid, '\0', sizeof(g_bssid));
@@ -229,7 +221,7 @@ static void wm_run_connect_by_rssi(void *arg)
 			if (g_bssid[0] != '\0')
 				break;
 			// scan till g_bssid get filled or retry count is not got expired
-			sleep(1); // retry after 1 sec sleep
+			sleep(1);			// retry after 1 sec sleep
 			retry_count--;
 		}
 		if (0 == retry_count || g_bssid[0] == '\0') {
@@ -242,7 +234,6 @@ static void wm_run_connect_by_rssi(void *arg)
 			}
 			goto next_iteration;
 		}
-
 		// connect to ap
 		retry_count = 5;
 		while (retry_count) {
@@ -250,7 +241,7 @@ static void wm_run_connect_by_rssi(void *arg)
 			_wt_connect(arg);
 			if (g_connected_ap_mac[0] != '\0')
 				break;
-			sleep(1); // retry after 1 sec sleep
+			sleep(1);			// retry after 1 sec sleep
 			retry_count--;
 		}
 		if (0 == retry_count) {
@@ -262,7 +253,7 @@ static void wm_run_connect_by_rssi(void *arg)
 				break;
 			}
 			goto next_iteration;
-		} 
+		}
 		WT_LOG(TAG, "Mac with best rssi value in scan for given ssid %s", g_bssid);
 		WT_LOG(TAG, "Connected ap Mac %s", g_connected_ap_mac);
 		if (strncmp(g_bssid, g_connected_ap_mac, BSSID_LEN) == 0) {
@@ -278,7 +269,7 @@ static void wm_run_connect_by_rssi(void *arg)
 			WT_LOGE(TAG, "wm_connect_by_rssi_deinit failed. so exit");
 			break;
 		}
-	next_iteration:
+ next_iteration:
 		WT_LOG(TAG, "====== Iteration %d ends ======", i + 1);
 	}
 	printf("============================================================================\n");

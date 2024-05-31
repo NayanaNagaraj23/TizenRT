@@ -84,7 +84,7 @@ static void *server(void *args)
 		return NULL;
 	}
 
-	if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int)) < 0) {
+	if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &(int) { 1 }, sizeof(int)) < 0) {
 		printf("setsockopt(SO_REUSEADDR) failed %s:%d:%d\n", __FUNCTION__, __LINE__, errno);
 		close(server_socket);
 		return 0;
@@ -125,7 +125,7 @@ static void *server(void *args)
 		printf("[%s]Failed to close socket\n", __func__);
 	}
 
-end:
+ end:
 	ret = close(server_socket);
 	if (ret == -1) {
 		printf("[%s]Failed to close socket\n", __func__);
@@ -165,7 +165,7 @@ static void *client(void *args)
 	}
 	pthread_cond_wait(&g_cond, &g_lock);
 
-end:
+ end:
 	ret = close(client_socket);
 	if (ret == -1) {
 		printf("[%s]Failed to close socket\n", __func__);

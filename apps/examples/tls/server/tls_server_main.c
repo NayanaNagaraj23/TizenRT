@@ -373,7 +373,7 @@ struct pthread_arg {
 	"    force_ciphersuite=<name>    default: all enabled\n"            \
 	" acceptable ciphersuite names:\n"
 
-#define MAX_DATA_SIZE 100 * 1024 * 1024 /* Maximum data size for aging test 100MB */
+#define MAX_DATA_SIZE 100 * 1024 * 1024	/* Maximum data size for aging test 100MB */
 /*
  * global options
  */
@@ -423,7 +423,7 @@ struct options {
 	uint32_t hs_to_max;			/* Max value of DTLS handshake timer        */
 	int badmac_limit;			/* Limit of records with bad MAC            */
 	int retry;					/* Server retry count                       */
-	int aging;                  /* enable large data transfer test          */
+	int aging;					/* enable large data transfer test          */
 };
 
 static struct options opt;
@@ -439,8 +439,8 @@ static void my_debug(void *ctx, int level, const char *file, int line, const cha
 			basename = p + 1;
 		}
 
-	mbedtls_fprintf((FILE *)ctx, "%s:%04d: |%d| %s", basename, line, level, str);
-	fflush((FILE *)ctx);
+	mbedtls_fprintf((FILE *) ctx, "%s:%04d: |%d| %s", basename, line, level, str);
+	fflush((FILE *) ctx);
 }
 
 /*
@@ -522,7 +522,7 @@ struct _sni_entry {
 	sni_entry *next;
 };
 
-void sni_free(sni_entry *head)
+void sni_free(sni_entry * head)
 {
 	sni_entry *cur = head;
 	sni_entry *next;
@@ -632,7 +632,7 @@ sni_entry *sni_parse(char *sni_string)
 
 	return (cur);
 
-error:
+ error:
 	sni_free(new);
 	sni_free(cur);
 	return (NULL);
@@ -641,7 +641,7 @@ error:
 /*
  * SNI callback.
  */
-int sni_callback(void *p_info, mbedtls_ssl_context *ssl, const unsigned char *name, size_t name_len)
+int sni_callback(void *p_info, mbedtls_ssl_context * ssl, const unsigned char *name, size_t name_len)
 {
 	const sni_entry *cur = (const sni_entry *)p_info;
 
@@ -718,7 +718,7 @@ struct _psk_entry {
 /*
  * Free a list of psk_entry's
  */
-void psk_free(psk_entry *head)
+void psk_free(psk_entry * head)
 {
 	psk_entry *next;
 
@@ -768,7 +768,7 @@ psk_entry *psk_parse(char *psk_string)
 
 	return (cur);
 
-error:
+ error:
 	psk_free(new);
 	psk_free(cur);
 	return (0);
@@ -777,9 +777,9 @@ error:
 /*
  * PSK callback
  */
-int psk_callback(void *p_info, mbedtls_ssl_context *ssl, const unsigned char *name, size_t name_len)
+int psk_callback(void *p_info, mbedtls_ssl_context * ssl, const unsigned char *name, size_t name_len)
 {
-	psk_entry *cur = (psk_entry *)p_info;
+	psk_entry *cur = (psk_entry *) p_info;
 
 	while (cur != NULL) {
 		if (name_len == strlen(cur->name) && memcmp(name, cur->name, name_len) == 0) {
@@ -923,7 +923,7 @@ int tls_server_cb(void *args)
 #endif
 
 	if (argc == 0) {
-usage:
+ usage:
 		if (ret == 0) {
 			ret = 1;
 		}
@@ -1401,14 +1401,12 @@ usage:
 			ret = 0;
 		} else {
 			ret = mbedtls_x509_crt_parse_path(&cacert, opt.ca_path);
-		}
-	else if (strlen(opt.ca_file))
+	} else if (strlen(opt.ca_file))
 		if (strncmp(opt.ca_file, "none", strlen("none") + 1) == 0) {
 			ret = 0;
 		} else {
 			ret = mbedtls_x509_crt_parse_file(&cacert, opt.ca_file);
-		}
-	else
+	} else
 #endif
 #if defined(MBEDTLS_CERTS_C)
 		for (i = 0; mbedtls_test_cas[i] != NULL; i++) {
@@ -1641,13 +1639,13 @@ usage:
 		} else
 #endif							/* MBEDTLS_SSL_COOKIE_C */
 #if defined(MBEDTLS_SSL_DTLS_HELLO_VERIFY)
-			if (opt.cookies == 0) {
-				mbedtls_ssl_conf_dtls_cookies(&conf, NULL, NULL, NULL);
-			} else
+		if (opt.cookies == 0) {
+			mbedtls_ssl_conf_dtls_cookies(&conf, NULL, NULL, NULL);
+		} else
 #endif							/* MBEDTLS_SSL_DTLS_HELLO_VERIFY */
-			{
-				;					/* Nothing to do */
-			}
+		{
+			;					/* Nothing to do */
+		}
 
 #if defined(MBEDTLS_SSL_DTLS_ANTI_REPLAY)
 		if (opt.anti_replay != DFL_ANTI_REPLAY) {
@@ -1771,7 +1769,7 @@ usage:
 
 	mbedtls_printf(" ok\n");
 
-reset:
+ reset:
 	if (!(opt.retry--)) {
 		goto exit;
 	}
@@ -1859,7 +1857,7 @@ reset:
 	/*
 	 * 4. Handshake
 	 */
-handshake:
+ handshake:
 	mbedtls_printf("  . Performing the SSL/TLS handshake...");
 	fflush(stdout);
 
@@ -1939,7 +1937,7 @@ handshake:
 	}
 
 	exchanges_left = opt.exchanges;
-data_exchange:
+ data_exchange:
 
 	if (opt.aging > 0) {
 		/*
@@ -1952,9 +1950,7 @@ data_exchange:
 		unsigned int datasize;
 		ret = mbedtls_ssl_read(&ssl, (void *)&datasize, sizeof(unsigned int));
 
-		if (ret <= 0 &&
-			ret != MBEDTLS_ERR_SSL_WANT_READ &&
-			ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
+		if (ret <= 0 && ret != MBEDTLS_ERR_SSL_WANT_READ && ret != MBEDTLS_ERR_SSL_WANT_WRITE) {
 			mbedtls_printf(" read the data size error(%d)\n", ret);
 			goto exit;
 		}
@@ -1966,8 +1962,7 @@ data_exchange:
 
 		do {
 			ret = mbedtls_ssl_read(&ssl, big_buf, sizeof(big_buf));
-			if (ret == MBEDTLS_ERR_SSL_WANT_READ ||
-				ret == MBEDTLS_ERR_SSL_WANT_WRITE) {
+			if (ret == MBEDTLS_ERR_SSL_WANT_READ || ret == MBEDTLS_ERR_SSL_WANT_WRITE) {
 				mbedtls_printf(" read error(%d)\n", ret);
 				continue;
 			}
@@ -1975,10 +1970,8 @@ data_exchange:
 			mbedtls_printf(" read(%d) progress(%d/%d)\n", ret, received, datasize);
 		} while (datasize - received > 0);
 		gettimeofday(&end_time, NULL);
-		int duration = (end_time.tv_sec - start_time.tv_sec) * 1000000 +
-			(end_time.tv_usec - start_time.tv_usec);
-		mbedtls_printf(" Transfer is done %dKB %lfmbps\n", datasize / 1024,
-					   (double)datasize / (double)duration / (1024 * 1024) * 1000000);
+		int duration = (end_time.tv_sec - start_time.tv_sec) * 1000000 + (end_time.tv_usec - start_time.tv_usec);
+		mbedtls_printf(" Transfer is done %dKB %lfmbps\n", datasize / 1024, (double)datasize / (double)duration / (1024 * 1024) * 1000000);
 		goto close_notify;
 	}
 
@@ -2170,7 +2163,7 @@ data_exchange:
 	/*
 	 * 8. Done, cleanly close the connection
 	 */
-close_notify:
+ close_notify:
 	mbedtls_printf("  . Closing the connection...");
 
 	/* No error checking, the connection might be closed already */
@@ -2186,7 +2179,7 @@ close_notify:
 	/*
 	 * Cleanup and exit
 	 */
-exit:
+ exit:
 #ifdef MBEDTLS_ERROR_C
 	if (ret != 0) {
 		char error_buf[100];
@@ -2285,7 +2278,7 @@ int tls_server_main(int argc, char **argv)
 	}
 
 	/* 3. create pthread with entry function */
-	if ((r = pthread_create(&tid, &attr, (pthread_startroutine_t)tls_server_cb, (void *)&args)) != 0) {
+	if ((r = pthread_create(&tid, &attr, (pthread_startroutine_t) tls_server_cb, (void *)&args)) != 0) {
 		printf("%s: pthread_create failed, status=%d\n", __func__, r);
 	}
 

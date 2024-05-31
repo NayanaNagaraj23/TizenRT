@@ -28,11 +28,11 @@ using namespace std;
 using namespace media;
 using namespace media::stream;
 
-using ::testing::_;
+using::testing::_;
 
 unsigned char channels = 2;
 unsigned int sampleRate = 16000;
 int pcmFormat = 0;
-const char * filePath = "/tmp/record";
+const char *filePath = "/tmp/record";
 
 #endif

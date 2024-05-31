@@ -75,7 +75,7 @@ static security_handle g_hnd = NULL;
  */
 static void utc_auth_generate_random_p(void)
 {
-	security_data random = {NULL, 0};
+	security_data random = { NULL, 0 };
 
 	security_error res = auth_generate_random(g_hnd, 12, &random);
 
@@ -93,7 +93,7 @@ static void utc_auth_generate_random_p(void)
  */
 static void utc_auth_generate_random_hnd_n(void)
 {
-	security_data random = {NULL, 0};
+	security_data random = { NULL, 0 };
 	security_error res = auth_generate_random(NULL, 12, &random);
 
 	TC_ASSERT_EQ("auth_generate_random_hnd_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -126,7 +126,7 @@ static void utc_auth_generate_random_input_n(void)
  */
 static void utc_auth_generate_certificate_p(void)
 {
-	security_data cert = {NULL, 0};
+	security_data cert = { NULL, 0 };
 	security_csr csr;
 	security_error res = auth_generate_certificate(g_hnd, UTC_CERT_NAME, &csr, &cert);
 
@@ -144,7 +144,7 @@ static void utc_auth_generate_certificate_p(void)
  */
 static void utc_auth_generate_certificate_hnd_n(void)
 {
-	security_data cert = {NULL, 0};
+	security_data cert = { NULL, 0 };
 	security_csr csr;
 	security_error res = auth_generate_certificate(NULL, UTC_CERT_NAME, &csr, &cert);
 
@@ -162,7 +162,7 @@ static void utc_auth_generate_certificate_hnd_n(void)
  */
 static void utc_auth_generate_certificate_name_n(void)
 {
-	security_data cert = {NULL, 0};
+	security_data cert = { NULL, 0 };
 	security_csr csr;
 	security_error res = auth_generate_certificate(g_hnd, NULL, &csr, &cert);
 
@@ -265,7 +265,7 @@ static void utc_auth_set_certificate_input_n(void)
  */
 static void utc_auth_get_certificate_p(void)
 {
-	security_data cert = {NULL, 0};
+	security_data cert = { NULL, 0 };
 	security_error res = auth_get_certificate(g_hnd, UTC_CERT_NAME, &cert);
 
 	TC_ASSERT_EQ("auth_get_certificate_p", res, SECURITY_OK);
@@ -282,7 +282,7 @@ static void utc_auth_get_certificate_p(void)
  */
 static void utc_auth_get_certificate_hnd_n(void)
 {
-	security_data cert = {NULL, 0};
+	security_data cert = { NULL, 0 };
 	security_error res = auth_get_certificate(NULL, UTC_CERT_NAME, &cert);
 
 	TC_ASSERT_EQ("auth_get_certificate_hnd_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -299,7 +299,7 @@ static void utc_auth_get_certificate_hnd_n(void)
  */
 static void utc_auth_get_certificate_name_n(void)
 {
-	security_data cert = {NULL, 0};
+	security_data cert = { NULL, 0 };
 	security_error res = auth_get_certificate(g_hnd, NULL, &cert);
 
 	TC_ASSERT_EQ("auth_get_certificate_name_n", res, SECURITY_INVALID_KEY_INDEX);
@@ -395,13 +395,13 @@ static void utc_auth_remove_certificate_name_n(void)
 static void utc_auth_get_rsa_signature_p(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_data sign = {NULL, 0};
+	security_data sign = { NULL, 0 };
 	int i = 0, j = 0, k = 0;
 
-	for (; i < sizeof(g_rsa_mode_table)/sizeof(security_rsa_mode); i++) {
-		for (; j < sizeof(g_hash_mode_table)/sizeof(security_hash_mode); j++) {
-			for (; k < sizeof(g_hash_mode_table)/sizeof(security_hash_mode); k++) {
-				security_rsa_param param = {g_rsa_mode_table[i], g_hash_mode_table[j], g_hash_mode_table[k], 0};
+	for (; i < sizeof(g_rsa_mode_table) / sizeof(security_rsa_mode); i++) {
+		for (; j < sizeof(g_hash_mode_table) / sizeof(security_hash_mode); j++) {
+			for (; k < sizeof(g_hash_mode_table) / sizeof(security_hash_mode); k++) {
+				security_rsa_param param = { g_rsa_mode_table[i], g_hash_mode_table[j], g_hash_mode_table[k], 0 };
 				security_error res = auth_get_rsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &hash, &sign);
 				TC_ASSERT_EQ("auth_get_rsa_signature_p", res, SECURITY_OK);
 				TC_SUCCESS_RESULT();
@@ -421,8 +421,8 @@ static void utc_auth_get_rsa_signature_p(void)
 static void utc_auth_get_rsa_signature_hnd_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_data sign = {NULL, 0};
-	security_rsa_param param = {g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0};
+	security_data sign = { NULL, 0 };
+	security_rsa_param param = { g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0 };
 
 	security_error res = auth_get_rsa_signature(NULL, &param, UTC_CRYPTO_KEY_NAME, &hash, &sign);
 
@@ -441,7 +441,7 @@ static void utc_auth_get_rsa_signature_hnd_n(void)
 static void utc_auth_get_rsa_signature_param_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_data sign = {NULL, 0};
+	security_data sign = { NULL, 0 };
 
 	security_error res = auth_get_rsa_signature(g_hnd, NULL, UTC_CRYPTO_KEY_NAME, &hash, &sign);
 
@@ -460,8 +460,8 @@ static void utc_auth_get_rsa_signature_param_n(void)
 static void utc_auth_get_rsa_signature_name_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_data sign = {NULL, 0};
-	security_rsa_param param = {g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0};
+	security_data sign = { NULL, 0 };
+	security_rsa_param param = { g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0 };
 
 	security_error res = auth_get_rsa_signature(g_hnd, &param, NULL, &hash, &sign);
 
@@ -479,8 +479,8 @@ static void utc_auth_get_rsa_signature_name_n(void)
  */
 static void utc_auth_get_rsa_signature_hash_n(void)
 {
-	security_data sign = {NULL, 0};
-	security_rsa_param param = {g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0};
+	security_data sign = { NULL, 0 };
+	security_rsa_param param = { g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0 };
 	security_error res = auth_get_rsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, NULL, &sign);
 
 	TC_ASSERT_EQ("auth_get_rsa_signature_hash_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -498,7 +498,7 @@ static void utc_auth_get_rsa_signature_hash_n(void)
 static void utc_auth_get_rsa_signature_sign_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_rsa_param param = {g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0};
+	security_rsa_param param = { g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0 };
 	security_error res = auth_get_rsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &hash, NULL);
 
 	TC_ASSERT_EQ("auth_get_rsa_signature_sign_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -519,10 +519,10 @@ static void utc_auth_verify_rsa_signature_p(void)
 	US_DEFINE_DATA(sign, "signed data");
 	int i = 0, j = 0, k = 0;
 
-	for (; i < sizeof(g_rsa_mode_table)/sizeof(security_rsa_mode); i++) {
-		for (; j < sizeof(g_hash_mode_table)/sizeof(security_hash_mode); j++) {
-			for (; k < sizeof(g_hash_mode_table)/sizeof(security_hash_mode); k++) {
-				security_rsa_param param = {g_rsa_mode_table[i], g_hash_mode_table[j], g_hash_mode_table[k], 0};
+	for (; i < sizeof(g_rsa_mode_table) / sizeof(security_rsa_mode); i++) {
+		for (; j < sizeof(g_hash_mode_table) / sizeof(security_hash_mode); j++) {
+			for (; k < sizeof(g_hash_mode_table) / sizeof(security_hash_mode); k++) {
+				security_rsa_param param = { g_rsa_mode_table[i], g_hash_mode_table[j], g_hash_mode_table[k], 0 };
 				security_error res = auth_verify_rsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &hash, &sign);
 
 				TC_ASSERT_EQ("auth_verify_rsa_signature_p", res, SECURITY_OK);
@@ -544,7 +544,7 @@ static void utc_auth_verify_rsa_signature_hnd_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
 	US_DEFINE_DATA(sign, "signed data");
-	security_rsa_param param = {g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0};
+	security_rsa_param param = { g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0 };
 
 	security_error res = auth_verify_rsa_signature(NULL, &param, UTC_CRYPTO_KEY_NAME, &hash, &sign);
 
@@ -582,7 +582,7 @@ static void utc_auth_verify_rsa_signature_name_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
 	US_DEFINE_DATA(sign, "signed data");
-	security_rsa_param param = {g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0};
+	security_rsa_param param = { g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0 };
 
 	security_error res = auth_verify_rsa_signature(g_hnd, &param, NULL, &hash, &sign);
 
@@ -601,7 +601,7 @@ static void utc_auth_verify_rsa_signature_name_n(void)
 static void utc_auth_verify_rsa_signature_hash_n(void)
 {
 	US_DEFINE_DATA(sign, "signed data");
-	security_rsa_param param = {g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0};
+	security_rsa_param param = { g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0 };
 	security_error res = auth_verify_rsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, NULL, &sign);
 
 	TC_ASSERT_EQ("auth_verify_rsa_signature_hash_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -619,7 +619,7 @@ static void utc_auth_verify_rsa_signature_hash_n(void)
 static void utc_auth_verify_rsa_signature_sign_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_rsa_param param = {g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0};
+	security_rsa_param param = { g_rsa_mode_table[0], g_hash_mode_table[0], g_hash_mode_table[0], 0 };
 
 	security_error res = auth_verify_rsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &hash, NULL);
 
@@ -638,12 +638,12 @@ static void utc_auth_verify_rsa_signature_sign_n(void)
 static void utc_auth_get_ecdsa_signature_p(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_data sign = {NULL, 0};
+	security_data sign = { NULL, 0 };
 	int i = 0, j = 0;
 
-	for (; i < sizeof(g_ecdsa_mode_table)/sizeof(security_ecdsa_mode); i++) {
-		for (; j < sizeof(g_hash_mode_table)/sizeof(security_hash_mode); j++) {
-			security_ecdsa_param param = {g_ecdsa_mode_table[i], g_hash_mode_table[j]};
+	for (; i < sizeof(g_ecdsa_mode_table) / sizeof(security_ecdsa_mode); i++) {
+		for (; j < sizeof(g_hash_mode_table) / sizeof(security_hash_mode); j++) {
+			security_ecdsa_param param = { g_ecdsa_mode_table[i], g_hash_mode_table[j] };
 			security_error res = auth_get_ecdsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &hash, &sign);
 
 			TC_ASSERT_EQ("auth_get_ecdsa_signature_p", res, SECURITY_OK);
@@ -663,8 +663,8 @@ static void utc_auth_get_ecdsa_signature_p(void)
 static void utc_auth_get_ecdsa_signature_hnd_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_data sign = {NULL, 0};
-	security_ecdsa_param param = {g_ecdsa_mode_table[0], g_hash_mode_table[0]};
+	security_data sign = { NULL, 0 };
+	security_ecdsa_param param = { g_ecdsa_mode_table[0], g_hash_mode_table[0] };
 
 	security_error res = auth_get_ecdsa_signature(NULL, &param, UTC_CRYPTO_KEY_NAME, &hash, &sign);
 
@@ -683,7 +683,7 @@ static void utc_auth_get_ecdsa_signature_hnd_n(void)
 static void utc_auth_get_ecdsa_signature_param_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_data sign = {NULL, 0};
+	security_data sign = { NULL, 0 };
 
 	security_error res = auth_get_ecdsa_signature(g_hnd, NULL, UTC_CRYPTO_KEY_NAME, &hash, &sign);
 
@@ -702,8 +702,8 @@ static void utc_auth_get_ecdsa_signature_param_n(void)
 static void utc_auth_get_ecdsa_signature_name_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_data sign = {NULL, 0};
-	security_ecdsa_param param = {g_ecdsa_mode_table[0], g_hash_mode_table[0]};
+	security_data sign = { NULL, 0 };
+	security_ecdsa_param param = { g_ecdsa_mode_table[0], g_hash_mode_table[0] };
 
 	security_error res = auth_get_ecdsa_signature(g_hnd, &param, NULL, &hash, &sign);
 
@@ -721,14 +721,13 @@ static void utc_auth_get_ecdsa_signature_name_n(void)
  */
 static void utc_auth_get_ecdsa_signature_hash_n(void)
 {
-	security_data sign = {NULL, 0};
-	security_ecdsa_param param = {g_ecdsa_mode_table[0], g_hash_mode_table[0]};
+	security_data sign = { NULL, 0 };
+	security_ecdsa_param param = { g_ecdsa_mode_table[0], g_hash_mode_table[0] };
 	security_error res = auth_get_ecdsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, NULL, &sign);
 
 	TC_ASSERT_EQ("auth_get_ecdsa_signature_hash_n", res, SECURITY_INVALID_INPUT_PARAMS);
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
  * @testcase         utc_auth_get_ecdsa_signature_sign_n
@@ -741,7 +740,7 @@ static void utc_auth_get_ecdsa_signature_hash_n(void)
 static void utc_auth_get_ecdsa_signature_sign_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_ecdsa_param param = {g_ecdsa_mode_table[0], g_hash_mode_table[0]};
+	security_ecdsa_param param = { g_ecdsa_mode_table[0], g_hash_mode_table[0] };
 
 	security_error res = auth_get_ecdsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &hash, NULL);
 
@@ -763,9 +762,9 @@ static void utc_auth_verify_ecdsa_signature_p(void)
 	US_DEFINE_DATA(sign, "signed data");
 	int i = 0, j = 0;
 
-	for (; i < sizeof(g_ecdsa_mode_table)/sizeof(security_ecdsa_mode); i++) {
-		for (; j < sizeof(g_hash_mode_table)/sizeof(security_hash_mode); j++) {
-			security_ecdsa_param param = {g_ecdsa_mode_table[i], g_hash_mode_table[j]};
+	for (; i < sizeof(g_ecdsa_mode_table) / sizeof(security_ecdsa_mode); i++) {
+		for (; j < sizeof(g_hash_mode_table) / sizeof(security_hash_mode); j++) {
+			security_ecdsa_param param = { g_ecdsa_mode_table[i], g_hash_mode_table[j] };
 			security_error res = auth_verify_ecdsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &hash, &sign);
 
 			TC_ASSERT_EQ("auth_verify_ecdsa_signature_p", res, SECURITY_OK);
@@ -786,7 +785,7 @@ static void utc_auth_verify_ecdsa_signature_hnd_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
 	US_DEFINE_DATA(sign, "signed data");
-	security_ecdsa_param param = {g_ecdsa_mode_table[0], g_hash_mode_table[0]};
+	security_ecdsa_param param = { g_ecdsa_mode_table[0], g_hash_mode_table[0] };
 
 	security_error res = auth_verify_ecdsa_signature(NULL, &param, UTC_CRYPTO_KEY_NAME, &hash, &sign);
 
@@ -825,7 +824,7 @@ static void utc_auth_verify_ecdsa_signature_name_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
 	US_DEFINE_DATA(sign, "signed data");
-	security_ecdsa_param param = {g_ecdsa_mode_table[0], g_hash_mode_table[0]};
+	security_ecdsa_param param = { g_ecdsa_mode_table[0], g_hash_mode_table[0] };
 
 	security_error res = auth_verify_ecdsa_signature(g_hnd, &param, NULL, &hash, &sign);
 
@@ -844,13 +843,12 @@ static void utc_auth_verify_ecdsa_signature_name_n(void)
 static void utc_auth_verify_ecdsa_signature_hash_n(void)
 {
 	US_DEFINE_DATA(sign, "signed data");
-	security_ecdsa_param param = {g_ecdsa_mode_table[0], g_hash_mode_table[0]};
+	security_ecdsa_param param = { g_ecdsa_mode_table[0], g_hash_mode_table[0] };
 	security_error res = auth_verify_ecdsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, NULL, &sign);
 
 	TC_ASSERT_EQ("auth_verify_ecdsa_signature_hash_n", res, SECURITY_INVALID_INPUT_PARAMS);
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
  * @testcase         utc_auth_verify_ecdsa_signature_sign_n
@@ -863,7 +861,7 @@ static void utc_auth_verify_ecdsa_signature_hash_n(void)
 static void utc_auth_verify_ecdsa_signature_sign_n(void)
 {
 	US_DEFINE_DATA(hash, "hashed data");
-	security_ecdsa_param param = {g_ecdsa_mode_table[0], g_hash_mode_table[0]};
+	security_ecdsa_param param = { g_ecdsa_mode_table[0], g_hash_mode_table[0] };
 
 	security_error res = auth_verify_ecdsa_signature(g_hnd, &param, UTC_CRYPTO_KEY_NAME, &hash, NULL);
 
@@ -882,10 +880,10 @@ static void utc_auth_verify_ecdsa_signature_sign_n(void)
 static void utc_auth_get_hash_p(void)
 {
 	US_DEFINE_DATA(plain, "Plain text");
-	security_data hash = {NULL, 0};
+	security_data hash = { NULL, 0 };
 	int i = 0;
 
-	for (; i < sizeof(g_hash_mode_table)/sizeof(security_hash_mode); i++) {
+	for (; i < sizeof(g_hash_mode_table) / sizeof(security_hash_mode); i++) {
 		security_error res = auth_get_hash(g_hnd, g_hash_mode_table[i], &plain, &hash);
 
 		TC_ASSERT_EQ("auth_get_hash_p", res, SECURITY_OK);
@@ -904,7 +902,7 @@ static void utc_auth_get_hash_p(void)
 static void utc_auth_get_hash_hnd_n(void)
 {
 	US_DEFINE_DATA(plain, "Plain text");
-	security_data hash = {NULL, 0};
+	security_data hash = { NULL, 0 };
 	security_hash_mode mode = g_hash_mode_table[0];
 
 	security_error res = auth_get_hash(NULL, mode, &plain, &hash);
@@ -924,7 +922,7 @@ static void utc_auth_get_hash_hnd_n(void)
 static void utc_auth_get_hash_mode_n(void)
 {
 	US_DEFINE_DATA(plain, "Plain text");
-	security_data hash = {NULL, 0};
+	security_data hash = { NULL, 0 };
 	security_error res = auth_get_hash(g_hnd, HASH_UNKNOWN, &plain, &hash);
 
 	TC_ASSERT_EQ("auth_get_hash_mode_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -941,7 +939,7 @@ static void utc_auth_get_hash_mode_n(void)
  */
 static void utc_auth_get_hash_input_n(void)
 {
-	security_data hash = {NULL, 0};
+	security_data hash = { NULL, 0 };
 	security_hash_mode mode = g_hash_mode_table[0];
 	security_error res = auth_get_hash(g_hnd, mode, NULL, &hash);
 
@@ -979,9 +977,9 @@ static void utc_auth_get_hash_hash_n(void)
 static void utc_auth_get_hmac_p(void)
 {
 	US_DEFINE_DATA(plain, "Plain Data");
-	security_data hmac = {NULL, 0};
+	security_data hmac = { NULL, 0 };
 	int i = 0;
-	for (; i < sizeof(g_hmac_mode_table)/sizeof(security_hmac_mode); i++) {
+	for (; i < sizeof(g_hmac_mode_table) / sizeof(security_hmac_mode); i++) {
 		security_hmac_mode mode = g_hmac_mode_table[i];
 
 		security_error res = auth_get_hmac(g_hnd, mode, UTC_CRYPTO_KEY_NAME, &plain, &hmac);
@@ -1002,7 +1000,7 @@ static void utc_auth_get_hmac_p(void)
 static void utc_auth_get_hmac_hnd_n(void)
 {
 	US_DEFINE_DATA(plain, "Plain Data");
-	security_data hmac = {NULL, 0};
+	security_data hmac = { NULL, 0 };
 	security_hmac_mode mode = g_hmac_mode_table[0];
 	security_error res = auth_get_hmac(NULL, mode, UTC_CRYPTO_KEY_NAME, &plain, &hmac);
 
@@ -1021,7 +1019,7 @@ static void utc_auth_get_hmac_hnd_n(void)
 static void utc_auth_get_hmac_mode_n(void)
 {
 	US_DEFINE_DATA(plain, "Plain Data");
-	security_data hmac = {NULL, 0};
+	security_data hmac = { NULL, 0 };
 	security_error res = auth_get_hmac(g_hnd, HMAC_UNKNOWN, UTC_CRYPTO_KEY_NAME, &plain, &hmac);
 
 	TC_ASSERT_EQ("auth_get_hmac_mode_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -1039,7 +1037,7 @@ static void utc_auth_get_hmac_mode_n(void)
 static void utc_auth_get_hmac_name_n(void)
 {
 	US_DEFINE_DATA(plain, "Plain Data");
-	security_data hmac = {NULL, 0};
+	security_data hmac = { NULL, 0 };
 	security_hmac_mode mode = g_hmac_mode_table[0];
 	security_error res = auth_get_hmac(g_hnd, mode, NULL, &plain, &hmac);
 
@@ -1057,7 +1055,7 @@ static void utc_auth_get_hmac_name_n(void)
  */
 static void utc_auth_get_hmac_input_n(void)
 {
-	security_data hmac = {NULL, 0};
+	security_data hmac = { NULL, 0 };
 	security_hmac_mode mode = g_hmac_mode_table[0];
 	security_error res = auth_get_hmac(g_hnd, mode, UTC_CRYPTO_KEY_NAME, NULL, &hmac);
 
@@ -1093,10 +1091,10 @@ static void utc_auth_get_hmac_hmac_n(void)
  */
 static void utc_auth_generate_dhparams_p(void)
 {
-	security_data h_G = {NULL, 0};
-	security_data h_P = {NULL, 0};
-	security_data h_pubkey = {NULL, 0};
-	security_dh_param param = {DH_1024, &h_G, &h_P, &h_pubkey};
+	security_data h_G = { NULL, 0 };
+	security_data h_P = { NULL, 0 };
+	security_data h_pubkey = { NULL, 0 };
+	security_dh_param param = { DH_1024, &h_G, &h_P, &h_pubkey };
 
 	security_error res = auth_generate_dhparams(g_hnd, UTC_CRYPTO_KEY_NAME, &param);
 
@@ -1134,7 +1132,7 @@ static void utc_auth_generate_dhparams_name_n(void)
 	security_data G;
 	security_data P;
 	security_data pubkey;
-	security_dh_param param = {DH_1024, &G, &P, &pubkey};
+	security_dh_param param = { DH_1024, &G, &P, &pubkey };
 	security_error res = auth_generate_dhparams(g_hnd, NULL, &param);
 
 	TC_ASSERT_EQ("auth_generate_dhparams_name_n", res, SECURITY_INVALID_KEY_INDEX);
@@ -1170,11 +1168,11 @@ static void utc_auth_compute_dhparams_p(void)
 	US_DEFINE_DATA(dh_g, "G data");
 	US_DEFINE_DATA(dh_p, "P data");
 	US_DEFINE_DATA(pubkey, "pubkey");
-	security_data secret = {NULL, 0};
+	security_data secret = { NULL, 0 };
 
 	int i = 0;
-	for (; i < sizeof(g_dh_mode_table)/sizeof(security_dh_mode); i++) {
-		security_dh_param param = {g_dh_mode_table[i], &dh_g, &dh_p, &pubkey};
+	for (; i < sizeof(g_dh_mode_table) / sizeof(security_dh_mode); i++) {
+		security_dh_param param = { g_dh_mode_table[i], &dh_g, &dh_p, &pubkey };
 		security_error res = auth_compute_dhparams(g_hnd, UTC_CRYPTO_KEY_NAME, &param, &secret);
 
 		TC_ASSERT_EQ("auth_compute_dhparams_p", res, SECURITY_OK);
@@ -1195,8 +1193,8 @@ static void utc_auth_compute_dhparams_hnd_n(void)
 	US_DEFINE_DATA(dh_g, "G data");
 	US_DEFINE_DATA(dh_p, "P data");
 	US_DEFINE_DATA(pubkey, "pubkey");
-	security_dh_param param = {g_dh_mode_table[0], &dh_g, &dh_p, &pubkey};
-	security_data secret = {NULL, 0};
+	security_dh_param param = { g_dh_mode_table[0], &dh_g, &dh_p, &pubkey };
+	security_data secret = { NULL, 0 };
 
 	security_error res = auth_compute_dhparams(NULL, UTC_CRYPTO_KEY_NAME, &param, &secret);
 
@@ -1217,8 +1215,8 @@ static void utc_auth_compute_dhparams_name_n(void)
 	US_DEFINE_DATA(dh_g, "G data");
 	US_DEFINE_DATA(dh_p, "P data");
 	US_DEFINE_DATA(pubkey, "pubkey");
-	security_dh_param param = {g_dh_mode_table[0], &dh_g, &dh_p, &pubkey};
-	security_data secret = {NULL, 0};
+	security_dh_param param = { g_dh_mode_table[0], &dh_g, &dh_p, &pubkey };
+	security_data secret = { NULL, 0 };
 
 	security_error res = auth_compute_dhparams(g_hnd, NULL, &param, &secret);
 
@@ -1236,7 +1234,7 @@ static void utc_auth_compute_dhparams_name_n(void)
  */
 static void utc_auth_compute_dhparams_param_n(void)
 {
-	security_data secret = {NULL, 0};
+	security_data secret = { NULL, 0 };
 	security_error res = auth_compute_dhparams(g_hnd, UTC_CRYPTO_KEY_NAME, NULL, &secret);
 
 	TC_ASSERT_EQ("auth_compute_dhparams_param_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -1256,7 +1254,7 @@ static void utc_auth_compute_dhparams_secret_n(void)
 	US_DEFINE_DATA(dh_g, "G data");
 	US_DEFINE_DATA(dh_p, "P data");
 	US_DEFINE_DATA(pubkey, "pubkey");
-	security_dh_param param = {g_dh_mode_table[0], &dh_g, &dh_p, &pubkey};
+	security_dh_param param = { g_dh_mode_table[0], &dh_g, &dh_p, &pubkey };
 	security_error res = auth_compute_dhparams(g_hnd, UTC_CRYPTO_KEY_NAME, &param, NULL);
 
 	TC_ASSERT_EQ("auth_compute_dhparams_secret_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -1276,7 +1274,7 @@ static void utc_auth_generate_ecdhkey_p(void)
 	security_ecdsa_mode curve = ECDSA_UNKNOWN;
 	security_data px;
 	security_data py;
-	security_ecdh_param param = {curve, &px, &py};
+	security_ecdh_param param = { curve, &px, &py };
 	security_error res = auth_generate_ecdhkey(g_hnd, UTC_CRYPTO_KEY_NAME, &param);
 
 	TC_ASSERT_EQ("auth_generate_ecdhkey_p", res, SECURITY_OK);
@@ -1296,7 +1294,7 @@ static void utc_auth_generate_ecdhkey_hnd_n(void)
 	security_ecdsa_mode curve = ECDSA_UNKNOWN;
 	security_data px;
 	security_data py;
-	security_ecdh_param param = {curve, &px, &py};
+	security_ecdh_param param = { curve, &px, &py };
 	security_error res = auth_generate_ecdhkey(NULL, UTC_CRYPTO_KEY_NAME, &param);
 
 	TC_ASSERT_EQ("auth_generate_ecdhkey_hnd_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -1316,7 +1314,7 @@ static void utc_auth_generate_ecdhkey_name_n(void)
 	security_ecdsa_mode curve = ECDSA_UNKNOWN;
 	security_data px;
 	security_data py;
-	security_ecdh_param param = {curve, &px, &py};
+	security_ecdh_param param = { curve, &px, &py };
 	security_error res = auth_generate_ecdhkey(g_hnd, NULL, &param);
 
 	TC_ASSERT_EQ("auth_generate_ecdhkey_name_n", res, SECURITY_INVALID_KEY_INDEX);
@@ -1351,11 +1349,11 @@ static void utc_auth_compute_ecdhkey_p(void)
 {
 	US_DEFINE_DATA(pubkey_x, "Public key data");
 	US_DEFINE_DATA(pubkey_y, "Public Y key data");
-	security_data secret = {NULL, 0};
+	security_data secret = { NULL, 0 };
 
 	int i = 0;
-	for (; i < sizeof(g_ecdsa_mode_table)/sizeof(security_ecdsa_mode); i++) {
-		security_ecdh_param param = {g_ecdsa_mode_table[i], &pubkey_x, &pubkey_y};
+	for (; i < sizeof(g_ecdsa_mode_table) / sizeof(security_ecdsa_mode); i++) {
+		security_ecdh_param param = { g_ecdsa_mode_table[i], &pubkey_x, &pubkey_y };
 		security_error res = auth_compute_ecdhkey(g_hnd, UTC_CRYPTO_KEY_NAME, &param, &secret);
 
 		TC_ASSERT_EQ("auth_compute_ecdhkey_p", res, SECURITY_OK);
@@ -1375,8 +1373,8 @@ static void utc_auth_compute_ecdhkey_hnd_n(void)
 {
 	US_DEFINE_DATA(pubkey_x, "Public key data");
 	US_DEFINE_DATA(pubkey_y, "Public Y key data");
-	security_ecdh_param param = {g_ecdsa_mode_table[0], &pubkey_x, &pubkey_y};
-	security_data secret = {NULL, 0};
+	security_ecdh_param param = { g_ecdsa_mode_table[0], &pubkey_x, &pubkey_y };
+	security_data secret = { NULL, 0 };
 
 	security_error res = auth_compute_ecdhkey(NULL, UTC_CRYPTO_KEY_NAME, &param, &secret);
 
@@ -1396,8 +1394,8 @@ static void utc_auth_compute_ecdhkey_name_n(void)
 {
 	US_DEFINE_DATA(pubkey_x, "Public key data");
 	US_DEFINE_DATA(pubkey_y, "Public Y key data");
-	security_ecdh_param param = {g_ecdsa_mode_table[0], &pubkey_x, &pubkey_y};
-	security_data secret = {NULL, 0};
+	security_ecdh_param param = { g_ecdsa_mode_table[0], &pubkey_x, &pubkey_y };
+	security_data secret = { NULL, 0 };
 
 	security_error res = auth_compute_ecdhkey(g_hnd, NULL, &param, &secret);
 
@@ -1415,7 +1413,7 @@ static void utc_auth_compute_ecdhkey_name_n(void)
  */
 static void utc_auth_compute_ecdhkey_param_n(void)
 {
-	security_data secret = {NULL, 0};
+	security_data secret = { NULL, 0 };
 	security_error res = auth_compute_ecdhkey(g_hnd, UTC_CRYPTO_KEY_NAME, NULL, &secret);
 
 	TC_ASSERT_EQ("auth_compute_ecdhkey_param_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -1434,7 +1432,7 @@ static void utc_auth_compute_ecdhkey_secret_n(void)
 {
 	US_DEFINE_DATA(pubkey_x, "Public key data");
 	US_DEFINE_DATA(pubkey_y, "Public Y key data");
-	security_ecdh_param param = {g_ecdsa_mode_table[0], &pubkey_x, &pubkey_y};
+	security_ecdh_param param = { g_ecdsa_mode_table[0], &pubkey_x, &pubkey_y };
 	security_error res = auth_compute_ecdhkey(g_hnd, UTC_CRYPTO_KEY_NAME, &param, NULL);
 
 	TC_ASSERT_EQ("auth_compute_ecdhkey_secret_n", res, SECURITY_INVALID_INPUT_PARAMS);

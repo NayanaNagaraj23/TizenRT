@@ -85,13 +85,13 @@ int heavy_signal_message_test_main(int argc, char *argv[])
 			printf("New sample can run after that previous sample is finished.\n");
 			return ERROR;
 		}
-		pid = task_create("heavy_signal_message_test_receiver", 100, 1024, (main_t)heavy_signal_message_test_receiver, (FAR char *const *)NULL);
+		pid = task_create("heavy_signal_message_test_receiver", 100, 1024, (main_t) heavy_signal_message_test_receiver, (FAR char *const *)NULL);
 		if (pid < 0) {
 			printf("heavy_signal_message_test_receiver task create FAIL\n");
 			return ERROR;
 		}
 
-		pid = task_create("heavy_signal_message_test_sender", 100, 1024, (main_t)heavy_signal_message_test_sender, (FAR char *const *)NULL);
+		pid = task_create("heavy_signal_message_test_sender", 100, 1024, (main_t) heavy_signal_message_test_sender, (FAR char *const *)NULL);
 		if (pid < 0) {
 			printf("heavy_signal_message_test_sender task create FAIL\n");
 			return ERROR;

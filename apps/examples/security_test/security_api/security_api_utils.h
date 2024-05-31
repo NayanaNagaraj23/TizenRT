@@ -19,7 +19,7 @@
 #ifndef __SECURITY_API_H__
 #define __SECURITY_API_H__
 
-void PrintBuffer(const char *header, unsigned char* buffer, uint32_t len);
-void free_security_data(security_data *data);
+void PrintBuffer(const char *header, unsigned char *buffer, uint32_t len);
+void free_security_data(security_data * data);
 
-#endif //  __SECURITY_API_H__
+#endif							//  __SECURITY_API_H__

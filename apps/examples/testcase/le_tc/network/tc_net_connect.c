@@ -145,6 +145,6 @@ int net_connect_main(void)
 	tc_net_connect_broadcastaddr_n(&sa);
 	tc_net_connect_loopbackaddr_n(&sa);
 	tc_net_connect_socklen_n(&sa);
-	
+
 	return 0;
 }

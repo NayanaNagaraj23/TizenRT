@@ -108,15 +108,13 @@ static int restart_main(int argc, char *argv[])
 	/* Verify passed arguments */
 
 	if (argc != NARGS + 1) {
-		printf("restart_main: ERROR: Expected argc=%d got argc=%d\n",
-			   NARGS + 1, argc);
+		printf("restart_main: ERROR: Expected argc=%d got argc=%d\n", NARGS + 1, argc);
 	}
 
 	for (i = 0; i <= NARGS; i++) {
 		printf("restart_main: argv[%d]=\"%s\"\n", i, argv[i]);
 		if (i > 0 && strcmp(argv[i], g_argv[i - 1]) != 0) {
-			printf("restart_main: ERROR: Expected argv[%d]=\"%s\" got \"%s\"\n",
-				   i, argv[i], g_argv[i - 1]);
+			printf("restart_main: ERROR: Expected argv[%d]=\"%s\" got \"%s\"\n", i, argv[i], g_argv[i - 1]);
 		}
 	}
 
@@ -124,8 +122,7 @@ static int restart_main(int argc, char *argv[])
 	actual = getenv(g_varname);
 	if (actual) {
 		if (strcmp(actual, g_varvalue) == 0) {
-			printf("restart_main: Variable=%s has value=%s\n", g_varname,
-				   g_varvalue);
+			printf("restart_main: Variable=%s has value=%s\n", g_varname, g_varvalue);
 		} else {
 			printf("restart_main: ERROR Variable=%s has the wrong value\n", g_varname);
 			printf("restart_main:       found=%s expected=%s\n", actual, g_varvalue);
@@ -150,7 +147,7 @@ static int restart_main(int argc, char *argv[])
 		}
 	}
 
-	return 0; /* Won't get here */
+	return 0;					/* Won't get here */
 }
 
 /****************************************************************************
@@ -170,7 +167,7 @@ void restart_test(void)
 
 #ifndef CONFIG_DISABLE_ENVIRON
 	printf("restart_main: setenv(%s, %s, TRUE)\n", g_varname, g_varvalue);
-	setenv(g_varname, g_varvalue, TRUE);  /* Variable1=GoodValue1 */
+	setenv(g_varname, g_varvalue, TRUE);	/* Variable1=GoodValue1 */
 #endif
 
 	/* Start the task */

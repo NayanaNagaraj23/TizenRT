@@ -135,10 +135,10 @@ static void utc_messaging_recv_block_p(void)
 
 	sem_init(&recv_sem, 0, 1);
 
-	ret = task_create("block_receiver", TASK_PRIO, STACKSIZE, (main_t)block_receiver, (FAR char * const *)NULL);
+	ret = task_create("block_receiver", TASK_PRIO, STACKSIZE, (main_t) block_receiver, (FAR char *const *)NULL);
 	TC_ASSERT_GEQ("messaging_recv_block", ret, 0);
 
-	ret = task_create("block_sender", TASK_PRIO, STACKSIZE, (main_t)block_sender, (FAR char * const *)NULL);
+	ret = task_create("block_sender", TASK_PRIO, STACKSIZE, (main_t) block_sender, (FAR char *const *)NULL);
 	TC_ASSERT_GEQ("messaging_recv_block", ret, 0);
 
 	ret = sem_wait(&recv_sem);
@@ -149,7 +149,7 @@ static void utc_messaging_recv_block_p(void)
 	TC_SUCCESS_RESULT();
 }
 
-static void nonblock_callback(msg_reply_type_t msg_type, msg_recv_buf_t *recv_data, void *cb_data)
+static void nonblock_callback(msg_reply_type_t msg_type, msg_recv_buf_t * recv_data, void *cb_data)
 {
 	int ret;
 	msg_send_data_t reply;
@@ -297,10 +297,10 @@ static void utc_messaging_recv_nonblock_p(void)
 
 	sem_init(&recv_sem, 0, 1);
 
-	ret = task_create("nonblock_recv", TASK_PRIO, STACKSIZE, (main_t)nonblock_recv, (FAR char * const *)NULL);
+	ret = task_create("nonblock_recv", TASK_PRIO, STACKSIZE, (main_t) nonblock_recv, (FAR char *const *)NULL);
 	TC_ASSERT_GEQ("messaging_recv_nonblock", ret, 0);
 
-	ret = task_create("nonblock_sender", TASK_PRIO, STACKSIZE, (main_t)nonblock_sender, (FAR char * const *)NULL);
+	ret = task_create("nonblock_sender", TASK_PRIO, STACKSIZE, (main_t) nonblock_sender, (FAR char *const *)NULL);
 	TC_ASSERT_GEQ("messaging_recv_nonblock", ret, 0);
 
 	ret = sem_wait(&recv_sem);

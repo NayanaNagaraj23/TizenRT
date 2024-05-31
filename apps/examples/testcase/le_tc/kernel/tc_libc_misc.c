@@ -37,24 +37,24 @@
 
 #define BUFF_SIZE 256
 #define USEC_100 100
-#define ARR_NUM 2 // length of input/output array
-#define SRC_LEN 1 // length of input data
+#define ARR_NUM 2				// length of input/output array
+#define SRC_LEN 1				// length of input data
 #define VAL_50 50
 #define VAL_71 71
 #define VAL_100 100
 #define VAL_192 192
 #define VAL_213 213
 #define VAL_255 255
-#define VAL_4753 4753 // 0x1291
-#define VAL_5649 5649 // 0x1611
-#define VAL_9506 9506 // 0x2522
-#define VAL_10842 10842 // 0x2A5A
-#define VAL_11298 11298 // 0x2C22
-#define VAL_52690 52690 // 0xCDD2
-#define VAL_54050 54050 // 0XD322
-#define VAL_55949 55949 // 0xDA8D
-#define VAL_57534 57534 // 0xE0BE
-#define VAL_63457 63457 // 0xF7E1
+#define VAL_4753 4753			// 0x1291
+#define VAL_5649 5649			// 0x1611
+#define VAL_9506 9506			// 0x2522
+#define VAL_10842 10842			// 0x2A5A
+#define VAL_11298 11298			// 0x2C22
+#define VAL_52690 52690			// 0xCDD2
+#define VAL_54050 54050			// 0XD322
+#define VAL_55949 55949			// 0xDA8D
+#define VAL_57534 57534			// 0xE0BE
+#define VAL_63457 63457			// 0xF7E1
 #define VAL_65380 65380
 #define VAL_CRC32_1 2564639436UL
 #define VAL_CRC32_2 450215437UL
@@ -374,13 +374,13 @@ static void tc_libc_misc_crc32part(void)
 	/* Return value should be 0x4adfa541 as calculated by crc32part */
 
 	ret_chk = crc32part(src_arr, SRC_LEN, crc_32val);
-	TC_ASSERT_EQ("crc32part", ret_chk, (uint32_t)VAL_CRC32_1);
+	TC_ASSERT_EQ("crc32part", ret_chk, (uint32_t) VAL_CRC32_1);
 
 	/* Return value should be 0x67dd4acc as calculated by crc32part */
 
 	crc_32val = VAL_255;
-	ret_chk = (uint32_t)crc32part(src_arr, SRC_LEN, crc_32val);
-	TC_ASSERT_EQ("crc32part", ret_chk, (uint32_t)VAL_CRC32_3);
+	ret_chk = (uint32_t) crc32part(src_arr, SRC_LEN, crc_32val);
+	TC_ASSERT_EQ("crc32part", ret_chk, (uint32_t) VAL_CRC32_3);
 
 	TC_SUCCESS_RESULT();
 }
@@ -429,7 +429,7 @@ static void tc_libc_misc_dbg(void)
 static void tc_libc_misc_lib_dumpbuffer(void)
 {
 	const char *msg = "tc_libc_misc_lib_dumpbuffer";
-	unsigned char buffer[] = {'S', 'A', 'M', 'S', 'U', 'N', 'G', '-', 'T', 'i', 'z', 'e', 'n', 'R', 'T'};
+	unsigned char buffer[] = { 'S', 'A', 'M', 'S', 'U', 'N', 'G', '-', 'T', 'i', 'z', 'e', 'n', 'R', 'T' };
 	unsigned char *buf = NULL;
 	int idx;
 
@@ -492,8 +492,8 @@ static void tc_libc_misc_lldbg(void)
 
 	TC_SUCCESS_RESULT();
 }
-#endif /* !CONFIG_BUILD_PROTECTED && CONFIG_ARCH_LOWPUTC */
-#endif /* CONFIG_DEBUG_ERROR */
+#endif							/* !CONFIG_BUILD_PROTECTED && CONFIG_ARCH_LOWPUTC */
+#endif							/* CONFIG_DEBUG_ERROR */
 
 #ifdef CONFIG_DEBUG_VERBOSE
 /**
@@ -557,9 +557,9 @@ static void tc_libc_misc_llvdbg(void)
 
 	TC_SUCCESS_RESULT();
 }
-#endif /* !CONFIG_BUILD_PROTECTED && CONFIG_ARCH_LOWPUTC */
-#endif /* CONFIG_DEBUG_VERBOSE */
-#endif /* CONFIG_DEBUG */
+#endif							/* !CONFIG_BUILD_PROTECTED && CONFIG_ARCH_LOWPUTC */
+#endif							/* CONFIG_DEBUG_VERBOSE */
+#endif							/* CONFIG_DEBUG */
 
 /**
  * @fn                  :tc_libc_misc_match
@@ -612,17 +612,17 @@ int libc_misc_main(void)
 	tc_libc_misc_lib_dumpbuffer();
 #if !defined(CONFIG_BUILD_PROTECTED) && defined(CONFIG_ARCH_LOWPUTC)
 	tc_libc_misc_lldbg();
-#endif /* !CONFIG_BUILD_PROTECTED && CONFIG_ARCH_LOWPUTC */
-#endif /* CONFIG_DEBUG_ERROR */
+#endif							/* !CONFIG_BUILD_PROTECTED && CONFIG_ARCH_LOWPUTC */
+#endif							/* CONFIG_DEBUG_ERROR */
 
 #ifdef CONFIG_DEBUG_VERBOSE
 	tc_libc_misc_vdbg();
 #if !defined(CONFIG_BUILD_PROTECTED) && defined(CONFIG_ARCH_LOWPUTC)
 	tc_libc_misc_llvdbg();
-#endif /* !CONFIG_BUILD_PROTECTED && CONFIG_ARCH_LOWPUTC */
-#endif /* CONFIG_DEBUG_VERBOSE */
+#endif							/* !CONFIG_BUILD_PROTECTED && CONFIG_ARCH_LOWPUTC */
+#endif							/* CONFIG_DEBUG_VERBOSE */
 
-#endif /* CONFIG_DEBUG */
+#endif							/* CONFIG_DEBUG */
 	tc_libc_misc_match();
 
 	return 0;

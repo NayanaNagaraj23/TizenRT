@@ -32,12 +32,12 @@ static const char *g_res_dimming = "/capability/switchLevel/main/0";
 static const char *g_res_temp = "/capability/colorTemperature/main/0";
 
 extern void change_switch_value(void);
-extern bool handle_get_request_on_switch(st_things_get_request_message_s *req_msg, st_things_representation_s *resp_rep);
-extern bool handle_set_request_on_switch(st_things_set_request_message_s *req_msg, st_things_representation_s *resp_rep);
-extern bool handle_get_request_on_dimming(st_things_get_request_message_s *req_msg, st_things_representation_s *resp_rep);
-extern bool handle_set_request_on_dimming(st_things_set_request_message_s *req_msg, st_things_representation_s *resp_rep);
-extern bool handle_get_request_on_ct(st_things_get_request_message_s *req_msg, st_things_representation_s *resp_rep);
-extern bool handle_set_request_on_ct(st_things_set_request_message_s *req_msg, st_things_representation_s *resp_rep);
+extern bool handle_get_request_on_switch(st_things_get_request_message_s * req_msg, st_things_representation_s * resp_rep);
+extern bool handle_set_request_on_switch(st_things_set_request_message_s * req_msg, st_things_representation_s * resp_rep);
+extern bool handle_get_request_on_dimming(st_things_get_request_message_s * req_msg, st_things_representation_s * resp_rep);
+extern bool handle_set_request_on_dimming(st_things_set_request_message_s * req_msg, st_things_representation_s * resp_rep);
+extern bool handle_get_request_on_ct(st_things_get_request_message_s * req_msg, st_things_representation_s * resp_rep);
+extern bool handle_set_request_on_ct(st_things_set_request_message_s * req_msg, st_things_representation_s * resp_rep);
 
 #ifdef CONFIG_RESET_BUTTON
 static bool check_reset_button_pin_number(void)
@@ -85,7 +85,7 @@ static bool handle_ownership_transfer_request(void)
 	return true;
 }
 
-static bool handle_get_request(st_things_get_request_message_s *req_msg, st_things_representation_s *resp_rep)
+static bool handle_get_request(st_things_get_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	printf("Received a GET request on %s\n", req_msg->resource_uri);
 
@@ -101,7 +101,7 @@ static bool handle_get_request(st_things_get_request_message_s *req_msg, st_thin
 	return false;
 }
 
-static bool handle_set_request(st_things_set_request_message_s *req_msg, st_things_representation_s *resp_rep)
+static bool handle_set_request(st_things_set_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	printf("Received a SET request on %s\n", req_msg->resource_uri);
 

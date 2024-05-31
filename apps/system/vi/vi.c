@@ -202,36 +202,36 @@
 
 enum vi_cmdmode_key_e {
 	KEY_CMDMODE_BEGINLINE = '0',	/* Move cursor to start of current line */
-	KEY_CMDMODE_APPEND    = 'a',	/* Enter insertion mode after current character */
-	KEY_CMDMODE_DEL_LINE  = 'd',	/* "dd" deletes a lines */
-	KEY_CMDMODE_LEFT      = 'h',	/* Move left one character */
-	KEY_CMDMODE_INSERT    = 'i',	/* Enter insertion mode before current character */
-	KEY_CMDMODE_DOWN      = 'j',	/* Move down one line */
-	KEY_CMDMODE_UP        = 'k',	/* Move up one line */
-	KEY_CMDMODE_RIGHT     = 'l',	/* Move right one character */
-	KEY_CMDMODE_MARK      = 'm',	/* Place a mark beginning at the current cursor position */
+	KEY_CMDMODE_APPEND = 'a',	/* Enter insertion mode after current character */
+	KEY_CMDMODE_DEL_LINE = 'd',	/* "dd" deletes a lines */
+	KEY_CMDMODE_LEFT = 'h',		/* Move left one character */
+	KEY_CMDMODE_INSERT = 'i',	/* Enter insertion mode before current character */
+	KEY_CMDMODE_DOWN = 'j',		/* Move down one line */
+	KEY_CMDMODE_UP = 'k',		/* Move up one line */
+	KEY_CMDMODE_RIGHT = 'l',	/* Move right one character */
+	KEY_CMDMODE_MARK = 'm',		/* Place a mark beginning at the current cursor position */
 	KEY_CMDMODE_OPENBELOW = 'o',	/* Enter insertion mode in new line below current */
-	KEY_CMDMODE_PASTE     = 'p',	/* Paste line(s) from into text after current line */
+	KEY_CMDMODE_PASTE = 'p',	/* Paste line(s) from into text after current line */
 	KEY_CMDMODE_REPLACECH = 'r',	/* Replace character(s) under cursor */
-	KEY_CMDMODE_YANK      = 'y',	/* "yy" yanks the current line(s) into the buffer */
-	KEY_CMDMODE_DEL       = 'x',	/* Delete a single character */
+	KEY_CMDMODE_YANK = 'y',		/* "yy" yanks the current line(s) into the buffer */
+	KEY_CMDMODE_DEL = 'x',		/* Delete a single character */
 
 	KEY_CMDMODE_APPENDEND = 'A',	/* Enter insertion mode at the end of the current line */
-	KEY_CMDMODE_GOTO      = 'G',	/* Got to line */
-	KEY_CMDMODE_INSBEGIN  = 'I',	/* Enter insertion mode at the beginning of the current */
+	KEY_CMDMODE_GOTO = 'G',		/* Got to line */
+	KEY_CMDMODE_INSBEGIN = 'I',	/* Enter insertion mode at the beginning of the current */
 	KEY_CMDMODE_OPENABOVE = 'O',	/* Enter insertion mode in new line above current line */
-	KEY_CMDMODE_REPLACE   = 'R',	/* Replace character(s) under cursor until ESC */
+	KEY_CMDMODE_REPLACE = 'R',	/* Replace character(s) under cursor until ESC */
 
 	KEY_CMDMODE_COLONMODE = ':',	/* The next character command prefaced with a colon */
-	KEY_CMDMODE_FINDMODE  = '/',	/* Enter forward search string */
-	KEY_CMDMODE_ENDLINE   = '$',	/* Move cursor to end of current line */
+	KEY_CMDMODE_FINDMODE = '/',	/* Enter forward search string */
+	KEY_CMDMODE_ENDLINE = '$',	/* Move cursor to end of current line */
 
-	KEY_CMDMODE_PAGEUP    = CTRL('b'),	/* Move backward one screen */
-	KEY_CMDMODE_HALFDOWN  = CTRL('d'),	/* Move down (forward) one half screen */
-	KEY_CMDMODE_PAGEDOWN  = CTRL('f'),	/* Move forward one screen */
-	KEY_CMDMODE_REDRAW    = CTRL('l'),	/* Redraws the screen */
-	KEY_CMDMODE_REDRAW2   = CTRL('r'),	/* Redraws the screen, removing deleted lines */
-	KEY_CMDMODE_HALFUP    = CTRL('u')	/* Move up (back) one half screen */
+	KEY_CMDMODE_PAGEUP = CTRL('b'),	/* Move backward one screen */
+	KEY_CMDMODE_HALFDOWN = CTRL('d'),	/* Move down (forward) one half screen */
+	KEY_CMDMODE_PAGEDOWN = CTRL('f'),	/* Move forward one screen */
+	KEY_CMDMODE_REDRAW = CTRL('l'),	/* Redraws the screen */
+	KEY_CMDMODE_REDRAW2 = CTRL('r'),	/* Redraws the screen, removing deleted lines */
+	KEY_CMDMODE_HALFUP = CTRL('u')	/* Move up (back) one half screen */
 };
 
 enum vi_insmode_key_e {
@@ -239,8 +239,8 @@ enum vi_insmode_key_e {
 };
 
 enum vi_colonmode_key_e {
-	KEY_COLMODE_READ  = 'r',	/* Read file */
-	KEY_COLMODE_QUIT  = 'q',	/* Quit vi */
+	KEY_COLMODE_READ = 'r',		/* Read file */
+	KEY_COLMODE_QUIT = 'q',		/* Quit vi */
 	KEY_COLMODE_WRITE = 'w',	/* Write file */
 	KEY_COLMODE_FORCE = '!',	/* Force operation */
 	KEY_COLMODE_QUOTE = '\\'	/* The next character is quote (use literal value) */
@@ -339,7 +339,7 @@ static off_t vi_nextline(FAR struct vi_s *vi, off_t pos);
 /* Text buffer management */
 
 static bool vi_extendtext(FAR struct vi_s *vi, off_t pos, size_t increment);
-static void vi_shrinkpos(off_t delpos, size_t delsize, FAR off_t *pos);
+static void vi_shrinkpos(off_t delpos, size_t delsize, FAR off_t * pos);
 static void vi_shrinktext(FAR struct vi_s *vi, off_t pos, size_t size);
 
 /* File access */
@@ -356,7 +356,7 @@ static void vi_exitsubmode(FAR struct vi_s *vi, uint8_t mode);
 
 /* Display management */
 
-static void vi_windowpos(FAR struct vi_s *vi, off_t start, off_t end, uint16_t *pcolumn, off_t *ppos);
+static void vi_windowpos(FAR struct vi_s *vi, off_t start, off_t end, uint16_t * pcolumn, off_t * ppos);
 static void vi_scrollcheck(FAR struct vi_s *vi);
 static void vi_showtext(FAR struct vi_s *vi);
 
@@ -368,7 +368,7 @@ static off_t vi_cursorleft(FAR struct vi_s *vi, off_t curpos, int ncolumns);
 static off_t vi_cursorright(FAR struct vi_s *vi, off_t curpos, int ncolumns);
 static void vi_delforward(FAR struct vi_s *vi);
 static void vi_delbackward(FAR struct vi_s *vi);
-static void vi_linerange(FAR struct vi_s *vi, off_t *start, off_t *end);
+static void vi_linerange(FAR struct vi_s *vi, off_t * start, off_t * end);
 static void vi_delline(FAR struct vi_s *vi);
 static void vi_yank(FAR struct vi_s *vi);
 static void vi_paste(FAR struct vi_s *vi);
@@ -408,38 +408,38 @@ static void vi_showusage(FAR struct vi_s *vi, FAR const char *progname, int exit
 
 /* VT100 escape sequences */
 
-static const char g_cursoron[]   = VT100_CURSORON;
-static const char g_cursoroff[]  = VT100_CURSOROFF;
+static const char g_cursoron[] = VT100_CURSORON;
+static const char g_cursoroff[] = VT100_CURSOROFF;
 #if 0							/* Not used */
 static const char g_cursorhome[] = VT100_CURSORHOME;
 #endif
 static const char g_erasetoeol[] = VT100_CLEAREOL;
 #if 0							/* Not used */
-static const char g_clrscreen[]  = VT100_CLEARSCREEN;
+static const char g_clrscreen[] = VT100_CLEARSCREEN;
 #endif
-static const char g_index[]      = VT100_INDEX;
-static const char g_revindex[]   = VT100_REVINDEX;
-static const char g_attriboff[]  = VT100_MODESOFF;
-static const char g_boldon[]     = VT100_BOLD;
-static const char g_reverseon[]  = VT100_REVERSE;
+static const char g_index[] = VT100_INDEX;
+static const char g_revindex[] = VT100_REVINDEX;
+static const char g_attriboff[] = VT100_MODESOFF;
+static const char g_boldon[] = VT100_BOLD;
+static const char g_reverseon[] = VT100_REVERSE;
 #if 0							/* Not used */
-static const char g_blinkon[]    = VT100_BLINK;
-static const char g_boldoff[]    = VT100_BOLDOFF;
+static const char g_blinkon[] = VT100_BLINK;
+static const char g_boldoff[] = VT100_BOLDOFF;
 static const char g_reverseoff[] = VT100_REVERSEOFF;
-static const char g_blinkoff[]   = VT100_BLINKOFF;
+static const char g_blinkoff[] = VT100_BLINKOFF;
 #endif
 
 static const char g_fmtcursorpos[] = VT100_FMT_CURSORPOS;
 
 /* Error format strings */
 
-static const char g_fmtallocfail[]  = "Failed to allocate memory";
-static const char g_fmtcmdfail[]    = "%s failed: %d";
-static const char g_fmtnotfile[]    = "%s is not a regular file";
+static const char g_fmtallocfail[] = "Failed to allocate memory";
+static const char g_fmtcmdfail[] = "%s failed: %d";
+static const char g_fmtnotfile[] = "%s is not a regular file";
 static const char g_fmtfileexists[] = "File exists (add ! to override)";
-static const char g_fmtmodified[]   = "No write since last change (add ! to override)";
-static const char g_fmtnotvalid[]   = "Command not valid";
-static const char g_fmtnotcmd[]     = "Not an editor command: %s";
+static const char g_fmtmodified[] = "No write since last change (add ! to override)";
+static const char g_fmtnotvalid[] = "Command not valid";
+static const char g_fmtnotcmd[] = "Not an editor command: %s";
 
 /****************************************************************************
  * Private Functions
@@ -1015,7 +1015,7 @@ static bool vi_extendtext(FAR struct vi_s *vi, off_t pos, size_t increment)
  *
  ****************************************************************************/
 
-static void vi_shrinkpos(off_t delpos, size_t delsize, FAR off_t *pos)
+static void vi_shrinkpos(off_t delpos, size_t delsize, FAR off_t * pos)
 {
 	vivdbg("delpos=%ld delsize=%ld pos=%ld\n", (long)delpos, (long)delsize, (long)*pos);
 
@@ -1343,7 +1343,7 @@ static void vi_exitsubmode(FAR struct vi_s *vi, uint8_t mode)
  *
  ****************************************************************************/
 
-static void vi_windowpos(FAR struct vi_s *vi, off_t start, off_t end, uint16_t *pcolumn, off_t *ppos)
+static void vi_windowpos(FAR struct vi_s *vi, off_t start, off_t end, uint16_t * pcolumn, off_t * ppos)
 {
 	uint16_t column;
 	off_t pos;
@@ -1758,9 +1758,7 @@ static off_t vi_cursorleft(FAR struct vi_s *vi, off_t curpos, int ncolumns)
 	 * of the previous line.
 	 */
 
-	for (remaining = (ncolumns < 1 ? 1 : ncolumns);
-		 curpos > 0 && remaining > 0 && vi->text[curpos - 1] != '\n';
-		 curpos--, remaining--);
+	for (remaining = (ncolumns < 1 ? 1 : ncolumns); curpos > 0 && remaining > 0 && vi->text[curpos - 1] != '\n'; curpos--, remaining--) ;
 
 	return curpos;
 }
@@ -1785,9 +1783,7 @@ static off_t vi_cursorright(FAR struct vi_s *vi, off_t curpos, int ncolumns)
 	 * out early if we hit either the end of the text buffer, or the end of the line.
 	 */
 
-	for (remaining = (ncolumns < 1 ? 1 : ncolumns);
-		 curpos < vi->textsize && remaining > 0 && vi->text[curpos] != '\n';
-		 curpos++, remaining--);
+	for (remaining = (ncolumns < 1 ? 1 : ncolumns); curpos < vi->textsize && remaining > 0 && vi->text[curpos] != '\n'; curpos++, remaining--) ;
 
 	return curpos;
 }
@@ -1865,7 +1861,7 @@ static void vi_delbackward(FAR struct vi_s *vi)
  *
  ****************************************************************************/
 
-static void vi_linerange(FAR struct vi_s *vi, off_t *start, off_t *end)
+static void vi_linerange(FAR struct vi_s *vi, off_t * start, off_t * end)
 {
 	off_t next;
 	int nlines;
@@ -2116,186 +2112,205 @@ static void vi_cmd_mode(FAR struct vi_s *vi)
 
 		preserve = false;
 		switch (ch) {
-		case KEY_CMDMODE_UP: {	/* Move the cursor up one line */
-			vi_cusorup(vi, vi->value);
-		}
-		break;
+		case KEY_CMDMODE_UP:{	/* Move the cursor up one line */
+				vi_cusorup(vi, vi->value);
+			}
+			break;
 
-		case KEY_CMDMODE_DOWN: {	/* Move the cursor down one line */
-			vi_cursordown(vi, vi->value);
-		}
-		break;
+		case KEY_CMDMODE_DOWN:{/* Move the cursor down one line */
+				vi_cursordown(vi, vi->value);
+			}
+			break;
 
-		case KEY_CMDMODE_LEFT: {	/* Move the cursor left N characters */
-			vi->curpos = vi_cursorleft(vi, vi->curpos, vi->value);
-		}
-		break;
+		case KEY_CMDMODE_LEFT:{/* Move the cursor left N characters */
+				vi->curpos = vi_cursorleft(vi, vi->curpos, vi->value);
+			}
+			break;
 
-		case KEY_CMDMODE_RIGHT: {	/* Move the cursor right one character */
-			vi->curpos = vi_cursorright(vi, vi->curpos, vi->value);
-		}
-		break;
+		case KEY_CMDMODE_RIGHT:{
+				/* Move the cursor right one character */
+				vi->curpos = vi_cursorright(vi, vi->curpos, vi->value);
+			}
+			break;
 
-		case KEY_CMDMODE_BEGINLINE: {	/* Move cursor to start of current line */
-			vi->curpos = vi_linebegin(vi, vi->curpos);
-		}
-		break;
+		case KEY_CMDMODE_BEGINLINE:{
+				/* Move cursor to start of current line */
+				vi->curpos = vi_linebegin(vi, vi->curpos);
+			}
+			break;
 
-		case KEY_CMDMODE_ENDLINE: {	/* Move cursor to end of current line */
-			vi->curpos = vi_lineend(vi, vi->curpos);
-		}
-		break;
+		case KEY_CMDMODE_ENDLINE:{
+				/* Move cursor to end of current line */
+				vi->curpos = vi_lineend(vi, vi->curpos);
+			}
+			break;
 
-		case KEY_CMDMODE_PAGEUP: {	/* Move up (backward) one screen */
-			vi_cusorup(vi, vi->display.row);
-		}
-		break;
+		case KEY_CMDMODE_PAGEUP:{
+				/* Move up (backward) one screen */
+				vi_cusorup(vi, vi->display.row);
+			}
+			break;
 
-		case KEY_CMDMODE_PAGEDOWN: {	/* Move down (forward) one screen */
-			vi_cursordown(vi, vi->display.row);
-		}
-		break;
+		case KEY_CMDMODE_PAGEDOWN:{
+				/* Move down (forward) one screen */
+				vi_cursordown(vi, vi->display.row);
+			}
+			break;
 
-		case KEY_CMDMODE_HALFUP: {	/* Move up (backward) one screen */
-			vi_cusorup(vi, vi->display.row >> 1);
-		}
-		break;
+		case KEY_CMDMODE_HALFUP:{
+				/* Move up (backward) one screen */
+				vi_cusorup(vi, vi->display.row >> 1);
+			}
+			break;
 
-		case KEY_CMDMODE_HALFDOWN: {	/*  Move down (forward) one half screen */
-			vi_cursordown(vi, vi->display.row >> 1);
-		}
-		break;
+		case KEY_CMDMODE_HALFDOWN:{
+				/*  Move down (forward) one half screen */
+				vi_cursordown(vi, vi->display.row >> 1);
+			}
+			break;
 
 		case KEY_CMDMODE_DEL:	/* Delete N characters at the cursor */
-		case ASCII_DEL: {
-			vi_delforward(vi);
-		}
-		break;
+		case ASCII_DEL:{
+				vi_delforward(vi);
+			}
+			break;
 
-		case ASCII_BS: {		/* Delete N characters before the cursor */
-			vi_delbackward(vi);
-		}
-		break;
+		case ASCII_BS:{		/* Delete N characters before the cursor */
+				vi_delbackward(vi);
+			}
+			break;
 
-		case KEY_CMDMODE_DEL_LINE: {	/* Delete the current line */
-			if (vi->delarm) {
-				vi_delline(vi);
-				vi->delarm = false;
-			} else {
-				vi->delarm = true;
+		case KEY_CMDMODE_DEL_LINE:{
+				/* Delete the current line */
+				if (vi->delarm) {
+					vi_delline(vi);
+					vi->delarm = false;
+				} else {
+					vi->delarm = true;
+					preserve = true;
+				}
+			}
+			break;
+
+		case KEY_CMDMODE_YANK:{/* Yank the current line(s) into the buffer */
+				if (vi->yankarm) {
+					vi_yank(vi);
+					vi->yankarm = false;
+				} else {
+					vi->yankarm = true;
+					preserve = true;
+				}
+			}
+			break;
+
+		case KEY_CMDMODE_PASTE:{
+				/* Paste line(s) from into text after current line */
+				vi_paste(vi);
+			}
+			break;
+
+		case KEY_CMDMODE_REPLACECH:{
+				/* Replace character(s) under cursor */
+				vi_setmode(vi, SUBMODE_REPLACECH, vi->value);
 				preserve = true;
 			}
-		}
-		break;
+			break;
 
-		case KEY_CMDMODE_YANK: {	/* Yank the current line(s) into the buffer */
-			if (vi->yankarm) {
-				vi_yank(vi);
-				vi->yankarm = false;
-			} else {
-				vi->yankarm = true;
-				preserve = true;
+		case KEY_CMDMODE_REPLACE:{
+				/* Replace character(s) under cursor until ESC */
+				vi_setmode(vi, MODE_REPLACE, 0);
 			}
-		}
-		break;
-
-		case KEY_CMDMODE_PASTE: {	/* Paste line(s) from into text after current line */
-			vi_paste(vi);
-		}
-		break;
-
-		case KEY_CMDMODE_REPLACECH: {	/* Replace character(s) under cursor */
-			vi_setmode(vi, SUBMODE_REPLACECH, vi->value);
-			preserve = true;
-		}
-		break;
-
-		case KEY_CMDMODE_REPLACE: {	/* Replace character(s) under cursor until ESC */
-			vi_setmode(vi, MODE_REPLACE, 0);
-		}
 			break;				/* Not implemented */
 
-		case KEY_CMDMODE_OPENBELOW: {	/* Enter insertion mode in new line below current */
-			/* Go forward to the end of the current line */
+		case KEY_CMDMODE_OPENBELOW:{
+				/* Enter insertion mode in new line below current */
+				/* Go forward to the end of the current line */
 
-			vi->curpos = vi_lineend(vi, vi->curpos);
+				vi->curpos = vi_lineend(vi, vi->curpos);
 
-			/* Insert a newline to break the line.  The cursor now points
-			 * beginning of the new line.
-			 */
+				/* Insert a newline to break the line.  The cursor now points
+				 * beginning of the new line.
+				 */
 
-			vi_insertch(vi, '\n');
+				vi_insertch(vi, '\n');
 
-			/* Then enter insert mode */
+				/* Then enter insert mode */
 
-			vi_setmode(vi, MODE_INSERT, 0);
-		}
-		break;
+				vi_setmode(vi, MODE_INSERT, 0);
+			}
+			break;
 
-		case KEY_CMDMODE_OPENABOVE: {	/* Enter insertion mode in new line above current */
-			/* Back up to the beginning of the end of the previous line */
+		case KEY_CMDMODE_OPENABOVE:{
+				/* Enter insertion mode in new line above current */
+				/* Back up to the beginning of the end of the previous line */
 
-			off_t pos = vi_prevline(vi, vi->curpos);
-			vi->curpos = vi_lineend(vi, pos);
+				off_t pos = vi_prevline(vi, vi->curpos);
+				vi->curpos = vi_lineend(vi, pos);
 
-			/* Insert a newline to open the line.  The cursor will now point to the
-			 * beginning of newly openly line before the current line.
-			 */
+				/* Insert a newline to open the line.  The cursor will now point to the
+				 * beginning of newly openly line before the current line.
+				 */
 
-			vi_insertch(vi, '\n');
+				vi_insertch(vi, '\n');
 
-			/* Then enter insert mode */
+				/* Then enter insert mode */
 
-			vi_setmode(vi, MODE_INSERT, 0);
-		}
-		break;
+				vi_setmode(vi, MODE_INSERT, 0);
+			}
+			break;
 
-		case KEY_CMDMODE_APPEND: {	/* Enter insertion mode after the current cursor position */
-			vi->curpos = vi_cursorright(vi, vi->curpos, 1);
-			vi_setmode(vi, MODE_INSERT, 0);
-		}
-		break;
+		case KEY_CMDMODE_APPEND:{
+				/* Enter insertion mode after the current cursor position */
+				vi->curpos = vi_cursorright(vi, vi->curpos, 1);
+				vi_setmode(vi, MODE_INSERT, 0);
+			}
+			break;
 
-		case KEY_CMDMODE_APPENDEND: {	/* Enter insertion mode at the end of the current line */
-			vi->curpos = vi_lineend(vi, vi->curpos);
-			vi_setmode(vi, MODE_INSERT, 0);
-		}
-		break;
+		case KEY_CMDMODE_APPENDEND:{
+				/* Enter insertion mode at the end of the current line */
+				vi->curpos = vi_lineend(vi, vi->curpos);
+				vi_setmode(vi, MODE_INSERT, 0);
+			}
+			break;
 
-		case KEY_CMDMODE_INSBEGIN: {	/* Enter insertion mode at the beginning of the current line */
-			vi->curpos = vi_linebegin(vi, vi->curpos);
-		}
-		/* Fall through */
+		case KEY_CMDMODE_INSBEGIN:{
+				/* Enter insertion mode at the beginning of the current line */
+				vi->curpos = vi_linebegin(vi, vi->curpos);
+			}
+			/* Fall through */
 
-		case KEY_CMDMODE_INSERT: {	/* Enter insertion mode before the current cursor position */
-			vi_setmode(vi, MODE_INSERT, 0);
-		}
-		break;
+		case KEY_CMDMODE_INSERT:{
+				/* Enter insertion mode before the current cursor position */
+				vi_setmode(vi, MODE_INSERT, 0);
+			}
+			break;
 
-		case KEY_CMDMODE_COLONMODE: {	/* Enter : command sub-mode */
-			vi_setsubmode(vi, SUBMODE_COLON, ':', 0);
-		}
-		break;
+		case KEY_CMDMODE_COLONMODE:{
+				/* Enter : command sub-mode */
+				vi_setsubmode(vi, SUBMODE_COLON, ':', 0);
+			}
+			break;
 
-		case KEY_CMDMODE_FINDMODE: {	/* Enter / find sub-mode */
-			vi_setsubmode(vi, SUBMODE_FIND, '/', 0);
-		}
-		break;
+		case KEY_CMDMODE_FINDMODE:{
+				/* Enter / find sub-mode */
+				vi_setsubmode(vi, SUBMODE_FIND, '/', 0);
+			}
+			break;
 
-		case KEY_CMDMODE_GOTO: {	/* Go to line specified by the accumulated value */
-			vi_gotoline(vi);
-		}
-		break;
+		case KEY_CMDMODE_GOTO:{/* Go to line specified by the accumulated value */
+				vi_gotoline(vi);
+			}
+			break;
 
-		/* Unimplemented and invalid commands */
+			/* Unimplemented and invalid commands */
 
 		case KEY_CMDMODE_REDRAW:	/* Redraws the screen */
 		case KEY_CMDMODE_REDRAW2:	/* Redraws the screen, removing deleted lines */
 		case KEY_CMDMODE_MARK:	/* Place a mark beginning at the current cursor position */
-		default: {
-			VI_BEL(vi);
-		}
-		break;
+		default:{
+				VI_BEL(vi);
+			}
+			break;
 		}
 
 		/* Any non-numeric input will reset the accumulated value (after it has
@@ -2428,89 +2443,89 @@ static int vi_parsecolon(FAR struct vi_s *vi)
 		/* Then process the command character */
 
 		switch (ch) {
-		case KEY_COLMODE_READ: {
-			/* Reading a file should not be forced */
+		case KEY_COLMODE_READ:{
+				/* Reading a file should not be forced */
 
-			if (cmd == CMD_NONE && !forced) {
-				cmd = CMD_READ;
-			} else {
-				/* The read operation is not compatible with writing or
-				 * quitting
-				 */
-
-				goto errout_bad_command;
-			}
-		}
-		break;
-
-		case KEY_COLMODE_WRITE: {
-			/* Are we just writing?  Or writing then quitting? */
-
-			if (cmd == CMD_NONE) {
-				/* Just writing.. do we force overwriting? */
-
-				cmd = (forced ? CMD_OWRITE : CMD_WRITE);
-			} else if (cmd == CMD_QUIT) {
-				/* Both ... do we force overwriting the file? */
-
-				cmd = (forced ? CMD_OWRITE_QUIT : CMD_WRITE_QUIT);
-			} else {
-				/* Anything else, including a forced quit is a syntax error */
-
-				goto errout_bad_command;
-			}
-		}
-		break;
-
-		case KEY_COLMODE_QUIT: {
-			/* Are we just quitting?  Or writing then quitting? */
-
-			if (cmd == CMD_NONE) {
-				/* Just quitting... should we discard any changes? */
-
-				cmd = (forced ? CMD_DISCARD : CMD_QUIT);
-			}
-
-			/* If we are also writing, then it makes no sense to force the
-			 * quit operation.
-			 */
-
-			else if (cmd == CMD_WRITE && !forced) {
-				cmd = CMD_WRITE_QUIT;
-			} else if (cmd == CMD_OWRITE && !forced) {
-				cmd = CMD_OWRITE_QUIT;
-			} else {
-				/* Quit is not compatible with reading */
-
-				goto errout_bad_command;
-			}
-		}
-		break;
-
-		default: {
-			/* Ignore whitespace */
-
-			if (ch != ' ') {
-				/* Anything else terminates the loop */
-
-				done = true;
-
-				/* If there is anything else on the line, then it must be
-				 * a file name.  If we are writing (or reading with an
-				 * empty text buffer), then we will need to copy the file
-				 * into the filename storage area.
-				 */
-
-				if (ch != '\0') {
-					/* For now, just remember where the file is in the
-					 * scratch buffer.
+				if (cmd == CMD_NONE && !forced) {
+					cmd = CMD_READ;
+				} else {
+					/* The read operation is not compatible with writing or
+					 * quitting
 					 */
 
-					filename = &vi->scratch[col];
+					goto errout_bad_command;
 				}
 			}
-		}
-		break;
+			break;
+
+		case KEY_COLMODE_WRITE:{
+				/* Are we just writing?  Or writing then quitting? */
+
+				if (cmd == CMD_NONE) {
+					/* Just writing.. do we force overwriting? */
+
+					cmd = (forced ? CMD_OWRITE : CMD_WRITE);
+				} else if (cmd == CMD_QUIT) {
+					/* Both ... do we force overwriting the file? */
+
+					cmd = (forced ? CMD_OWRITE_QUIT : CMD_WRITE_QUIT);
+				} else {
+					/* Anything else, including a forced quit is a syntax error */
+
+					goto errout_bad_command;
+				}
+			}
+			break;
+
+		case KEY_COLMODE_QUIT:{
+				/* Are we just quitting?  Or writing then quitting? */
+
+				if (cmd == CMD_NONE) {
+					/* Just quitting... should we discard any changes? */
+
+					cmd = (forced ? CMD_DISCARD : CMD_QUIT);
+				}
+
+				/* If we are also writing, then it makes no sense to force the
+				 * quit operation.
+				 */
+
+				else if (cmd == CMD_WRITE && !forced) {
+					cmd = CMD_WRITE_QUIT;
+				} else if (cmd == CMD_OWRITE && !forced) {
+					cmd = CMD_OWRITE_QUIT;
+				} else {
+					/* Quit is not compatible with reading */
+
+					goto errout_bad_command;
+				}
+			}
+			break;
+
+		default:{
+				/* Ignore whitespace */
+
+				if (ch != ' ') {
+					/* Anything else terminates the loop */
+
+					done = true;
+
+					/* If there is anything else on the line, then it must be
+					 * a file name.  If we are writing (or reading with an
+					 * empty text buffer), then we will need to copy the file
+					 * into the filename storage area.
+					 */
+
+					if (ch != '\0') {
+						/* For now, just remember where the file is in the
+						 * scratch buffer.
+						 */
+
+						filename = &vi->scratch[col];
+					}
+				}
+			}
+			break;
 		}
 	}
 
@@ -2643,10 +2658,10 @@ static int vi_parsecolon(FAR struct vi_s *vi)
 	vi_exitsubmode(vi, MODE_COMMAND);
 	return 0;
 
-errout_bad_command:
+ errout_bad_command:
 	vi_error(vi, g_fmtnotcmd, vi->scratch);
 
-errout:
+ errout:
 	vi_exitsubmode(vi, MODE_COMMAND);
 	return 0;
 }
@@ -2675,32 +2690,33 @@ static int vi_cmd_submode(FAR struct vi_s *vi)
 		/* Handle the newly received character */
 
 		switch (ch) {
-		case KEY_COLMODE_QUOTE: {	/* Quoted character follows */
-			/* Insert the next character unconditionally */
+		case KEY_COLMODE_QUOTE:{
+				/* Quoted character follows */
+				/* Insert the next character unconditionally */
 
-			vi_cmdch(vi, vi_getch(vi));
-		}
-		break;
+				vi_cmdch(vi, vi_getch(vi));
+			}
+			break;
 
-		case ASCII_BS: {		/* Delete the character(s) before the cursor */
-			vi_cmdbackspace(vi);
-		}
-		break;
+		case ASCII_BS:{		/* Delete the character(s) before the cursor */
+				vi_cmdbackspace(vi);
+			}
+			break;
 
-		case ASCII_ESC: {	/* Escape exits colon mode */
-			vi_exitsubmode(vi, MODE_COMMAND);
-		}
-		break;
+		case ASCII_ESC:{		/* Escape exits colon mode */
+				vi_exitsubmode(vi, MODE_COMMAND);
+			}
+			break;
 
 			/* What do we do with carriage returns? line feeds? */
 
 #if defined(CONFIG_EOL_IS_CR)
-		case '\r': {			/* CR terminates line */
-			if (vi_parsecolon(vi) != 0) {
-				return -1;
+		case '\r':{			/* CR terminates line */
+				if (vi_parsecolon(vi) != 0) {
+					return -1;
+				}
 			}
-		}
-		break;
+			break;
 
 #elif defined(CONFIG_EOL_IS_BOTH_CRLF)
 		case '\r':				/* Wait for the LF */
@@ -2708,36 +2724,36 @@ static int vi_cmd_submode(FAR struct vi_s *vi)
 #endif
 
 #if defined(CONFIG_EOL_IS_LF) || defined(CONFIG_EOL_IS_BOTH_CRLF)
-		case '\n': {			/* LF terminates line */
-			if (vi_parsecolon(vi) != 0) {
-				return -1;
+		case '\n':{			/* LF terminates line */
+				if (vi_parsecolon(vi) != 0) {
+					return -1;
+				}
 			}
-		}
-		break;
+			break;
 #endif
 
 #ifdef CONFIG_EOL_IS_EITHER_CRLF
 		case '\r':				/* Either CR or LF terminates line */
-		case '\n': {
-			if (vi_parsecolon(vi) != 0) {
-				return -1;
+		case '\n':{
+				if (vi_parsecolon(vi) != 0) {
+					return -1;
+				}
 			}
-		}
-		break;
+			break;
 #endif
 
-		default: {
-			/* Ignore all but printable characters */
+		default:{
+				/* Ignore all but printable characters */
 
-			if (isprint(ch)) {
-				/* Insert the filtered character into the scratch buffer */
+				if (isprint(ch)) {
+					/* Insert the filtered character into the scratch buffer */
 
-				vi_cmdch(vi, ch);
-			} else {
-				VI_BEL(vi);
+					vi_cmdch(vi, ch);
+				} else {
+					VI_BEL(vi);
+				}
 			}
-		}
-		break;
+			break;
 		}
 	}
 
@@ -2860,30 +2876,31 @@ static void vi_find_submode(FAR struct vi_s *vi)
 		/* Handle the newly received character */
 
 		switch (ch) {
-		case KEY_FINDMODE_QUOTE: {	/* Quoted character follows */
-			/* Insert the next character unconditionally */
+		case KEY_FINDMODE_QUOTE:{
+				/* Quoted character follows */
+				/* Insert the next character unconditionally */
 
-			vi_cmdch(vi, vi_getch(vi));
-		}
-		break;
+				vi_cmdch(vi, vi_getch(vi));
+			}
+			break;
 
-		case ASCII_BS: {		/* Delete the character before the cursor */
-			vi_cmdbackspace(vi);
-		}
-		break;
+		case ASCII_BS:{		/* Delete the character before the cursor */
+				vi_cmdbackspace(vi);
+			}
+			break;
 
-		case ASCII_ESC: {	/* Escape exits find mode */
-			vi_exitsubmode(vi, MODE_COMMAND);
-		}
-		break;
+		case ASCII_ESC:{		/* Escape exits find mode */
+				vi_exitsubmode(vi, MODE_COMMAND);
+			}
+			break;
 
 			/* What do we do with carriage returns? line feeds? */
 
 #if defined(CONFIG_EOL_IS_CR)
-		case '\r': {			/* CR terminates line */
-			vi_parsefind(vi);
-		}
-		break;
+		case '\r':{			/* CR terminates line */
+				vi_parsefind(vi);
+			}
+			break;
 
 #elif defined(CONFIG_EOL_IS_BOTH_CRLF)
 		case '\r':				/* Wait for the LF */
@@ -2891,32 +2908,32 @@ static void vi_find_submode(FAR struct vi_s *vi)
 #endif
 
 #if defined(CONFIG_EOL_IS_LF) || defined(CONFIG_EOL_IS_BOTH_CRLF)
-		case '\n': {			/* LF terminates line */
-			vi_parsefind(vi);
-		}
-		break;
+		case '\n':{			/* LF terminates line */
+				vi_parsefind(vi);
+			}
+			break;
 #endif
 
 #ifdef CONFIG_EOL_IS_EITHER_CRLF
 		case '\r':				/* Either CR or LF terminates line */
-		case '\n': {
-			vi_parsefind(vi);
-		}
-		break;
+		case '\n':{
+				vi_parsefind(vi);
+			}
+			break;
 #endif
 
-		default: {
-			/* Ignore all but printable characters */
+		default:{
+				/* Ignore all but printable characters */
 
-			if (isprint(ch)) {
-				/* Insert the filtered character into the scratch buffer */
+				if (isprint(ch)) {
+					/* Insert the filtered character into the scratch buffer */
 
-				vi_cmdch(vi, ch);
-			} else {
-				VI_BEL(vi);
+					vi_cmdch(vi, ch);
+				} else {
+					VI_BEL(vi);
+				}
 			}
-		}
-		break;
+			break;
 		}
 	}
 }
@@ -2990,27 +3007,28 @@ static void vi_replacech_submode(FAR struct vi_s *vi)
 		/* Handle the newly received character */
 
 		switch (ch) {
-		case KEY_FINDMODE_QUOTE: {	/* Quoted character follows */
-			/* Insert the next character unconditionally */
+		case KEY_FINDMODE_QUOTE:{
+				/* Quoted character follows */
+				/* Insert the next character unconditionally */
 
-			ch = vi_getch(vi);
-			found = true;
-		}
-		break;
+				ch = vi_getch(vi);
+				found = true;
+			}
+			break;
 
-		case ASCII_ESC: {	/* Escape exits replace mode */
-			vi_setmode(vi, MODE_COMMAND, 0);
-		}
-		break;
+		case ASCII_ESC:{		/* Escape exits replace mode */
+				vi_setmode(vi, MODE_COMMAND, 0);
+			}
+			break;
 
 			/* What do we do with carriage returns? line feeds? */
 
 #if defined(CONFIG_EOL_IS_CR)
-		case '\r': {			/* CR terminates line */
-			ch = '\n';
-			found = true;
-		}
-		break;
+		case '\r':{			/* CR terminates line */
+				ch = '\n';
+				found = true;
+			}
+			break;
 
 #elif defined(CONFIG_EOL_IS_BOTH_CRLF)
 		case '\r':				/* Wait for the LF */
@@ -3018,31 +3036,31 @@ static void vi_replacech_submode(FAR struct vi_s *vi)
 #endif
 
 #if defined(CONFIG_EOL_IS_LF) || defined(CONFIG_EOL_IS_BOTH_CRLF)
-		case '\n': {			/* LF terminates line */
-			found = true;
-		}
-		break;
+		case '\n':{			/* LF terminates line */
+				found = true;
+			}
+			break;
 #endif
 
 #ifdef CONFIG_EOL_IS_EITHER_CRLF
 		case '\r':				/* Either CR or LF terminates line */
-		case '\n': {
-			ch = '\n';
-			found = true;
-		}
-		break;
+		case '\n':{
+				ch = '\n';
+				found = true;
+			}
+			break;
 #endif
 
-		default: {
-			/* Ignore all but printable characters and tab */
+		default:{
+				/* Ignore all but printable characters and tab */
 
-			if (isprint(ch) || ch == '\t') {
-				found = true;
-			} else {
-				VI_BEL(vi);
+				if (isprint(ch) || ch == '\t') {
+					found = true;
+				} else {
+					VI_BEL(vi);
+				}
 			}
-		}
-		break;
+			break;
 		}
 	}
 
@@ -3115,39 +3133,40 @@ static void vi_insert_mode(FAR struct vi_s *vi)
 		/* Handle the newly received character */
 
 		switch (ch) {
-		case KEY_INSMODE_QUOTE: {	/* Quoted character follows */
-			/* Insert the next character unconditionally */
+		case KEY_INSMODE_QUOTE:{
+				/* Quoted character follows */
+				/* Insert the next character unconditionally */
 
-			vi_insertch(vi, vi_getch(vi));
-		}
-		break;
-
-		case ASCII_DEL: {
-			if (vi->curpos < vi->textsize) {
-				vi_shrinktext(vi, vi->curpos, 1);
+				vi_insertch(vi, vi_getch(vi));
 			}
-		}
-		break;
+			break;
 
-		case ASCII_BS: {
-			if (vi->curpos > 0) {
-				vi_shrinktext(vi, --vi->curpos, 1);
+		case ASCII_DEL:{
+				if (vi->curpos < vi->textsize) {
+					vi_shrinktext(vi, vi->curpos, 1);
+				}
 			}
-		}
-		break;
+			break;
 
-		case ASCII_ESC: {	/* Escape exits insert mode */
-			vi_setmode(vi, MODE_COMMAND, 0);
-		}
-		break;
+		case ASCII_BS:{
+				if (vi->curpos > 0) {
+					vi_shrinktext(vi, --vi->curpos, 1);
+				}
+			}
+			break;
+
+		case ASCII_ESC:{		/* Escape exits insert mode */
+				vi_setmode(vi, MODE_COMMAND, 0);
+			}
+			break;
 
 			/* What do we do with carriage returns? */
 
 #if defined(CONFIG_EOL_IS_CR)
-		case '\r': {			/* CR terminates line */
-			vi_insertch(vi, '\n');
-		}
-		break;
+		case '\r':{			/* CR terminates line */
+				vi_insertch(vi, '\n');
+			}
+			break;
 
 #elif defined(CONFIG_EOL_IS_BOTH_CRLF)
 		case '\r':				/* Wait for the LF */
@@ -3155,32 +3174,32 @@ static void vi_insert_mode(FAR struct vi_s *vi)
 #endif
 
 #if defined(CONFIG_EOL_IS_LF) || defined(CONFIG_EOL_IS_BOTH_CRLF)
-		case '\n': {			/* LF terminates line */
-			vi_insertch(vi, '\n');
-		}
-		break;
+		case '\n':{			/* LF terminates line */
+				vi_insertch(vi, '\n');
+			}
+			break;
 #endif
 
 #ifdef CONFIG_EOL_IS_EITHER_CRLF
 		case '\r':				/* Either CR or LF terminates line */
-		case '\n': {
-			vi_insertch(vi, '\n');
-		}
-		break;
+		case '\n':{
+				vi_insertch(vi, '\n');
+			}
+			break;
 #endif
 
-		default: {
-			/* Ignore all control characters except for tab and newline */
+		default:{
+				/* Ignore all control characters except for tab and newline */
 
-			if (!iscntrl(ch) || ch == '\t') {
-				/* Insert the filtered character into the buffer */
+				if (!iscntrl(ch) || ch == '\t') {
+					/* Insert the filtered character into the buffer */
 
-				vi_insertch(vi, ch);
-			} else {
-				VI_BEL(vi);
+					vi_insertch(vi, ch);
+				} else {
+					VI_BEL(vi);
+				}
 			}
-		}
-		break;
+			break;
 		}
 	}
 }
@@ -3219,32 +3238,33 @@ static void vi_replace_mode(FAR struct vi_s *vi)
 		/* Handle the newly received character */
 
 		switch (ch) {
-		case KEY_FINDMODE_QUOTE: {	/* Quoted character follows */
-			/* Replace the next character unconditionally */
+		case KEY_FINDMODE_QUOTE:{
+				/* Quoted character follows */
+				/* Replace the next character unconditionally */
 
-			vi_replacech(vi, ch);
-		}
-		break;
-
-		case ASCII_BS: {		/* Delete the character before the cursor */
-			if (vi->curpos > start) {
-				vi->curpos = vi_cursorleft(vi, vi->curpos, 1);
+				vi_replacech(vi, ch);
 			}
-		}
-		break;
+			break;
 
-		case ASCII_ESC: {	/* Escape exits find mode */
-			vi_setmode(vi, MODE_COMMAND, 0);
-		}
-		break;
+		case ASCII_BS:{		/* Delete the character before the cursor */
+				if (vi->curpos > start) {
+					vi->curpos = vi_cursorleft(vi, vi->curpos, 1);
+				}
+			}
+			break;
+
+		case ASCII_ESC:{		/* Escape exits find mode */
+				vi_setmode(vi, MODE_COMMAND, 0);
+			}
+			break;
 
 			/* What do we do with carriage returns? line feeds? */
 
 #if defined(CONFIG_EOL_IS_CR)
-		case '\r': {			/* CR terminates line */
-			vi_replacech(vi, '\n');
-		}
-		break;
+		case '\r':{			/* CR terminates line */
+				vi_replacech(vi, '\n');
+			}
+			break;
 
 #elif defined(CONFIG_EOL_IS_BOTH_CRLF)
 		case '\r':				/* Wait for the LF */
@@ -3252,32 +3272,32 @@ static void vi_replace_mode(FAR struct vi_s *vi)
 #endif
 
 #if defined(CONFIG_EOL_IS_LF) || defined(CONFIG_EOL_IS_BOTH_CRLF)
-		case '\n': {			/* LF terminates line */
-			vi_replacech(vi, '\n');
-		}
-		break;
+		case '\n':{			/* LF terminates line */
+				vi_replacech(vi, '\n');
+			}
+			break;
 #endif
 
 #ifdef CONFIG_EOL_IS_EITHER_CRLF
 		case '\r':				/* Either CR or LF terminates line */
-		case '\n': {
-			vi_replacech(vi, '\n');
-		}
-		break;
+		case '\n':{
+				vi_replacech(vi, '\n');
+			}
+			break;
 #endif
 
-		default: {
-			/* Ignore all but printable characters and TABs */
+		default:{
+				/* Ignore all but printable characters and TABs */
 
-			if (isprint(ch) || ch == '\t') {
-				/* Insert the filtered character into the text buffer */
+				if (isprint(ch) || ch == '\t') {
+					/* Insert the filtered character into the text buffer */
 
-				vi_replacech(vi, ch);
-			} else {
-				VI_BEL(vi);
+					vi_replacech(vi, ch);
+				} else {
+					VI_BEL(vi);
+				}
 			}
-		}
-		break;
+			break;
 		}
 	}
 }
@@ -3375,45 +3395,45 @@ int vi_main(int argc, char **argv)
 
 	while ((option = getopt(argc, argv, ":c:r:h")) != ERROR) {
 		switch (option) {
-		case 'c': {			/* Display width in columns */
-			unsigned long value = strtoul(optarg, NULL, 10);
-			if (value <= UINT16_MAX) {
-				vi->display.column = (uint16_t)value;
-			} else {
-				fprintf(stderr, "ERROR: Column value out of range: %lu\n", value);
+		case 'c':{				/* Display width in columns */
+				unsigned long value = strtoul(optarg, NULL, 10);
+				if (value <= UINT16_MAX) {
+					vi->display.column = (uint16_t) value;
+				} else {
+					fprintf(stderr, "ERROR: Column value out of range: %lu\n", value);
+					vi_showusage(vi, argv[0], EXIT_FAILURE);
+				}
+			}
+			break;
+
+		case 'r':{				/* Display width in columns */
+				unsigned long value = strtoul(optarg, NULL, 10);
+				if (value <= UINT16_MAX) {
+					vi->display.row = (uint16_t) value;
+				} else {
+					fprintf(stderr, "ERROR: Row value out of range: %lu\n", value);
+					vi_showusage(vi, argv[0], EXIT_FAILURE);
+				}
+			}
+			break;
+
+		case 'h':{
+				vi_showusage(vi, argv[0], EXIT_SUCCESS);
+			}
+			break;
+
+		case ':':{
+				fprintf(stderr, "ERROR: Missing parameter argument\n");
 				vi_showusage(vi, argv[0], EXIT_FAILURE);
 			}
-		}
-		break;
-
-		case 'r': {			/* Display width in columns */
-			unsigned long value = strtoul(optarg, NULL, 10);
-			if (value <= UINT16_MAX) {
-				vi->display.row = (uint16_t)value;
-			} else {
-				fprintf(stderr, "ERROR: Row value out of range: %lu\n", value);
-				vi_showusage(vi, argv[0], EXIT_FAILURE);
-			}
-		}
-		break;
-
-		case 'h': {
-			vi_showusage(vi, argv[0], EXIT_SUCCESS);
-		}
-		break;
-
-		case ':': {
-			fprintf(stderr, "ERROR: Missing parameter argument\n");
-			vi_showusage(vi, argv[0], EXIT_FAILURE);
-		}
-		break;
+			break;
 
 		case '?':
-		default: {
-			fprintf(stderr, "ERROR: Unrecognized parameter\n");
-			vi_showusage(vi, argv[0], EXIT_FAILURE);
-		}
-		break;
+		default:{
+				fprintf(stderr, "ERROR: Unrecognized parameter\n");
+				vi_showusage(vi, argv[0], EXIT_FAILURE);
+			}
+			break;
 		}
 	}
 

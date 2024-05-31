@@ -39,7 +39,6 @@ extern struct sec_lowerhalf_s *se_get_device(void);
 
 static struct sec_lowerhalf_s *g_se = NULL;
 
-
 TEST_SETUP(generate_random)
 {
 	ST_START_TEST;
@@ -296,7 +295,6 @@ TEST_F(ecdsa_sign)
 	ST_END_TEST;
 }
 
-
 /*
  * Desc: Verify ECDSA
  * Refered https://developer.artik.io/documentation/security-api/see-authentication-test_8c-example.html
@@ -360,18 +358,20 @@ unsigned char p_buf_1024[] = {
 	0x45, 0xbf, 0x37, 0xdf, 0x36, 0x5c, 0x1a, 0x65, 0xe6, 0x8c, 0xfd, 0xa7, 0x6d,
 	0x4d, 0xa7, 0x08, 0xdf, 0x1f, 0xb2, 0xbc, 0x2e, 0x4a, 0x43, 0x71
 };
+
 unsigned char g_buf_1024[] = {
 	0xa4, 0xd1, 0xcb, 0xd5, 0xc3, 0xfd, 0x34, 0x12, 0x67, 0x65, 0xa4, 0x42, 0xef,
 	0xb9, 0x99, 0x05, 0xf8, 0x10, 0x4d, 0xd2, 0x58, 0xac, 0x50, 0x7f, 0xd6, 0x40,
-	0x6c, 0xff, 0x14, 0x26,	0x6d, 0x31, 0x26, 0x6f, 0xea, 0x1e, 0x5c, 0x41, 0x56,
+	0x6c, 0xff, 0x14, 0x26, 0x6d, 0x31, 0x26, 0x6f, 0xea, 0x1e, 0x5c, 0x41, 0x56,
 	0x4b, 0x77, 0x7e, 0x69, 0x0f, 0x55, 0x04, 0xf2, 0x13, 0x16, 0x02, 0x17, 0xb4,
-	0xb0, 0x1b, 0x88, 0x6a, 0x5e, 0x91, 0x54, 0x7f,	0x9e, 0x27, 0x49, 0xf4, 0xd7,
+	0xb0, 0x1b, 0x88, 0x6a, 0x5e, 0x91, 0x54, 0x7f, 0x9e, 0x27, 0x49, 0xf4, 0xd7,
 	0xfb, 0xd7, 0xd3, 0xb9, 0xa9, 0x2e, 0xe1, 0x90, 0x9d, 0x0d, 0x22, 0x63, 0xf8,
-	0x0a, 0x76, 0xa6, 0xa2, 0x4c, 0x08, 0x7a, 0x09, 0x1f, 0x53, 0x1d, 0xbf,	0x0a,
+	0x0a, 0x76, 0xa6, 0xa2, 0x4c, 0x08, 0x7a, 0x09, 0x1f, 0x53, 0x1d, 0xbf, 0x0a,
 	0x01, 0x69, 0xb6, 0xa2, 0x8a, 0xd6, 0x62, 0xa4, 0xd1, 0x8e, 0x73, 0xaf, 0xa3,
 	0x2d, 0x77, 0x9d, 0x59, 0x18, 0xd0, 0x8b, 0xc8, 0x85, 0x8f, 0x4d, 0xce, 0xf9,
 	0x7c, 0x2a, 0x24, 0x85, 0x5e, 0x6e, 0xeb, 0x22, 0xb3, 0xb2, 0xe5
 };
+
 TEST_SETUP(dh_generate_param)
 {
 	ST_START_TEST;
@@ -469,7 +469,6 @@ TEST_F(dh_compute_shared_secret)
 	ST_END_TEST;
 }
 
-
 /*
  * Desc: Compute ECDH shared secret
  * Refered https://developer.artik.io/documentation/security-api/see-authentication-test_8c-example.html
@@ -566,21 +565,7 @@ TEST_F(ecdh_compute_shared_secret)
  */
 #define HAL_TEST_CERT_SLOT 2
 static const char test_crt[] =
-		"-----BEGIN CERTIFICATE-----\r\n"
-		"MIICaDCCAgygAwIBAgIBAjAMBggqhkjOPQQDAgUAMHAxLTArBgNVBAMTJFNhbXN1\r\n"
-		"bmcgRWxlY3Ryb25pY3MgT0NGIFJvb3QgQ0EgVEVTVDEUMBIGA1UECxMLT0NGIFJv\r\n"
-		"b3QgQ0ExHDAaBgNVBAoTE1NhbXN1bmcgRWxlY3Ryb25pY3MxCzAJBgNVBAYTAktS\r\n"
-		"MCAXDTE2MTEyNDAyNDcyN1oYDzIwNjkxMjMxMTQ1OTU5WjBwMS0wKwYDVQQDEyRT\r\n"
-		"YW1zdW5nIEVsZWN0cm9uaWNzIE9DRiBSb290IENBIFRFU1QxFDASBgNVBAsTC09D\r\n"
-		"RiBSb290IENBMRwwGgYDVQQKExNTYW1zdW5nIEVsZWN0cm9uaWNzMQswCQYDVQQG\r\n"
-		"EwJLUjBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABBzzury7p8HANVn+v4CIa2h/\r\n"
-		"R/SAt3VVst+vTv4/kR+lgU1OEiT3t9+mOWE7J+oddpRofFW2DdeJkpfQUVOn4NOj\r\n"
-		"gZIwgY8wDgYDVR0PAQH/BAQDAgHGMC4GA1UdHwQnMCUwI6AhoB+GHWh0dHA6Ly9j\r\n"
-		"YS5zYW1zdW5naW90cy5jb20vY3JsMA8GA1UdEwEB/wQFMAMBAf8wPAYIKwYBBQUH\r\n"
-		"AQEEMDAuMCwGCCsGAQUFBzABhiBodHRwOi8vb2NzcC10ZXN0LnNhbXN1bmdpb3Rz\r\n"
-		"LmNvbTAMBggqhkjOPQQDAgUAA0gAMEUCIQCIsi3BcOQMXO/pCiUA+S75bYFWS27E\r\n"
-		"GAq9e2E3+hQ2TAIgWrTieFAZ5xRH3BnSHG+XEF2HPD99y/SYSa6T59YW+jE=\r\n"
-		"-----END CERTIFICATE-----\r\n\0";
+	"-----BEGIN CERTIFICATE-----\r\n" "MIICaDCCAgygAwIBAgIBAjAMBggqhkjOPQQDAgUAMHAxLTArBgNVBAMTJFNhbXN1\r\n" "bmcgRWxlY3Ryb25pY3MgT0NGIFJvb3QgQ0EgVEVTVDEUMBIGA1UECxMLT0NGIFJv\r\n" "b3QgQ0ExHDAaBgNVBAoTE1NhbXN1bmcgRWxlY3Ryb25pY3MxCzAJBgNVBAYTAktS\r\n" "MCAXDTE2MTEyNDAyNDcyN1oYDzIwNjkxMjMxMTQ1OTU5WjBwMS0wKwYDVQQDEyRT\r\n" "YW1zdW5nIEVsZWN0cm9uaWNzIE9DRiBSb290IENBIFRFU1QxFDASBgNVBAsTC09D\r\n" "RiBSb290IENBMRwwGgYDVQQKExNTYW1zdW5nIEVsZWN0cm9uaWNzMQswCQYDVQQG\r\n" "EwJLUjBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABBzzury7p8HANVn+v4CIa2h/\r\n" "R/SAt3VVst+vTv4/kR+lgU1OEiT3t9+mOWE7J+oddpRofFW2DdeJkpfQUVOn4NOj\r\n" "gZIwgY8wDgYDVR0PAQH/BAQDAgHGMC4GA1UdHwQnMCUwI6AhoB+GHWh0dHA6Ly9j\r\n" "YS5zYW1zdW5naW90cy5jb20vY3JsMA8GA1UdEwEB/wQFMAMBAf8wPAYIKwYBBQUH\r\n" "AQEEMDAuMCwGCCsGAQUFBzABhiBodHRwOi8vb2NzcC10ZXN0LnNhbXN1bmdpb3Rz\r\n" "LmNvbTAMBggqhkjOPQQDAgUAA0gAMEUCIQCIsi3BcOQMXO/pCiUA+S75bYFWS27E\r\n" "GAq9e2E3+hQ2TAIgWrTieFAZ5xRH3BnSHG+XEF2HPD99y/SYSa6T59YW+jE=\r\n" "-----END CERTIFICATE-----\r\n\0";
 static hal_data g_cert_in;
 static hal_data g_cert_out;
 TEST_SETUP(set_certificate)
@@ -665,7 +650,6 @@ TEST_SETUP(remove_certificate)
 {
 	ST_START_TEST;
 
-
 	ST_EXPECT_EQ(0, hal_test_malloc_buffer(&g_cert_in, sizeof(test_crt)));
 	memcpy(g_cert_in.data, test_crt, sizeof(test_crt));
 	g_cert_in.data_len = sizeof(test_crt);
@@ -705,7 +689,6 @@ static hal_data g_factory_data;
 #define HAL_TEST_FACTORY_CERT_SLOT 4
 #define HAL_TEST_FACTORY_DATA_SLOT 5
 
-
 TEST_SETUP(get_factory)
 {
 	ST_START_TEST;
@@ -738,7 +721,6 @@ TEST_F(get_factory)
 
 	ST_END_TEST;
 }
-
 
 pthread_addr_t hal_auth_test(void)
 {

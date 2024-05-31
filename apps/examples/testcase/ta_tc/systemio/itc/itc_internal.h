@@ -31,7 +31,6 @@
 #define SYSIO_ITC_PWM_PRINT   printf
 #define SYSIO_ITC_I2C_PRINT   printf
 
-
 /**********************************************************
 * TC Function Declarations
 **********************************************************/
@@ -39,4 +38,4 @@ char *Expect_Value(int, int);
 
 int itc_spi_main(void);
 
-#endif /* __EXAMPLES_TESTCASE_SYSTEMIO_ITC_INTERNAL_H */
+#endif							/* __EXAMPLES_TESTCASE_SYSTEMIO_ITC_INTERNAL_H */

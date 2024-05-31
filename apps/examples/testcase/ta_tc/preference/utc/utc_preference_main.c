@@ -80,7 +80,7 @@ static void utc_preference_set_int_p(void)
 
 	ret = preference_set_int(INT_KEY, INT_VALUE);
 	TC_ASSERT_EQ("preference_set_int", ret, OK);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -100,7 +100,7 @@ static void utc_preference_set_double_p(void)
 
 	ret = preference_set_double(DOUBLE_KEY, DOUBLE_VALUE);
 	TC_ASSERT_EQ("preference_set_double", ret, OK);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -114,14 +114,13 @@ static void utc_preference_set_double_n(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void utc_preference_set_bool_p(void)
 {
 	int ret;
 
 	ret = preference_set_bool(BOOL_KEY, BOOL_VALUE);
 	TC_ASSERT_EQ("preference_set_bool", ret, OK);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -141,7 +140,7 @@ static void utc_preference_set_string_p(void)
 
 	ret = preference_set_string(STRING_KEY, STRING_VALUE);
 	TC_ASSERT_EQ("preference_set_string", ret, OK);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -196,7 +195,7 @@ static void utc_preference_get_int_p(void)
 	ret = preference_get_int(INT_KEY, &value);
 	TC_ASSERT_EQ("preference_get_int", ret, OK);
 	TC_ASSERT_EQ("preference_get_int", value, INT_VALUE);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -254,7 +253,7 @@ static void utc_preference_get_bool_p(void)
 	ret = preference_get_bool(BOOL_KEY, &value);
 	TC_ASSERT_EQ("preference_get_bool", ret, OK);
 	TC_ASSERT_EQ("preference_get_bool", value, BOOL_VALUE);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -379,7 +378,6 @@ static void utc_preference_set_changed_cb_p(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void utc_preference_set_changed_cb_n(void)
 {
 	int ret;
@@ -479,7 +477,7 @@ static void utc_preference_is_existing_p(void)
 	/* Check whether removed key is existing, it should be return false through passed paramter */
 	ret = preference_is_existing(INT_KEY, &is_existing);
 	TC_ASSERT_EQ("preference_is_existing", ret, OK);
-	TC_ASSERT_EQ("preference_is_existing", is_existing, false);	
+	TC_ASSERT_EQ("preference_is_existing", is_existing, false);
 
 	TC_SUCCESS_RESULT();
 }
@@ -517,7 +515,7 @@ static void utc_preference_shared_set_int_p(void)
 
 	ret = preference_shared_set_int(SHARED_INTKEY_PATH, INT_VALUE);
 	TC_ASSERT_EQ("preference_shared_set_int", ret, OK);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -537,7 +535,7 @@ static void utc_preference_shared_set_double_p(void)
 
 	ret = preference_shared_set_double(SHARED_DOUBLEKEY_PATH, DOUBLE_VALUE);
 	TC_ASSERT_EQ("preference_shared_set_double", ret, OK);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -551,14 +549,13 @@ static void utc_preference_shared_set_double_n(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void utc_preference_shared_set_bool_p(void)
 {
 	int ret;
 
 	ret = preference_shared_set_bool(SHARED_BOOLKEY_PATH, BOOL_VALUE);
 	TC_ASSERT_EQ("preference_shared_set_bool", ret, OK);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -578,7 +575,7 @@ static void utc_preference_shared_set_string_p(void)
 
 	ret = preference_shared_set_string(SHARED_STRINGKEY_PATH, STRING_VALUE);
 	TC_ASSERT_EQ("preference_shared_set_string", ret, OK);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -633,7 +630,7 @@ static void utc_preference_shared_get_int_p(void)
 	ret = preference_shared_get_int(SHARED_INTKEY_PATH, &value);
 	TC_ASSERT_EQ("preference_shared_get_int", ret, OK);
 	TC_ASSERT_EQ("preference_shared_get_int", value, INT_VALUE);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -691,7 +688,7 @@ static void utc_preference_shared_get_bool_p(void)
 	ret = preference_shared_get_bool(SHARED_BOOLKEY_PATH, &value);
 	TC_ASSERT_EQ("preference_shared_get_bool", ret, OK);
 	TC_ASSERT_EQ("preference_shared_get_bool", value, BOOL_VALUE);
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -750,23 +747,23 @@ static void utc_preference_shared_get_string_n(void)
 
 static void utc_preference_shared_get_binary_p(void)
 {
-        int ret;
-        void *value = NULL;
+	int ret;
+	void *value = NULL;
 	int len;
 
-        BINARY_VALUE.val1 = 123;
-        BINARY_VALUE.val2 = 'x';
+	BINARY_VALUE.val1 = 123;
+	BINARY_VALUE.val2 = 'x';
 
-        ret = preference_shared_get_binary(BINARY_KEY, &value, &len);
-        TC_ASSERT_NEQ("preference_shared_get_binary", value, NULL);
-        TC_ASSERT_EQ_CLEANUP("preference_shared_get_binary", ret, OK, free(value));
-        TC_ASSERT_EQ_CLEANUP("preference_shared_get_binary", check_binary_value((struct bin_pref_val_s *)value, BINARY_VALUE), true, free(value));
+	ret = preference_shared_get_binary(BINARY_KEY, &value, &len);
+	TC_ASSERT_NEQ("preference_shared_get_binary", value, NULL);
+	TC_ASSERT_EQ_CLEANUP("preference_shared_get_binary", ret, OK, free(value));
+	TC_ASSERT_EQ_CLEANUP("preference_shared_get_binary", check_binary_value((struct bin_pref_val_s *)value, BINARY_VALUE), true, free(value));
 	TC_ASSERT_EQ("preference_shared_get_binary", len, sizeof(BINARY_VALUE));
 
-        /* Clean binary value allocated from preference */
-        free(value);
+	/* Clean binary value allocated from preference */
+	free(value);
 
-        TC_SUCCESS_RESULT();
+	TC_SUCCESS_RESULT();
 }
 
 static void utc_preference_shared_get_binary_n(void)
@@ -915,7 +912,7 @@ static void utc_preference_shared_is_existing_p(void)
 	/* Check whether removed key is existing, it should be return false through passed paramter */
 	ret = preference_shared_is_existing(SHARED_INTKEY_PATH, &is_existing);
 	TC_ASSERT_EQ("preference_shared_is_existing", ret, OK);
-	TC_ASSERT_EQ("preference_shared_is_existing", is_existing, false);	
+	TC_ASSERT_EQ("preference_shared_is_existing", is_existing, false);
 
 	TC_SUCCESS_RESULT();
 }

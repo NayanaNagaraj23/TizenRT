@@ -57,7 +57,7 @@ static void tc_timer_timer_create_neg(void)
 	st_sigevent.sigev_notify = SIGEV_SIGNAL;
 	st_sigevent.sigev_signo = sig_no;
 	st_sigevent.sigev_value.sival_ptr = &timer_id;
-	
+
 	clockid = CLOCK_REALTIME;
 
 	/* Check for NULL timer ID */
@@ -68,7 +68,7 @@ static void tc_timer_timer_create_neg(void)
 	ret_chk = timer_delete(NULL);
 	TC_ASSERT_EQ("timer_delete", errno, EINVAL);
 	TC_SUCCESS_RESULT();
-	
+
 }
 
 static void tc_timer_timer_create_null_signal_neg(void)
@@ -77,15 +77,15 @@ static void tc_timer_timer_create_null_signal_neg(void)
 	clockid_t clockid;
 #ifdef CONFIG_CLOCK_MONOTONIC
 	clockid = CLOCK_MONOTONIC;
-#endif	
+#endif
 	clockid = CLOCK_REALTIME;
 	/* Check for NULL timer ID */
 
 	ret_chk = timer_create(clockid, NULL, NULL);
 	TC_ASSERT_EQ_CLEANUP("timer_create", ret_chk, ERROR, timer_delete(NULL));
-	
+
 	TC_SUCCESS_RESULT();
-	
+
 }
 
 static void tc_timer_timer_create_negclockid_neg(void)
@@ -105,15 +105,15 @@ static void tc_timer_timer_create_negclockid_neg(void)
 	st_sigevent.sigev_notify = SIGEV_SIGNAL;
 	st_sigevent.sigev_signo = sig_no;
 	st_sigevent.sigev_value.sival_ptr = &timer_id;
-	
+
 	/* Check for negative clock ID */
 	clockid = -1;
 
-	ret_chk = timer_create(clockid,&st_sigevent, &timer_id);
+	ret_chk = timer_create(clockid, &st_sigevent, &timer_id);
 	TC_ASSERT_EQ_CLEANUP("timer_create", errno, EINVAL, timer_delete(timer_id));
-	
+
 	TC_SUCCESS_RESULT();
-	
+
 }
 
 static void tc_timer_timer_create_invalid_clockid_neg(void)
@@ -136,12 +136,12 @@ static void tc_timer_timer_create_invalid_clockid_neg(void)
 
 	/* Check for invalid clockid clock ID */
 
-	ret_chk = timer_create(12345,&st_sigevent, &timer_id);
+	ret_chk = timer_create(12345, &st_sigevent, &timer_id);
 
 	TC_ASSERT_EQ_CLEANUP("timer_create", errno, EINVAL, timer_delete(timer_id));
 
 	TC_SUCCESS_RESULT();
-	
+
 }
 
 static void tc_timer_timer_create_invalid_signo_neg(void)
@@ -165,15 +165,15 @@ static void tc_timer_timer_create_invalid_signo_neg(void)
 	/* Check for invalid clockid clock ID */
 	clockid = CLOCK_REALTIME;
 
-	ret_chk = timer_create(&clockid,&st_sigevent, &timer_id);
+	ret_chk = timer_create(&clockid, &st_sigevent, &timer_id);
 
 	TC_ASSERT_EQ_CLEANUP("timer_create", errno, EINVAL, timer_delete(timer_id));
 
 	TC_SUCCESS_RESULT();
-	
+
 }
 
-static void tc_timer_timer_create_delete_pos (void)
+static void tc_timer_timer_create_delete_pos(void)
 {
 	int ret_chk = 0;
 	timer_t timer_id;
@@ -216,11 +216,8 @@ static void tc_timer_timer_create_delete_pos (void)
 	ret_chk = timer_delete(timer_id);
 	TC_ASSERT_NEQ("timer_delete", ret_chk, ERROR);
 	TC_SUCCESS_RESULT();
-	
 
 }
-
-
 
 static void tc_timer_timer_create_realtime_pos(void)
 {
@@ -240,9 +237,9 @@ static void tc_timer_timer_create_realtime_pos(void)
 	st_sigevent.sigev_notify = SIGEV_SIGNAL;
 	st_sigevent.sigev_signo = sig_no;
 	st_sigevent.sigev_value.sival_ptr = &timer_id;
-	
+
 	clockid = CLOCK_REALTIME;
-	
+
 	ret_chk = timer_create(CLOCK_REALTIME, NULL, &gtimer_id);
 	TC_ASSERT_NEQ("timer_create", ret_chk, ERROR);
 
@@ -259,8 +256,7 @@ static void tc_timer_timer_create_realtime_pos(void)
 	TC_SUCCESS_RESULT();
 }
 
-
-#endif	/* CONFIG_BUILD_PROTECTED */
+#endif							/* CONFIG_BUILD_PROTECTED */
 
 #ifndef CONFIG_DISABLE_POSIX_TIMERS
 /**
@@ -363,16 +359,15 @@ static void tc_timer_timer_set_time_invalid_flag_neg(void)
 	st_timer_spec_set.it_interval.tv_nsec = 0;	/* interval; */
 	st_timer_spec_set.it_value.tv_sec = 1;
 	st_timer_spec_set.it_value.tv_nsec = 0;	/* expire; */
-	
+
 	/* Null it_value parameter check for timer_settime */
 
 	st_timer_spec_set.it_value.tv_sec = 0;
-	ret_chk = timer_settime(timer_id,flag, &st_timer_spec_set, NULL);
+	ret_chk = timer_settime(timer_id, flag, &st_timer_spec_set, NULL);
 	TC_ASSERT_EQ_CLEANUP("timer_settime", ret_chk, OK, timer_delete(timer_id));
 	timer_delete(timer_id);
 	TC_SUCCESS_RESULT();
 }
-
 
 static void tc_timer_timer_set_time_pos(void)
 {
@@ -396,7 +391,7 @@ static void tc_timer_timer_set_time_pos(void)
 	st_timer_spec_set.it_interval.tv_nsec = 0;	/* interval; */
 	st_timer_spec_set.it_value.tv_sec = 1;
 	st_timer_spec_set.it_value.tv_nsec = 0;	/* expire; */
-	
+
 	/* Null it_value parameter check for timer_settime */
 
 	st_timer_spec_set.it_value.tv_sec = 0;
@@ -429,14 +424,11 @@ static void tc_timer_timer_set_time_null_timespec_neg(void)
 	st_timer_spec_set.it_value.tv_sec = 1;
 	st_timer_spec_set.it_value.tv_nsec = 0;	/* expire; */
 
-
 	/* Null timer value check for timer_settime */
 
 	ret_chk = timer_settime(timer_id, 0, NULL, NULL);
 	TC_ASSERT_EQ_CLEANUP("timer_settime", errno, EINVAL, timer_delete(timer_id));
 
-
-	
 	timer_delete(timer_id);
 	TC_SUCCESS_RESULT();
 }
@@ -464,14 +456,14 @@ static void tc_timer_timer_set_abs_time_pos(void)
 	st_timer_spec_set.it_interval.tv_nsec = 0;	/* interval; */
 	st_timer_spec_set.it_value.tv_sec = 1;
 	st_timer_spec_set.it_value.tv_nsec = 0;	/* expire; */
-	
+
 	/* Check if TIMER_ABSTIME (Flag = 1) is selected */
 
 	ret_chk = timer_settime(timer_id, 1, &st_timer_spec_set, NULL);
 	TC_ASSERT_EQ_CLEANUP("timer_settime", ret_chk, OK, timer_delete(timer_id));
-//	timer_delete(timer_id);
+//  timer_delete(timer_id);
 	TC_SUCCESS_RESULT();
-	
+
 }
 
 static void tc_timer_timer_set_abs_time_neg(void)
@@ -497,16 +489,15 @@ static void tc_timer_timer_set_abs_time_neg(void)
 	st_timer_spec_set.it_interval.tv_nsec = 0;	/* interval; */
 	st_timer_spec_set.it_value.tv_sec = 1;
 	st_timer_spec_set.it_value.tv_nsec = 0;	/* expire; */
-	
+
 	/* Check if TIMER_ABSTIME (Flag = 1) is selected */
 
 	ret_chk = timer_settime(timer_id, 0, &st_timer_spec_set, NULL);
 	TC_ASSERT_EQ_CLEANUP("timer_settime", ret_chk, OK, timer_delete(timer_id));
 	timer_delete(timer_id);
 	TC_SUCCESS_RESULT();
-	
-}
 
+}
 
 static void tc_timer_timer_get_time_pos(void)
 {
@@ -572,7 +563,6 @@ static void tc_timer_timer_set_get_time_neg(void)
 	st_timer_spec_set.it_value.tv_sec = 1;
 	st_timer_spec_set.it_value.tv_nsec = 0;	/* expire; */
 
-	
 	/* Check if TIMER_ABSTIME (Flag = 1) is selected */
 
 	ret_chk = timer_settime(timer_id, 1, &st_timer_spec_set, NULL);
@@ -584,7 +574,7 @@ static void tc_timer_timer_set_get_time_neg(void)
 	TC_ASSERT_EQ("timer_gettime", errno, EINVAL);
 
 	TC_ASSERT_EQ_ERROR_CLEANUP("timer_gettime", ret_chk, OK, errno, timer_delete(timer_id));
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -616,24 +606,24 @@ static void tc_timer_timer_initialize_pos(void)
 int timer_tc_main(void)
 {
 #ifndef CONFIG_BUILD_PROTECTED
- tc_timer_timer_create_neg();
- tc_timer_timer_create_delete_pos ();
- tc_timer_timer_create_null_signal_neg();
- tc_timer_timer_create_invalid_clockid_neg();
- tc_timer_timer_create_negclockid_neg();
- tc_timer_timer_create_invalid_signo_neg();
-#endif	
+	tc_timer_timer_create_neg();
+	tc_timer_timer_create_delete_pos();
+	tc_timer_timer_create_null_signal_neg();
+	tc_timer_timer_create_invalid_clockid_neg();
+	tc_timer_timer_create_negclockid_neg();
+	tc_timer_timer_create_invalid_signo_neg();
+#endif
 
 #ifndef CONFIG_DISABLE_POSIX_TIMERS
 	tc_timer_timer_getoverrun_pos();
-#endif                     /* CONFIG_DISABLE_POSIX_TIMERS */
- tc_timer_timer_set_time_pos();
- tc_timer_timer_set_time_null_id_neg();
- tc_timer_timer_set_time_invalid_flag_neg();
+#endif							/* CONFIG_DISABLE_POSIX_TIMERS */
+	tc_timer_timer_set_time_pos();
+	tc_timer_timer_set_time_null_id_neg();
+	tc_timer_timer_set_time_invalid_flag_neg();
 
- tc_timer_timer_set_abs_time_neg();
- tc_timer_timer_set_abs_time_pos();
- tc_timer_timer_initialize_pos();
+	tc_timer_timer_set_abs_time_neg();
+	tc_timer_timer_set_abs_time_pos();
+	tc_timer_timer_initialize_pos();
 
 	return 0;
 }

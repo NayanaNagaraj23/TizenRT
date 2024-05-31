@@ -88,7 +88,7 @@ static security_handle g_hnd = NULL;
 static void utc_keymgr_generate_key_p(void)
 {
 	int i = 0;
-	for (; i < sizeof(g_key_type_table)/sizeof(security_key_type); i++) {
+	for (; i < sizeof(g_key_type_table) / sizeof(security_key_type); i++) {
 		security_error res = keymgr_generate_key(g_hnd, g_key_type_table[i], UTC_CRYPTO_KEY_NAME);
 		TC_ASSERT_EQ("keymgr_generate_key_p", res, SECURITY_OK);
 		TC_SUCCESS_RESULT();
@@ -155,21 +155,21 @@ static void utc_keymgr_set_key_p(void)
 {
 	char *pubkey_text = "public key";
 	int pubkey_len = strlen(pubkey_text) + 1;
-	security_data pubkey = {pubkey_text, pubkey_len};
+	security_data pubkey = { pubkey_text, pubkey_len };
 
 	char *privkey_text = "private key";
 	int privkey_len = strlen(privkey_text) + 1;
-	security_data privkey = {privkey_text, privkey_len};
+	security_data privkey = { privkey_text, privkey_len };
 
 	int i = 0;
-	for (; i < sizeof(g_sym_key_type_table)/sizeof(security_key_type); i++) {
+	for (; i < sizeof(g_sym_key_type_table) / sizeof(security_key_type); i++) {
 		security_error res = keymgr_set_key(g_hnd, g_sym_key_type_table[i], UTC_CRYPTO_KEY_NAME,
 											&pubkey, NULL);
 		TC_ASSERT_EQ("keymgr_set_key_p", res, SECURITY_OK);
 		TC_SUCCESS_RESULT();
 	}
 
-	for (i = 0; i < sizeof(g_asym_key_type_table)/sizeof(security_key_type); i++) {
+	for (i = 0; i < sizeof(g_asym_key_type_table) / sizeof(security_key_type); i++) {
 		security_error res = keymgr_set_key(g_hnd, g_asym_key_type_table[i], UTC_CRYPTO_KEY_NAME,
 											&pubkey, &privkey);
 		TC_ASSERT_EQ("keymgr_set_key_p", res, SECURITY_OK);
@@ -257,17 +257,17 @@ static void utc_keymgr_set_key_data_n(void)
  */
 static void utc_keymgr_get_key_p(void)
 {
-	security_data pubkey = {NULL, 0};
-	security_data privkey = {NULL, 0};
+	security_data pubkey = { NULL, 0 };
+	security_data privkey = { NULL, 0 };
 
 	int i = 0;
-	for (; i < sizeof(g_sym_key_type_table)/sizeof(security_key_type); i++) {
+	for (; i < sizeof(g_sym_key_type_table) / sizeof(security_key_type); i++) {
 		security_error res = keymgr_get_key(g_hnd, g_sym_key_type_table[i], UTC_CRYPTO_KEY_NAME, &pubkey, NULL);
 		TC_ASSERT_EQ("keymgr_get_key_p", res, SECURITY_OK);
 		TC_SUCCESS_RESULT();
 	}
 
-	for (i = 0; i < sizeof(g_asym_key_type_table)/sizeof(security_key_type); i++) {
+	for (i = 0; i < sizeof(g_asym_key_type_table) / sizeof(security_key_type); i++) {
 		security_error res = keymgr_get_key(g_hnd, g_asym_key_type_table[i], UTC_CRYPTO_KEY_NAME, &pubkey, &privkey);
 		TC_ASSERT_EQ("keymgr_get_key_p", res, SECURITY_OK);
 		TC_SUCCESS_RESULT();
@@ -284,7 +284,7 @@ static void utc_keymgr_get_key_p(void)
  */
 static void utc_keymgr_get_key_hnd_n(void)
 {
-	security_data pubkey = {NULL, 0};
+	security_data pubkey = { NULL, 0 };
 	security_error res = keymgr_get_key(NULL, g_sym_key_type_table[0], UTC_CRYPTO_KEY_NAME, &pubkey, NULL);
 
 	TC_ASSERT_EQ("keymgr_get_key_hnd_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -301,8 +301,8 @@ static void utc_keymgr_get_key_hnd_n(void)
  */
 static void utc_keymgr_get_key_type_n(void)
 {
-	security_data pubkey = {NULL, 0};
-	security_data privkey = {NULL, 0};
+	security_data pubkey = { NULL, 0 };
+	security_data privkey = { NULL, 0 };
 	security_error res = keymgr_get_key(g_hnd, KEY_UNKNOWN, UTC_CRYPTO_KEY_NAME, &pubkey, &privkey);
 
 	TC_ASSERT_EQ("keymgr_get_key_type_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -319,8 +319,8 @@ static void utc_keymgr_get_key_type_n(void)
  */
 static void utc_keymgr_get_key_name_n(void)
 {
-	security_data pubkey = {NULL, 0};
-	security_data privkey = {NULL, 0};
+	security_data pubkey = { NULL, 0 };
+	security_data privkey = { NULL, 0 };
 	security_error res = keymgr_get_key(g_hnd, g_sym_key_type_table[0], NULL, &pubkey, &privkey);
 
 	TC_ASSERT_EQ("keymgr_get_key_name_n", res, SECURITY_INVALID_KEY_INDEX);
@@ -357,7 +357,7 @@ static void utc_keymgr_remove_key_p(void)
 	US_DEFINE_DATA(privkey, "private key data");
 
 	int i = 0;
-	for (; i < sizeof(g_sym_key_type_table)/sizeof(security_key_type); i++) {
+	for (; i < sizeof(g_sym_key_type_table) / sizeof(security_key_type); i++) {
 		security_error res = keymgr_set_key(g_hnd, g_sym_key_type_table[i], UTC_CRYPTO_KEY_NAME, &pubkey, NULL);
 		TC_ASSERT_EQ("keymgr_remove_key_p", res, SECURITY_OK);
 		res = keymgr_remove_key(g_hnd, g_sym_key_type_table[i], UTC_CRYPTO_KEY_NAME);
@@ -365,7 +365,7 @@ static void utc_keymgr_remove_key_p(void)
 		TC_SUCCESS_RESULT();
 	}
 
-	for (i = 0; i < sizeof(g_asym_key_type_table)/sizeof(security_key_type); i++) {
+	for (i = 0; i < sizeof(g_asym_key_type_table) / sizeof(security_key_type); i++) {
 		security_error res = keymgr_set_key(g_hnd, g_asym_key_type_table[i], UTC_CRYPTO_KEY_NAME, &pubkey, &privkey);
 		TC_ASSERT_EQ("keymgr_remove_key_p", res, SECURITY_OK);
 

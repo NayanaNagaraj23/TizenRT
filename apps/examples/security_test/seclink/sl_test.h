@@ -21,18 +21,17 @@
 #include <tinyara/security_hal.h>
 
 struct _sl_options;
-typedef void (*sl_test_func)(struct _sl_options *arg);
+typedef void (*sl_test_func)(struct _sl_options * arg);
 
 struct _sl_options {
 	sl_test_func func;
 	int argc;
 	char **argv;
-	int count; // repeat count
-	int type;  // type
+	int count;					// repeat count
+	int type;					// type
 	char run_all;
 };
 typedef struct _sl_options sl_options;
-
 
 /*
  * Definitions
@@ -59,10 +58,10 @@ typedef struct _sl_options sl_options;
 /*
  * Functions
  */
-void sl_test_free_buffer(hal_data *data);
-int sl_test_malloc_buffer(hal_data *data, int buf_len);
-int sl_test_malloc_buffer_priv(hal_data *data, int buf_len);
-void sl_test_init_buffer(hal_data *data);
+void sl_test_free_buffer(hal_data * data);
+int sl_test_malloc_buffer(hal_data * data, int buf_len);
+int sl_test_malloc_buffer_priv(hal_data * data, int buf_len);
+void sl_test_init_buffer(hal_data * data);
 void sl_test_print_buffer(char *data, int buf_len, const char *message);
-void sl_run_all(sl_options *opt, sl_test_func *func, int max);
-int sl_parse_command(sl_options *opt, char **command, int tmax, int terr);
+void sl_run_all(sl_options * opt, sl_test_func * func, int max);
+int sl_parse_command(sl_options * opt, char **command, int tmax, int terr);

@@ -108,7 +108,7 @@ TEST_F(read_storage)
 	ST_START_TEST;
 
 	for (uint32_t i = 0; i < HAL_TEST_MAX_SLOT_INDEX; i++) {
-		ST_EXPECT_EQ(0, hal_test_malloc_buffer(&g_output[i], HAL_SS_TEST_MEM_SIZE)); 
+		ST_EXPECT_EQ(0, hal_test_malloc_buffer(&g_output[i], HAL_SS_TEST_MEM_SIZE));
 		ST_EXPECT_EQ2(HAL_SUCCESS, HAL_NOT_SUPPORTED, g_se->ops->read_storage(i, &g_output[i]));
 	}
 
@@ -151,7 +151,6 @@ TEST_F(delete_storage)
 
 	ST_END_TEST;
 }
-
 
 pthread_addr_t hal_ss_test(void)
 {

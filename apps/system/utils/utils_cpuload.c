@@ -331,12 +331,12 @@ static int cpuload_start(void)
 	}
 
 	return OK;
-errout_with_close:
+ errout_with_close:
 	if (cpuload_snapfd > 0) {
 		(void)ioctl(cpuload_snapfd, CPULOADIOC_STOP, (unsigned long)NULL);
 		close(cpuload_snapfd);
 	}
-errout_with_free:
+ errout_with_free:
 	if (cpuload_snaparr != NULL) {
 		free(cpuload_snaparr);
 		cpuload_snaparr = NULL;
@@ -435,7 +435,7 @@ int utils_cpuload(int argc, char **args)
 		is_started = false;
 	}
 	return ret;
-show_usage:
+ show_usage:
 	cpuload_show_usage();
 
 	return ERROR;

@@ -64,7 +64,7 @@ typedef enum {
  * sl_test_main
  ****************************************************************************/
 
-static int _parse_command(sl_options *opt, int argc, char *argv[])
+static int _parse_command(sl_options * opt, int argc, char *argv[])
 {
 	if (argc < 3) {
 		return -1;
@@ -76,16 +76,16 @@ static int _parse_command(sl_options *opt, int argc, char *argv[])
 
 	for (int i = 0; i < SL_TYPE_MAX; i++) {
 		if (strncmp(argv[1], g_command[i], strlen(g_command[i]) + 1) == 0) {
-			return (sl_type_e)i;
+			return (sl_type_e) i;
 		}
 	}
 	return SL_TYPE_ERR;
 }
 
-void _sl_run_all(sl_options *opt)
+void _sl_run_all(sl_options * opt)
 {
 	for (int i = 0; i < SL_TYPE_MAX; i++) {
-		g_func_list[i](opt);
+		g_func_list[i] (opt);
 	}
 }
 
@@ -110,7 +110,7 @@ int sl_test_main(int argc, char *argv[])
 
 	opt.argc = argc;
 	opt.argv = argv;
-	g_func_list[type](&opt);
+	g_func_list[type] (&opt);
 
 	return 0;
 }

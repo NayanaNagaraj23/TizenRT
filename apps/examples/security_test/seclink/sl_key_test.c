@@ -80,15 +80,13 @@ TESTCASE_SETUP(sl_key_global)
 {
 	ST_EXPECT_EQ(SECLINK_OK, sl_init(&g_hnd));
 }
-END_TESTCASE
 
-TESTCASE_TEARDOWN(sl_key_global)
+END_TESTCASE TESTCASE_TEARDOWN(sl_key_global)
 {
 	ST_EXPECT_EQ(SECLINK_OK, sl_deinit(g_hnd));
 }
-END_TESTCASE
 
-TESTCASE_SETUP(key_testcase)
+END_TESTCASE TESTCASE_SETUP(key_testcase)
 {
 	/*  public key */
 	g_asym_pubkey_in.data = g_ed25519_pubkey;
@@ -118,15 +116,14 @@ TESTCASE_SETUP(key_testcase)
 	ST_EXPECT_EQ(0, sl_test_malloc_buffer(&g_key_out, SL_TEST_KEY_LEN));
 	ST_EXPECT_EQ(0, sl_test_malloc_buffer_priv(&g_key_out, SL_TEST_KEY_LEN));
 }
-END_TESTCASE
 
-TESTCASE_TEARDOWN(key_testcase)
+END_TESTCASE TESTCASE_TEARDOWN(key_testcase)
 {
 	sl_test_free_buffer(&g_sym_key_in);
 	sl_test_free_buffer(&g_key_out);
 }
-END_TESTCASE
 
+END_TESTCASE
 /*
  * Desc: set asymmetric key
  */
@@ -135,74 +132,65 @@ static char key_b_buf[1024];
 
 START_TEST_F(set_ecc_25519_key)
 {
-	ST_ASSERT_EQ(SECLINK_OK, sl_set_key(g_hnd, HAL_KEY_ECC_25519,
-										SL_RW_KEY_SLOT, &g_asym_pubkey_in, &g_asym_prikey_in));
+	ST_ASSERT_EQ(SECLINK_OK, sl_set_key(g_hnd, HAL_KEY_ECC_25519, SL_RW_KEY_SLOT, &g_asym_pubkey_in, &g_asym_prikey_in));
 
 	hal_data key_a = HAL_DATA_INITIALIZER;
-  key_a.data = &key_a_buf;
-  key_a.data_len = 1024;
-  key_a.priv = &key_b_buf;
-  key_a.priv_len = 1024;
+	key_a.data = &key_a_buf;
+	key_a.data_len = 1024;
+	key_a.priv = &key_b_buf;
+	key_a.priv_len = 1024;
 
 	ST_EXPECT_EQ(SECLINK_OK, sl_get_key(g_hnd, HAL_KEY_ECC_25519, SL_RW_KEY_SLOT, &key_a));
 	if (key_a.data_len > 0) {
 		sl_test_print_buffer(key_a.data, key_a.data_len, "ECC25519 pubkey");
 	}
 
-  ST_EXPECT_EQ(sizeof(g_ed25519_pubkey), key_a.data_len);
-  memcmp(g_ed25519_pubkey, key_a.data , sizeof(g_ed25519_pubkey));
-  /* sl_get_key shouldn't return private key*/
-  ST_EXPECT_NEQ(sizeof(g_ed25519_privkey_only), key_a.priv_len);
+	ST_EXPECT_EQ(sizeof(g_ed25519_pubkey), key_a.data_len);
+	memcmp(g_ed25519_pubkey, key_a.data, sizeof(g_ed25519_pubkey));
+	/* sl_get_key shouldn't return private key */
+	ST_EXPECT_NEQ(sizeof(g_ed25519_privkey_only), key_a.priv_len);
 
-	ST_EXPECT_EQ(SECLINK_OK, sl_remove_key(g_hnd, HAL_KEY_ECC_25519,
-										   SL_RW_KEY_SLOT));
+	ST_EXPECT_EQ(SECLINK_OK, sl_remove_key(g_hnd, HAL_KEY_ECC_25519, SL_RW_KEY_SLOT));
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * Desc: set ecc p256r1 key
  */
 START_TEST_F(set_ecc_256_key)
 {
-	ST_EXPECT_EQ(SECLINK_OK, sl_set_key(g_hnd, HAL_KEY_ECC_SEC_P256R1,
-										SL_RW_KEY_SLOT, &g_ecc_pubkey_in, &g_ecc_prikey_in));
+	ST_EXPECT_EQ(SECLINK_OK, sl_set_key(g_hnd, HAL_KEY_ECC_SEC_P256R1, SL_RW_KEY_SLOT, &g_ecc_pubkey_in, &g_ecc_prikey_in));
 
-	ST_EXPECT_EQ(SECLINK_OK, sl_remove_key(g_hnd, HAL_KEY_ECC_SEC_P256R1,
-										   SL_RW_KEY_SLOT));
+	ST_EXPECT_EQ(SECLINK_OK, sl_remove_key(g_hnd, HAL_KEY_ECC_SEC_P256R1, SL_RW_KEY_SLOT));
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * Desc: Read data in secure storage
  */
 START_TEST_F(gen_asym_key)
 {
-	ST_EXPECT_EQ(SECLINK_OK, sl_generate_key(g_hnd, HAL_KEY_ECC_SEC_P256R1,
-											 SL_RW_KEY_SLOT));
-	ST_EXPECT_EQ(SECLINK_OK, sl_remove_key(g_hnd, HAL_KEY_ECC_SEC_P256R1,
-										   SL_RW_KEY_SLOT));
+	ST_EXPECT_EQ(SECLINK_OK, sl_generate_key(g_hnd, HAL_KEY_ECC_SEC_P256R1, SL_RW_KEY_SLOT));
+	ST_EXPECT_EQ(SECLINK_OK, sl_remove_key(g_hnd, HAL_KEY_ECC_SEC_P256R1, SL_RW_KEY_SLOT));
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * Parser
  */
-void sl_handle_key_set_asym_rw(sl_options *opt)
+void sl_handle_key_set_asym_rw(sl_options * opt)
 {
-	ST_TC_SET_SMOKE(sl_key, opt->count, 0, "set a asymmetric key",
-					key_testcase, set_ecc_25519_key);
+	ST_TC_SET_SMOKE(sl_key, opt->count, 0, "set a asymmetric key", key_testcase, set_ecc_25519_key);
 }
 
-void sl_handle_key_set_ecc_rw(sl_options *opt)
+void sl_handle_key_set_ecc_rw(sl_options * opt)
 {
-	ST_TC_SET_SMOKE(sl_key, opt->count, 0, "set a asymmetric ECC key",
-					key_testcase, set_ecc_256_key);
+	ST_TC_SET_SMOKE(sl_key, opt->count, 0, "set a asymmetric ECC key", key_testcase, set_ecc_256_key);
 }
 
-void sl_handle_key_gen_asym_rw(sl_options *opt)
+void sl_handle_key_gen_asym_rw(sl_options * opt)
 {
-	ST_TC_SET_SMOKE(sl_key, opt->count, 0, "generate a asymmetric key",
-					key_testcase, gen_asym_key);
+	ST_TC_SET_SMOKE(sl_key, opt->count, 0, "generate a asymmetric key", key_testcase, gen_asym_key);
 }
 
 /*
@@ -212,11 +200,10 @@ void sl_handle_key_gen_asym_rw(sl_options *opt)
  * RAM key slot range 32~63
  * tp1x: 32~63
  */
-void sl_handle_key(sl_options *opt)
+void sl_handle_key(sl_options * opt)
 {
 	ST_TC_SET_GLOBAL(sl_key, sl_key_global);
-	SL_PARSE_MESSAGE(opt, g_command, sl_key_type_e,
-					 g_func_list, SL_KEY_TYPE_MAX, SL_KEY_TYPE_ERR);
+	SL_PARSE_MESSAGE(opt, g_command, sl_key_type_e, g_func_list, SL_KEY_TYPE_MAX, SL_KEY_TYPE_ERR);
 	ST_RUN_TEST(sl_key);
 	ST_RESULT_TEST(sl_key);
 }

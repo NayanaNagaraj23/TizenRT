@@ -70,7 +70,7 @@ int utils_proc_pid_foreach(procentry_handler_t handler, void *arg)
 	/* Read each directory entry */
 
 	for (;;) {
-		
+
 		entryp = readdir(dirp);
 		if (!entryp) {
 			/* Finished with this directory */

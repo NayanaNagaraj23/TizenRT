@@ -54,16 +54,16 @@ int dm_get_serverAddr_main(void);
 #endif
 
 #ifdef CONFIG_ITC_DM_CONN_GET_RSSI
-int  itc_dm_conn_get_rssi_main(void);
+int itc_dm_conn_get_rssi_main(void);
 #endif
 #ifdef CONFIG_ITC_DM_CONN_GET_ADDRESS
-int  itc_dm_conn_get_address_main(void);
+int itc_dm_conn_get_address_main(void);
 #endif
 #ifdef CONFIG_ITC_DM_CONN_GET_INTERFACE
-int  itc_dm_conn_get_interface_main(void);
+int itc_dm_conn_get_interface_main(void);
 #endif
 #ifdef CONFIG_ITC_DM_CONN_GET_CHANNEL
-int  itc_dm_conn_get_channel_main(void);
+int itc_dm_conn_get_channel_main(void);
 #endif
 #ifdef CONFIG_ITC_DM_CONN_GET_TX_POWER
 #ifdef CONFIG_ITC_DM_CONN_SET_TX_POWER
@@ -72,14 +72,13 @@ int itc_dm_conn_set_get_tx_power_main(void);
 #endif
 #ifdef CONFIG_ITC_DM_CONN_REGI_LINKUP
 #ifdef CONFIG_ITC_DM_CONN_UNREGI_LINKUP
-int  itc_dm_conn_regi_unreg_linkup_main(void);
+int itc_dm_conn_regi_unreg_linkup_main(void);
 #endif
 #endif
 #ifdef CONFIG_ITC_DM_CONN_REGI_LINKDOWN
 #ifdef CONFIG_ITC_DM_CONN_UNREGI_LINKDOWN
-int  itc_dm_conn_regi_unreg_linkdown_main(void);
+int itc_dm_conn_regi_unreg_linkdown_main(void);
 #endif
 #endif
 
-#endif /* __EXAMPLES_TESTCASE_DM_ITC_INTERNAL_H */
-
+#endif							/* __EXAMPLES_TESTCASE_DM_ITC_INTERNAL_H */

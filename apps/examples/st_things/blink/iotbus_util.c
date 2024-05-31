@@ -25,14 +25,14 @@ static int g_blink_led = 0;
 static pthread_t led_thread_handler;
 iotbus_gpio_context_h g_led_gpio;
 
-char *power_status[] = {"off", "on"};
+char *power_status[] = { "off", "on" };
 
-const char* get_led_power(void)
+const char *get_led_power(void)
 {
 	return power_status[g_power];
 }
 
-static void* blink_loop(void* data)
+static void *blink_loop(void *data)
 {
 	g_blink_led = 1;
 
@@ -52,7 +52,7 @@ static void* blink_loop(void* data)
 
 int set_led_power(char *power)
 {
-	if (strncmp(power, "off" , strlen("off")) == 0) {
+	if (strncmp(power, "off", strlen("off")) == 0) {
 		g_power = 0;
 	} else if (strncmp(power, "on", strlen("on")) == 0) {
 		g_power = 1;
@@ -72,15 +72,15 @@ void blink_init()
 
 	if (g_led_gpio == NULL) {
 		printf("Open GPIO Error\n");
-		return ;
+		return;
 	}
-	
+
 	iotbus_gpio_set_direction(g_led_gpio, IOTBUS_GPIO_DIRECTION_OUT);
 	g_power = iotbus_gpio_read(g_led_gpio);
-	return ;
+	return;
 }
 
-int blink_start() 
+int blink_start()
 {
 	int ret;
 
@@ -100,7 +100,7 @@ int blink_start()
 		printf("[BLINK]pthread_attr_setstacksize error!\n");
 		return -1;
 	}
-	
+
 	ret = pthread_create(&led_thread_handler, &thread_attr, blink_loop, (void *)NULL);
 	if (ret != 0) {
 		printf("[BLINK]pthread_create error!\n");

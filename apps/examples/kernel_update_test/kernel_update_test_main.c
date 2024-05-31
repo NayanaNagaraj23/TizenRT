@@ -49,7 +49,7 @@
 
 static int fail_cnt = 0;
 
-static int binary_update_download_binary(binary_update_info_t *binary_info, bool version_up, int condition)
+static int binary_update_download_binary(binary_update_info_t * binary_info, bool version_up, int condition)
 {
 	int read_fd;
 	int write_fd;
@@ -123,13 +123,13 @@ static int binary_update_download_binary(binary_update_info_t *binary_info, bool
 	/* Copy binary */
 	while (total_size > copy_size) {
 		read_size = ((total_size - copy_size) < BUFFER_SIZE ? (total_size - copy_size) : BUFFER_SIZE);
-		ret = read(read_fd, (FAR uint8_t *)buffer, read_size);
+		ret = read(read_fd, (FAR uint8_t *) buffer, read_size);
 		if (ret != read_size) {
 			printf("Failed to read buffer : %d\n", ret);
 			ret = ERROR;
 			goto errout_with_close_fd2;
 		}
-		ret = write(write_fd, (FAR uint8_t *)buffer, read_size);
+		ret = write(write_fd, (FAR uint8_t *) buffer, read_size);
 		if (ret != read_size) {
 			printf("Failed to write buffer : %d\n", ret);
 			ret = ERROR;
@@ -162,11 +162,11 @@ static int binary_update_download_binary(binary_update_info_t *binary_info, bool
 	printf("Download binary %s version %d Done!\n", binary_info->name, header_data.version);
 
 	ret = OK;
-errout_with_close_fd2:
+ errout_with_close_fd2:
 	close(write_fd);
-errout_with_close_fd1:
+ errout_with_close_fd1:
 	close(read_fd);
-errout:
+ errout:
 	if (ret < 0) {
 		fail_cnt++;
 	}
@@ -174,7 +174,7 @@ errout:
 	return ret;
 }
 
-static void print_binary_info(binary_update_info_t *binary_info)
+static void print_binary_info(binary_update_info_t * binary_info)
 {
 	printf(" =========== binary [%s] info ============ \n", binary_info->name);
 	printf(" %10s | %8s\n", "Version", "Available size");
@@ -183,7 +183,7 @@ static void print_binary_info(binary_update_info_t *binary_info)
 	printf(" ============================================ \n");
 }
 
-static void print_binary_info_list(binary_update_info_list_t *binary_info_list)
+static void print_binary_info_list(binary_update_info_list_t * binary_info_list)
 {
 	int bin_idx;
 
@@ -191,14 +191,12 @@ static void print_binary_info_list(binary_update_info_list_t *binary_info_list)
 	printf(" %4s | %6s | %10s | %8s\n", "Idx", "Name", "Version", "Available size");
 	printf(" -------------------------------------------------------- \n");
 	for (bin_idx = 0; bin_idx < binary_info_list->bin_count; bin_idx++) {
-		printf(" %4d | %6s | %8.1u | %8d\n", bin_idx, \
-		binary_info_list->bin_info[bin_idx].name, binary_info_list->bin_info[bin_idx].version, \
-		binary_info_list->bin_info[bin_idx].available_size);
+		printf(" %4d | %6s | %8.1u | %8d\n", bin_idx, binary_info_list->bin_info[bin_idx].name, binary_info_list->bin_info[bin_idx].version, binary_info_list->bin_info[bin_idx].available_size);
 	}
 	printf(" ======================================================== \n");
 }
 
-static int binary_update_check_test_result(binary_update_info_t *pre_bin_info, binary_update_info_t *cur_bin_info, int condition)
+static int binary_update_check_test_result(binary_update_info_t * pre_bin_info, binary_update_info_t * cur_bin_info, int condition)
 {
 	int ret = ERROR;
 
@@ -217,7 +215,7 @@ static int binary_update_check_test_result(binary_update_info_t *pre_bin_info, b
 			ret = OK;
 			printf("Success to load valid higher version binary.\n");
 		}
-	} else { //DOWNLOAD_INVALID_BIN
+	} else {					//DOWNLOAD_INVALID_BIN
 		if (pre_bin_info->version != cur_bin_info->version) {
 			fail_cnt++;
 			printf("Warning! Load invalid binary.\n");
@@ -227,7 +225,7 @@ static int binary_update_check_test_result(binary_update_info_t *pre_bin_info, b
 		}
 	}
 
-	return ret;	
+	return ret;
 }
 
 static void binary_update_getinfo_all(void)
@@ -245,7 +243,7 @@ static void binary_update_getinfo_all(void)
 	}
 }
 
-static int binary_update_getinfo(char *name, binary_update_info_t *bin_info)
+static int binary_update_getinfo(char *name, binary_update_info_t * bin_info)
 {
 	int ret;
 
@@ -452,5 +450,5 @@ int main(int argc, FAR char *argv[])
 int kernel_update_main(int argc, char *argv[])
 #endif
 {
-	binary_update_run_tests();	
+	binary_update_run_tests();
 }

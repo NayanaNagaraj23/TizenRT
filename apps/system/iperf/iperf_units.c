@@ -87,13 +87,13 @@ extern    "C"
 // *INDENT-ON*
 #endif
 
-	const long KILO_UNIT = 1024;
-	const long MEGA_UNIT = 1024 * 1024;
-	const long GIGA_UNIT = 1024 * 1024 * 1024;
+const long KILO_UNIT = 1024;
+const long MEGA_UNIT = 1024 * 1024;
+const long GIGA_UNIT = 1024 * 1024 * 1024;
 
-	const long KILO_RATE_UNIT = 1000;
-	const long MEGA_RATE_UNIT = 1000 * 1000;
-	const long GIGA_RATE_UNIT = 1000 * 1000 * 1000;
+const long KILO_RATE_UNIT = 1000;
+const long MEGA_RATE_UNIT = 1000 * 1000;
+const long GIGA_RATE_UNIT = 1000 * 1000 * 1000;
 
 	/* -------------------------------------------------------------------
 	 * unit_atof
@@ -103,7 +103,7 @@ extern    "C"
 	 * Gg, Mm, Kk are giga, mega, kilo respectively
 	 * ------------------------------------------------------------------- */
 
-	double unit_atof(const char *s)
+double unit_atof(const char *s)
 {
 	double n;
 	char suffix = '\0';
@@ -207,7 +207,7 @@ iperf_size_t unit_atoi(const char *s)
 	default:
 		break;
 	}
-	return (iperf_size_t)n;
+	return (iperf_size_t) n;
 }								/* end unit_atof */
 
 /* -------------------------------------------------------------------
@@ -276,7 +276,7 @@ void unit_snprintf(char *s, int inLen, double inNum, char inFormat)
 	if (!isupper((int)inFormat)) {
 		inNum *= 8;
 	}
-	switch (toupper((uint8_t)inFormat)) {
+	switch (toupper((uint8_t) inFormat)) {
 	case 'B':
 		conv = UNIT_CONV;
 		break;
@@ -291,23 +291,23 @@ void unit_snprintf(char *s, int inLen, double inNum, char inFormat)
 		break;
 
 	default:
-	case 'A': {
-		double tmpNum = inNum;
-		conv = UNIT_CONV;
+	case 'A':{
+			double tmpNum = inNum;
+			conv = UNIT_CONV;
 
-		if (isupper((int)inFormat)) {
-			while (tmpNum >= 1024.0 && conv <= GIGA_CONV) {
-				tmpNum /= 1024.0;
-				conv++;
+			if (isupper((int)inFormat)) {
+				while (tmpNum >= 1024.0 && conv <= GIGA_CONV) {
+					tmpNum /= 1024.0;
+					conv++;
+				}
+			} else {
+				while (tmpNum >= 1000.0 && conv <= GIGA_CONV) {
+					tmpNum /= 1000.0;
+					conv++;
+				}
 			}
-		} else {
-			while (tmpNum >= 1000.0 && conv <= GIGA_CONV) {
-				tmpNum /= 1000.0;
-				conv++;
-			}
+			break;
 		}
-		break;
-	}
 	}
 
 	if (!isupper((int)inFormat)) {

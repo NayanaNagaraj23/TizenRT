@@ -146,7 +146,7 @@ static void *setschedprio_test_thread(void *param)
 	/* get current priority */
 	ret_chk = sched_getparam(0, &param_info);
 	if (ret_chk == ERROR) {
-		check_prio = 0;	// Fail to get current priority
+		check_prio = 0;			// Fail to get current priority
 	} else {
 		/* give getting value to global variable to compare it in another function */
 		check_prio = param_info.sched_priority;
@@ -194,7 +194,7 @@ static void *self_pthread_join_n_exit(void *param)
 {
 	pid_t pid = getpid();
 
-	chk_val = pthread_join((pthread_t)pid, NULL);
+	chk_val = pthread_join((pthread_t) pid, NULL);
 
 	pthread_exit((void *)chk_val);
 	return NULL;
@@ -243,7 +243,7 @@ static void *thread_kill_func_callback(void *param)
 
 	tcknvdbg("done\n");
 
-	pthread_exit((pthread_addr_t)1);
+	pthread_exit((pthread_addr_t) 1);
 	return NULL;
 }
 
@@ -278,7 +278,7 @@ static void *threadfunc_sched(void *param)
 {
 	pthread_setname_np(0, "threadfunc_sched");
 	sleep(SEC_8);
-	pthread_exit((pthread_addr_t)1);
+	pthread_exit((pthread_addr_t) 1);
 	return NULL;
 }
 
@@ -361,7 +361,7 @@ static void *pthread_key_test(void *param)
 
 	g_bpthreadcallback = true;
 
-test_out:
+ test_out:
 	for (key_index = 0; key_index < PTHREAD_KEYS_MAX; key_index++) {
 		(void)pthread_key_delete(key_val[key_index]);
 	}
@@ -422,7 +422,7 @@ static void *thread_yield_callback(void *arg)
 	pthread_yield();
 	/* yield to another thread, g_bpthreadcallback will remain true in main process */
 	g_bpthreadcallback = false;
-	pthread_exit((pthread_addr_t)1);
+	pthread_exit((pthread_addr_t) 1);
 	return NULL;
 }
 
@@ -470,7 +470,7 @@ static void *thread_waiter(void *parameter)
 		printf("thread_waiter: ERROR pthread_mutex_unlock failed, ret_chk=%d\n", ret_chk);
 	}
 
-	pthread_exit((pthread_addr_t)0x12345678);
+	pthread_exit((pthread_addr_t) 0x12345678);
 	return NULL;
 }
 
@@ -495,7 +495,7 @@ void *thread_mutex(void *arg)
 
 	tckndbg("\n Thread %d started\n", g_mutex_cnt);
 
-	for (iindex = 0; iindex < 0x10000000; iindex++);
+	for (iindex = 0; iindex < 0x10000000; iindex++) ;
 
 	tckndbg("\n Thread %d finished\n", g_mutex_cnt);
 
@@ -506,7 +506,7 @@ void *thread_mutex(void *arg)
 		goto err;
 	}
 
-err:
+ err:
 	pthread_exit(NULL);
 	return NULL;
 }
@@ -543,7 +543,7 @@ void *thread_cond_signal(void *parm)
 		g_cond_sig_val = ERROR;
 		goto err;
 	}
-err:
+ err:
 	return NULL;
 }
 
@@ -665,7 +665,7 @@ static void tc_pthread_pthread_create_exit_join_neg(void)
 
 	/* Wait to release the above pthread resource */
 	sleep(1);
-	
+
 	ret_chk = pthread_join(pthread, NULL);
 	TC_ASSERT_EQ("pthread_join", ret_chk, ESRCH);
 
@@ -681,7 +681,6 @@ static void tc_pthread_pthread_create_exit_join_invalid_pid_neg(void)
 
 	ret_chk = pthread_create(&pthread, NULL, self_pthread_join_n_exit, NULL);
 	TC_ASSERT_EQ("pthread create", ret_chk, OK);
-	
 
 	ret_chk = pthread_join(-1, NULL);
 	TC_ASSERT_EQ("pthread_join", ret_chk, ESRCH);
@@ -709,8 +708,6 @@ static void tc_pthread_pthread_create_exit_join_invalid_task_neg(void)
 
 	TC_SUCCESS_RESULT();
 }
-
-
 
 /**
 * @fn                   :tc_pthread_pthread_tryjoin_np
@@ -853,9 +850,9 @@ static void tc_pthread_pthread_cond_broadcast_pos(void)
 	TC_ASSERT_EQ("pthread_mutex_destroy", ret_chk, OK);
 
 	TC_SUCCESS_RESULT();
-cleanup_mutex:
+ cleanup_mutex:
 	pthread_cond_broadcast(&g_cond);
-cleanup_cond:
+ cleanup_cond:
 	for (ipthread_id = 0; ipthread_id < PTHREAD_CNT; ++ipthread_id) {
 		pthread_cancel(rgthread[ipthread_id]);
 		pthread_join(rgthread[ipthread_id], NULL);
@@ -1082,7 +1079,7 @@ static void tc_pthread_pthread_mutex_lock_unlock_trylock_pos(void)
 {
 	int ret_chk;
 	pthread_mutexattr_t attr;
-	
+
 	ret_chk = pthread_mutexattr_init(&attr);
 	TC_ASSERT_EQ("pthread_mutexattr_init", ret_chk, OK);
 	pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
@@ -1145,7 +1142,6 @@ static void tc_pthread_pthread_mutex_lock_unlock_trylock_pos(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /**
 * @fn                   :tc_pthread_pthread_mutex_init
 * @brief                :this tc test pthread_mutex_init
@@ -1192,7 +1188,6 @@ static void tc_pthread_pthread_mutex_init_null_mutex_neg(void)
 
 	ret_chk = pthread_mutex_init(NULL, &attr);
 	TC_ASSERT_EQ("pthread_mutex_init", ret_chk, EINVAL);
-
 
 	TC_SUCCESS_RESULT();
 }
@@ -1268,14 +1263,11 @@ static void tc_pthread_pthread_mutex_destroy_mutex_busy_neg(void)
 	TC_SUCCESS_RESULT();
 }
 
-
-
 static void tc_pthread_pthread_mutex_destroy_null_mutex_neg(void)
 {
 	pthread_mutexattr_t attr;
 	pthread_t pid;
 	int ret_chk;
-
 
 #ifndef CONFIG_DEBUG
 	/* test NULL case. ASSERT will rise when debug is enabled */
@@ -1453,12 +1445,12 @@ static void tc_pthread_pthread_cond_signal_wait_pos(void)
 
 	TC_SUCCESS_RESULT();
 	return;
-errout_with_pthread:
+ errout_with_pthread:
 	pthread_cancel(pthread_waiter);
 	pthread_join(pthread_waiter, NULL);
-errout_with_cond:
+ errout_with_cond:
 	pthread_cond_destroy(&g_cond);
-errout_with_mutex:
+ errout_with_mutex:
 	pthread_mutex_destroy(&g_mutex);
 }
 
@@ -1536,7 +1528,6 @@ static void tc_pthread_pthread_sigmask(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void tc_pthread_pthread_sigmask_invalid_signal_neg(void)
 {
 	int ret_chk;
@@ -1566,7 +1557,6 @@ static void tc_pthread_pthread_sigmask_invalid_signal_neg(void)
 	ret_chk = pthread_sigmask(NOSIG, &st_newmask, &st_oldmask);
 	TC_ASSERT_EQ("pthread_sigmask", ret_chk, EINVAL);
 
-	
 	TC_SUCCESS_RESULT();
 }
 
@@ -1606,7 +1596,6 @@ static void tc_pthread_pthread_equal_neg(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void tc_pthread_pthread_setschedprio_pos(void)
 {
 	int ret_chk;
@@ -1637,7 +1626,7 @@ static void tc_pthread_pthread_setschedprio_invalid_prio_neg(void)
 	TC_ASSERT_EQ("pthread_create", ret_chk, OK);
 
 	/* change set_th PID's priority to set_prio */
-	ret_chk = pthread_setschedprio(set_th, SCHED_PRIORITY_MAX+1);
+	ret_chk = pthread_setschedprio(set_th, SCHED_PRIORITY_MAX + 1);
 	TC_ASSERT_EQ_CLEANUP("pthread_setschedprio", ret_chk, ERROR, pthread_detach(set_th));
 
 	ret_chk = pthread_join(set_th, NULL);
@@ -1646,7 +1635,6 @@ static void tc_pthread_pthread_setschedprio_invalid_prio_neg(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 static void tc_pthread_pthread_setgetname_np_pos(void)
 {
@@ -1674,7 +1662,6 @@ static void tc_pthread_pthread_setgetname_np_pos(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void tc_pthread_pthread_setgetname_np_null_name_neg(void)
 {
 	int ret_chk;
@@ -1685,7 +1672,7 @@ static void tc_pthread_pthread_setgetname_np_null_name_neg(void)
 	ret_chk = pthread_create(&name_th, NULL, infinite_loop_thread, NULL);
 	TC_ASSERT_EQ("pthread_create", ret_chk, OK);
 
-	ret_chk = pthread_setname_np(name_th,NULL);
+	ret_chk = pthread_setname_np(name_th, NULL);
 	TC_ASSERT_EQ("pthread_setname_np", ret_chk, ERROR);
 
 	ret_chk = pthread_cancel(name_th);
@@ -1696,7 +1683,6 @@ static void tc_pthread_pthread_setgetname_np_null_name_neg(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
 * @fn                   :tc_pthread_pthread_setcanceltype
@@ -1721,9 +1707,9 @@ static void tc_pthread_pthread_setcanceltype_pos(void)
 	ret_chk = pthread_setcanceltype(type, &oldtype);
 	TC_ASSERT_EQ("pthread_setcanceltype", ret_chk, OK);
 
-	
 	TC_SUCCESS_RESULT();
 }
+
 static void tc_pthread_pthread_setcanceltype_invalid_type_neg(void)
 {
 	int type;
@@ -1746,7 +1732,7 @@ static void *test_mutex_consistent(void *param)
 
 	ret = pthread_mutex_lock(&g_mutex);
 	if (ret == EOWNERDEAD) {
-		/* make the mutex consistent, which became inconsistent because holding thread has been dead*/
+		/* make the mutex consistent, which became inconsistent because holding thread has been dead */
 		pthread_mutex_consistent(&g_mutex);
 		pthread_mutex_unlock(&g_mutex);
 	}

@@ -22,7 +22,7 @@
 #include <tinyara/security_hal.h>
 #include "sl_test.h"
 
-void sl_test_free_buffer(hal_data *data)
+void sl_test_free_buffer(hal_data * data)
 {
 	if (data == NULL) {
 		return;
@@ -40,7 +40,7 @@ void sl_test_free_buffer(hal_data *data)
 	data->priv_len = 0;
 }
 
-int sl_test_malloc_buffer(hal_data *data, int buf_len)
+int sl_test_malloc_buffer(hal_data * data, int buf_len)
 {
 	if (!data) {
 		return -1;
@@ -54,7 +54,7 @@ int sl_test_malloc_buffer(hal_data *data, int buf_len)
 	return 0;
 }
 
-int sl_test_malloc_buffer_priv(hal_data *data, int buf_len)
+int sl_test_malloc_buffer_priv(hal_data * data, int buf_len)
 {
 	if (!data) {
 		return -1;
@@ -67,7 +67,7 @@ int sl_test_malloc_buffer_priv(hal_data *data, int buf_len)
 	return 0;
 }
 
-void sl_test_init_buffer(hal_data *data)
+void sl_test_init_buffer(hal_data * data)
 {
 	if (data) {
 		data->data = NULL;
@@ -92,14 +92,14 @@ void sl_test_print_buffer(char *data, int buf_len, const char *message)
 	printf("================================\n");
 }
 
-void sl_run_all(sl_options *opt, sl_test_func *func, int tmax)
+void sl_run_all(sl_options * opt, sl_test_func * func, int tmax)
 {
 	for (int i = 0; i < tmax; i++) {
-		func[i](opt);
+		func[i] (opt);
 	}
 }
 
-int sl_parse_command(sl_options *opt, char **command, int tmax, int terr)
+int sl_parse_command(sl_options * opt, char **command, int tmax, int terr)
 {
 	int argc = opt->argc;
 	char **argv = opt->argv;

@@ -200,7 +200,7 @@ int i2ccmd_verf(FAR struct i2ctool_s *i2ctool, int argc, FAR char **argv)
 
 		/* Write to the I2C bus */
 
-		ret = i2ctool_set(i2ctool, dev, regaddr, (uint16_t)wrvalue);
+		ret = i2ctool_set(i2ctool, dev, regaddr, (uint16_t) wrvalue);
 		if (ret == OK) {
 			/* Read the value back from the I2C bus */
 

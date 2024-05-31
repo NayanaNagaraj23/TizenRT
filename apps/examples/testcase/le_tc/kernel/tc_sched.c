@@ -81,8 +81,8 @@ static int sleep2sec_taskdel(int argc, char *argv[])
 	task_delete(0);
 	return 0;
 }
-#endif /* CONFIG_SCHED_HAVE_PARENT */
-#endif /* CONFIG_SCHED_WAITPID */
+#endif							/* CONFIG_SCHED_HAVE_PARENT */
+#endif							/* CONFIG_SCHED_WAITPID */
 
 /**
 * @fn                   :threadfunc_callback
@@ -94,7 +94,7 @@ static void *threadfunc_callback(void *param)
 	g_pthread_callback = true;
 	sleep(VAL_3);
 	sched_yield();
-	pthread_exit((pthread_addr_t)1);
+	pthread_exit((pthread_addr_t) 1);
 	/* yield to another thread, g_pthread_callback will remain true in main process */
 	g_pthread_callback = false;
 	return NULL;
@@ -152,7 +152,6 @@ static void tc_sched_sched_setget_scheduler_param_pos(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void tc_sched_sched_setget_scheduler_param_null_priority_neg(void)
 {
 	int ret_chk = ERROR;
@@ -205,8 +204,6 @@ static void tc_sched_sched_setget_scheduler_param_invalid_priority_neg(void)
 	TC_SUCCESS_RESULT();
 }
 
-
-
 /**
 * @fn                   :tc_sched_sched_rr_get_interval
 * @brief                :get  the  SCHED_RR  interval for the named process
@@ -233,7 +230,6 @@ static void tc_sched_sched_rr_get_interval_invalid_pid_neg(void)
 	ret_chk = sched_rr_get_interval(-1, &st_timespec1);
 	TC_ASSERT_EQ("sched_rr_get_interval", ret_chk, ERROR);
 	TC_ASSERT_EQ("sched_rr_get_interval", errno, EINVAL);
-
 
 	TC_SUCCESS_RESULT();
 }
@@ -266,7 +262,6 @@ static void tc_sched_sched_rr_get_interval_invalid_time_neg(void)
 	TC_ASSERT_EQ("sched_rr_get_interval", st_timespec1.tv_sec, st_timespec2.tv_sec);
 	TC_ASSERT_EQ("sched_rr_get_interval", st_timespec1.tv_nsec, st_timespec2.tv_nsec);
 
-	
 	TC_SUCCESS_RESULT();
 }
 
@@ -332,10 +327,10 @@ static void tc_sched_wait_pos(void)
 	int status;
 
 	/* creating new process */
-	child1_pid = task_create("sched1", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char * const *)NULL);
+	child1_pid = task_create("sched1", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", child1_pid, 0);
 
-	child2_pid = task_create("sched2", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep2sec_taskdel, (char * const *)NULL);
+	child2_pid = task_create("sched2", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep2sec_taskdel, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", child2_pid, 0);
 
 	/* child which exits first is handled by wait, here child1_pid exits earlier. */
@@ -344,7 +339,7 @@ static void tc_sched_wait_pos(void)
 	/* wait for child to exit, and store child's exit status */
 	ret_chk = wait(&status);
 	TC_ASSERT_NEQ("wait", ret_chk, ERROR);
-	TC_ASSERT_EQ("wait", (child1_pid == (pid_t)ret_chk || child2_pid == (pid_t)ret_chk), true);
+	TC_ASSERT_EQ("wait", (child1_pid == (pid_t) ret_chk || child2_pid == (pid_t) ret_chk), true);
 
 	/* wait for second child to exit */
 	sleep(2);
@@ -368,7 +363,7 @@ static void tc_sched_waitid_pos(void)
 	pid_t child2_pid;
 	siginfo_t info;
 
-	child1_pid = task_create("tc_waitid", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char * const *)NULL);
+	child1_pid = task_create("tc_waitid", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", child1_pid, 0);
 
 	/* Check for P_PID type */
@@ -379,17 +374,15 @@ static void tc_sched_waitid_pos(void)
 
 	/* Check for P_ALL ID type */
 
-	child2_pid = task_create("tc_waitid", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char * const *)NULL);
+	child2_pid = task_create("tc_waitid", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", child2_pid, 0);
 
 	ret_chk = waitid(P_ALL, child2_pid, &info, WEXITED);
 	TC_ASSERT_NEQ("waitid", ret_chk, ERROR);
 	TC_ASSERT_EQ("waitid", (info.si_pid == child1_pid) || (info.si_pid == child2_pid), true);
 
-
 	TC_SUCCESS_RESULT();
 }
-
 
 static void tc_sched_waitid_invalid_childpid_neg(void)
 {
@@ -402,7 +395,6 @@ static void tc_sched_waitid_invalid_childpid_neg(void)
 	TC_ASSERT_EQ("waitid", ret_chk, ERROR);
 	TC_ASSERT_EQ("waitid", errno, ECHILD);
 
-	
 	TC_SUCCESS_RESULT();
 }
 
@@ -414,7 +406,7 @@ static void tc_sched_waitid_invalid_id_neg(void)
 
 	/* Check for other ID types that are not supported  */
 
-	child1_pid = task_create("tc_waitid", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char * const *)NULL);
+	child1_pid = task_create("tc_waitid", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", child1_pid, 0);
 
 	ret_chk = waitid(P_GID, child1_pid, &info, WEXITED);
@@ -435,7 +427,7 @@ static void tc_sched_waitid_invalid_processid_neg(void)
 	pid_t child1_pid;
 	siginfo_t info;
 	idtype_t invalid_idtype = -1;
-    id_t child_id = getpid();
+	id_t child_id = getpid();
 
 	/* Check for other ID types that are not supported  */
 
@@ -465,7 +457,7 @@ static void tc_sched_waitpid_pos(void)
 	pid_t child_pid;
 	int status;
 
-	child_pid = task_create("tc_waitpid", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char * const *)NULL);
+	child_pid = task_create("tc_waitpid", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", child_pid, 0);
 
 	ret_chk = waitpid(child_pid, &status, 0);
@@ -493,10 +485,8 @@ static void tc_sched_waitpid_neg(void)
 	pid_t child_pid;
 	int status;
 
-	
-	child_pid = task_create("tc_waitpid", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char * const *)NULL);
+	child_pid = task_create("tc_waitpid", SCHED_PRIORITY_DEFAULT, TASK_STACKSIZE, sleep1sec_taskdel, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", child_pid, 0);
-
 
 	/* None of the options are supported */
 
@@ -506,7 +496,6 @@ static void tc_sched_waitpid_neg(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 #endif
 
@@ -592,7 +581,7 @@ static void tc_sched_sched_self_pos(void)
 	int ret;
 	int pid;
 	pthread_t tid;
-	ret = pthread_create(&tid, NULL, (pthread_startroutine_t)pthread_sched_self, NULL);
+	ret = pthread_create(&tid, NULL, (pthread_startroutine_t) pthread_sched_self, NULL);
 	TC_ASSERT_NEQ("pthread_create", ret, ERROR);
 
 	/* Wait for the threads to stop */
@@ -727,7 +716,7 @@ static void tc_sched_task_setcancelstate_pos(void)
 
 	TC_SUCCESS_RESULT();
 
-errout:
+ errout:
 	tcb->flags |= noncancelable_flag;
 }
 
@@ -756,12 +745,9 @@ static void tc_sched_task_setcancelstate_invalid_mode_neg(void)
 
 	TC_SUCCESS_RESULT();
 
-errout:
+ errout:
 	tcb->flags |= noncancelable_flag;
 }
-
-
-
 
 /**
  * @fn                   :tc_sched_task_setcanceltype
@@ -808,7 +794,7 @@ static void tc_sched_task_setcanceltype_pos(void)
 
 	TC_SUCCESS_RESULT();
 
-errout:
+ errout:
 	tcb->flags |= defferred_flag;
 }
 
@@ -836,10 +822,9 @@ static void tc_sched_task_setcanceltype_invalid_mode_neg(void)
 
 	TC_SUCCESS_RESULT();
 
-errout:
+ errout:
 	tcb->flags |= defferred_flag;
 }
-
 
 #endif
 #endif
@@ -881,7 +866,7 @@ int sched_main(void)
 #ifdef CONFIG_CANCELLATION_POINTS
 	tc_sched_task_setcanceltype_pos();
 	tc_sched_task_setcanceltype_invalid_mode_neg();
-	
+
 #endif
 #endif
 

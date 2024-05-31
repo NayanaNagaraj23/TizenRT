@@ -29,9 +29,9 @@
 #define LWNL_ERR -1
 
 typedef struct {
-    int key;
-    int value;
-    int wait;
+	int key;
+	int value;
+	int wait;
 } vble_ioctl_msg_s;
 
 #define CONTROL_VVDRIVER(cmd, key, value, wait)	\

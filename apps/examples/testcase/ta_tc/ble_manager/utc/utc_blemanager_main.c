@@ -57,20 +57,14 @@ static void ble_scan_state_changed_cb(ble_scan_state_e scan_state)
 	return;
 }
 
-static void ble_device_scanned_cb(ble_scanned_device *scanned_device)
+static void ble_device_scanned_cb(ble_scanned_device * scanned_device)
 {
-	printf("scanned mac : %02x:%02x:%02x:%02x:%02x:%02x\n",
-		scanned_device->addr.mac[0],
-		scanned_device->addr.mac[1],
-		scanned_device->addr.mac[2],
-		scanned_device->addr.mac[3],
-		scanned_device->addr.mac[4],
-		scanned_device->addr.mac[5]
-	);
+	printf("scanned mac : %02x:%02x:%02x:%02x:%02x:%02x\n", scanned_device->addr.mac[0], scanned_device->addr.mac[1], scanned_device->addr.mac[2], scanned_device->addr.mac[3], scanned_device->addr.mac[4], scanned_device->addr.mac[5]
+		);
 	return;
 }
 
-static void ble_device_disconnected_cb(ble_client_ctx *ctx)
+static void ble_device_disconnected_cb(ble_client_ctx * ctx)
 {
 	printf("client disconnected callback received\n");
 	g_client_connected = BEVT_DISCONNECTED;
@@ -78,7 +72,7 @@ static void ble_device_disconnected_cb(ble_client_ctx *ctx)
 	return;
 }
 
-static void ble_device_connected_cb(ble_client_ctx *ctx, ble_device_connected *dev)
+static void ble_device_connected_cb(ble_client_ctx * ctx, ble_device_connected * dev)
 {
 	printf("client connected callback received\n");
 	g_client_connected = BEVT_CONNECTED;
@@ -86,7 +80,7 @@ static void ble_device_connected_cb(ble_client_ctx *ctx, ble_device_connected *d
 	return;
 }
 
-static void ble_operation_notification_cb(ble_client_ctx *ctx, ble_attr_handle attr_handle, ble_data *read_result)
+static void ble_operation_notification_cb(ble_client_ctx * ctx, ble_attr_handle attr_handle, ble_data * read_result)
 {
 	printf("notification callback received\n");
 	g_client_noti = BEVT_NOTI;
@@ -102,35 +96,35 @@ static void ble_server_connected_cb(ble_conn_handle con_handle, ble_server_conne
 
 static ble_server_gatt_t gatt_profile[] = {
 	{
-		.type = BLE_SERVER_GATT_SERVICE,
-		.uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01},
-		.uuid_length = 16,
-		.attr_handle = 0x006a,
-	},
+	 .type = BLE_SERVER_GATT_SERVICE,
+	 .uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01},
+	 .uuid_length = 16,
+	 .attr_handle = 0x006a,
+	 },
 
 	{
-		.type = BLE_SERVER_GATT_CHARACT,
-		.uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x02},
-		.uuid_length = 16,
-		.property = BLE_ATTR_PROP_RWN | BLE_ATTR_PROP_WRITE_NO_RSP,
-		.permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT,
-		.attr_handle = 0x006b,
-		.arg = "char_a_1"
-	},
+	 .type = BLE_SERVER_GATT_CHARACT,
+	 .uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x02},
+	 .uuid_length = 16,
+	 .property = BLE_ATTR_PROP_RWN | BLE_ATTR_PROP_WRITE_NO_RSP,
+	 .permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT,
+	 .attr_handle = 0x006b,
+	 .arg = "char_a_1"},
 
 	{
-		.type = BLE_SERVER_GATT_DESC,
-		.uuid = {0x02, 0x29},
-		.uuid_length = 2,
-		.permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT,
-		.attr_handle = 0x006c,
-		.arg = "desc_b_1",
-	},
+	 .type = BLE_SERVER_GATT_DESC,
+	 .uuid = {0x02, 0x29},
+	 .uuid_length = 2,
+	 .permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT,
+	 .attr_handle = 0x006c,
+	 .arg = "desc_b_1",
+	 },
 };
 
 static uint8_t g_adv_raw[] = {
 	0x02, 0x01, 0x05, 0x03, 0x19, 0x80, 0x01, 0x05, 0x03, 0x12, 0x18, 0x0f, 0x18
 };
+
 static uint8_t g_adv_resp[] = {
 	0x11, 0x09, 'T', 'I', 'Z', 'E', 'N', 'R', 'T', ' ', 'T', 'E', 'S', 'T', '(', '0', '2', ')',
 };
@@ -153,7 +147,7 @@ static ble_server_init_config server_config = {
 	sizeof(gatt_profile) / sizeof(ble_server_gatt_t)
 };
 
-static void set_scan_filter(ble_scan_filter *filter, uint8_t *raw_data, uint8_t len, bool whitelist_enable, uint32_t scan_duration)
+static void set_scan_filter(ble_scan_filter * filter, uint8_t * raw_data, uint8_t len, bool whitelist_enable, uint32_t scan_duration)
 {
 	memset(filter, 0, sizeof(ble_scan_filter));
 	if (raw_data != NULL && len > 0) {
@@ -167,9 +161,9 @@ static void set_scan_filter(ble_scan_filter *filter, uint8_t *raw_data, uint8_t 
 
 static void utc_blemanager_init_p(void)
 {
-	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);//not server role
+	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);	//not server role
 	TC_ASSERT_EQ("ble_manager deinit", ble_manager_deinit(), BLE_MANAGER_SUCCESS);
-	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(&server_config), BLE_MANAGER_SUCCESS);//server role
+	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(&server_config), BLE_MANAGER_SUCCESS);	//server role
 	TC_ASSERT_EQ("ble_manager deinit", ble_manager_deinit(), BLE_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
@@ -184,9 +178,9 @@ static void utc_blemanager_init_n(void)
 
 static void utc_blemanager_deinit_p(void)
 {
-	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);//not server role
+	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);	//not server role
 	TC_ASSERT_EQ("ble_manager deinit", ble_manager_deinit(), BLE_MANAGER_SUCCESS);
-	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(&server_config), BLE_MANAGER_SUCCESS);//server role
+	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(&server_config), BLE_MANAGER_SUCCESS);	//server role
 	TC_ASSERT_EQ("ble_manager deinit", ble_manager_deinit(), BLE_MANAGER_SUCCESS);
 	TC_SUCCESS_RESULT();
 }
@@ -221,7 +215,7 @@ static void utc_blemanager_get_bonded_device_p(void)
 	uint16_t dev_count = 0;
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -261,7 +255,7 @@ static void utc_blemanager_delete_bonded_device_p(void)
 	uint16_t dev_count = 0;
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -303,7 +297,7 @@ static void utc_blemanager_delete_bonded_all_p(void)
 	uint16_t dev_count = 0;
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -334,7 +328,7 @@ static void utc_blemanager_conn_active_p(void)
 	bool is_active;
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -373,7 +367,7 @@ static void utc_blemanager_conn_any_active_p(void)
 	bool is_active;
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -442,9 +436,9 @@ static void utc_blemanager_set_adv_type_p(void)
 	uint8_t mac[BLE_BD_ADDR_MAX_LEN];
 	ble_addr addr = {
 		{
-			*mac,
-			type,
-		}
+		 *mac,
+		 type,
+		 }
 	};
 	TC_ASSERT_EQ_CLEANUP("ble_server_set_adv_type", ble_server_set_adv_type(type, &addr), BLE_MANAGER_SUCCESS, ble_manager_deinit());
 	TC_ASSERT_EQ("ble_manager deinit", ble_manager_deinit(), BLE_MANAGER_SUCCESS);
@@ -487,7 +481,8 @@ static void utc_blemanager_stop_adv_p(void)
 	TC_SUCCESS_RESULT();
 }
 
-static void utc_blemanager_get_profile_count_p(void) {
+static void utc_blemanager_get_profile_count_p(void)
+{
 	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(&server_config), BLE_MANAGER_SUCCESS);
 	uint16_t count;
 	TC_ASSERT_EQ_CLEANUP("ble_server_get_profile_count", ble_server_get_profile_count(&count), BLE_MANAGER_SUCCESS, ble_manager_deinit());
@@ -495,7 +490,8 @@ static void utc_blemanager_get_profile_count_p(void) {
 	TC_SUCCESS_RESULT();
 }
 
-static void utc_blemanager_get_profile_count_n(void) {
+static void utc_blemanager_get_profile_count_n(void)
+{
 	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(&server_config), BLE_MANAGER_SUCCESS);
 	TC_ASSERT_EQ("ble_server_get_profile_count", ble_server_get_profile_count(NULL), BLE_MANAGER_INVALID_ARGS);
 	TC_ASSERT_EQ("ble_manager deinit", ble_manager_deinit(), BLE_MANAGER_SUCCESS);
@@ -581,7 +577,7 @@ static void utc_blemanager_client_start_scan_p(void)
 	set_scan_filter(&filter, NULL, 0, true, 1000);
 	ble_addr addr;
 	addr.type = BLE_ADV_TYPE_IND;
-	uint8_t dummy[] = {0x01, 0x1E, 0xC0, 0x04, 0x9F, 0xF6};
+	uint8_t dummy[] = { 0x01, 0x1E, 0xC0, 0x04, 0x9F, 0xF6 };
 	memcpy(addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	TC_ASSERT_EQ_CLEANUP("ble_scan_whitelist_add", ble_scan_whitelist_add(&addr), BLE_MANAGER_SUCCESS, ble_manager_deinit());
 	TC_ASSERT_EQ_CLEANUP("ble_client_start_scan", ble_client_start_scan(&filter, &scan_config), BLE_MANAGER_SUCCESS, ble_manager_deinit());
@@ -617,7 +613,7 @@ static void utc_blemanager_whitelist_add_p(void)
 	set_scan_filter(&filter2, NULL, 0, true, 100);
 	ble_addr addr;
 	addr.type = BLE_ADV_TYPE_IND;
-	uint8_t dummy[] = {0x01, 0x1E, 0xC0, 0x04, 0x9F, 0xF6};
+	uint8_t dummy[] = { 0x01, 0x1E, 0xC0, 0x04, 0x9F, 0xF6 };
 	memcpy(addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	TC_ASSERT_EQ_CLEANUP("ble_scan_whitelist_add", ble_scan_whitelist_add(&addr), BLE_MANAGER_SUCCESS, ble_manager_deinit());
 	TC_ASSERT_EQ_CLEANUP("ble_scan_whitelist_delete", ble_scan_whitelist_delete(&addr), BLE_MANAGER_SUCCESS, ble_manager_deinit());
@@ -640,7 +636,7 @@ static void utc_blemanager_whitelist_del_p(void)
 	set_scan_filter(&filter2, NULL, 0, true, 100);
 	ble_addr addr;
 	addr.type = BLE_ADV_TYPE_IND;
-	uint8_t dummy[] = {0x01, 0x1E, 0xC0, 0x04, 0x9F, 0xF6};
+	uint8_t dummy[] = { 0x01, 0x1E, 0xC0, 0x04, 0x9F, 0xF6 };
 	memcpy(addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	TC_ASSERT_EQ_CLEANUP("ble_scan_whitelist_add", ble_scan_whitelist_add(&addr), BLE_MANAGER_SUCCESS, ble_manager_deinit());
 	TC_ASSERT_EQ_CLEANUP("ble_scan_whitelist_delete", ble_scan_whitelist_delete(&addr), BLE_MANAGER_SUCCESS, ble_manager_deinit());
@@ -663,7 +659,7 @@ static void utc_blemanager_whitelist_clear_all_p(void)
 	set_scan_filter(&filter2, NULL, 0, true, 100);
 	ble_addr addr;
 	addr.type = BLE_ADV_TYPE_IND;
-	uint8_t dummy[] = {0x01, 0x1E, 0xC0, 0x04, 0x9F, 0xF6};
+	uint8_t dummy[] = { 0x01, 0x1E, 0xC0, 0x04, 0x9F, 0xF6 };
 	memcpy(addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	TC_ASSERT_EQ_CLEANUP("ble_scan_whitelist_add", ble_scan_whitelist_add(&addr), BLE_MANAGER_SUCCESS, ble_manager_deinit());
 	TC_ASSERT_EQ_CLEANUP("ble_scan_whitelist_clear_all", ble_scan_whitelist_clear_all(), BLE_MANAGER_SUCCESS, ble_manager_deinit());
@@ -673,10 +669,10 @@ static void utc_blemanager_whitelist_clear_all_p(void)
 
 static void utc_blemanager_client_connect_p(void)
 {
-	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);//not server role
+	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);	//not server role
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -699,10 +695,10 @@ static void utc_blemanager_client_connect_p(void)
 
 static void utc_blemanager_client_disconnect_p(void)
 {
-	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);//not server role
+	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);	//not server role
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -728,7 +724,7 @@ static void utc_blemanager_client_disconnect_all_p(void)
 	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -755,8 +751,8 @@ static void utc_blemanager_client_con_list_p(void)
 	ble_client_ctx *ctx1, *ctx2;
 	ctx1 = ble_client_create_ctx(&client_config);
 	ctx2 = ble_client_create_ctx(&client_config);
-	uint8_t dummy1[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
-	uint8_t dummy2[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF2};
+	uint8_t dummy1[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
+	uint8_t dummy2[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF2 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy1, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -787,7 +783,7 @@ static void utc_blemanager_connected_dev_info_p(void)
 	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy1[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy1[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy1, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -815,7 +811,7 @@ static void utc_blemanager_operation_enable_notification_p(void)
 	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy1[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy1[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy1, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -846,7 +842,7 @@ static void utc_blemanager_read_p(void)
 	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy1[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy1[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy1, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -876,7 +872,7 @@ static void utc_blemanager_read_n(void)
 	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy1[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy1[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy1, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -904,7 +900,7 @@ static void utc_blemanager_write_p(void)
 	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy1[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy1[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy1, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -934,7 +930,7 @@ static void utc_blemanager_write_n(void)
 	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy1[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy1[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy1, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -962,7 +958,7 @@ static void utc_blemanager_write_no_resp_p(void)
 	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy1[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy1[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy1, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -992,7 +988,7 @@ static void utc_blemanager_write_no_resp_n(void)
 	TC_ASSERT_EQ("ble_manager_init", ble_manager_init(NULL), BLE_MANAGER_SUCCESS);
 	ble_client_ctx *ctx;
 	ctx = ble_client_create_ctx(&client_config);
-	uint8_t dummy1[] = {0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3};
+	uint8_t dummy1[] = { 0x00, 0x1E, 0xC0, 0x04, 0x9F, 0xF3 };
 	ble_conn_info conn_info = { 0, };
 	memcpy(conn_info.addr.mac, dummy1, BLE_BD_ADDR_MAX_LEN);
 	conn_info.addr.type = BLE_ADV_TYPE_IND;
@@ -1025,7 +1021,6 @@ int blemanager_utc(int argc, FAR char *argv[])
 		printf("g_func_sem init failed\n");
 		return ERROR;
 	}
-
 	//init
 	utc_blemanager_init_p();
 	utc_blemanager_init_n();

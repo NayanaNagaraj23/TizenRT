@@ -56,7 +56,6 @@ static void tc_environ_setenv_getenv_unsetenv_pos(void)
 	ret_chk = setenv(psz_name, psz_value, 1);
 	TC_ASSERT_EQ_CLEANUP("setenv", ret_chk, OK, clearenv());
 
-
 	psz_getvalue = getenv(psz_name);
 	TC_ASSERT_NEQ_CLEANUP("getenv", psz_getvalue, NULL, clearenv());
 	TC_ASSERT_EQ_CLEANUP("getenv", strcmp(psz_getvalue, psz_value), 0, clearenv());
@@ -78,7 +77,6 @@ static void tc_environ_setenv_getenv_unsetenv_pos(void)
 	ret_chk = unsetenv(pusz_name);
 	TC_ASSERT_EQ("unsetenv", ret_chk, OK);
 
-
 	ret_chk = setenv(psz_name, NULL, 1);
 	TC_ASSERT_EQ("setenv", ret_chk, OK);
 
@@ -88,6 +86,7 @@ static void tc_environ_setenv_getenv_unsetenv_pos(void)
 	clearenv();
 	TC_SUCCESS_RESULT();
 }
+
 static void tc_environ_getenv_neg(void)
 {
 	char *psz_getvalue = NULL;
@@ -96,7 +95,7 @@ static void tc_environ_getenv_neg(void)
 
 	psz_getvalue = getenv("arv");
 	TC_ASSERT_EQ_CLEANUP("getenv", psz_getvalue, NULL, clearenv());
-	
+
 	TC_SUCCESS_RESULT();
 }
 
@@ -105,8 +104,8 @@ static void tc_environ_setenv_name_null_neg(void)
 	int ret_chk = ERROR;
 	const char *psz_value = "test";
 	char *psz_getvalue = NULL;
-	
-	/*setting var name NULL should fail*/
+
+	/*setting var name NULL should fail */
 	ret_chk = setenv(NULL, psz_value, 0);
 	TC_ASSERT_EQ_CLEANUP("setenv", ret_chk, ERROR, clearenv());
 
@@ -119,10 +118,9 @@ static void tc_environ_setenv_empty_name_neg(void)
 	int ret_chk = ERROR;
 	const char *psz_value = "pqr";
 
-	/*setting var empty string should fail*/
+	/*setting var empty string should fail */
 	ret_chk = setenv('\0', psz_value, 1);
 	TC_ASSERT_EQ_CLEANUP("setenv", ret_chk, ERROR, clearenv());
-
 
 	TC_SUCCESS_RESULT();
 }
@@ -261,9 +259,9 @@ static void tc_environ_get_environ_ptr_pos(void)
 int environ_main(void)
 {
 	tc_environ_setenv_getenv_unsetenv_pos();
-    tc_environ_getenv_neg();
+	tc_environ_getenv_neg();
 	tc_environ_setenv_name_null_neg();
-    tc_environ_setenv_empty_name_neg();
+	tc_environ_setenv_empty_name_neg();
 	tc_environ_clearenv_pos();
 	tc_environ_putenv_pos();
 	tc_environ_putenv_null_neg();

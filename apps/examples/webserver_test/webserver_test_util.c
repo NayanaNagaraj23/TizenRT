@@ -18,7 +18,7 @@
 
 #include "webserver_test_util.h"
 
-char* ws_test_strcpy(char *dest, const char *src, struct http_client_request_t *ws)
+char *ws_test_strcpy(char *dest, const char *src, struct http_client_request_t *ws)
 {
 	int len = strlen(src);
 
@@ -32,7 +32,7 @@ char* ws_test_strcpy(char *dest, const char *src, struct http_client_request_t *
 	return dest + len;
 }
 
-char* ws_test_strlencpy(char *dest, const char *src, int len, struct http_client_request_t *ws)
+char *ws_test_strlencpy(char *dest, const char *src, int len, struct http_client_request_t *ws)
 {
 	if (dest + len - ws->buffer >= ws->buflen) {
 		printf("Error: buffer is too small");
@@ -46,7 +46,7 @@ char* ws_test_strlencpy(char *dest, const char *src, int len, struct http_client
 
 int ws_test_http_client_response_init(struct http_client_response_t *response)
 {
-	if(response == NULL) {
+	if (response == NULL) {
 		PRNT("Error: NULL Response");
 		return WS_TEST_ERR;
 	}
@@ -85,10 +85,10 @@ void ws_test_http_client_response_release(struct http_client_response_t *respons
 	free(response->headers);
 }
 
-char* ws_test_chunksize(char *dest, int len, struct http_client_request_t *ws)
+char *ws_test_chunksize(char *dest, int len, struct http_client_request_t *ws)
 {
 	FUNC_EN;
-	char size[10] = {0,};
+	char size[10] = { 0, };
 
 	if (!dest) {
 		return NULL;
@@ -122,11 +122,11 @@ int find_first_crlf(const char *src, int len, int start)
 int separate_status_line(const char *src, int *status, char *phrase)
 {
 	int i = 0;
-	int divide[6] = {0, };
+	int divide[6] = { 0, };
 	int divide_pos = 0;
 
 	int line_length = 0;
-	char status_code[4] = {0, };
+	char status_code[4] = { 0, };
 	int status_start = 0;
 	int phrase_start = 0;
 	int phrase_length = 0;
@@ -175,7 +175,7 @@ int separate_keyvalue(const char *src, char *key, char *value)
 		if (src[i] != ':') {
 			key[i] = src[i];
 		} else {
-			value_position = i + 2; /* 2 because at the front of value, there is a space */
+			value_position = i + 2;	/* 2 because at the front of value, there is a space */
 			key[i] = '\0';
 			break;
 		}
@@ -193,7 +193,8 @@ int separate_keyvalue(const char *src, char *key, char *value)
 	return WS_TEST_OK;
 }
 
-int parsehttpurl(const char *url, uint16_t *port, char *hostname, int hostlen) {
+int parsehttpurl(const char *url, uint16_t * port, char *hostname, int hostlen)
+{
 	FUNC_EN;
 	const char *src = url;
 	char *dest;
@@ -241,9 +242,7 @@ int parsehttpurl(const char *url, uint16_t *port, char *hostname, int hostlen) {
 	return WS_TEST_OK;
 }
 
-void parse_header(struct http_message_len_t *len, char *buf, int buf_len,
-					 struct http_client_response_t *response, int *state,
-					 int *read_finish, int *process_finish)
+void parse_header(struct http_message_len_t *len, char *buf, int buf_len, struct http_client_response_t *response, int *state, int *read_finish, int *process_finish)
 {
 	int sentence_end = 0;
 	len->sentence_start = 0;
@@ -253,7 +252,7 @@ void parse_header(struct http_message_len_t *len, char *buf, int buf_len,
 	if (sentence_end != -1) {
 		buf[sentence_end] = '\0';
 
-		if(response) {
+		if (response) {
 			separate_status_line(buf + len->sentence_start, &response->status, response->phrase);
 			printf("Response Status : %d\n", response->status);
 			printf("Response Phrase : %s\n", response->phrase);
@@ -266,9 +265,7 @@ void parse_header(struct http_message_len_t *len, char *buf, int buf_len,
 	}
 }
 
-int parse_parameter(struct http_message_len_t *len, char *buf, int buf_len,
-					 struct http_client_response_t *response, int *state,
-					 int *process_finish)
+int parse_parameter(struct http_message_len_t *len, char *buf, int buf_len, struct http_client_response_t *response, int *state, int *process_finish)
 {
 	/* Search CR and LF */
 	char key[HTTP_CONF_MAX_KEY_LENGTH] = { 0, };
@@ -285,7 +282,7 @@ int parse_parameter(struct http_message_len_t *len, char *buf, int buf_len,
 			}
 			printf("%s : %s\n", key, value);
 
-			if (strncmp(key, "Content-Length", strlen("Content-Length")+1) == 0) {
+			if (strncmp(key, "Content-Length", strlen("Content-Length") + 1) == 0) {
 				len->content_len = atoi(value);
 				if (response) {
 					response->total_len = len->content_len;
@@ -300,12 +297,10 @@ int parse_parameter(struct http_message_len_t *len, char *buf, int buf_len,
 	} else {
 		*process_finish = true;
 	}
-	return WS_TEST_OK;	
+	return WS_TEST_OK;
 }
 
-void parse_body(struct http_message_len_t *len, char *buf, int buf_len,
-					 struct http_client_response_t *response, int *state,
-					 char **body, int *read_finish, int *process_finish)
+void parse_body(struct http_message_len_t *len, char *buf, int buf_len, struct http_client_response_t *response, int *state, char **body, int *read_finish, int *process_finish)
 {
 	if (!len->message_len) {
 		*body = buf + len->sentence_start;
@@ -318,9 +313,9 @@ void parse_body(struct http_message_len_t *len, char *buf, int buf_len,
 		if (response) {
 			response->total_len = len->content_len;
 
-				response->entity_len = buf_len - len->sentence_start;
-				response->entity = buf + len->sentence_start;
-				PRNT("response entity: %s\n",response->entity);
+			response->entity_len = buf_len - len->sentence_start;
+			response->entity = buf + len->sentence_start;
+			PRNT("response entity: %s\n", response->entity);
 		}
 
 		*read_finish = true;
@@ -330,10 +325,7 @@ void parse_body(struct http_message_len_t *len, char *buf, int buf_len,
 	*process_finish = true;
 }
 
-int parse_message(char *buf, int buf_len, char *url,
-					   char **body, int *state,
-					   struct http_message_len_t *len,
-					   struct http_client_response_t *response)
+int parse_message(char *buf, int buf_len, char *url, char **body, int *state, struct http_message_len_t *len, struct http_client_response_t *response)
 {
 	int process_finish = false;
 	int read_finish = false;

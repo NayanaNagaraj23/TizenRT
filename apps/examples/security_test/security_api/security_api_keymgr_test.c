@@ -26,16 +26,15 @@
 #define AES128SET_KEY "ss/03"
 #define RSA1024_KEY "ss/04"
 
-void
-test_keymgr(void)
+void test_keymgr(void)
 {
 	security_handle hnd;
-	security_data hash_gen_key = {NULL, 0};
-	security_data aes_gen_key = {NULL, 0};
-	security_data rsa_gen_key = {NULL, 0};
-	security_data get_x_key = {NULL, 0};
-	security_data get_y_key = {NULL, 0};
-	security_data aes_set_key = {NULL, 0};
+	security_data hash_gen_key = { NULL, 0 };
+	security_data aes_gen_key = { NULL, 0 };
+	security_data rsa_gen_key = { NULL, 0 };
+	security_data get_x_key = { NULL, 0 };
+	security_data get_y_key = { NULL, 0 };
+	security_data aes_set_key = { NULL, 0 };
 
 	aes_set_key.data = "1234567890123456";
 	aes_set_key.length = 16;
@@ -135,7 +134,7 @@ test_keymgr(void)
 	}
 	printf("ok\n");
 
-exit:
+ exit:
 	free_security_data(&hash_gen_key);
 	free_security_data(&aes_gen_key);
 	free_security_data(&rsa_gen_key);

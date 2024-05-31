@@ -108,15 +108,15 @@ static struct mallinfo g_mmafter;
 #endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
-const char g_var1_name[]    = "Variable1";
-const char g_var1_value[]   = "GoodValue1";
-const char g_var2_name[]    = "Variable2";
-const char g_var2_value[]   = "GoodValue2";
-const char g_var3_name[]    = "Variable3";
-const char g_var3_value[]   = "GoodValue3";
+const char g_var1_name[] = "Variable1";
+const char g_var1_value[] = "GoodValue1";
+const char g_var2_name[] = "Variable2";
+const char g_var2_value[] = "GoodValue2";
+const char g_var3_name[] = "Variable3";
+const char g_var3_value[] = "GoodValue3";
 
-const char g_bad_value1[]   = "BadValue1";
-const char g_bad_value2[]   = "BadValue2";
+const char g_bad_value1[] = "BadValue1";
+const char g_bad_value2[] = "BadValue2";
 
 const char g_putenv_value[] = "Variable1=BadValue3";
 
@@ -135,14 +135,14 @@ static void show_memory_usage(struct mallinfo *mmbefore, struct mallinfo *mmafte
 {
 	printf("VARIABLE  BEFORE   AFTER\n");
 	printf("======== ======== ========\n");
-	printf("arena    %8x %8x\n", mmbefore->arena,    mmafter->arena);
-	printf("ordblks  %8d %8d\n", mmbefore->ordblks,  mmafter->ordblks);
+	printf("arena    %8x %8x\n", mmbefore->arena, mmafter->arena);
+	printf("ordblks  %8d %8d\n", mmbefore->ordblks, mmafter->ordblks);
 	printf("mxordblk %8x %8x\n", mmbefore->mxordblk, mmafter->mxordblk);
 	printf("uordblks %8x %8x\n", mmbefore->uordblks, mmafter->uordblks);
 	printf("fordblks %8x %8x\n", mmbefore->fordblks, mmafter->fordblks);
 }
 #else
-# define show_memory_usage(mm1, mm2)
+#define show_memory_usage(mm1, mm2)
 #endif
 
 /****************************************************************************
@@ -182,7 +182,7 @@ static void check_test_memory_usage(void)
 	dump_nfreeholders("user_main:");
 }
 #else
-# define check_test_memory_usage()
+#define check_test_memory_usage()
 #endif
 
 /****************************************************************************
@@ -220,7 +220,7 @@ static void show_environment(bool var1_valid, bool var2_valid, bool var3_valid)
 	show_variable(g_var3_name, g_var3_value, var3_valid);
 }
 #else
-# define show_environment()
+#define show_environment()
 #endif
 
 /****************************************************************************
@@ -462,7 +462,7 @@ static int user_main(int argc, char *argv[])
 		printf("\nuser_main: priority inheritance test\n");
 		priority_inheritance();
 		check_test_memory_usage();
-#endif /* CONFIG_PRIORITY_INHERITANCE && !CONFIG_DISABLE_SIGNALS && !CONFIG_DISABLE_PTHREAD */
+#endif							/* CONFIG_PRIORITY_INHERITANCE && !CONFIG_DISABLE_SIGNALS && !CONFIG_DISABLE_PTHREAD */
 
 #ifdef CONFIG_SCHED_WORKQUEUE
 		printf("\nuser_main: workqueue() test\n");
@@ -551,26 +551,25 @@ int kernel_sample_main(int argc, FAR char *argv[])
 
 #ifndef CONFIG_DISABLE_ENVIRON
 	printf("kernel_sample_main: putenv(%s)\n", g_putenv_value);
-	putenv(g_putenv_value);                   /* Varaible1=BadValue3 */
+	putenv(g_putenv_value);		/* Varaible1=BadValue3 */
 	printf("kernel_sample_main: setenv(%s, %s, TRUE)\n", g_var1_name, g_var1_value);
-	setenv(g_var1_name, g_var1_value, TRUE);  /* Variable1=GoodValue1 */
+	setenv(g_var1_name, g_var1_value, TRUE);	/* Variable1=GoodValue1 */
 
 	printf("kernel_sample_main: setenv(%s, %s, FALSE)\n", g_var2_name, g_bad_value1);
-	setenv(g_var2_name, g_bad_value1, FALSE); /* Variable2=BadValue1 */
+	setenv(g_var2_name, g_bad_value1, FALSE);	/* Variable2=BadValue1 */
 	printf("kernel_sample_main: setenv(%s, %s, TRUE)\n", g_var2_name, g_var2_value);
-	setenv(g_var2_name, g_var2_value, TRUE);  /* Variable2=GoodValue2 */
+	setenv(g_var2_name, g_var2_value, TRUE);	/* Variable2=GoodValue2 */
 
 	printf("kernel_sample_main: setenv(%s, %s, FALSE)\n", g_var3_name, g_var3_name);
-	setenv(g_var3_name, g_var3_value, FALSE); /* Variable3=GoodValue3 */
+	setenv(g_var3_name, g_var3_value, FALSE);	/* Variable3=GoodValue3 */
 	printf("kernel_sample_main: setenv(%s, %s, FALSE)\n", g_var3_name, g_var3_name);
-	setenv(g_var3_name, g_bad_value2, FALSE); /* Variable3=GoodValue3 */
+	setenv(g_var3_name, g_bad_value2, FALSE);	/* Variable3=GoodValue3 */
 	show_environment(true, true, true);
 #endif
 
 	/* Verify that we can spawn a new task */
 
-	result = task_create("kernel_sample", PRIORITY, STACKSIZE, user_main,
-						 (FAR char *const *)g_argv);
+	result = task_create("kernel_sample", PRIORITY, STACKSIZE, user_main, (FAR char *const *)g_argv);
 	if (result == ERROR) {
 		printf("kernel_sample_main: ERROR Failed to start user_main\n");
 	} else {

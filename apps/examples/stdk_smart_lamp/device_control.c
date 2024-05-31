@@ -57,7 +57,7 @@ static float calculate_rgb(float v1, float v2, float vh)
 	if ((6 * vh) < 1) {
 		return (v1 + (v2 - v1) * 6 * vh);
 	}
-	
+
 	if ((2 * vh) < 1) {
 		return v2;
 	}
@@ -65,14 +65,13 @@ static float calculate_rgb(float v1, float v2, float vh)
 	if ((3 * vh) < 2) {
 		return (v1 + (v2 - v1) * ((2.0f / 3) - vh) * 6);
 	}
-	
+
 	return v1;
 }
 
 /* SmartThings manage color by using Hue-Saturation format,
    If you use LED by using RGB color format, you need to change color format */
-void update_rgb_from_hsl(double hue, double saturation, int level,
-		int *red, int *green, int *blue)
+void update_rgb_from_hsl(double hue, double saturation, int level, int *red, int *green, int *blue)
 {
 	if (saturation == 0) {
 		*red = *green = *blue = 255;
@@ -80,9 +79,9 @@ void update_rgb_from_hsl(double hue, double saturation, int level,
 	}
 
 	float v1, v2;
-	float h = ((float) hue) / 100;
-	float s = ((float) saturation) / 100;
-	float l = ((float) level) / 100;
+	float h = ((float)hue) / 100;
+	float s = ((float)saturation) / 100;
+	float l = ((float)level) / 100;
 
 	if (l < 0.5) {
 		v2 = l * (1 + s);
@@ -92,9 +91,9 @@ void update_rgb_from_hsl(double hue, double saturation, int level,
 
 	v1 = 2 * l - v2;
 
-	*red   = (int)(255 * calculate_rgb(v1, v2, h + (1.0f / 3)));
+	*red = (int)(255 * calculate_rgb(v1, v2, h + (1.0f / 3)));
 	*green = (int)(255 * calculate_rgb(v1, v2, h));
-	*blue  = (int)(255 * calculate_rgb(v1, v2, h - (1.0f / 3)));
+	*blue = (int)(255 * calculate_rgb(v1, v2, h - (1.0f / 3)));
 }
 
 void button_isr_handler(void *arg)
@@ -109,7 +108,7 @@ void button_isr_handler(void *arg)
 	}
 }
 
-bool get_button_event(int* button_event_type, int* button_event_count)
+bool get_button_event(int *button_event_type, int *button_event_count)
 {
 	static uint32_t button_count = 0;
 	static uint32_t long_press_count = 0;
@@ -134,13 +133,13 @@ bool get_button_event(int* button_event_type, int* button_event_count)
 	} else if (button_count > 0) {
 		gpio_level = iotbus_gpio_read(g_pir);
 		if ((gpio_level == BUTTON_GPIO_PRESSED)
-				&& (now_ms - button_last_time_ms > BUTTON_LONG_THRESHOLD_MS)) {
+			&& (now_ms - button_last_time_ms > BUTTON_LONG_THRESHOLD_MS)) {
 			long_press_count++;
 			*button_event_type = BUTTON_LONG_PRESS;
 			*button_event_count = long_press_count;
 			return true;
 		} else if ((gpio_level == BUTTON_GPIO_RELEASED)
-				&& (now_ms - button_last_time_ms > BUTTON_DELAY_MS)) {
+				   && (now_ms - button_last_time_ms > BUTTON_DELAY_MS)) {
 			*button_event_type = BUTTON_SHORT_PRESS;
 			*button_event_count = button_count;
 			long_press_count = 0;
@@ -156,7 +155,7 @@ void led_blink(int gpio, int delay, int count)
 {
 	uint32_t gpio_level;
 
-	gpio_level =  gpio_get_level(gpio);
+	gpio_level = gpio_get_level(gpio);
 	for (int i = 0; i < count; i++) {
 		gpio_set_level(GPIO_OUTPUT_NOTIFICATION_LED, 1 - gpio_level);
 		vTaskDelay(delay / portTICK_PERIOD_MS);
@@ -176,7 +175,7 @@ void change_led_state(int noti_led_mode)
 	case LED_ANIMATION_MODE_IDLE:
 		break;
 	case LED_ANIMATION_MODE_SLOW:
-		gpio_level =  gpio_get_level(GPIO_OUTPUT_NOTIFICATION_LED);
+		gpio_level = gpio_get_level(GPIO_OUTPUT_NOTIFICATION_LED);
 		if ((gpio_level == NOTIFICATION_LED_GPIO_ON) && (now_ms - led_last_time_ms > 200)) {
 			gpio_set_level(GPIO_OUTPUT_NOTIFICATION_LED, NOTIFICATION_LED_GPIO_OFF);
 			led_last_time_ms = now_ms;
@@ -187,7 +186,7 @@ void change_led_state(int noti_led_mode)
 		}
 		break;
 	case LED_ANIMATION_MODE_FAST:
-		gpio_level =  gpio_get_level(GPIO_OUTPUT_NOTIFICATION_LED);
+		gpio_level = gpio_get_level(GPIO_OUTPUT_NOTIFICATION_LED);
 		if ((gpio_level == NOTIFICATION_LED_GPIO_ON) && (now_ms - led_last_time_ms > 100)) {
 			gpio_set_level(GPIO_OUTPUT_NOTIFICATION_LED, NOTIFICATION_LED_GPIO_OFF);
 			led_last_time_ms = now_ms;
@@ -210,7 +209,7 @@ void gpio_init(void)
 	iotapi_initialize();
 	g_pir = iotbus_gpio_open(GPIO_INPUT_BUTTON);
 	iotbus_gpio_register_cb(g_pir, GPIO_INPUT_BUTTON_EDGE, button_isr_handler, NULL);
-	
+
 	//Set RGB LED GPIO to output mode
 	iotbus_gpio_context_h n_handle;
 	n_handle = iotbus_gpio_open(GPIO_OUTPUT_NOTIFICATION_LED);

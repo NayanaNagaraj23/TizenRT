@@ -30,10 +30,7 @@
 #define HELP_DESC    "Type '"HELP_COMMAND" [COMMAND]' for more details on a command."
 #define UNKNOWN_CMD_MSG "Unknown command. Type '"HELP_COMMAND"' for help."
 
-
-static command_desc_t *prv_find_command(command_desc_t *commandArray,
-										char *buffer,
-										size_t length)
+static command_desc_t *prv_find_command(command_desc_t * commandArray, char *buffer, size_t length)
 {
 	int i;
 
@@ -42,8 +39,7 @@ static command_desc_t *prv_find_command(command_desc_t *commandArray,
 	}
 
 	i = 0;
-	while (commandArray[i].name != NULL
-		   && (strlen(commandArray[i].name) != length || strncmp(buffer, commandArray[i].name, length))) {
+	while (commandArray[i].name != NULL && (strlen(commandArray[i].name) != length || strncmp(buffer, commandArray[i].name, length))) {
 		i++;
 	}
 
@@ -54,8 +50,7 @@ static command_desc_t *prv_find_command(command_desc_t *commandArray,
 	}
 }
 
-static void prv_displayHelp(command_desc_t *commandArray,
-							char *buffer)
+static void prv_displayHelp(command_desc_t * commandArray, char *buffer)
 {
 	command_desc_t *cmdP;
 	int length;
@@ -71,9 +66,9 @@ static void prv_displayHelp(command_desc_t *commandArray,
 	if (cmdP == NULL) {
 		int i;
 
-		fprintf(stdout, HELP_COMMAND"\t"HELP_DESC"\r\n");
+		fprintf(stdout, HELP_COMMAND "\t" HELP_DESC "\r\n");
 
-		for (i = 0 ; commandArray[i].name != NULL ; i++) {
+		for (i = 0; commandArray[i].name != NULL; i++) {
 			fprintf(stdout, "%s\t%s\r\n", commandArray[i].name, commandArray[i].shortDesc);
 		}
 	} else {
@@ -81,9 +76,7 @@ static void prv_displayHelp(command_desc_t *commandArray,
 	}
 }
 
-
-void handle_command(command_desc_t *commandArray,
-					char *buffer)
+void handle_command(command_desc_t * commandArray, char *buffer)
 {
 	command_desc_t *cmdP;
 	int length;
@@ -107,7 +100,7 @@ void handle_command(command_desc_t *commandArray,
 			}
 			prv_displayHelp(commandArray, buffer + length);
 		} else {
-			fprintf(stdout, UNKNOWN_CMD_MSG"\r\n");
+			fprintf(stdout, UNKNOWN_CMD_MSG "\r\n");
 		}
 	}
 }
@@ -152,20 +145,16 @@ int check_end_of_args(char *buffer)
  * Display Functions
  */
 
-static void print_indent(FILE *stream,
-						 int num)
+static void print_indent(FILE * stream, int num)
 {
 	int i;
 
-	for (i = 0 ; i < num ; i++) {
+	for (i = 0; i < num; i++) {
 		fprintf(stream, "    ");
 	}
 }
 
-void output_buffer(FILE *stream,
-				   uint8_t *buffer,
-				   int length,
-				   int indent)
+void output_buffer(FILE * stream, uint8_t * buffer, int length, int indent)
 {
 	int i;
 
@@ -184,7 +173,7 @@ void output_buffer(FILE *stream,
 
 		print_indent(stream, indent);
 		memcpy(array, buffer + i, 16);
-		for (j = 0 ; j < 16 && i + j < length; j++) {
+		for (j = 0; j < 16 && i + j < length; j++) {
 			fprintf(stream, "%02X ", array[j]);
 			if (j % 4 == 3) {
 				fprintf(stream, " ");
@@ -200,7 +189,7 @@ void output_buffer(FILE *stream,
 			}
 		}
 		fprintf(stream, " ");
-		for (j = 0 ; j < 16 && i + j < length; j++) {
+		for (j = 0; j < 16 && i + j < length; j++) {
 			if (isprint(array[j])) {
 				fprintf(stream, "%c", array[j]);
 			} else {
@@ -212,10 +201,7 @@ void output_buffer(FILE *stream,
 	}
 }
 
-void output_tlv(FILE *stream,
-				uint8_t *buffer,
-				size_t buffer_len,
-				int indent)
+void output_tlv(FILE * stream, uint8_t * buffer, size_t buffer_len, int indent)
 {
 	lwm2m_data_type_t type;
 	uint16_t id;
@@ -224,7 +210,7 @@ void output_tlv(FILE *stream,
 	int length = 0;
 	int result;
 
-	while (0 != (result = lwm2m_decode_TLV((uint8_t *)buffer + length, buffer_len - length, &type, &id, &dataIndex, &dataLen))) {
+	while (0 != (result = lwm2m_decode_TLV((uint8_t *) buffer + length, buffer_len - length, &type, &id, &dataIndex, &dataLen))) {
 		print_indent(stream, indent);
 		fprintf(stream, "{\r\n");
 		print_indent(stream, indent + 1);
@@ -258,11 +244,11 @@ void output_tlv(FILE *stream,
 
 			print_indent(stream, indent + 2);
 			fprintf(stream, "data (%ld bytes):\r\n", dataLen);
-			output_buffer(stream, (uint8_t *)buffer + length + dataIndex, dataLen, indent + 2);
+			output_buffer(stream, (uint8_t *) buffer + length + dataIndex, dataLen, indent + 2);
 
 			tmp = buffer[length + dataIndex + dataLen];
 			buffer[length + dataIndex + dataLen] = 0;
-			if (sscanf((const char *)buffer + length + dataIndex, "%"PRId64, &intValue) > 0) {
+			if (sscanf((const char *)buffer + length + dataIndex, "%" PRId64, &intValue) > 0) {
 				print_indent(stream, indent + 2);
 				fprintf(stream, "data as Integer: %" PRId64 "\r\n", intValue);
 			}
@@ -280,11 +266,7 @@ void output_tlv(FILE *stream,
 	}
 }
 
-void output_data(FILE *stream,
-				 lwm2m_media_type_t format,
-				 uint8_t *data,
-				 int dataLength,
-				 int indent)
+void output_data(FILE * stream, lwm2m_media_type_t format, uint8_t * data, int dataLength, int indent)
 {
 	int i;
 
@@ -310,7 +292,7 @@ void output_data(FILE *stream,
 	case LWM2M_CONTENT_JSON:
 		fprintf(stream, "application/vnd.oma.lwm2m+json:\r\n");
 		print_indent(stream, indent);
-		for (i = 0 ; i < dataLength ; i++) {
+		for (i = 0; i < dataLength; i++) {
 			fprintf(stream, "%c", data[i]);
 		}
 		fprintf(stream, "\n");
@@ -319,7 +301,7 @@ void output_data(FILE *stream,
 	case LWM2M_CONTENT_LINK:
 		fprintf(stream, "application/link-format:\r\n");
 		print_indent(stream, indent);
-		for (i = 0 ; i < dataLength ; i++) {
+		for (i = 0; i < dataLength; i++) {
 			fprintf(stream, "%c", data[i]);
 		}
 		fprintf(stream, "\n");
@@ -332,14 +314,11 @@ void output_data(FILE *stream,
 	}
 }
 
-void dump_tlv(FILE *stream,
-			  int size,
-			  lwm2m_data_t *dataP,
-			  int indent)
+void dump_tlv(FILE * stream, int size, lwm2m_data_t * dataP, int indent)
 {
 	int i;
 
-	for (i = 0 ; i < size ; i++) {
+	for (i = 0; i < size; i++) {
 		print_indent(stream, indent);
 		fprintf(stream, "{\r\n");
 		print_indent(stream, indent + 1);
@@ -425,8 +404,7 @@ static const char *prv_status_to_string(int status)
 	}
 }
 
-void print_status(FILE *stream,
-				  uint8_t status)
+void print_status(FILE * stream, uint8_t status)
 {
 	fprintf(stream, "%d.%02d (%s)", (status & 0xE0) >> 5, status & 0x1F, prv_status_to_string(status));
 }

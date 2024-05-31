@@ -121,7 +121,7 @@ static void utc_eventloop_loop_stop_p(void)
 	el_timer_t *timer;
 
 	loop_stop_flag = false;
-	timer = eventloop_add_timer(3000, false, (timeout_callback)loop_stop_cb, NULL);
+	timer = eventloop_add_timer(3000, false, (timeout_callback) loop_stop_cb, NULL);
 	TC_ASSERT_NEQ("eventloop_add_timer", timer, NULL);
 	ret = eventloop_loop_run();
 	TC_ASSERT_EQ("eventloop_loop_run", ret, OK);
@@ -152,7 +152,7 @@ static void utc_eventloop_add_timer_p(void)
 	el_timer_t *loop_stop_timer;
 
 	el_timer_flag = 0;
-	timer = eventloop_add_timer(0, false, (timeout_callback)timer_cb, EL_TIMER_DATA);
+	timer = eventloop_add_timer(0, false, (timeout_callback) timer_cb, EL_TIMER_DATA);
 	TC_ASSERT_NEQ("eventloop_add_timer", timer, NULL);
 	ret = eventloop_loop_run();
 	TC_ASSERT_EQ("eventloop_loop_run", ret, OK);
@@ -171,7 +171,7 @@ static void utc_eventloop_add_timer_p(void)
 	g_repeat_timer = eventloop_add_timer(1000, true, repeat_timer_cb, EL_REPEAT_TIMER_DATA);
 	TC_ASSERT_NEQ("eventloop_add_timer", g_repeat_timer, NULL);
 	/* Add timer which will stop above repeated timer, g_repeat_timer after 5s. */
-	timer = eventloop_add_timer(5000, false, (timeout_callback)repeat_timer_stop_cb, EL_REPEAT_TIMER_DATA);
+	timer = eventloop_add_timer(5000, false, (timeout_callback) repeat_timer_stop_cb, EL_REPEAT_TIMER_DATA);
 	TC_ASSERT_NEQ("eventloop_add_timer", timer, NULL);
 	ret = eventloop_loop_run();
 	TC_ASSERT_EQ("eventloop_loop_run", ret, OK);
@@ -181,7 +181,7 @@ static void utc_eventloop_add_timer_p(void)
 	el_timer_flag = 0;
 	repeat_timer = eventloop_add_timer(2000, true, repeat_timer_cb, EL_REPEAT_TIMER_DATA);
 	TC_ASSERT_NEQ("eventloop_add_timer", repeat_timer, NULL);
-	loop_stop_timer = eventloop_add_timer(3000, false, (timeout_callback)loop_stop_cb, NULL);
+	loop_stop_timer = eventloop_add_timer(3000, false, (timeout_callback) loop_stop_cb, NULL);
 	TC_ASSERT_NEQ("eventloop_add_timer", loop_stop_timer, NULL);
 	ret = eventloop_loop_run();
 	TC_ASSERT_EQ("eventloop_loop_run", ret, OK);
@@ -205,7 +205,7 @@ static void utc_eventloop_delete_timer_p(void)
 	el_timer_t *timer;
 	int ret;
 
-	timer = eventloop_add_timer(0, false, (timeout_callback)timer_cb, NULL);
+	timer = eventloop_add_timer(0, false, (timeout_callback) timer_cb, NULL);
 	TC_ASSERT_NEQ("eventloop_add_timer", timer, NULL);
 	ret = eventloop_delete_timer(timer);
 	TC_ASSERT_EQ("eventloop_delete_timer", ret, OK);
@@ -234,7 +234,7 @@ static void utc_eventloop_add_timer_async_p(void)
 	el_timer_t *repeat_timer;
 
 	el_timer_flag = 0;
-	timer = eventloop_add_timer_async(0, false, (timeout_callback)timer_cb, EL_TIMER_DATA);
+	timer = eventloop_add_timer_async(0, false, (timeout_callback) timer_cb, EL_TIMER_DATA);
 	TC_ASSERT_NEQ("eventloop_add_timer_async", timer, NULL);
 	sleep_cnt = 0;
 	while (sleep_cnt < 5) {
@@ -308,7 +308,7 @@ static void utc_eventloop_add_event_handler_n(void)
 {
 	el_event_t *event_handle;
 
-	event_handle = eventloop_add_event_handler(EL_INVALID_EVENT, (event_callback)wifi_on_callback, NULL);
+	event_handle = eventloop_add_event_handler(EL_INVALID_EVENT, (event_callback) wifi_on_callback, NULL);
 	TC_ASSERT_EQ("eventloop_add_event_handler", event_handle, NULL);
 
 	event_handle = eventloop_add_event_handler(EL_EVENT_WIFI_ON, NULL, NULL);
@@ -322,10 +322,10 @@ static void utc_eventloop_add_event_handler_p(void)
 	el_event_t *wifi_on_handle;
 	el_event_t *wifi_off_handle;
 
-	wifi_on_handle = eventloop_add_event_handler(EL_EVENT_WIFI_ON, (event_callback)wifi_on_callback, NULL);
+	wifi_on_handle = eventloop_add_event_handler(EL_EVENT_WIFI_ON, (event_callback) wifi_on_callback, NULL);
 	TC_ASSERT_NEQ("eventloop_add_event_handler", wifi_on_handle, NULL);
 
-	wifi_off_handle = eventloop_add_event_handler(EL_EVENT_WIFI_OFF, (event_callback)wifi_off_callback, EL_CB_DATA);
+	wifi_off_handle = eventloop_add_event_handler(EL_EVENT_WIFI_OFF, (event_callback) wifi_off_callback, EL_CB_DATA);
 	TC_ASSERT_NEQ("eventloop_add_event_handler", wifi_off_handle, NULL);
 
 	TC_SUCCESS_RESULT();
@@ -346,7 +346,7 @@ static void utc_eventloop_del_event_handler_p(void)
 	int ret;
 	el_event_t *event_handle;
 
-	event_handle = eventloop_add_event_handler(EL_EVENT_WIFI_ON, (event_callback)wifi_on_callback, NULL);
+	event_handle = eventloop_add_event_handler(EL_EVENT_WIFI_ON, (event_callback) wifi_on_callback, NULL);
 	TC_ASSERT_NEQ("eventloop_add_event_handler", event_handle, NULL);
 	ret = eventloop_del_event_handler(event_handle);
 	TC_ASSERT_EQ("eventloop_del_event_handler", ret, OK);
@@ -402,7 +402,7 @@ static void utc_eventloop_send_event_p(void)
 	el_event_wifi_on_cnt = 0;
 	el_event_wifi_off_flag = false;
 	loop_stop_flag = false;
-	timer = eventloop_add_timer(2000, true, (timeout_callback)eventloop_send_event_func, NULL);
+	timer = eventloop_add_timer(2000, true, (timeout_callback) eventloop_send_event_func, NULL);
 	TC_ASSERT_NEQ("eventloop_add_timer", timer, NULL);
 	ret = eventloop_loop_run();
 	TC_ASSERT_EQ("eventloop_loop_run", ret, OK);
@@ -411,7 +411,7 @@ static void utc_eventloop_send_event_p(void)
 	TC_ASSERT_EQ("eventloop_send_event", el_event_wifi_off_flag, true);
 	TC_ASSERT_EQ("eventloop_send_event", loop_stop_flag, true);
 
-	event_handle = eventloop_add_event_handler(EL_EVENT_WIFI_ON, (event_callback)wifi_on_once_callback, NULL);
+	event_handle = eventloop_add_event_handler(EL_EVENT_WIFI_ON, (event_callback) wifi_on_once_callback, NULL);
 	TC_ASSERT_NEQ("eventloop_add_event_handler", event_handle, NULL);
 	ret = eventloop_send_event(EL_EVENT_WIFI_ON, NULL, 0);
 	TC_ASSERT_EQ("eventloop_send_event", ret, OK);

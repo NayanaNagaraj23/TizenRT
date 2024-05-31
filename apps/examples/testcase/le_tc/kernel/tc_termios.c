@@ -58,11 +58,6 @@ static void tc_termios_tcsetattr_tcgetattr(void)
 	ret_chk = cfgetspeed(&prev_tio);
 	TC_ASSERT_GEQ("cfgetspeed", ret_chk, 0);
 
-	/* Failure case: invalid option */
-	sleep(1);
-	ret_chk = tcsetattr(fileno(stdin), 33, &prev_tio);
-	TC_ASSERT_LT("tcsetattr", ret_chk, 0);
-
 	sleep(1);
 	prev_tio.c_oflag &= ~ONLCR;
 	ret_chk = tcsetattr(fileno(stdin), TCSANOW, &prev_tio);
@@ -91,6 +86,75 @@ static void tc_termios_tcsetattr_tcgetattr(void)
 	TC_SUCCESS_RESULT();
 }
 
+static void tc_termios_tcgetattr_invald_fd_neg(void)
+{
+	int ret_chk;
+	struct termios prev_tio;
+
+	ret_chk = tcgetattr(-1, &prev_tio);
+	TC_ASSERT_EQ("tcgetattr", ret_chk, 0);
+	if (ret_chk != 0) {
+		printf("tc_termios_tcsetattr_tcgetattr fail : getattr %d\n", errno);
+	}
+
+	TC_SUCCESS_RESULT();
+}
+
+static void tc_termios_tcsetattr_invalid_option_neg(void)
+{
+	int ret_chk;
+	struct termios prev_tio;
+
+	ret_chk = tcgetattr(fileno(stdin), &prev_tio);
+	TC_ASSERT_EQ("tcgetattr", ret_chk, 0);
+	if (ret_chk != 0) {
+		printf("tc_termios_tcsetattr_tcgetattr fail : getattr %d\n", errno);
+	}
+
+	sleep(1);
+	/* isatty() returns 1 if fd is an open file descriptor referring to a terminal */
+	ret_chk = isatty(fileno(stdin));
+	TC_ASSERT_EQ("isatty", ret_chk, 1);
+
+	ret_chk = cfgetspeed(&prev_tio);
+	TC_ASSERT_GEQ("cfgetspeed", ret_chk, 0);
+
+	/* Failure case: invalid option */
+	sleep(1);
+	ret_chk = tcsetattr(fileno(stdin), 33, &prev_tio);
+	TC_ASSERT_LT("tcsetattr", ret_chk, 0);
+
+	TC_SUCCESS_RESULT();
+}
+
+static void tc_termios_tcsetattr_invalid_fd_neg(void)
+{
+	int ret_chk;
+	struct termios prev_tio;
+
+	int fd = -1;
+
+	/* Failure case: invalid option */
+
+	ret_chk = tcsetattr(fd, TCSANOW, &prev_tio);
+	TC_ASSERT_LT("tcsetattr", ret_chk, 0);
+
+	TC_SUCCESS_RESULT();
+}
+
+tatic void tc_termios_tcsetattr_invalid_termiosptr_neg(void)
+{
+	int ret_chk;
+	struct termios prev_tio = NULL;
+
+	/* Failure case: invalid option */
+
+	ret_chk = tcsetattr(fileno(stdin), TCSANOW, &prev_tio);
+	TC_ASSERT_LT("tcsetattr", ret_chk, 0);
+
+	TC_SUCCESS_RESULT();
+}
+
 /****************************************************************************
  * Name: termios
  ****************************************************************************/
@@ -99,6 +163,11 @@ int termios_main(void)
 {
 #ifndef CONFIG_TASH
 	tc_termios_tcsetattr_tcgetattr();
+	tc_termios_tcgetattr_invald_fd_neg();
+	tc_termios_tcsetattr_invalid_option_neg();
+	tc_termios_tcsetattr_invalid_fd_neg();
+	tc_termios_tcsetattr_invalid_termiosptr_neg();
+
 #else
 	printf("tc_termios will not be executed. CONFIG_TASH is set.\n");
 #endif

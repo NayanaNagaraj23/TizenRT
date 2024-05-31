@@ -19,19 +19,19 @@
 #include <stdio.h>
 #include "sltool.h"
 
-int sltool_handle_remove_key(sl_options_s *opt)
+int sltool_handle_remove_key(sl_options_s * opt)
 {
 	printf("[sltool] idx %d  %s:%d\n", opt->idx, __FUNCTION__, __LINE__);
 	return 0;
 }
 
-int sltool_handle_gen_key(sl_options_s *opt)
+int sltool_handle_gen_key(sl_options_s * opt)
 {
 	printf("[sltool] idx %d  %s:%d\n", opt->idx, __FUNCTION__, __LINE__);
 	return 0;
 }
 
-int sltool_handle_get_key(sl_options_s *opt)
+int sltool_handle_get_key(sl_options_s * opt)
 {
 	printf("[sltool] idx %d  %s:%d\n", opt->idx, __FUNCTION__, __LINE__);
 	return 0;

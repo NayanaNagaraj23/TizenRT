@@ -345,8 +345,7 @@ static void itc_systemio_gpio_register_unregister_callback_p(void)
 
 	ret = iotbus_gpio_close(g_gpio_h);
 	TC_ASSERT_EQ(iotbus_gpio_close, ret, 0)
-
-	TC_SUCCESS_RESULT();
+		TC_SUCCESS_RESULT();
 }
 
 /**
@@ -1148,7 +1147,7 @@ int itc_gpio_main(void)
 	itc_systemio_gpio_set_get_edge_mode_p();
 	itc_systemio_gpio_set_get_drive_mode_p();
 	itc_systemio_gpio_read_write_p();
-	itc_systemio_gpio_register_unregister_callback_p();//TC FAIL, callback is not invoked
+	itc_systemio_gpio_register_unregister_callback_p();	//TC FAIL, callback is not invoked
 	itc_systemio_gpio_set_direction_read_write_p_all_directions();
 	itc_systemio_gpio_set_edge_read_write_p_all_edges();
 	itc_systemio_gpio_set_drive_read_write_p_all_drive_mode();
@@ -1159,22 +1158,22 @@ int itc_gpio_main(void)
 	itc_systemio_gpio_open_n();
 	itc_systemio_gpio_close_n();
 	itc_systemio_gpio_get_pin_n();
-	itc_systemio_gpio_get_pin_n_after_close();//TC FAIL, it should not return opened pin after it has already been close
+	itc_systemio_gpio_get_pin_n_after_close();	//TC FAIL, it should not return opened pin after it has already been close
 	itc_systemio_gpio_get_pin_n_after_invalid_open();
 	itc_systemio_gpio_read_n_after_close();
 	itc_systemio_gpio_write_n_after_close();
 	itc_systemio_gpio_set_direction_n();
 	itc_systemio_gpio_get_direction_n();
 	itc_systemio_gpio_set_direction_n_after_close();
-	itc_systemio_gpio_get_direction_n_after_close();//TC FAIL, ret value should be less than 0
+	itc_systemio_gpio_get_direction_n_after_close();	//TC FAIL, ret value should be less than 0
 	itc_systemio_gpio_set_edge_mode_n();
 	itc_systemio_gpio_get_edge_mode_n();
 	itc_systemio_gpio_set_edge_mode_n_after_close();
-	itc_systemio_gpio_get_edge_mode_n_after_close();//TC FAIL, ret value should be less than 0
+	itc_systemio_gpio_get_edge_mode_n_after_close();	//TC FAIL, ret value should be less than 0
 	itc_systemio_gpio_set_drive_mode_n();
 	itc_systemio_gpio_get_drive_mode_n();
 	itc_systemio_gpio_set_drive_mode_n_after_close();
-	itc_systemio_gpio_get_drive_mode_n_after_close();//TC FAIL, ret value should be less than 0
+	itc_systemio_gpio_get_drive_mode_n_after_close();	//TC FAIL, ret value should be less than 0
 
 	return 0;
 }

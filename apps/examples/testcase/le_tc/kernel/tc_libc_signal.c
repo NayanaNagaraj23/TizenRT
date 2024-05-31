@@ -83,8 +83,6 @@ static void tc_libc_signal_sigfillset_pos(void)
 	TC_SUCCESS_RESULT();
 }
 
-
-
 /**
 * @fn                   :tc_libc_signal_sigaddset
 * @brief                :tc_libc_signal_sigaddset test sigaddset function
@@ -119,7 +117,6 @@ static void tc_libc_signal_sigaddset_neg(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
 * @fn                   :tc_libc_signal_sigdelset
@@ -156,7 +153,6 @@ static void tc_libc_signal_sigdelset_neg(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 /**
 * @fn                   :tc_libc_signal_sigismember
 * @brief                :tc_libc_signal_sigismember test sigismember function
@@ -183,7 +179,6 @@ static void tc_libc_signal_sigismember_pos(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void tc_libc_signal_sigismember_neg(void)
 {
 	int ret_chk;
@@ -194,7 +189,6 @@ static void tc_libc_signal_sigismember_neg(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
 * @fn                   :tc_libc_signal_sigignore
@@ -230,7 +224,6 @@ static void tc_libc_signal_sigignore_neg(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 #ifndef CONFIG_DISABLE_POSIX_TIMERS
 /**
 * @fn                   :tc_libc_signal_sigpause
@@ -248,12 +241,12 @@ static void tc_libc_signal_sigpause_pos(void)
 {
 	int ret_chk;
 	timer_t timer_id;
-	clockid_t clockid = 0; /*CLOCK_REALTIME*/
+	clockid_t clockid = 0;		/*CLOCK_REALTIME */
 	struct sigevent st_sigevent;
 	struct itimerspec st_timer_spec_val;
 
 	/* Set and enable alarm */
-	st_sigevent.sigev_notify = 1; /*SIGEV_SIGNAL*/
+	st_sigevent.sigev_notify = 1;	/*SIGEV_SIGNAL */
 	st_sigevent.sigev_signo = SIGRTMIN;
 	st_sigevent.sigev_value.sival_ptr = &timer_id;
 
@@ -278,14 +271,12 @@ static void tc_libc_signal_sigpause_pos(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void tc_libc_signal_sigpause_neg(void)
 {
 	int ret_chk;
 	ret_chk = sigpause(MAX_SIGNO + 1);
 	TC_ASSERT_EQ("sigpause", ret_chk, ERROR);
 
-	
 	TC_SUCCESS_RESULT();
 }
 #endif
@@ -348,7 +339,6 @@ static void tc_libc_signal_signal_pos(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void tc_libc_signal_signal_neg(void)
 {
 	int ret_chk;
@@ -358,7 +348,6 @@ static void tc_libc_signal_signal_neg(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
 * @fn                   :tc_libc_signal_raise
@@ -384,7 +373,6 @@ static void tc_libc_signal_raise_pos(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void tc_libc_signal_raise_neg(void)
 {
 	int ret_chk;
@@ -394,8 +382,6 @@ static void tc_libc_signal_raise_neg(void)
 
 	TC_SUCCESS_RESULT();
 }
-
-
 
 /**
 * @fn                   :tc_libc_signal_psignal

@@ -32,17 +32,16 @@
 #define AES128_KEY "ss/01"
 #define RSA1024_KEY "ss/02"
 
-void
-test_crypto(void)
+void test_crypto(void)
 {
 	security_handle hnd;
-	security_data iv = {NULL, 0};
-	security_data input = {NULL, 0};
-	security_data aes_enc_data = {NULL, 0};
-	security_data aes_dec_data = {NULL, 0};
-	security_data rsa_gen_key = {NULL, 0};
-	security_data rsa_enc_data = {NULL, 0};
-	security_data rsa_dec_data = {NULL, 0};
+	security_data iv = { NULL, 0 };
+	security_data input = { NULL, 0 };
+	security_data aes_enc_data = { NULL, 0 };
+	security_data aes_dec_data = { NULL, 0 };
+	security_data rsa_gen_key = { NULL, 0 };
+	security_data rsa_enc_data = { NULL, 0 };
+	security_data rsa_dec_data = { NULL, 0 };
 
 	iv.data = "1234567890123456";
 	iv.length = 16;
@@ -143,7 +142,7 @@ test_crypto(void)
 	}
 	printf("ok\n");
 
-exit:
+ exit:
 	free_security_data(&aes_enc_data);
 	free_security_data(&aes_dec_data);
 	free_security_data(&rsa_gen_key);

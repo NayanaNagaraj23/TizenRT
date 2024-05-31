@@ -75,7 +75,7 @@ int tls_seclink_main(int argc, char *argv[])
 
 	clock_gettime(CLOCK_REALTIME, &ts_origin);
 
-	ts.tv_sec = 1612483200; // 2021-02-05 00:00:00
+	ts.tv_sec = 1612483200;		// 2021-02-05 00:00:00
 	ts.tv_nsec = 0;
 
 	clock_settime(CLOCK_REALTIME, &ts);
@@ -137,9 +137,9 @@ int tls_seclink_main(int argc, char *argv[])
 
 	if (cli_ret != 0) {
 		/*
-		If cli_ret is not 0, the server thread might keep waiting connection from a client.
-		Hence, to be clear that the server thread is stopped, making temporary connection with the server.
-		*/
+		   If cli_ret is not 0, the server thread might keep waiting connection from a client.
+		   Hence, to be clear that the server thread is stopped, making temporary connection with the server.
+		 */
 		int sockfd = socket(AF_INET, SOCK_STREAM, 0);
 		struct sockaddr_in server;
 		server.sin_family = AF_INET;
@@ -155,7 +155,7 @@ int tls_seclink_main(int argc, char *argv[])
 	pthread_join(tls_server, (void *)&srv_ret);
 	TLS_SECLINK_LOG("[SERVER] End : %d --\n", srv_ret);
 
-exit:
+ exit:
 	if (cli_ret == 0 && srv_ret == 0) {
 		printf("-- [TLS SECLINK TEST] Success --\n");
 		tls_print_test_log();

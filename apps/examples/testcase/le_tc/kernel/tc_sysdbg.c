@@ -81,11 +81,10 @@ static void tc_debug_sysdbg_test_neg(void)
 	int fd = open(SYSDBG_PATH, O_WRONLY);
 	TC_ASSERT_GEQ("open", fd, 0);
 
-	ret_chk=strncpy(NULL, "enable_monitor", 14);
-	
+	ret_chk = strncpy(NULL, "enable_monitor", 14);
+
 	TC_ASSERT_EQ_CLEANUP("strncpy", ret_chk, NULL, close(fd));
 
-	
 	close(fd);
 	TC_SUCCESS_RESULT();
 }
@@ -99,16 +98,13 @@ static void tc_debug_sysdbg_test_buffer_overrun_neg(void)
 	int fd = open(SYSDBG_PATH, O_WRONLY);
 	TC_ASSERT_GEQ("open", fd, 0);
 
-	ret_chk=strncpy(buffer, "enable_monitor", 40);
-	
+	ret_chk = strncpy(buffer, "enable_monitor", 40);
+
 	TC_ASSERT_EQ_CLEANUP("strncpy", ret_chk, NULL, close(fd));
 
-	
 	close(fd);
 	TC_SUCCESS_RESULT();
 }
-
-
 
 /****************************************************************************
  * Name: debug_main
@@ -123,5 +119,4 @@ int debug_main(void)
 	return 0;
 }
 
-#endif		// CONFIG_TC_KERNEL_SYSTEM_DEBUG
-
+#endif							// CONFIG_TC_KERNEL_SYSTEM_DEBUG

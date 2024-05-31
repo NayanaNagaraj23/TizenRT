@@ -94,23 +94,16 @@ int wo_dequeue(int *conn, struct wo_queue *queue);
 struct wo_queue *wo_create_queue(void);
 void wo_destroy_queue(struct wo_queue *queue);
 
-void wt_print_conninfo(wifi_manager_info_s *info);
-void wt_print_stats(wifi_manager_stats_s *stats);
+void wt_print_conninfo(wifi_manager_info_s * info);
+void wt_print_stats(wifi_manager_stats_s * stats);
 wifi_manager_ap_auth_type_e wt_get_auth_type(const char *method);
 wifi_manager_ap_crypto_type_e wt_get_crypto_type(const char *method);
-void wt_print_wifi_softap_profile(wifi_manager_softap_config_s *config, char *title);
-void wt_print_stats(wifi_manager_stats_s *stats);
-void wt_print_scanlist(wifi_manager_scan_info_s *slist);
-void wt_print_wifi_ap_profile(wifi_manager_ap_config_s *config, char *title);
+void wt_print_wifi_softap_profile(wifi_manager_softap_config_s * config, char *title);
+void wt_print_stats(wifi_manager_stats_s * stats);
+void wt_print_scanlist(wifi_manager_scan_info_s * slist);
+void wt_print_wifi_ap_profile(wifi_manager_ap_config_s * config, char *title);
 wifi_manager_ap_auth_type_e wt_get_autbh_type(const char *method);
 wifi_manager_ap_crypto_type_e wt_get_crypto_type(const char *method);
-void print_ap_config_list(interop_ap_config_list_s *ap_config_list);
-void wm_get_apinfo(wifi_manager_ap_config_s *apconfig,
-				   char *ssid,
-				   char *pwd,
-				   wifi_manager_ap_auth_type_e auth,
-				   wifi_manager_ap_crypto_type_e crypto);
-void wm_get_softapinfo(wifi_manager_softap_config_s *ap_config,
-					   char *softap_ssid,
-					   char *softap_password,
-					   int softap_channel);
+void print_ap_config_list(interop_ap_config_list_s * ap_config_list);
+void wm_get_apinfo(wifi_manager_ap_config_s * apconfig, char *ssid, char *pwd, wifi_manager_ap_auth_type_e auth, wifi_manager_ap_crypto_type_e crypto);
+void wm_get_softapinfo(wifi_manager_softap_config_s * ap_config, char *softap_ssid, char *softap_password, int softap_channel);

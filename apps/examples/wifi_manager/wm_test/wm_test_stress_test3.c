@@ -187,7 +187,7 @@ static int _run_procedure(void)
 	}
 	WT_LOG(TAG, "wait scan done event in STA mode");
 
-	WM_TEST_WAIT; /*  wait scan event */
+	WM_TEST_WAIT;				/*  wait scan event */
 
 	/*  connect to AP */
 	WT_LOG(TAG, "connect AP");
@@ -213,7 +213,7 @@ static int _run_procedure(void)
 	}
 	WT_LOG(TAG, "wait scan done event in connected state of STA mode");
 
-	WM_TEST_WAIT; /*  wait scan event */
+	WM_TEST_WAIT;				/*  wait scan event */
 
 	/*  send data */
 	WT_LOG(TAG, "send dummy data %d", WT_DATA_SIZE);

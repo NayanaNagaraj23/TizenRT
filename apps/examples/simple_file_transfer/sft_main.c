@@ -37,7 +37,8 @@
 
 #define SFT_PORT 5555
 #define BUF_SIZE 512
-static char g_buf[BUF_SIZE] = {0,};
+static char g_buf[BUF_SIZE] = { 0, };
+
 static char g_name_buf[128];
 
 static int send_data(int sd, char *buf, int buf_size)
@@ -79,7 +80,7 @@ static int read_data(int sd, char *buf, int buf_size, int *readed)
 	return 0;
 }
 
-static int write_data(FILE *fp, char *buf, int buf_size)
+static int write_data(FILE * fp, char *buf, int buf_size)
 {
 	int written = 0;
 	while (written < buf_size) {
@@ -93,7 +94,7 @@ static int write_data(FILE *fp, char *buf, int buf_size)
 	return 0;
 }
 
-static int get_file_size(FILE *fp)
+static int get_file_size(FILE * fp)
 {
 	fseek(fp, 0, SEEK_END);
 	int file_size = ftell(fp);
@@ -129,7 +130,6 @@ static void send_file(int connfd)
 		printf("fail %d\n", __LINE__);
 		return;
 	}
-
 	//get file size
 	int file_size = get_file_size(fp);
 	printf("send file size %d\n", file_size);
@@ -297,9 +297,9 @@ static int tcp_server(void)
 
 	close(connfd);
 
-out_with_socket:
+ out_with_socket:
 	close(listenfd);
-	return 0 ;
+	return 0;
 }
 
 /****************************************************************************

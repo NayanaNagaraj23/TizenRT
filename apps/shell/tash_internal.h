@@ -32,7 +32,7 @@
 #define TASH_MAX_STORE        (CONFIG_TASH_MAX_STORE_COMMANDS)
 #else
 #define TASH_MAX_STORE        (0)
-#endif  
+#endif
 
 #ifdef CONFIG_CPP_HAVE_VARARGS
 #ifdef CONFIG_DEBUG_TASH
@@ -46,11 +46,11 @@
 #else
 #define shvdbg(...)
 #endif
-#else  /* !CONFIG_DEBUG_TASH */
+#else							/* !CONFIG_DEBUG_TASH */
 #define shdbg(...)
 #define shvdbg(...)
-#endif /* CONFIG_DEBUG_TASH */
-#else  /* !CONFIG_CPP_HAVE_VARARGS */
+#endif							/* CONFIG_DEBUG_TASH */
+#else							/* !CONFIG_CPP_HAVE_VARARGS */
 #ifdef CONFIG_DEBUG_TASH
 #ifdef CONFIG_DEBUG_TASH_ERROR
 #define shdbg        dbg
@@ -58,11 +58,11 @@
 #ifdef CONFIG_DEBUG_TASH_INFO
 #define shvdbg       vdbg
 #endif
-#else  /* !CONFIG_DEBUG_TASH */
+#else							/* !CONFIG_DEBUG_TASH */
 #define shdbg        (void)
 #define shvdbg       (void)
-#endif /* CONFIG_DEBUG_TASH */
-#endif /* CONFIG_CPP_HAVE_VARARGS */
+#endif							/* CONFIG_DEBUG_TASH */
+#endif							/* CONFIG_CPP_HAVE_VARARGS */
 
 bool tash_do_autocomplete(char *cmd, int *pos, bool double_tab);
 

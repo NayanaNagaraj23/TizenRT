@@ -43,7 +43,7 @@
  ****************************************************************************/
 
 /* Following defines are fixed to avoid many configuration variables for TASH */
-#define TASH_CMD_MAXSTRLENGTH		(16) /* example: length of "ifconfig" command is 8 */
+#define TASH_CMD_MAXSTRLENGTH		(16)	/* example: length of "ifconfig" command is 8 */
 #ifdef CONFIG_TASH_CMDTASK_STACKSIZE
 #define TASH_CMDTASK_STACKSIZE		CONFIG_TASH_CMDTASK_STACKSIZE
 #else
@@ -83,14 +83,14 @@
  */
 struct tash_cmd_s {
 	char str[TASH_CMD_MAXSTRLENGTH];	/* Command strings- eg, ifconfig */
-	TASH_CMD_CALLBACK cb;				/* Function pointer for Callback */
-	int exec_type;						/* Execution type of this command */
+	TASH_CMD_CALLBACK cb;		/* Function pointer for Callback */
+	int exec_type;				/* Execution type of this command */
 };
 
 struct tash_cmd_info_s {
-	pthread_mutex_t tmutex;						/* Mutex for protection */
+	pthread_mutex_t tmutex;		/* Mutex for protection */
 	struct tash_cmd_s *cmd;
-	int count;									/* Number of TASH commands */
+	int count;					/* Number of TASH commands */
 };
 
 /********************************************************************************
@@ -109,17 +109,17 @@ static int tash_history(int argc, char **argv);
  ****************************************************************************/
 
 static int is_sorted_list = FALSE;
-static struct tash_cmd_info_s tash_cmds_info = {PTHREAD_MUTEX_INITIALIZER};
+static struct tash_cmd_info_s tash_cmds_info = { PTHREAD_MUTEX_INITIALIZER };
 
 const static tash_cmdlist_t tash_basic_cmds[] = {
-	{"exit",  tash_exit,   TASH_EXECMD_SYNC},
-	{"help",  tash_help,   TASH_EXECMD_SYNC},
-	{"clear",  tash_clear,   TASH_EXECMD_SYNC},
+	{"exit", tash_exit, TASH_EXECMD_SYNC},
+	{"help", tash_help, TASH_EXECMD_SYNC},
+	{"clear", tash_clear, TASH_EXECMD_SYNC},
 #ifdef CONFIG_TASH_SCRIPT
-	{"sh",    tash_script, TASH_EXECMD_SYNC},
+	{"sh", tash_script, TASH_EXECMD_SYNC},
 #endif
 #ifndef CONFIG_DISABLE_SIGNALS
-	{"sleep", tash_sleep,  TASH_EXECMD_SYNC},
+	{"sleep", tash_sleep, TASH_EXECMD_SYNC},
 #ifdef CONFIG_TASH_USLEEP
 	{"usleep", tash_usleep, TASH_EXECMD_SYNC},
 #endif
@@ -130,7 +130,7 @@ const static tash_cmdlist_t tash_basic_cmds[] = {
 #if TASH_MAX_STORE > 0
 	{"history", tash_history, TASH_EXECMD_SYNC},
 #endif
-	{NULL,    NULL,        0}
+	{NULL, NULL, 0}
 };
 
 #if TASH_MAX_STORE   > 0
@@ -278,7 +278,7 @@ static char *tash_get_cmd_from_history(int hist_idx)
 
 void tash_store_cmd(char *cmd)
 {
-	#define HISTPTR_TO_LAST  (cmd_pos = cmd_tail)
+#define HISTPTR_TO_LAST  (cmd_pos = cmd_tail)
 
 	/* Clear temporary buffer */
 
@@ -327,13 +327,13 @@ void tash_store_cmd(char *cmd)
 
 bool tash_search_cmd(char *cmd, int *cmd_char_ptr, char direction)
 {
-	#define UP_KEY_PRESSED      (direction == ASCII_A)
-	#define DOWN_KEY_PRESSED    (direction == ASCII_B)
-	#define IS_HIST_NOCMD       (cmd_head == cmd_tail)
-	#define IS_HIST_AT_TOP      (cmd_pos == cmd_head)
-	#define IS_HIST_AT_BOT      (cmd_pos == cmd_tail)
-	#define HAS_USER_INPUT      (cmd_line[0] != ASCII_NUL)
-	#define COPY_CMD(dest, src, len) \
+#define UP_KEY_PRESSED      (direction == ASCII_A)
+#define DOWN_KEY_PRESSED    (direction == ASCII_B)
+#define IS_HIST_NOCMD       (cmd_head == cmd_tail)
+#define IS_HIST_AT_TOP      (cmd_pos == cmd_head)
+#define IS_HIST_AT_BOT      (cmd_pos == cmd_tail)
+#define HAS_USER_INPUT      (cmd_line[0] != ASCII_NUL)
+#define COPY_CMD(dest, src, len) \
 		do { \
 			(len) = 0; \
 			while (((len) < TASH_LINEBUFLEN) && (src[(len)] != ASCII_NUL)) { \
@@ -342,9 +342,9 @@ bool tash_search_cmd(char *cmd, int *cmd_char_ptr, char direction)
 			} \
 			dest[(len) + 1] = ASCII_NUL; \
 		} while (0)
-	#define GET_HIST_CMD      COPY_CMD(cmd, cmd_store[cmd_pos], *cmd_char_ptr)
-	#define GET_USER_TEMPCMD  COPY_CMD(cmd, cmd_line, *cmd_char_ptr)
-	#define SAVE_USER_TEMPCMD \
+#define GET_HIST_CMD      COPY_CMD(cmd, cmd_store[cmd_pos], *cmd_char_ptr)
+#define GET_USER_TEMPCMD  COPY_CMD(cmd, cmd_line, *cmd_char_ptr)
+#define SAVE_USER_TEMPCMD \
 		do { \
 			cmd_line[(*cmd_char_ptr) + 1] = ASCII_NUL; \
 			while (*cmd_char_ptr >= 0) { \
@@ -545,8 +545,8 @@ int tash_execute_cmd(char **args, int argc)
 	for (cmd_idx = 0; cmd_idx < tash_cmds_info.count; cmd_idx++) {
 		cmd_found = (strncmp(args[0], tash_cmds_info.cmd[cmd_idx].str, TASH_CMD_MAXSTRLENGTH - 1) == 0) ? 1 : 0;
 		if (cmd_found) {
-				/* unlock mutex before executing */
-				pthread_mutex_unlock(&tash_cmds_info.tmutex);
+			/* unlock mutex before executing */
+			pthread_mutex_unlock(&tash_cmds_info.tmutex);
 
 			if (tash_cmds_info.cmd[cmd_idx].exec_type == TASH_EXECMD_SYNC) {
 				/* function call to execute SYNC command */
@@ -664,7 +664,7 @@ int tash_cmd_install(const char *str, TASH_CMD_CALLBACK cb, int thread_exec)
 			if (strncmp(str, tash_cmds_info.cmd[cmd_idx].str, TASH_CMD_MAXSTRLENGTH - 1) == 0) {
 				/* Unlock mutex */
 				pthread_mutex_unlock(&tash_cmds_info.tmutex);
-				return -2;			/* CMD already installed */
+				return -2;		/* CMD already installed */
 			}
 		}
 
@@ -677,7 +677,7 @@ int tash_cmd_install(const char *str, TASH_CMD_CALLBACK cb, int thread_exec)
 		printf("TASH: memory allocation fail to register (%s) command\n", str);
 		/* Unlock mutex */
 		pthread_mutex_unlock(&tash_cmds_info.tmutex);
-		return -1; /* Memory Allocation Fail for new command */
+		return -1;				/* Memory Allocation Fail for new command */
 	}
 
 	/* store command string - no need of explicit NULL termination */
@@ -760,7 +760,7 @@ int tash_get_cmdscount(void)
 		tash_get_cmdpair(str, &cb, i );
  * @endcode
  **/
-int tash_get_cmdpair(char *str, TASH_CMD_CALLBACK *cb, int index)
+int tash_get_cmdpair(char *str, TASH_CMD_CALLBACK * cb, int index)
 {
 	int count = 0;
 	int ret = -1;
@@ -800,4 +800,4 @@ int tash_reboot(int argc, char **argv)
 	 */
 	return ERROR;
 }
-#endif /* CONFIG_TASH_REBOOT */
+#endif							/* CONFIG_TASH_REBOOT */

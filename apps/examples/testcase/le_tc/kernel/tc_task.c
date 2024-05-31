@@ -213,19 +213,18 @@ static void tc_task_task_create_pos(void)
 
 	/* Inavlid priority value check */
 
-	pid = task_create("tc_task_create", SCHED_PRIORITY_MIN - 1, 1024, create_task, (char * const *)task_param);
+	pid = task_create("tc_task_create", SCHED_PRIORITY_MIN - 1, 1024, create_task, (char *const *)task_param);
 	TC_ASSERT_EQ("task_create", pid, ERROR);
 	TC_ASSERT_EQ("task_create", errno, EINVAL);
 
 	/* Regular functionality check */
 
-	pid = task_create("tc_task_create", SCHED_PRIORITY_MAX - 1, 1024, create_task, (char * const *)task_param);
+	pid = task_create("tc_task_create", SCHED_PRIORITY_MAX - 1, 1024, create_task, (char *const *)task_param);
 	TC_ASSERT_GT("task_create", pid, 0);
 	TC_ASSERT_EQ("task_create", g_callback, OK);
 
 	TC_SUCCESS_RESULT();
 }
-
 
 static void tc_task_task_create_invalid_priority_neg(void)
 {
@@ -235,7 +234,7 @@ static void tc_task_task_create_invalid_priority_neg(void)
 
 	/* Inavlid priority value check */
 
-	pid = task_create("tc_task_create", SCHED_PRIORITY_MIN - 1, 1024, create_task, (char * const *)task_param);
+	pid = task_create("tc_task_create", SCHED_PRIORITY_MIN - 1, 1024, create_task, (char *const *)task_param);
 	TC_ASSERT_EQ("task_create", pid, ERROR);
 	TC_ASSERT_EQ("task_create", errno, EINVAL);
 
@@ -257,7 +256,7 @@ static void tc_task_task_delete_pos(void)
 	int ret_chk;
 	g_callback = ERROR;
 
-	pid = task_create("tc_task_del", SCHED_PRIORITY_MAX - 1, 1024, delete_task, (char * const *)NULL);
+	pid = task_create("tc_task_del", SCHED_PRIORITY_MAX - 1, 1024, delete_task, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", pid, 0);
 
 	ret_chk = task_delete(pid);
@@ -266,7 +265,6 @@ static void tc_task_task_delete_pos(void)
 
 	TC_SUCCESS_RESULT();
 }
-
 
 /**
 * @fn                   :tc_task_task_restart
@@ -284,7 +282,7 @@ static void tc_task_task_restart_pos(void)
 
 	/* Check for NULL pid parameter  */
 
-	pid = task_create("tc_task_re", SCHED_PRIORITY_MAX - 1, 1024, restart_task, (char * const *)NULL);
+	pid = task_create("tc_task_re", SCHED_PRIORITY_MAX - 1, 1024, restart_task, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", pid, 0);
 
 	g_callback = 0;
@@ -296,7 +294,7 @@ static void tc_task_task_restart_pos(void)
 
 	/* Check for reinitialization of task using task_restart */
 
-	pid = task_create("tc_task_re", SCHED_PRIORITY_MAX - 1, 1024, restart_task, (char * const *)NULL);
+	pid = task_create("tc_task_re", SCHED_PRIORITY_MAX - 1, 1024, restart_task, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", pid, 0);
 
 	ret_chk = task_restart(pid);
@@ -319,7 +317,7 @@ static void tc_task_task_restart_null_pid_neg(void)
 
 	/* Check for NULL pid parameter  */
 
-	pid = task_create("tc_task_re", SCHED_PRIORITY_MAX - 1, 1024, restart_task, (char * const *)NULL);
+	pid = task_create("tc_task_re", SCHED_PRIORITY_MAX - 1, 1024, restart_task, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", pid, 0);
 
 	g_callback = 0;
@@ -328,7 +326,6 @@ static void tc_task_task_restart_null_pid_neg(void)
 	TC_ASSERT_EQ("task_restart", errno, ENOSYS);
 	TC_ASSERT_EQ("task_restart", g_callback, 0);
 	g_callback = 0;
-
 
 	TC_SUCCESS_RESULT();
 }
@@ -347,7 +344,7 @@ static void tc_task_exit_pos(void)
 {
 	int pid;
 	g_callback = ERROR;
-	pid = task_create("tc_exit", SCHED_PRIORITY_MAX - 1, 1024, exit_task, (char * const *)NULL);
+	pid = task_create("tc_exit", SCHED_PRIORITY_MAX - 1, 1024, exit_task, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", pid, 0);
 	TC_ASSERT_EQ("task_exit", g_callback, OK);
 	TC_SUCCESS_RESULT();
@@ -367,7 +364,7 @@ static void tc_task_atexit_pos(void)
 {
 	int pid;
 	g_callback = ERROR;
-	pid = task_create("tc_atexit", SCHED_PRIORITY_MAX - 1, 1024, atexit_task, (char * const *)NULL);
+	pid = task_create("tc_atexit", SCHED_PRIORITY_MAX - 1, 1024, atexit_task, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", pid, 0);
 	TC_ASSERT_EQ("task_atexit", g_callback, OK);
 	TC_SUCCESS_RESULT();
@@ -391,7 +388,7 @@ static void tc_task_on_exit_pos(void)
 	int pid;
 	g_callback = ERROR;
 
-	pid = task_create("tc_on_exit", SCHED_PRIORITY_MAX - 1, 1024, onexit_task, (char * const *)NULL);
+	pid = task_create("tc_on_exit", SCHED_PRIORITY_MAX - 1, 1024, onexit_task, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", pid, 0);
 	TC_ASSERT_EQ("on_exit", g_callback, OK);
 	TC_SUCCESS_RESULT();
@@ -422,9 +419,9 @@ static void tc_task_prctl_invalid_option_neg(void)
 	TC_ASSERT_EQ("prctl", ret_chk, ERROR);
 	TC_ASSERT_EQ("prctl", get_errno(), EINVAL);
 
-	
 	TC_SUCCESS_RESULT();
 }
+
 static void tc_task_prctl_invalid_process_neg(void)
 {
 	char oldname[CONFIG_TASK_NAME_SIZE + 1];
@@ -436,8 +433,6 @@ static void tc_task_prctl_invalid_process_neg(void)
 	ret_chk = prctl(PR_GET_NAME_BYPID, oldname, PID_INVALID);
 	TC_ASSERT_EQ("prctl", ret_chk, ERROR);
 	TC_ASSERT_EQ("prctl", get_errno(), ESRCH);
-
-	
 
 	TC_SUCCESS_RESULT();
 }
@@ -453,11 +448,8 @@ static void tc_task_prctl_null_name_neg(void)
 	TC_ASSERT_EQ("prctl", ret_chk, ERROR);
 	TC_ASSERT_EQ("prctl", get_errno(), EFAULT);
 
-	
 	TC_SUCCESS_RESULT();
 }
-
-
 
 static void tc_task_prctl_set_get_taskname_pos(void)
 {
@@ -527,7 +519,7 @@ static void tc_task_getpid_pos(void)
 {
 	int pid;
 	g_callback = ERROR;
-	pid = task_create("tc_getpid", SCHED_PRIORITY_MAX - 1, 1024, getpid_task, (char * const *)NULL);
+	pid = task_create("tc_getpid", SCHED_PRIORITY_MAX - 1, 1024, getpid_task, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", pid, 0);
 	TC_ASSERT_EQ("getpid", pid, g_callback);
 	TC_SUCCESS_RESULT();
@@ -553,7 +545,7 @@ static int child_task(int argc, char *argv[])
 static int parent_task(int argc, char *argv[])
 {
 	int pid;
-	pid = task_create("tc_reparent_1", 100, 1024, child_task, (char * const *)NULL);
+	pid = task_create("tc_reparent_1", 100, 1024, child_task, (char *const *)NULL);
 	if (pid <= 0) {
 		tc_reparent_chk = TC_TASK_CREATE_FAIL;
 	}
@@ -578,7 +570,7 @@ static void tc_task_task_reparent_pos(void)
 
 	main_pid = getpid();
 
-	pid = task_create("tc_reparent_1", 100, 1024, parent_task, (char * const *)NULL);
+	pid = task_create("tc_reparent_1", 100, 1024, parent_task, (char *const *)NULL);
 	TC_ASSERT_GT("task_create", pid, 0);
 
 	sleep(3);
@@ -612,7 +604,6 @@ static void tc_task_task_init_pos(void)
 	TC_ASSERT_EQ_CLEANUP("task_init", task_init_flag, true, sem_destroy(&task_sem));
 
 	sem_destroy(&task_sem);
-
 
 	TC_SUCCESS_RESULT();
 }

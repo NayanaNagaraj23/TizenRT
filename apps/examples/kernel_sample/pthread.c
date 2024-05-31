@@ -45,7 +45,7 @@ void pthread_test(void)
 	printf("Start to create pthread %d-times repeatedly.\n", NLOOPS);
 
 	while (nloops > 0) {
-		status = pthread_create(&thread, &attr, empty_func, (pthread_addr_t)NULL);
+		status = pthread_create(&thread, &attr, empty_func, (pthread_addr_t) NULL);
 		if (status != 0) {
 			printf("Error in %d-th thread creation.\n", NLOOPS - nloops + 1);
 		}

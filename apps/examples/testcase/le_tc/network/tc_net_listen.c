@@ -44,7 +44,7 @@ static void tc_net_listen_p(void)
 	struct sockaddr_in sa;
 	int socket_fd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (socket_fd < 0) {
-		printf("Socket creation fail %s:%d\n", __FUNCTION__,  __LINE__);
+		printf("Socket creation fail %s:%d\n", __FUNCTION__, __LINE__);
 		return;
 	}
 	memset(&sa, 0, sizeof sa);
@@ -113,7 +113,7 @@ static void tc_net_listen_backlog_p(void)
 	struct sockaddr_in sa;
 	int socket_fd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (socket_fd < 0) {
-		printf("Socket creation fail %s:%d\n", __FUNCTION__,  __LINE__);
+		printf("Socket creation fail %s:%d\n", __FUNCTION__, __LINE__);
 		return;
 	}
 	memset(&sa, 0, sizeof sa);

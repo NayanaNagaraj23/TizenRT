@@ -28,8 +28,8 @@ int st_things_sample_main(int argc, char *argv[])
 #endif
 {
 	printf("st_things_sample!!\n");
-	
+
 	ess_process();
-	
+
 	return 0;
 }

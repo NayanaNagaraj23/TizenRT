@@ -221,7 +221,7 @@ static void utc_systemio_gpio_get_pin_n(void)
 
 void gpio_callback_event(void *user_data)
 {
-	iotbus_gpio_context_h hnd = (iotbus_gpio_context_h)user_data;
+	iotbus_gpio_context_h hnd = (iotbus_gpio_context_h) user_data;
 	int value = iotbus_gpio_read(hnd);
 	if (value < 0) {
 		gpio_callback_flag = 0;
@@ -294,7 +294,6 @@ static void utc_systemio_gpio_register_signal_n(void)
 	TC_ASSERT_EQ("iotbus_gpio_register_signal", iotbus_gpio_register_signal(NULL, TEST_GPIO_INVALID), IOTBUS_ERROR_INVALID_PARAMETER);
 	TC_SUCCESS_RESULT();
 }
-
 
 int utc_gpio_main(void)
 {

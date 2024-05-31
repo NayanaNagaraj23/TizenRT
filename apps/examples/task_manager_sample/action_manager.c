@@ -33,7 +33,7 @@
 static int exit_flag;
 static int handle_alarm;
 
-static void action(tm_msg_t *info)
+static void action(tm_msg_t * info)
 {
 	int ret;
 

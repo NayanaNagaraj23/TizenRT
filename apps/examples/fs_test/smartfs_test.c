@@ -208,7 +208,7 @@ static int write_read_test(char *filepath, void *buf, int nbytes, int iteration)
 static int write_test(char *filepath, void *buf, int nbytes, int iteration)
 {
 	int i;
-	int ret; 
+	int ret;
 
 	for (i = 0; i < iteration; i++) {
 		ret = fs_write(filepath, buf, nbytes);
@@ -282,8 +282,7 @@ int smartfs_test_main(int argc, char *argv[])
 		iteration = atoi(argv[4]);
 		g_printopt = argv[5][0];
 
-		if (operation < TEST_OPT_WRITEREAD || operation >= TEST_OPT_MAX ||
-			size < 0 || iteration < 1 || iteration > FS_RW_ITERATION_MAX) {
+		if (operation < TEST_OPT_WRITEREAD || operation >= TEST_OPT_MAX || size < 0 || iteration < 1 || iteration > FS_RW_ITERATION_MAX) {
 			printf("%s", USAGE);
 			return ERROR;
 		}

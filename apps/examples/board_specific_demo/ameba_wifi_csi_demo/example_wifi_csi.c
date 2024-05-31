@@ -23,7 +23,6 @@
 
   ******************************************************************************/
 
-
 #include <stdio.h>
 #include <tinyara/config.h>
 #include <tinyara/wifi/rtk/wifi_structures.h>
@@ -32,8 +31,8 @@
 #include <semaphore.h>
 
 #define IP_ADDR_INVALID "0.0.0.0"
-extern int wifi_csi_config(rtw_csi_action_parm_t *act_param);
-extern int wifi_csi_report(uint32_t buf_len, uint8_t *csi_buf, uint32_t *len);
+extern int wifi_csi_config(rtw_csi_action_parm_t * act_param);
+extern int wifi_csi_report(uint32_t buf_len, uint8_t * csi_buf, uint32_t * len);
 extern int wifi_is_running(unsigned char wlan_idx);
 static sem_t wc_ready_sema;
 
@@ -53,18 +52,18 @@ int wificsi_main(int argc, char *argv[])
 #endif
 {
 	printf("WIFI CSI\n");
-	rtw_csi_action_parm_t act_param = {0};
+	rtw_csi_action_parm_t act_param = { 0 };
 	unsigned int len;
 	unsigned char *csi_buf = NULL;
-	unsigned long long *buff_tmp = NULL; /* to printf csi data*/
+	unsigned long long *buff_tmp = NULL;	/* to printf csi data */
 	unsigned int csi_seq_num;
 	unsigned int timestamp;
 	act_param.group_num = 0;
-	act_param.mode = 2;  /* currently only supported */
+	act_param.mode = 2;			/* currently only supported */
 	act_param.accuracy = 0;
-	act_param.trig_period = 200;  /* ms */
-	act_param.data_rate = 0xC;  /* ofdm 6 mpbs*/
-//	act_param.mac_addr = {0x00, 0xe0, 0x4c, 0x81, 0x92, 0xbb};
+	act_param.trig_period = 200;	/* ms */
+	act_param.data_rate = 0xC;	/* ofdm 6 mpbs */
+//  act_param.mac_addr = {0x00, 0xe0, 0x4c, 0x81, 0x92, 0xbb};
 	char ipv4_address[4];
 	char ipv4_buf[16];
 	while (1) {
@@ -72,10 +71,10 @@ int wificsi_main(int argc, char *argv[])
 			snprintf(ipv4_buf, 16, "%d.%d.%d.%d", ipv4_address[0], ipv4_address[1], ipv4_address[2], ipv4_address[3]);
 		}
 		if (wifi_is_running(WLAN0_IDX) && ((wifi_get_join_status()) && (strncmp(ipv4_buf, IP_ADDR_INVALID, sizeof(ipv4_buf))))) {
-			sleep(2); /* 2s */
+			sleep(2);			/* 2s */
 			break;
 		}
-		sleep(2); /* 2s */
+		sleep(2);				/* 2s */
 	}
 	/**
 	 * should use semaphore to wait wifi event happen
@@ -87,11 +86,11 @@ int wificsi_main(int argc, char *argv[])
 	wifi_reg_event_handler(14, example_wifi_csi_report_cb, NULL);
 
 	/* csi cfg and csi en */
-	act_param.act = 1;  /* csi cfg */
+	act_param.act = 1;			/* csi cfg */
 	act_param.enable = 0;
 	wifi_csi_config(&act_param);
 
-	act_param.act = 0;  /* csi en */
+	act_param.act = 0;			/* csi en */
 	act_param.enable = 1;
 	wifi_csi_config(&act_param);
 	csi_buf = (unsigned char *)malloc(csi_data_len);
@@ -99,26 +98,25 @@ int wificsi_main(int argc, char *argv[])
 		while (1) {
 			/* example: when wifi csi rx done, call csi report handle function. */
 			if (sem_wait(&wc_ready_sema) == -1) {
-				act_param.act = 0;  /* csi dis */
+				act_param.act = 0;	/* csi dis */
 				act_param.enable = 0;
 				wifi_csi_config(&act_param);
 				break;
 			}
 			wifi_csi_report(csi_data_len, csi_buf, &len);
-			/*do something for handing csi info*/
+			/*do something for handing csi info */
 			timestamp = (int)(csi_buf[18] << 24) | (int)(csi_buf[17] << 16) | (int)(csi_buf[16] << 8) | (int)csi_buf[15];
 			csi_seq_num = (int)(csi_buf[37] << 24) | (int)(csi_buf[36] << 16) | (int)(csi_buf[35] << 8) | (int)csi_buf[34];
 			printf("\n[CH INFO] csi_sequence = %d,timestamp = %d us, csi data: \n", csi_seq_num, timestamp);
-			buff_tmp = (u64 *)csi_buf;
+			buff_tmp = (u64 *) csi_buf;
 			for (int i = 0; i < 19; i++) {
 				printf("[%02d]0x%016llx\n", i, buff_tmp[i]);
 			}
-				printf("\n CSI raw data done!\n");
+			printf("\n CSI raw data done!\n");
 
 		}
 		free(csi_buf);
 	}
-
 
 	/* unregister wifi event callback function */
 	wifi_unreg_event_handler(14, example_wifi_csi_report_cb);

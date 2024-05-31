@@ -217,12 +217,12 @@ int utils_heapinfo(int argc, char **args)
 
 	while ((opt = getopt(argc, args, "ikb:d:ap:fgr")) != ERROR) {
 		switch (opt) {
-		/* i : initialize the peak allocated memory size. */
+			/* i : initialize the peak allocated memory size. */
 		case 'i':
 			options.mode = HEAPINFO_INIT_PEAK;
 			init_flag = true;
 			break;
-		/* k, b : select the heap type about kernel, binary. */
+			/* k, b : select the heap type about kernel, binary. */
 		case 'k':
 			options.heap_type = HEAPINFO_HEAP_TYPE_KERNEL;
 			break;
@@ -247,7 +247,7 @@ int utils_heapinfo(int argc, char **args)
 			}
 #endif
 			break;
-		/* a, p, f, g, e : select heapinfo display options */
+			/* a, p, f, g, e : select heapinfo display options */
 		case 'a':
 			options.mode = HEAPINFO_DETAIL_ALL;
 			heapinfo_display_flag = HEAPINFO_DISPLAY_ALL;
@@ -300,7 +300,7 @@ int utils_heapinfo(int argc, char **args)
 	if (ret == ERROR) {
 		printf("Heapinfo Fail, %d.\n", get_errno());
 		close(heapinfo_fd);
-		return ERROR;		
+		return ERROR;
 	}
 	close(heapinfo_fd);
 
@@ -315,7 +315,6 @@ int utils_heapinfo(int argc, char **args)
 
 		heapinfo_show_taskinfo();
 
-
 		if (heapinfo_display_flag == HEAPINFO_DISPLAY_GROUP) {
 #ifdef CONFIG_HEAPINFO_USER_GROUP
 			heapinfo_show_group();
@@ -326,7 +325,7 @@ int utils_heapinfo(int argc, char **args)
 	}
 	return OK;
 
-usage:
+ usage:
 	printf("\nUsage: heapinfo [-TARGET] [-OPTION]\n");
 	printf("Display information of heap memory\n");
 #ifdef CONFIG_BUILD_PROTECTED

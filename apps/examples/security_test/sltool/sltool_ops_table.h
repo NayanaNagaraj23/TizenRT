@@ -16,7 +16,7 @@
  *
  ****************************************************************************/
 SLTOOL_OPS_TABLE("set", SLOPS_SET)
-SLTOOL_OPS_TABLE("get", SLOPS_GET)
-SLTOOL_OPS_TABLE("gen", SLOPS_GEN)
-SLTOOL_OPS_TABLE("write", SLOPS_WRITE)
-SLTOOL_OPS_TABLE("rem", SLOPS_REMOVE)
+	SLTOOL_OPS_TABLE("get", SLOPS_GET)
+	SLTOOL_OPS_TABLE("gen", SLOPS_GEN)
+	SLTOOL_OPS_TABLE("write", SLOPS_WRITE)
+	SLTOOL_OPS_TABLE("rem", SLOPS_REMOVE)

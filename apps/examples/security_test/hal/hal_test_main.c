@@ -52,7 +52,7 @@ int security_hal_test_main(int argc, char *argv[])
 		return -1;
 	}
 
-	res = pthread_create(&tid, &attr, (pthread_startroutine_t)hal_keymgr_test, NULL);
+	res = pthread_create(&tid, &attr, (pthread_startroutine_t) hal_keymgr_test, NULL);
 	if (res < 0) {
 		printf("hal key manager test fail\n");
 		return -1;
@@ -62,7 +62,7 @@ int security_hal_test_main(int argc, char *argv[])
 		printf("hal key manager test fail\n");
 		return -1;
 	}
-	res = pthread_create(&tid, &attr, (pthread_startroutine_t)hal_auth_test, NULL);
+	res = pthread_create(&tid, &attr, (pthread_startroutine_t) hal_auth_test, NULL);
 	if (res < 0) {
 		printf("hal authenticate test fail\n");
 		return -1;
@@ -72,7 +72,7 @@ int security_hal_test_main(int argc, char *argv[])
 		printf("hal authenticate test fail\n");
 		return -1;
 	}
-	res = pthread_create(&tid, &attr, (pthread_startroutine_t)hal_ss_test, NULL);
+	res = pthread_create(&tid, &attr, (pthread_startroutine_t) hal_ss_test, NULL);
 	if (res < 0) {
 		printf("hal secure storage test fail\n");
 		return -1;
@@ -82,7 +82,7 @@ int security_hal_test_main(int argc, char *argv[])
 		printf("hal secure sotrage test fail\n");
 		return -1;
 	}
-	res = pthread_create(&tid, &attr, (pthread_startroutine_t)hal_crypto_test, NULL);
+	res = pthread_create(&tid, &attr, (pthread_startroutine_t) hal_crypto_test, NULL);
 	if (res < 0) {
 		printf("hal crypto test fail\n");
 		return -1;

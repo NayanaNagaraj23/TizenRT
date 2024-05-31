@@ -18,11 +18,10 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif							/* __cplusplus */
 
-int ess_process(void);
+	int ess_process(void);
 
 #ifdef __cplusplus
 }
-#endif /* __cplusplus */
-
+#endif							/* __cplusplus */

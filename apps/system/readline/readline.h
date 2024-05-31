@@ -102,10 +102,10 @@
  ****************************************************************************/
 
 struct rl_common_s {
-	int (*rl_getc)(FAR struct rl_common_s *vtbl);
+	int (*rl_getc)(FAR struct rl_common_s * vtbl);
 #ifdef CONFIG_READLINE_ECHO
-	void (*rl_putc)(FAR struct rl_common_s *vtbl, int ch);
-	void (*rl_write)(FAR struct rl_common_s *vtbl, FAR const char *buffer, size_t buflen);
+	void (*rl_putc)(FAR struct rl_common_s * vtbl, int ch);
+	void (*rl_write)(FAR struct rl_common_s * vtbl, FAR const char *buffer, size_t buflen);
 #endif
 };
 

@@ -36,4 +36,4 @@ void itc_fs_main(void);
 char *get_fs_mount_devname(void);
 #endif
 
-#endif /* __EXAMPLES_TESTCASE_FILESYSTEM_TC_INTERNAL_H */
+#endif							/* __EXAMPLES_TESTCASE_FILESYSTEM_TC_INTERNAL_H */

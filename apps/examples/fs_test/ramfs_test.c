@@ -56,7 +56,6 @@ struct pthread_arg {
 	char **argv;
 };
 
-
 static int read_file(const char *srcpath)
 {
 	int nbytesread;
@@ -145,7 +144,7 @@ int ramfs_commands(void *args)
 
 	return OK;
 
-EXIT_FILE_SYSTEM_TEST_RAMTD:
+ EXIT_FILE_SYSTEM_TEST_RAMTD:
 	return -1;
 }
 

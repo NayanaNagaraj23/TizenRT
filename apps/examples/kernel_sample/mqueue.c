@@ -80,18 +80,18 @@
 #if defined(SDCC) || defined(__ZILOG__)
 /* Cannot use strlen in array size */
 
-#  define TEST_MSGLEN         (31)
+#define TEST_MSGLEN         (31)
 #else
 /* Message lenght is the size of the message plus the null terminator */
 
-#  define TEST_MSGLEN         (strlen(TEST_MESSAGE) + 1)
+#define TEST_MSGLEN         (strlen(TEST_MESSAGE) + 1)
 #endif
 
 #define TEST_SEND_NMSGS     (10)
 #ifndef CONFIG_DISABLE_SIGNALS
-# define TEST_RECEIVE_NMSGS (11)
+#define TEST_RECEIVE_NMSGS (11)
 #else
-# define TEST_RECEIVE_NMSGS (10)
+#define TEST_RECEIVE_NMSGS (10)
 #endif
 
 #define HALF_SECOND_USEC_USEC 500000L
@@ -135,9 +135,9 @@ static void *sender_thread(void *arg)
 
 	/* Fill in attributes for message queue */
 
-	attr.mq_maxmsg  = 20;
+	attr.mq_maxmsg = 20;
 	attr.mq_msgsize = TEST_MSGLEN;
-	attr.mq_flags   = 0;
+	attr.mq_flags = 0;
 
 	/* Set the flags for the open of the queue.
 	 * Make it a blocking open on the queue, meaning it will block if
@@ -151,9 +151,9 @@ static void *sender_thread(void *arg)
 	 */
 
 	g_send_mqfd = mq_open("mqueue", O_WRONLY | O_CREAT, 0666, &attr);
-	if (g_send_mqfd == (mqd_t)-1) {
+	if (g_send_mqfd == (mqd_t) - 1) {
 		printf("sender_thread: ERROR mq_open failed\n");
-		pthread_exit((pthread_addr_t)1);
+		pthread_exit((pthread_addr_t) 1);
 	}
 
 	/* Fill in a test message buffer to send */
@@ -181,7 +181,7 @@ static void *sender_thread(void *arg)
 	}
 
 	printf("sender_thread: returning nerrors=%d\n", nerrors);
-	return (pthread_addr_t)nerrors;
+	return (pthread_addr_t) nerrors;
 }
 
 static void *receiver_thread(void *arg)
@@ -196,9 +196,9 @@ static void *receiver_thread(void *arg)
 
 	/* Fill in attributes for message queue */
 
-	attr.mq_maxmsg  = 20;
+	attr.mq_maxmsg = 20;
 	attr.mq_msgsize = TEST_MSGLEN;
-	attr.mq_flags   = 0;
+	attr.mq_flags = 0;
 
 	/* Set the flags for the open of the queue.
 	 * Make it a blocking open on the queue, meaning it will block if
@@ -214,7 +214,7 @@ static void *receiver_thread(void *arg)
 	g_recv_mqfd = mq_open("mqueue", O_RDONLY | O_CREAT, 0666, &attr);
 	if (g_recv_mqfd < 0) {
 		printf("receiver_thread: ERROR mq_open failed\n");
-		pthread_exit((pthread_addr_t)1);
+		pthread_exit((pthread_addr_t) 1);
 	}
 
 	/* Perform the receive TEST_RECEIVE_NMSGS times */
@@ -244,11 +244,9 @@ static void *receiver_thread(void *arg)
 
 			for (j = 0; j < TEST_MSGLEN - 1; j++) {
 				if (isprint(msg_buffer[j])) {
-					printf("receiver_thread:                  %2d %02x (%c) %02x (%c)\n",
-						   j, TEST_MESSAGE[j], TEST_MESSAGE[j], msg_buffer[j], msg_buffer[j]);
+					printf("receiver_thread:                  %2d %02x (%c) %02x (%c)\n", j, TEST_MESSAGE[j], TEST_MESSAGE[j], msg_buffer[j], msg_buffer[j]);
 				} else {
-					printf("receiver_thread:                  %2d %02x (%c) %02x\n",
-						   j, TEST_MESSAGE[j], TEST_MESSAGE[j], msg_buffer[j]);
+					printf("receiver_thread:                  %2d %02x (%c) %02x\n", j, TEST_MESSAGE[j], TEST_MESSAGE[j], msg_buffer[j]);
 				}
 			}
 
@@ -268,8 +266,8 @@ static void *receiver_thread(void *arg)
 	}
 
 	printf("receiver_thread: returning nerrors=%d\n", nerrors);
-	pthread_exit((pthread_addr_t)nerrors);
-	return (pthread_addr_t)nerrors;
+	pthread_exit((pthread_addr_t) nerrors);
+	return (pthread_addr_t) nerrors;
 }
 
 void mqueue_test(void)
@@ -419,5 +417,3 @@ void mqueue_test(void)
 		printf("mqueue_test: ERROR mq_unlink failed\n");
 	}
 }
-
-

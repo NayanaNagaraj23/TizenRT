@@ -105,13 +105,13 @@ static int do_test(int option, int fsz, int bsz)
 
 	switch (option) {
 
-	case TEST_FLAG_FILE_CREATION :
+	case TEST_FLAG_FILE_CREATION:
 		printf("\n****************************************************************************************\n");
 		printf("********************************  TEST FILE CREATION  **********************************\n\n");
 		printf("Testing jSmartfs File creation with File size: %d bytes\n", fsz);
 		printf("The test creates a file with buffer size equal to file size.\n\n");
 
-		ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&before);
+		ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & before);
 		if (ret < 0) {
 			goto error_with_frt_status;
 		}
@@ -132,14 +132,14 @@ static int do_test(int option, int fsz, int bsz)
 
 		close(fd);
 
-		ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&after);
+		ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & after);
 		if (ret < 0) {
 			fprintf(stderr, "ERROR: Failed to get Free Run Timer status: %d\n", errno);
 			ret = -1;
 			goto error_with_frt_status;
 		}
 
-		tot_time  = after.timeleft - before.timeleft;
+		tot_time = after.timeleft - before.timeleft;
 		printf("Time taken is: %lu us\n", tot_time);
 
 		ret = unlink(g_file[0]);
@@ -151,7 +151,7 @@ static int do_test(int option, int fsz, int bsz)
 		printf("\n****************************************************************************************\n");
 		break;
 
-	case TEST_FLAG_OVERWRITE :
+	case TEST_FLAG_OVERWRITE:
 		printf("\n****************************************************************************************\n");
 		printf("**********************************  TEST OVERWRITE  ************************************\n\n");
 		printf("Testing jSmartfs overwrite with File size: %d bytes, Buffer size: %d bytes\n", fsz, bsz);
@@ -175,7 +175,7 @@ static int do_test(int option, int fsz, int bsz)
 		close(fd);
 
 		for (i = 1; i <= ITR_OVE; i++) {
-			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&before);
+			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & before);
 			if (ret < 0) {
 				goto error_with_frt_status;
 			}
@@ -205,7 +205,7 @@ static int do_test(int option, int fsz, int bsz)
 
 			close(fd);
 
-			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&after);
+			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & after);
 			if (ret < 0) {
 				goto error_with_frt_status;
 			}
@@ -225,7 +225,7 @@ static int do_test(int option, int fsz, int bsz)
 		printf("\n****************************************************************************************\n");
 		break;
 
-	case TEST_FLAG_APPEND :
+	case TEST_FLAG_APPEND:
 		printf("\n****************************************************************************************\n");
 		printf("************************************  TEST APPEND  *************************************\n\n");
 		printf("Testing jSmartfs Append with file size: %d bytes, buffer size: %d bytes\n", fsz, bsz);
@@ -247,7 +247,7 @@ static int do_test(int option, int fsz, int bsz)
 			}
 			close(fd);
 
-			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&before);
+			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & before);
 			if (ret < 0) {
 				goto error_with_frt_status;
 			}
@@ -259,8 +259,8 @@ static int do_test(int option, int fsz, int bsz)
 				goto close_with_frt;
 			}
 
-			/*append 64 kb data*/
-			for (j = 0; j < (MAX_FILE_SIZE / bsz); j++ ) {
+			/*append 64 kb data */
+			for (j = 0; j < (MAX_FILE_SIZE / bsz); j++) {
 				ret = write(fd, g_rw_buf, bsz);
 				if (ret != (bsz)) {
 					printf("Unable to append to file: %s, ret: %d\n", g_file[0], ret);
@@ -270,7 +270,7 @@ static int do_test(int option, int fsz, int bsz)
 			}
 			close(fd);
 
-			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&after);
+			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & after);
 			if (ret < 0) {
 				goto error_with_frt_status;
 			}
@@ -290,7 +290,7 @@ static int do_test(int option, int fsz, int bsz)
 		printf("\n****************************************************************************************\n");
 		break;
 
-	case TEST_FLAG_READ :
+	case TEST_FLAG_READ:
 		printf("\n****************************************************************************************\n");
 		printf("************************************  TEST READ  ***************************************\n\n");
 		printf("Testing jSmartfs Read with file size: %d bytes, buffer size: %d bytes\n", fsz, bsz);
@@ -312,7 +312,7 @@ static int do_test(int option, int fsz, int bsz)
 		}
 		close(fd);
 
-		ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&before);
+		ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & before);
 		if (ret < 0) {
 			goto error_with_frt_status;
 		}
@@ -332,7 +332,7 @@ static int do_test(int option, int fsz, int bsz)
 			close(fd);
 		}
 
-		ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&after);
+		ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & after);
 		if (ret < 0) {
 			goto error_with_frt_status;
 		}
@@ -349,13 +349,13 @@ static int do_test(int option, int fsz, int bsz)
 		printf("\n****************************************************************************************\n");
 		break;
 
-	case TEST_FLAG_GC_EFFECT :
+	case TEST_FLAG_GC_EFFECT:
 		printf("\n****************************************************************************************\n");
 		printf("**************************  TEST GARBAGE COLLECTION EFFECT  ****************************\n\n");
 		printf("Testing jSmartfs Garbage collection with file size: %d bytes, buffer size: %d bytes\n", fsz, bsz);
 		printf("The test triggers Garbage Collection by repeatedly creating and unlinking a file.\n\n");
 		for (i = 1; i <= ITR_GC; i++) {
-			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&before);
+			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & before);
 			if (ret < 0) {
 				goto error_with_frt_status;
 			}
@@ -369,9 +369,9 @@ static int do_test(int option, int fsz, int bsz)
 
 			ret = write(fd, g_rw_buf, fsz);
 			if (ret != (fsz)) {
-				 printf("Unable to write to file: %s, ret: %d\n", g_file[0], ret);
-				 ret = ERROR;
-				 goto close_with_fd;
+				printf("Unable to write to file: %s, ret: %d\n", g_file[0], ret);
+				ret = ERROR;
+				goto close_with_fd;
 			}
 			close(fd);
 
@@ -382,7 +382,7 @@ static int do_test(int option, int fsz, int bsz)
 				goto close_with_frt;
 			}
 
-			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&after);
+			ret = ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & after);
 			if (ret < 0) {
 				goto error_with_frt_status;
 			}
@@ -409,13 +409,13 @@ static int do_test(int option, int fsz, int bsz)
 	close(frt_fd);
 	return ret;
 
-error_with_frt_status:
+ error_with_frt_status:
 	fprintf(stderr, "ERROR: Failed to get Free Run Timer status: %d\n", errno);
 	ret = -1;
 	goto close_with_frt;
-close_with_fd:
+ close_with_fd:
 	close(fd);
-close_with_frt:
+ close_with_frt:
 	ret = ioctl(frt_fd, TCIOC_STOP, 0);
 	if (ret < 0) {
 		fprintf(stderr, "ERROR: Failed to stop the Free Run Timer: %d\n", errno);
@@ -427,7 +427,8 @@ close_with_frt:
 	return ret;
 }
 
-static void fs_performance_show_usage(void) {
+static void fs_performance_show_usage(void)
+{
 	printf("\n****************************************************************************************\n\n");
 	printf("This test example executes one of the test cases and prints the time taken (for each iteration)\n");
 	printf("\nUSAGE:  fs_performance [Timer device no.] [Test case no.] [File size(bytes)] [Buffer size(bytes)]\n\n");
@@ -491,19 +492,24 @@ int fs_performance_main(int argc, char *argv[])
 
 	switch (option) {
 
-	case 1: selected_opt = TEST_FLAG_FILE_CREATION;
+	case 1:
+		selected_opt = TEST_FLAG_FILE_CREATION;
 		break;
 
-	case 2: selected_opt = TEST_FLAG_OVERWRITE;
+	case 2:
+		selected_opt = TEST_FLAG_OVERWRITE;
 		break;
 
-	case 3: selected_opt = TEST_FLAG_APPEND;
+	case 3:
+		selected_opt = TEST_FLAG_APPEND;
 		break;
 
-	case 4: selected_opt = TEST_FLAG_READ;
+	case 4:
+		selected_opt = TEST_FLAG_READ;
 		break;
 
-	case 5: selected_opt = TEST_FLAG_GC_EFFECT;
+	case 5:
+		selected_opt = TEST_FLAG_GC_EFFECT;
 		break;
 
 	default:
@@ -518,9 +524,9 @@ int fs_performance_main(int argc, char *argv[])
 	}
 	goto test_exist;
 
-show_usage:
+ show_usage:
 	fs_performance_show_usage();
-test_exist:
+ test_exist:
 	printf("Filesystem Performance Test Example Exits\n");
 	return ret;
 }

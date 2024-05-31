@@ -243,8 +243,7 @@ int iperf_sctp_connect(struct iperf_test *test)
 	int s;
 	int opt;
 	char portstr[6];
-	struct addrinfo hintsl
-	struct addrinfo *local_res;
+	struct addrinfo hintsl struct addrinfo *local_res;
 	struct addrinfo *server_res;
 
 	if (test->bind_address) {
@@ -331,7 +330,7 @@ int iperf_sctp_connect(struct iperf_test *test)
 			i_errno = IESETMSS;
 			return -1;
 		}
-#endif	/* HAVE_STRUCT_SCTP_ASSOC_VALUE */
+#endif							/* HAVE_STRUCT_SCTP_ASSOC_VALUE */
 	}
 
 	if (test->settings->num_ostreams > 0) {
@@ -429,7 +428,7 @@ int iperf_sctp_bindx(struct iperf_test *test, int s, int is_server)
 	retval = 0;
 
 	if (TAILQ_EMPTY(&test->xbind_addrs)) {
-		return retval;    /* nothing to do */
+		return retval;			/* nothing to do */
 	}
 
 	memset(&hints, 0, sizeof(hints));
@@ -546,7 +545,7 @@ int iperf_sctp_bindx(struct iperf_test *test, int s, int is_server)
 	free(xaddrs);
 	retval = 0;
 
-out:
+ out:
 	/* client: put head node back. */
 	if (!is_server && xbe0) {
 		TAILQ_INSERT_HEAD(&test->xbind_addrs, xbe0, link);

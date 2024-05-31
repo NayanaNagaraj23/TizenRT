@@ -41,7 +41,7 @@ static void itc_net_dup_p_multiple_time(void)
 
 	for (index = 0; index < LOOP_COUNT; index++) {
 		sock = socket(AF_INET, SOCK_STREAM, 0);
-		TC_ASSERT_GEQ("socket", sock, CONFIG_NFILE_DESCRIPTORS);//If ASSERT FAILS, no need to close(sock) as socket is not created
+		TC_ASSERT_GEQ("socket", sock, CONFIG_NFILE_DESCRIPTORS);	//If ASSERT FAILS, no need to close(sock) as socket is not created
 
 		fd = dup(sock);
 		TC_ASSERT_GT_CLEANUP("dup", fd, CONFIG_NFILE_DESCRIPTORS, close(sock));

@@ -376,9 +376,7 @@ static void tc_libc_string_strdup(void)
 
 	dest_arr = strdup(src);
 	TC_ASSERT_NEQ("strdup", dest_arr, NULL);
-	TC_ASSERT_EQ_CLEANUP("strdup",
-						 strncmp(dest_arr, src, BUFF_SIZE), OK,
-						 TC_FREE_MEMORY(dest_arr));
+	TC_ASSERT_EQ_CLEANUP("strdup", strncmp(dest_arr, src, BUFF_SIZE), OK, TC_FREE_MEMORY(dest_arr));
 
 	TC_FREE_MEMORY(dest_arr);
 	TC_SUCCESS_RESULT();
@@ -553,9 +551,7 @@ static void tc_libc_string_strndup(void)
 
 	dest_arr = strndup(src, BUFF_SIZE);
 	TC_ASSERT_NEQ("strndup", dest_arr, NULL);
-	TC_ASSERT_EQ_CLEANUP("strndup",
-						 strncmp(dest_arr, src, BUFF_SIZE), 0,
-						 TC_FREE_MEMORY(dest_arr));
+	TC_ASSERT_EQ_CLEANUP("strndup", strncmp(dest_arr, src, BUFF_SIZE), 0, TC_FREE_MEMORY(dest_arr));
 
 	TC_FREE_MEMORY(dest_arr);
 	TC_SUCCESS_RESULT();
@@ -857,6 +853,7 @@ static void tc_libc_string_strlcpy(void)
 
 	TC_SUCCESS_RESULT();
 }
+
 /**
 * @fn                   :tc_libc_string_strtof
 * @brief                :convert the string to float value
@@ -888,6 +885,7 @@ static void tc_libc_string_strtof(void)
 
 	TC_SUCCESS_RESULT();
 }
+
 /**
 * @fn                   :tc_libc_string_strtold
 * @brief                :convert the string to long double value
@@ -919,6 +917,7 @@ static void tc_libc_string_strtold(void)
 
 	TC_SUCCESS_RESULT();
 }
+
 #ifdef CONFIG_LIBC_STRERROR
 /**
 * @fn                   :tc_libc_string_strerror_r

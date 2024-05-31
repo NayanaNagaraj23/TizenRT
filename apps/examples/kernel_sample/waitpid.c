@@ -138,8 +138,7 @@ static void waitpid_last(void)
 		return;
 	}
 
-	printf("waitpid_last: Waiting for PID=%d with waitpid()\n",
-		   g_waitpids[NCHILDREN - 1]);
+	printf("waitpid_last: Waiting for PID=%d with waitpid()\n", g_waitpids[NCHILDREN - 1]);
 
 	ret = (int)waitpid(g_waitpids[NCHILDREN - 1], &stat_loc, 0);
 	if (ret < 0) {
@@ -151,19 +150,15 @@ static void waitpid_last(void)
 		 */
 
 		if (errcode == ECHILD) {
-			printf("waitpid_last: PASS: PID %d waitpid failed with ECHILD.  That may be\n",
-				   g_waitpids[NCHILDREN - 1]);
+			printf("waitpid_last: PASS: PID %d waitpid failed with ECHILD.  That may be\n", g_waitpids[NCHILDREN - 1]);
 			printf("              acceptable because child status is disabled on this thread.\n");
 		} else {
-			printf("waitpid_last: ERROR: PID %d waitpid failed: %d\n",
-				   g_waitpids[NCHILDREN - 1], errcode);
+			printf("waitpid_last: ERROR: PID %d waitpid failed: %d\n", g_waitpids[NCHILDREN - 1], errcode);
 		}
 	} else if (WEXITSTATUS(stat_loc) != RETURN_STATUS) {
-		printf("waitpid_last: ERROR: PID %d return status is %d, expected %d\n",
-			   g_waitpids[NCHILDREN - 1], WEXITSTATUS(stat_loc), RETURN_STATUS);
+		printf("waitpid_last: ERROR: PID %d return status is %d, expected %d\n", g_waitpids[NCHILDREN - 1], WEXITSTATUS(stat_loc), RETURN_STATUS);
 	} else {
-		printf("waitpid_last: PASS: PID %d waitpid succeeded with stat_loc=%04x\n",
-			   g_waitpids[NCHILDREN - 1], stat_loc);
+		printf("waitpid_last: PASS: PID %d waitpid succeeded with stat_loc=%04x\n", g_waitpids[NCHILDREN - 1], stat_loc);
 	}
 }
 
@@ -195,22 +190,17 @@ int waitpid_test(void)
 		 */
 
 		if (errcode == ECHILD) {
-			printf("waitpid_test: PASS: PID %d waitpid failed with ECHILD.  That may be\n",
-				   g_waitpids[NCHILDREN - 1]);
+			printf("waitpid_test: PASS: PID %d waitpid failed with ECHILD.  That may be\n", g_waitpids[NCHILDREN - 1]);
 			printf("              acceptable because child status is disabled on this thread.\n");
 		} else {
-			printf("waitpid_test: ERROR: PID %d waitpid failed: %d\n",
-				   g_waitpids[0], errcode);
+			printf("waitpid_test: ERROR: PID %d waitpid failed: %d\n", g_waitpids[0], errcode);
 		}
 	} else if (ret != g_waitpids[0]) {
-		printf("waitpid_test: ERROR: PID %d wait returned PID %d\n",
-			   g_waitpids[0], ret);
+		printf("waitpid_test: ERROR: PID %d wait returned PID %d\n", g_waitpids[0], ret);
 	} else if (WEXITSTATUS(stat_loc) != RETURN_STATUS) {
-		printf("waitpid_test: ERROR: PID %d return status is %d, expected %d\n",
-			   g_waitpids[0], WEXITSTATUS(stat_loc), RETURN_STATUS);
+		printf("waitpid_test: ERROR: PID %d return status is %d, expected %d\n", g_waitpids[0], WEXITSTATUS(stat_loc), RETURN_STATUS);
 	} else {
-		printf("waitpid_test: PID %d waitpid succeeded with stat_loc=%04x\n",
-			   g_waitpids[0], stat_loc);
+		printf("waitpid_test: PID %d waitpid succeeded with stat_loc=%04x\n", g_waitpids[0], stat_loc);
 	}
 
 	/* Wait a bit to make sure that the other threads complete */
@@ -225,7 +215,7 @@ int waitpid_test(void)
 	waitpid_start_children();
 
 	printf("waitpid_test: Waiting for PID=%d with waitid()\n", g_waitpids[0]);
-	ret = waitid(P_PID, (id_t)g_waitpids[0], &info, WEXITED);
+	ret = waitid(P_PID, (id_t) g_waitpids[0], &info, WEXITED);
 	if (ret < 0) {
 		int errcode = errno;
 
@@ -235,22 +225,17 @@ int waitpid_test(void)
 		 */
 
 		if (errcode == ECHILD) {
-			printf("waitpid_test: PASS: PID %d waitpid failed with ECHILD.  That may be\n",
-				   g_waitpids[NCHILDREN - 1]);
+			printf("waitpid_test: PASS: PID %d waitpid failed with ECHILD.  That may be\n", g_waitpids[NCHILDREN - 1]);
 			printf("              acceptable because child status is disabled on this thread.\n");
 		} else {
-			printf("waitpid_test: ERROR: PID %d waitid failed: %d\n",
-				   g_waitpids[0], errcode);
+			printf("waitpid_test: ERROR: PID %d waitid failed: %d\n", g_waitpids[0], errcode);
 		}
 	} else if (info.si_pid != g_waitpids[0]) {
-		printf("waitpid_test: ERROR: PID %d waitid returned PID %d\n",
-			   g_waitpids[0], info.si_pid);
+		printf("waitpid_test: ERROR: PID %d waitid returned PID %d\n", g_waitpids[0], info.si_pid);
 	} else if (info.si_status != RETURN_STATUS) {
-		printf("waitpid_test: ERROR: PID %d return status is %d, expected %d\n",
-			   info.si_pid, info.si_status, RETURN_STATUS);
+		printf("waitpid_test: ERROR: PID %d return status is %d, expected %d\n", info.si_pid, info.si_status, RETURN_STATUS);
 	} else {
-		printf("waitpid_test: waitid PID %d succeeded with si_status=%d\n",
-			   info.si_pid, info.si_status);
+		printf("waitpid_test: waitid PID %d succeeded with si_status=%d\n", info.si_pid, info.si_status);
 	}
 
 	/* Wait a bit to make sure that the other threads complete */
@@ -274,18 +259,15 @@ int waitpid_test(void)
 		 */
 
 		if (errcode == ECHILD) {
-			printf("waitpid_test: PASS: PID %d waitpid failed with ECHILD.  That may be\n",
-				   g_waitpids[NCHILDREN - 1]);
+			printf("waitpid_test: PASS: PID %d waitpid failed with ECHILD.  That may be\n", g_waitpids[NCHILDREN - 1]);
 			printf("              acceptable because child status is disabled on this thread.\n");
 		} else {
 			printf("waitpid_test: ERROR: waitid failed: %d\n", errcode);
 		}
 	} else if (info.si_status != RETURN_STATUS) {
-		printf("waitpid_test: ERROR: PID %d return status is %d, expected %d\n",
-			   info.si_pid, info.si_status, RETURN_STATUS);
+		printf("waitpid_test: ERROR: PID %d return status is %d, expected %d\n", info.si_pid, info.si_status, RETURN_STATUS);
 	} else {
-		printf("waitpid_test: PID %d waitid succeeded with si_status=%d\n",
-			   info.si_pid, info.si_status);
+		printf("waitpid_test: PID %d waitid succeeded with si_status=%d\n", info.si_pid, info.si_status);
 	}
 
 	/* Wait a bit to make sure that the other threads complete */
@@ -309,18 +291,15 @@ int waitpid_test(void)
 		 */
 
 		if (errcode == ECHILD) {
-			printf("waitpid_test: PASS: PID %d waitpid failed with ECHILD.  That may be\n",
-				   g_waitpids[NCHILDREN - 1]);
+			printf("waitpid_test: PASS: PID %d waitpid failed with ECHILD.  That may be\n", g_waitpids[NCHILDREN - 1]);
 			printf("              acceptable because child status is disabled on this thread.\n");
 		} else {
 			printf("waitpid_test: ERROR: wait failed: %d\n", errcode);
 		}
 	} else if (WEXITSTATUS(stat_loc) != RETURN_STATUS) {
-		printf("waitpid_test: ERROR: PID %d return status is %d, expected %d\n",
-			   ret, WEXITSTATUS(stat_loc), RETURN_STATUS);
+		printf("waitpid_test: ERROR: PID %d return status is %d, expected %d\n", ret, WEXITSTATUS(stat_loc), RETURN_STATUS);
 	} else {
-		printf("waitpid_test: PID %d wait succeeded with stat_loc=%04x\n",
-			   ret, stat_loc);
+		printf("waitpid_test: PID %d wait succeeded with stat_loc=%04x\n", ret, stat_loc);
 	}
 
 	/* Wait a bit to make sure that the other threads complete */
@@ -332,4 +311,4 @@ int waitpid_test(void)
 	return 0;
 }
 
-#endif /* CONFIG_SCHED_WAITPID */
+#endif							/* CONFIG_SCHED_WAITPID */

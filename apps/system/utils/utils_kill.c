@@ -77,26 +77,26 @@ struct utils_sig_s {
 
 static const struct utils_sig_s utils_sig[] = {
 #ifndef CONFIG_DISABLE_SIGNALS
-	{"SIGUSR1",         SIGUSR1},
-	{"SIGUSR2",         SIGUSR2},
-	{"SIGALRM",         SIGALRM},
+	{"SIGUSR1", SIGUSR1},
+	{"SIGUSR2", SIGUSR2},
+	{"SIGALRM", SIGALRM},
 #ifdef SIGCHLD
-	{"SIGCHLD",         SIGCHLD},
+	{"SIGCHLD", SIGCHLD},
 #endif
 #ifdef SIGPOLL
-	{"SIGPOLL",         SIGPOLL},
+	{"SIGPOLL", SIGPOLL},
 #endif
-#endif /* CONFIG_DISABLE_SIGNALS */
-	{"SIGKILL",         SIGKILL},
+#endif							/* CONFIG_DISABLE_SIGNALS */
+	{"SIGKILL", SIGKILL},
 #ifndef CONFIG_DISABLE_SIGNALS
 #ifdef SIGCONDTIMEDOUT
 	{"SIGCONDTIMEDOUT", SIGCONDTIMEDOUT},
 #endif
 #ifdef SIGWORK
-	{"SIGWORK",         SIGWORK},
+	{"SIGWORK", SIGWORK},
 #endif
-#endif /* CONFIG_DISABLE_SIGNALS */
-	{NULL,              0}
+#endif							/* CONFIG_DISABLE_SIGNALS */
+	{NULL, 0}
 };
 
 #if defined(CONFIG_ENABLE_KILLALL)
@@ -228,7 +228,7 @@ int utils_kill(int argc, char **args)
 
 	return OK;
 
-usage:
+ usage:
 	printf("\nUsage: kill [-SIGNAME|SIGNUM] PID\n");
 	printf("   or: kill -l\n");
 	printf("Send a signal SIGNAME or SIGNUM to a process PID\n");
@@ -364,7 +364,7 @@ int utils_killall(int argc, char **args)
 
 	return OK;
 
-usage:
+ usage:
 	printf("\nUsage: killall [-SIGNAME|SIGNUM] NAME\n");
 	printf("   or: killall -l\n");
 	printf("Send a signal specified by SIGNAME or SIGNUM to a processes named NAME\n");

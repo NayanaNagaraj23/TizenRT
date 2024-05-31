@@ -40,7 +40,7 @@
 	SLOT_INDEX : slot index to save the DATA, valid range 0 ~ 31\n	\
 	DATA : value to be saved in byte\n");
 
-extern int rtl_ss_flash_read(uint32_t address, uint32_t len, uint8_t *data, int en_display);
+extern int rtl_ss_flash_read(uint32_t address, uint32_t len, uint8_t * data, int en_display);
 static char rwbuf[MAX_SS_SIZE];
 
 #ifdef CONFIG_AMEBAD_TRUSTZONE
@@ -94,8 +94,7 @@ int sstorage_main(int argc, char *argv[])
 			}
 			break;
 		default:
-			SHOW_USAGE
-			return 0;
+			SHOW_USAGE return 0;
 		}
 	}
 
@@ -137,7 +136,7 @@ int sstorage_main(int argc, char *argv[])
 
 	sleep(1);
 	printf("\nStart Flash Raw data read!!\n");
-	/* The Secure Storage Slot Flash Address , 156 = HEADER 4 + TEST_DATA_LENGTH 4 + DATA LENGTH + TAG 16 + FOOTER 4 , 1 = en_display*/
+	/* The Secure Storage Slot Flash Address , 156 = HEADER 4 + TEST_DATA_LENGTH 4 + DATA LENGTH + TAG 16 + FOOTER 4 , 1 = en_display */
 	length = HEAD_LENGTH + DATA_LENGTH + TEST_DATA_LENGTH + TAG_LENGTH + HEAD_LENGTH;
 	if (slot_index == 0) {
 		address = SLOT0_START_ADDR;
@@ -146,14 +145,14 @@ int sstorage_main(int argc, char *argv[])
 	}
 
 	printf("Read Raw data from Slot: %d, Area A\n", slot_index);
-	if (!rtl_ss_flash_read(address, length, (uint8_t *)rwbuf, 1)) {
+	if (!rtl_ss_flash_read(address, length, (uint8_t *) rwbuf, 1)) {
 		printf("rtl_ss_flash_read() Fail, %d\n", __LINE__);
 	}
 
 	sleep(1);
 	address += SLOT_AREA_OFFEST;
 	printf("\nRead Raw data from Slot: %d, Area B\n", slot_index);
-	if (!rtl_ss_flash_read(address, length, (uint8_t *)rwbuf, 1)) {
+	if (!rtl_ss_flash_read(address, length, (uint8_t *) rwbuf, 1)) {
 		printf("rtl_ss_flash_read() Fail, %d\n", __LINE__);
 	}
 
@@ -193,7 +192,7 @@ int sstorage_main(int argc, char *argv[])
 
 	sleep(1);
 	printf("\nStart Flash Raw data read!!\n");
-	/* The Secure Storage Slot Flash Address , 156 = HEADER 4 + TEST_DATA_LENGTH 4 + DATA LENGTH + TAG 16 + FOOTER 4 , 1 = en_display*/
+	/* The Secure Storage Slot Flash Address , 156 = HEADER 4 + TEST_DATA_LENGTH 4 + DATA LENGTH + TAG 16 + FOOTER 4 , 1 = en_display */
 	length = HEAD_LENGTH + DATA_LENGTH + TEST_DATA_LENGTH + TAG_LENGTH + HEAD_LENGTH;
 	if (slot_index == 0) {
 		address = SLOT0_START_ADDR;
@@ -202,14 +201,14 @@ int sstorage_main(int argc, char *argv[])
 	}
 
 	printf("Read Raw data from Slot: %d, Area A\n", slot_index);
-	if (!rtl_ss_flash_read(address, length, (uint8_t *)rwbuf, 1)) {
+	if (!rtl_ss_flash_read(address, length, (uint8_t *) rwbuf, 1)) {
 		printf("rtl_ss_flash_read() Fail, %d\n", __LINE__);
 	}
 
 	sleep(1);
 	address += SLOT_AREA_OFFEST;
 	printf("\nRead Raw data from Slot: %d, Area B\n", slot_index);
-	if (!rtl_ss_flash_read(address, length, (uint8_t *)rwbuf, 1)) {
+	if (!rtl_ss_flash_read(address, length, (uint8_t *) rwbuf, 1)) {
 		printf("rtl_ss_flash_read() Fail, %d\n", __LINE__);
 	}
 

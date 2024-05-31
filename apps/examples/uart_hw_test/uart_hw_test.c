@@ -54,7 +54,7 @@
 #define TEST_FILE_STR		"abcdefghijklmnopqrstuvwxyz"
 #define TEST_FILE_STR_LEN	26
 
-#define HANDSHAKE_INTERVAL	100		/* msecs */
+#define HANDSHAKE_INTERVAL	100	/* msecs */
 
 int iperf_main(int argc, char **argv);
 
@@ -172,7 +172,7 @@ static void run_background_fs_ops(void)
 
 		int fd = open(TEST_FILE_PATH, O_RDWR | O_CREAT);
 
-		if (fd < 0){
+		if (fd < 0) {
 			printf("FAIL to create test file %s\n", TEST_FILE_PATH);
 			continue;
 		}
@@ -221,7 +221,7 @@ static void handshake(int fd, char c)
 
 static void perform_uart_tests(int fd)
 {
-	int bauds[] = {115200, 38400, 19200, 9600, 4800};
+	int bauds[] = { 115200, 38400, 19200, 9600, 4800 };
 	for (int i = 0; i < sizeof(bauds) / sizeof(int); i++) {
 		configure_tty(fd, bauds[i]);
 		printf("BAUD = %d\n\r", bauds[i]);
@@ -244,10 +244,10 @@ int uart_hw_test_main(int argc, char **argv)
 {
 	int fd = 0;
 	int p = 0;
-	char port[20] = {'\0'};
+	char port[20] = { '\0' };
 	pthread_t tid;
 	pid_t t_sr, t_cl;
-	char *args[5] = {NULL, NULL, NULL, NULL, NULL};
+	char *args[5] = { NULL, NULL, NULL, NULL, NULL };
 
 	printf("Enter UART port number\n");
 	p = getchar();
@@ -264,7 +264,7 @@ int uart_hw_test_main(int argc, char **argv)
 	perform_uart_tests(fd);
 
 	printf("Scenario 1: Running UART test with background FS ops\n\r");
-	if (pthread_create(&tid, NULL, (pthread_startroutine_t)run_background_fs_ops, NULL) < 0) {
+	if (pthread_create(&tid, NULL, (pthread_startroutine_t) run_background_fs_ops, NULL) < 0) {
 		printf("Failed to create pthread for running logs\n\r");
 		goto fail_after_open;
 	}
@@ -302,8 +302,8 @@ int uart_hw_test_main(int argc, char **argv)
 	/* Start iperf client and transmit data to localhost for 60 secs */
 	args[0] = "-c";
 	args[1] = "127.0.0.1";
-        args[2] = "-t";
-        args[3] = "60"; 
+	args[2] = "-t";
+	args[3] = "60";
 	t_cl = task_create("iperf client", 125, 4096, iperf_main, args);
 	if (t_cl < 0) {
 		printf("Failed to create iperf client thread\n\r");
@@ -315,7 +315,7 @@ int uart_hw_test_main(int argc, char **argv)
 	kill(t_cl, SIGKILL);
 
 	printf("######################### UART HW test COMPLETE #########################\n");
-fail_after_open:
+ fail_after_open:
 	close(fd);
 	unlink(TEST_FILE_PATH);
 	return 0;

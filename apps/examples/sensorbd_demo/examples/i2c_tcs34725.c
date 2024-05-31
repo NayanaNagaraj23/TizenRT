@@ -96,7 +96,7 @@ static void tcs34725_write(uint8_t addr, uint8_t data)
 	i2c_write(i2c_dev, &configs, reg, 2);
 }
 
-static void tcs34725_read(uint8_t addr, uint8_t *data, uint8_t bytecnt)
+static void tcs34725_read(uint8_t addr, uint8_t * data, uint8_t bytecnt)
 {
 	uint8_t reg;
 	reg = TCS34725_COMMAND_BIT | addr;
@@ -104,12 +104,12 @@ static void tcs34725_read(uint8_t addr, uint8_t *data, uint8_t bytecnt)
 	i2c_read(i2c_dev, &configs, data, bytecnt);
 }
 
-static void tcs34725_getdata(uint16_t *r, uint16_t *g, uint16_t *b, uint16_t *c)
+static void tcs34725_getdata(uint16_t * r, uint16_t * g, uint16_t * b, uint16_t * c)
 {
-	tcs34725_read(TCS34725_CDATAL, (uint8_t *)c, 2);
-	tcs34725_read(TCS34725_RDATAL, (uint8_t *)r, 2);
-	tcs34725_read(TCS34725_GDATAL, (uint8_t *)g, 2);
-	tcs34725_read(TCS34725_BDATAL, (uint8_t *)b, 2);
+	tcs34725_read(TCS34725_CDATAL, (uint8_t *) c, 2);
+	tcs34725_read(TCS34725_RDATAL, (uint8_t *) r, 2);
+	tcs34725_read(TCS34725_GDATAL, (uint8_t *) g, 2);
+	tcs34725_read(TCS34725_BDATAL, (uint8_t *) b, 2);
 
 	switch (tcs34725IntegrationTime) {
 	case TCS34725_INTEGRATIONTIME_2_4MS:
@@ -144,7 +144,7 @@ static uint16_t tcs34725_calclux(uint16_t r, uint16_t g, uint16_t b)
 
 	return (-0.32466F * r) + (1.57837F * g) + (-0.73191F * b);
 
-	return (uint16_t)illuminance;
+	return (uint16_t) illuminance;
 }
 
 /****************************************************************************
@@ -169,7 +169,7 @@ static uint16_t tcs34725_calctemperature(uint16_t r, uint16_t g, uint16_t b)
 
 	cct = (449.0F * powfl(n, 3)) + (3525.0F * powfl(n, 2)) + (6823.3F * n) + 5520.33F;
 
-	return (uint16_t)cct;
+	return (uint16_t) cct;
 }
 
 static void tcs34725_initialize(void)

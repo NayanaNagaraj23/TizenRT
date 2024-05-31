@@ -68,9 +68,9 @@ void switch_main(int argc, char *argv[])
 		char *devpath;
 		int fd;
 	} buttons[] = {
-		{ "XEINT_0", "/dev/gpio57", },
-		{ "XEINT_1", "/dev/gpio58", },
-		{ "XEINT_2", "/dev/gpio59", },
+		{"XEINT_0", "/dev/gpio57",},
+		{"XEINT_1", "/dev/gpio58",},
+		{"XEINT_2", "/dev/gpio59",},
 	};
 
 	nbtns = sizeof(buttons) / sizeof(*buttons);
@@ -100,8 +100,7 @@ void switch_main(int argc, char *argv[])
 						printf("read error\n");
 						return;
 					}
-					printf("%s is %s\n", buttons[j].name,
-						buf[0] == '1' ? "rising" : "falling");
+					printf("%s is %s\n", buttons[j].name, buf[0] == '1' ? "rising" : "falling");
 
 					if (buf[0] == '1') {
 						if (prev == j) {
@@ -114,7 +113,7 @@ void switch_main(int argc, char *argv[])
 		}
 	}
 
-out:
+ out:
 	for (i = 0; i < nbtns; i++) {
 		printf("Closing %s(%s)...\n", buttons[i].devpath, buttons[i].name);
 		close(poll_list[i].fd);

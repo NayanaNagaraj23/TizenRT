@@ -35,7 +35,7 @@
 		Valid Range: 0x7034C020 - 0x7039C000\n ");
 
 #ifdef  CONFIG_AMEBALITE_TRUSTZONE
-volatile uint32_t  *address = CONFIG_AMEBALITE_SECURE_WORLD_ADDRESS;
+volatile uint32_t *address = CONFIG_AMEBALITE_SECURE_WORLD_ADDRESS;
 #endif
 
 /****************************************************************************
@@ -65,18 +65,16 @@ int secure_world_main(int argc, char *argv[])
 			break;
 		default:
 			printf("INVALID INPUT\n");
-			SHOW_USAGE
-			return 0;
+			SHOW_USAGE return 0;
 		}
 	}
 	if (!r_flag && !w_flag) {
-		SHOW_USAGE
-	} else if (r_flag) {
-                printf("Trying to read data from %x\n", address);
-                value = *address;
-        } else {
-                printf("Trying to write data at %x\n", address);
-                *address = 1234;
-        }
+	SHOW_USAGE} else if (r_flag) {
+		printf("Trying to read data from %x\n", address);
+		value = *address;
+	} else {
+		printf("Trying to write data at %x\n", address);
+		*address = 1234;
+	}
 	return 0;
 }

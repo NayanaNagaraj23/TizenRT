@@ -61,7 +61,7 @@
 #include "kernel_sample.h"
 
 #ifndef NULL
-# define NULL (void*)0
+#define NULL (void*)0
 #endif
 
 #define WAKEUP_SIGNAL 17
@@ -72,7 +72,7 @@ static bool sigreceived = false;
 static bool threadexited = false;
 
 #ifdef CONFIG_SCHED_HAVE_PARENT
-static void death_of_child(int signo, siginfo_t *info, void *ucontext)
+static void death_of_child(int signo, siginfo_t * info, void *ucontext)
 {
 	/* Use of printf in a signal handler is NOT safe! It can cause deadlocks!
 	 * Also, signals are not queued by TinyAra.  As a consequence, some
@@ -82,16 +82,14 @@ static void death_of_child(int signo, siginfo_t *info, void *ucontext)
 	 */
 
 	if (info) {
-		printf("death_of_child: PID %d received signal=%d code=%d pid=%d status=%d\n",
-			   getpid(), signo, info->si_code, info->si_pid, info->si_status);
+		printf("death_of_child: PID %d received signal=%d code=%d pid=%d status=%d\n", getpid(), signo, info->si_code, info->si_pid, info->si_status);
 	} else {
-		printf("death_of_child: PID %d received signal=%d (no info?)\n",
-			   getpid(), signo);
+		printf("death_of_child: PID %d received signal=%d (no info?)\n", getpid(), signo);
 	}
 }
 #endif
 
-static void wakeup_action(int signo, siginfo_t *info, void *ucontext)
+static void wakeup_action(int signo, siginfo_t * info, void *ucontext)
 {
 	sigset_t oldset;
 	sigset_t allsigs;
@@ -99,48 +97,44 @@ static void wakeup_action(int signo, siginfo_t *info, void *ucontext)
 
 	/* Use of printf in a signal handler is NOT safe! It can cause deadlocks! */
 
-	printf("wakeup_action: Received signal %d\n" , signo);
+	printf("wakeup_action: Received signal %d\n", signo);
 
 	sigreceived = true;
 
 	/* Check signo */
 
 	if (signo != WAKEUP_SIGNAL) {
-		printf("wakeup_action: ERROR expected signo=%d\n" , WAKEUP_SIGNAL);
+		printf("wakeup_action: ERROR expected signo=%d\n", WAKEUP_SIGNAL);
 	}
 
 	/* Check siginfo */
 
 	if (info->si_value.sival_int != SIGVALUE_INT) {
-		printf("wakeup_action: ERROR sival_int=%d expected %d\n",
-			   info->si_value.sival_int, SIGVALUE_INT);
+		printf("wakeup_action: ERROR sival_int=%d expected %d\n", info->si_value.sival_int, SIGVALUE_INT);
 	} else {
-		printf("wakeup_action: sival_int=%d\n" , info->si_value.sival_int);
+		printf("wakeup_action: sival_int=%d\n", info->si_value.sival_int);
 	}
 
 	if (info->si_signo != WAKEUP_SIGNAL) {
-		printf("wakeup_action: ERROR expected si_signo=%d, got=%d\n",
-			   WAKEUP_SIGNAL, info->si_signo);
+		printf("wakeup_action: ERROR expected si_signo=%d, got=%d\n", WAKEUP_SIGNAL, info->si_signo);
 	}
 
-	printf("wakeup_action: si_code=%d\n" , info->si_code);
+	printf("wakeup_action: si_code=%d\n", info->si_code);
 
 	/* Check ucontext_t */
 
-	printf("wakeup_action: ucontext=%p\n" , ucontext);
+	printf("wakeup_action: ucontext=%p\n", ucontext);
 
 	/* Check sigprocmask */
 
 	(void)sigfillset(&allsigs);
 	status = sigprocmask(SIG_SETMASK, NULL, &oldset);
 	if (status != OK) {
-		printf("wakeup_action: ERROR sigprocmask failed, status=%d\n",
-			   status);
+		printf("wakeup_action: ERROR sigprocmask failed, status=%d\n", status);
 	}
 
 	if (oldset != allsigs) {
-		printf("wakeup_action: ERROR sigprocmask=%x expected=%x\n",
-			   oldset, allsigs);
+		printf("wakeup_action: ERROR sigprocmask=%x expected=%x\n", oldset, allsigs);
 	}
 }
 
@@ -157,30 +151,27 @@ static int waiter_main(int argc, char *argv[])
 
 	printf("waiter_main: Waiter started\n");
 
-	printf("waiter_main: Unmasking signal %d\n" , WAKEUP_SIGNAL);
+	printf("waiter_main: Unmasking signal %d\n", WAKEUP_SIGNAL);
 	(void)sigemptyset(&sigset);
 	(void)sigaddset(&sigset, WAKEUP_SIGNAL);
 	status = sigprocmask(SIG_UNBLOCK, &sigset, NULL);
 	if (status != OK) {
-		printf("waiter_main: ERROR sigprocmask failed, status=%d\n",
-			   status);
+		printf("waiter_main: ERROR sigprocmask failed, status=%d\n", status);
 	}
 
 	printf("waiter_main: Registering signal handler\n");
 	act.sa_sigaction = wakeup_action;
-	act.sa_flags  = SA_SIGINFO;
+	act.sa_flags = SA_SIGINFO;
 
 	(void)sigfillset(&act.sa_mask);
 	(void)sigdelset(&act.sa_mask, WAKEUP_SIGNAL);
 
 	status = sigaction(WAKEUP_SIGNAL, &act, &oact);
 	if (status != OK) {
-		printf("waiter_main: ERROR sigaction failed, status=%d\n" , status);
+		printf("waiter_main: ERROR sigaction failed, status=%d\n", status);
 	}
-
 #ifndef SDCC
-	printf("waiter_main: oact.sigaction=%p oact.sa_flags=%x oact.sa_mask=%x\n",
-		   oact.sa_sigaction, oact.sa_flags, oact.sa_mask);
+	printf("waiter_main: oact.sigaction=%p oact.sa_flags=%x oact.sa_mask=%x\n", oact.sa_sigaction, oact.sa_flags, oact.sa_mask);
 #endif
 
 	/* Take the semaphore */
@@ -194,7 +185,7 @@ static int waiter_main(int argc, char *argv[])
 		if (error == EINTR) {
 			printf("waiter_main: sem_wait() successfully interrupted by signal\n");
 		} else {
-			printf("waiter_main: ERROR sem_wait failed, errno=%d\n" , error);
+			printf("waiter_main: ERROR sem_wait failed, errno=%d\n", error);
 		}
 	} else {
 		printf("waiter_main: ERROR awakened with no error!\n");
@@ -234,20 +225,19 @@ void sighand_test(void)
 	(void)sigaddset(&sigset, SIGCHLD);
 	status = sigprocmask(SIG_UNBLOCK, &sigset, NULL);
 	if (status != OK) {
-		printf("sighand_test: ERROR sigprocmask failed, status=%d\n",
-			   status);
+		printf("sighand_test: ERROR sigprocmask failed, status=%d\n", status);
 	}
 
 	printf("sighand_test: Registering SIGCHLD handler\n");
 	act.sa_sigaction = death_of_child;
-	act.sa_flags  = SA_SIGINFO;
+	act.sa_flags = SA_SIGINFO;
 
 	(void)sigfillset(&act.sa_mask);
 	(void)sigdelset(&act.sa_mask, SIGCHLD);
 
 	status = sigaction(SIGCHLD, &act, &oact);
 	if (status != OK) {
-		printf("waiter_main: ERROR sigaction failed, status=%d\n" , status);
+		printf("waiter_main: ERROR sigaction failed, status=%d\n", status);
 	}
 #endif
 
@@ -260,8 +250,7 @@ void sighand_test(void)
 		param.sched_priority = PTHREAD_DEFAULT_PRIORITY;
 	}
 
-	waiterpid = task_create("waiter", param.sched_priority,
-							PTHREAD_STACK_DEFAULT, waiter_main, NULL);
+	waiterpid = task_create("waiter", param.sched_priority, PTHREAD_STACK_DEFAULT, waiter_main, NULL);
 	if (waiterpid == ERROR) {
 		printf("sighand_test: ERROR failed to start waiter_main\n");
 	} else {
@@ -275,8 +264,7 @@ void sighand_test(void)
 
 	/* Then signal the waiter thread. */
 
-	printf("sighand_test: Signaling pid=%d with signo=%d sigvalue=%d\n",
-		   waiterpid, WAKEUP_SIGNAL, SIGVALUE_INT);
+	printf("sighand_test: Signaling pid=%d with signo=%d sigvalue=%d\n", waiterpid, WAKEUP_SIGNAL, SIGVALUE_INT);
 
 	sigvalue.sival_int = SIGVALUE_INT;
 #ifdef CONFIG_CAN_PASS_STRUCTS

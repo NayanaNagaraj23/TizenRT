@@ -146,7 +146,7 @@ static hal_rsa_mode g_rsa_mode;
 TEST_SETUP(rsa_encrypt)
 {
 	ST_START_TEST;
-	
+
 	ST_EXPECT_EQ2(HAL_SUCCESS, HAL_NOT_SUPPORTED, g_se->ops->generate_key(HAL_KEY_RSA_2048, HAL_TEST_KEY_SLOT));
 
 	ST_EXPECT_EQ(0, hal_test_malloc_buffer(&g_rsa_input, HAL_CRYPTO_TEST_MEM_SIZE));
@@ -233,8 +233,6 @@ TEST_F(rsa_decrypt)
 
 	ST_END_TEST;
 }
-
-
 
 pthread_addr_t hal_crypto_test(void)
 {

@@ -126,7 +126,7 @@ void itc_systemio_iotbus_uart_set_baudrate_p(void)
 */
 static void itc_systemio_iotbus_uart_set_baudrate_n(void)
 {
-	int i_baudrate = -115200; // invalid baudrate
+	int i_baudrate = -115200;	// invalid baudrate
 	int ret = IOTBUS_ERROR_NONE;
 
 	iotbus_uart_context_h h_uart = iotbus_uart_init(DEVPATH);

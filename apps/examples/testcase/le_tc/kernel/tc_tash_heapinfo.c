@@ -79,6 +79,7 @@ static void *heapinfo_thread(void *arg)
 
 	return NULL;
 }
+
 #ifdef CONFIG_HEAPINFO_USER_GROUP
 static void calc_group_size(int *mem, int info[4], int type)
 {
@@ -98,6 +99,7 @@ static void calc_group_size(int *mem, int info[4], int type)
 		info[2] -= node->size;
 	}
 }
+
 static void *heapinfo_malloc(size_t size, int info[4])
 {
 	int *mem;
@@ -105,12 +107,14 @@ static void *heapinfo_malloc(size_t size, int info[4])
 	calc_group_size(mem, info, HEAPINFO_ALLOC);
 	return mem;
 }
+
 static void *heapinfo_free(void *mem, int info[4])
 {
 	calc_group_size(mem, info, HEAPINFO_FREE);
 	free(mem);
 	return NULL;
 }
+
 static void heapinfo_calc_stack(pid_t pid, int info[4], int type)
 {
 	int fd;
@@ -130,11 +134,12 @@ static void heapinfo_calc_stack(pid_t pid, int info[4], int type)
 		info[2] -= size;
 	}
 }
+
 static int heapinfo_task(int argc, char *argv[])
 {
 	int *mem_ptr;
 	heapinfo_calc_stack(getpid(), group_a_info, HEAPINFO_STACK_ALLOC);
-	
+
 	mem_ptr = (int *)heapinfo_malloc(1000, group_a_info);
 	heapinfo_free(mem_ptr, group_a_info);
 
@@ -210,9 +215,9 @@ static int tc_tash_heapinfo(int argc, char **args)
 		 * Group A : heapinfo_task, heapinfo_task2
 		 * Group B : heapinfo_task3
 		 * Group C : heapinfo_pthread */
-		task_create("heapinfo_task", TC_HEAPINFO_PRIO, 1024, heapinfo_task, (char * const *)NULL);
-		task_create("heapinfo_task2", TC_HEAPINFO_PRIO, 1024, heapinfo_task2, (char * const *)NULL);
-		task_create("heapinfo_task3", TC_HEAPINFO_PRIO, 1024, heapinfo_task3, (char * const *)NULL);
+		task_create("heapinfo_task", TC_HEAPINFO_PRIO, 1024, heapinfo_task, (char *const *)NULL);
+		task_create("heapinfo_task2", TC_HEAPINFO_PRIO, 1024, heapinfo_task2, (char *const *)NULL);
+		task_create("heapinfo_task3", TC_HEAPINFO_PRIO, 1024, heapinfo_task3, (char *const *)NULL);
 		pthread_create(&pid, NULL, heapinfo_pthread, (void *)NULL);
 		pthread_setname_np(pid, "heapinfo_pthread");
 

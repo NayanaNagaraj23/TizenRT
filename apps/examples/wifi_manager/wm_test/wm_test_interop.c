@@ -52,8 +52,6 @@ static sem_t g_wio_sem;
 		sem_wait(&g_wio_sem);				\
 	} while (0)
 
-
-
 typedef enum {
 	SSID,
 	SECURITY,
@@ -66,15 +64,13 @@ static int g_connect_status;
 
 static interop_ap_config_list_s g_apconfig_list;
 
-
-static void _print_wifi_ap_profile(wifi_manager_ap_config_s *config)
+static void _print_wifi_ap_profile(wifi_manager_ap_config_s * config)
 {
 	if (config == NULL)
 		return;
 
 	WT_LOG(TAG, "========================================================");
-	WT_LOG(TAG, "SSID[%s] passphrase[%s] auth type:[%d] crypto type: [%d]",
-		config->ssid, config->passphrase, config->ap_auth_type, config->ap_crypto_type);
+	WT_LOG(TAG, "SSID[%s] passphrase[%s] auth type:[%d] crypto type: [%d]", config->ssid, config->passphrase, config->ap_auth_type, config->ap_crypto_type);
 	WT_LOG(TAG, "========================================================");
 }
 
@@ -110,9 +106,7 @@ static void _wm_scan_done(wifi_manager_cb_msg_s msg, void *arg)
 
 	wifi_manager_scan_info_s *wifi_scan_iter = msg.scanlist;
 	while (wifi_scan_iter != NULL) {
-		WT_LOG(TAG, "WiFi AP SSID: %-25s, BSSID: %-20s, Rssi: %d, Auth: %d, Crypto: %d",
-				wifi_scan_iter->ssid, wifi_scan_iter->bssid, wifi_scan_iter->rssi,
-				wifi_scan_iter->ap_auth_type, wifi_scan_iter->ap_crypto_type);
+		WT_LOG(TAG, "WiFi AP SSID: %-25s, BSSID: %-20s, Rssi: %d, Auth: %d, Crypto: %d", wifi_scan_iter->ssid, wifi_scan_iter->bssid, wifi_scan_iter->rssi, wifi_scan_iter->ap_auth_type, wifi_scan_iter->ap_crypto_type);
 
 		interop_ap_info_s *ap_info = (g_apconfig_list.ap_info + g_current_ap_idx);
 
@@ -153,7 +147,7 @@ static void _wm_interop_disconnect(void)
 	WT_LEAVE;
 }
 
-static void _wm_interop_connect(wifi_manager_ap_config_s *apconfig)
+static void _wm_interop_connect(wifi_manager_ap_config_s * apconfig)
 {
 	WT_ENTER;
 	wifi_manager_result_e res = WIFI_MANAGER_SUCCESS;
@@ -172,7 +166,7 @@ static void _wm_interop_connect(wifi_manager_ap_config_s *apconfig)
 	WT_LEAVE;
 }
 
-static void _wm_interop_scan(wifi_manager_ap_config_s *ap_info)
+static void _wm_interop_scan(wifi_manager_ap_config_s * ap_info)
 {
 	WT_ENTER;
 	wifi_manager_result_e res = WIFI_MANAGER_SUCCESS;
@@ -188,7 +182,7 @@ static void _wm_interop_scan(wifi_manager_ap_config_s *ap_info)
 		WT_LOGE(TAG, "scan Fail");
 		return;
 	}
-	WIO_TEST_WAIT; // wait the scan result
+	WIO_TEST_WAIT;				// wait the scan result
 
 	WT_LEAVE;
 }
@@ -232,9 +226,7 @@ static int _wm_interop_save_ap_config(struct wt_options *ap_info)
 		return -1;
 	}
 
-	snprintf(buf, WIFI_INTEROP_BUFSIZE, "%s" DELIMITER "%s" DELIMITER "%s" DELIMITER "\n",
-			ap_info->ssid, ap_info->security, ap_info->password);
-
+	snprintf(buf, WIFI_INTEROP_BUFSIZE, "%s" DELIMITER "%s" DELIMITER "%s" DELIMITER "\n", ap_info->ssid, ap_info->security, ap_info->password);
 
 	file_name = WIFI_INTEROP_PATH WIFI_INTEROP_FILENAME;
 
@@ -248,15 +240,14 @@ static int _wm_interop_save_ap_config(struct wt_options *ap_info)
 	return 0;
 }
 
-void  wm_interop_add_ap_config(void *arg)
+void wm_interop_add_ap_config(void *arg)
 {
 	WT_ENTER;
 
 	struct wt_options *ap_info = (struct wt_options *)arg;
 	int ret = -1;
 
-	WT_LOG(TAG, "ssid[%s] security[%s] password[%s]",
-			ap_info->ssid, ap_info->security, ap_info->password);
+	WT_LOG(TAG, "ssid[%s] security[%s] password[%s]", ap_info->ssid, ap_info->security, ap_info->password);
 
 	ret = _wm_interop_save_ap_config(ap_info);
 	if (ret < 0) {
@@ -267,7 +258,7 @@ void  wm_interop_add_ap_config(void *arg)
 	WT_LEAVE;
 }
 
-static void _build_ap_config(int idx, char *token, interop_ap_info_s *ap_info)
+static void _build_ap_config(int idx, char *token, interop_ap_info_s * ap_info)
 {
 	switch (idx) {
 	case SSID:
@@ -284,8 +275,7 @@ static void _build_ap_config(int idx, char *token, interop_ap_info_s *ap_info)
 			break;
 		}
 
-		if (ap_info->ap_config.ap_auth_type == WIFI_MANAGER_AUTH_OPEN
-			 || ap_info->ap_config.ap_auth_type == WIFI_MANAGER_AUTH_IBSS_OPEN) {
+		if (ap_info->ap_config.ap_auth_type == WIFI_MANAGER_AUTH_OPEN || ap_info->ap_config.ap_auth_type == WIFI_MANAGER_AUTH_IBSS_OPEN) {
 
 			ap_info->ap_config.ap_crypto_type = WIFI_MANAGER_CRYPTO_NONE;
 			memset(ap_info->ap_config.passphrase, 0, WIFIMGR_PASSPHRASE_LEN + 1);
@@ -323,7 +313,7 @@ static void _build_ap_config(int idx, char *token, interop_ap_info_s *ap_info)
 	}
 }
 
-static void _wifi_interop_parse_ap_config(char * buf, interop_ap_info_s *ap_info)
+static void _wifi_interop_parse_ap_config(char *buf, interop_ap_info_s * ap_info)
 {
 	char *token = NULL;
 	char *ap_buf = NULL;
@@ -332,7 +322,7 @@ static void _wifi_interop_parse_ap_config(char * buf, interop_ap_info_s *ap_info
 	int len = strlen(buf);
 
 	//remove the new line character '\n' from buf a,b,c,\n
-	ap_buf = strndup(buf, len-1);
+	ap_buf = strndup(buf, len - 1);
 
 	token = strtok(ap_buf, DELIMITER);
 
@@ -351,15 +341,15 @@ static void _wifi_interop_parse_ap_config(char * buf, interop_ap_info_s *ap_info
 	free(ap_buf);
 }
 
-int wifi_interop_read_file(interop_ap_config_list_s *ap_config_list, char *file_path)
+int wifi_interop_read_file(interop_ap_config_list_s * ap_config_list, char *file_path)
 {
 	FILE *fp;
-	char read_buf[WIFI_INTEROP_BUFSIZE] = {0,};
+	char read_buf[WIFI_INTEROP_BUFSIZE] = { 0, };
 	int ap_idx = 0;
 
 	WT_ENTER;
 
-	memset(read_buf, 0 , WIFI_INTEROP_BUFSIZE);
+	memset(read_buf, 0, WIFI_INTEROP_BUFSIZE);
 
 	fp = fopen(file_path, "r");
 	if (!fp) {
@@ -387,7 +377,7 @@ int wifi_interop_read_file(interop_ap_config_list_s *ap_config_list, char *file_
 	return 0;
 }
 
-static int _wm_interop_read_config(interop_ap_config_list_s *ap_config_list, char *path)
+static int _wm_interop_read_config(interop_ap_config_list_s * ap_config_list, char *path)
 {
 	int ret = 0;
 
@@ -436,8 +426,7 @@ static void _summary_result_on_console(void)
 
 	for (int i = 0; i < ap_count; i++) {
 		ap_info = g_apconfig_list.ap_info + i;
-		WT_LOG(TAG, "%-33s %-15s %-11d %-7d", ap_info->ap_config.ssid, ap_info->security,
-				ap_info->scan_result, ap_info->connect_result);
+		WT_LOG(TAG, "%-33s %-15s %-11d %-7d", ap_info->ap_config.ssid, ap_info->security, ap_info->scan_result, ap_info->connect_result);
 	}
 	WT_LOG(TAG, "====================================================================");
 }
@@ -486,15 +475,12 @@ static int _summary_result_on_file(void)
 		return -1;
 	}
 
-
 	ap_count = g_apconfig_list.ap_count;
 	for (int i = 0; i < ap_count; i++) {
 		ap_info = g_apconfig_list.ap_info + i;
 
 		memset(buf, 0, WIFI_INTEROP_BUFSIZE);
-		snprintf(buf, WIFI_INTEROP_BUFSIZE, "%-33s %-15s %-11d %-7d\n",
-				ap_info->ap_config.ssid, ap_info->security,
-				ap_info->scan_result, ap_info->connect_result);
+		snprintf(buf, WIFI_INTEROP_BUFSIZE, "%-33s %-15s %-11d %-7d\n", ap_info->ap_config.ssid, ap_info->security, ap_info->scan_result, ap_info->connect_result);
 		ret = fputs(buf, fp);
 		if (ret < 0) {
 			WT_LOGE(TAG, "file write error(%d)", errno);
@@ -526,7 +512,7 @@ static int _wm_interop_init(void)
 	res = wifi_manager_init(&g_wifi_callbacks);
 	if (res != WIFI_MANAGER_SUCCESS) {
 		WT_LOGE(TAG, "Failed to init wifi_manager");
-		return 1 ;
+		return 1;
 	}
 
 	WT_LEAVE;
@@ -558,7 +544,7 @@ static void _wm_interop_run_test(void *arg)
 	res = _wm_interop_read_config(&g_apconfig_list, interop_info->path);
 	if (res < 0) {
 		WT_LOGE(TAG, "read config failed");
-		return ;
+		return;
 	}
 
 	ap_count = g_apconfig_list.ap_count;
@@ -581,7 +567,6 @@ static void _wm_interop_run_test(void *arg)
 			WT_LOGE(TAG, "failed to get AP in scan SSID: %s", ap_info->ap_config.ssid);
 			continue;
 		}
-
 		//connect
 		WT_LOG(TAG, "Starting Connect AP [%s]", ap_info->ap_config.ssid);
 		_wm_interop_connect(&(ap_info->ap_config));
@@ -634,4 +619,3 @@ void wm_test_interop(void *arg)
 	sem_destroy(&g_wio_sem);
 	WT_LEAVE;
 }
-

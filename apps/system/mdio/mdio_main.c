@@ -130,7 +130,7 @@ int get_phy_id(void)
 	return phy_id;
 }
 
-int get_phy_reg(uint16_t phy_id, uint16_t reg_num, uint16_t *val)
+int get_phy_reg(uint16_t phy_id, uint16_t reg_num, uint16_t * val)
 {
 	int ret;
 	struct ifreq ifr;

@@ -48,11 +48,10 @@ static iot_status_t g_iot_status;
 static int noti_led_mode = LED_ANIMATION_MODE_IDLE;
 
 /* TODO: Need 'get_ctx' function (get ctx from cap_handle) */
-IOT_CTX* ctx = NULL;
-
+IOT_CTX *ctx = NULL;
 
 /* Send integer type capability to SmartThings Sever */
-static void send_capability_integer(IOT_CAP_HANDLE *handle, char *attribute_name, int value)
+static void send_capability_integer(IOT_CAP_HANDLE * handle, char *attribute_name, int value)
 {
 	IOT_EVENT *cap_evt;
 	uint8_t evt_num = 1;
@@ -68,7 +67,7 @@ static void send_capability_integer(IOT_CAP_HANDLE *handle, char *attribute_name
 	st_cap_attr_free(cap_evt);
 }
 
-static void send_color_capability(IOT_CAP_HANDLE *handle, double hue, double saturation)
+static void send_color_capability(IOT_CAP_HANDLE * handle, double hue, double saturation)
 {
 	IOT_EVENT *cap_evt[2];
 	uint8_t evt_num = 2;
@@ -114,7 +113,7 @@ static void change_switch_state(int32_t state)
 	}
 }
 
-static void send_switch_cap_evt(IOT_CAP_HANDLE *handle, int32_t state)
+static void send_switch_cap_evt(IOT_CAP_HANDLE * handle, int32_t state)
 {
 	IOT_EVENT *switch_evt;
 	uint8_t evt_num = 1;
@@ -137,7 +136,7 @@ static void send_switch_cap_evt(IOT_CAP_HANDLE *handle, int32_t state)
 	st_cap_attr_free(switch_evt);
 }
 
-static void button_event(IOT_CAP_HANDLE *handle, uint32_t type, uint32_t count)
+static void button_event(IOT_CAP_HANDLE * handle, uint32_t type, uint32_t count)
 {
 	if (type == BUTTON_SHORT_PRESS) {
 		SL_LOGI(TAG, "Button short press, count: %d\n", count);
@@ -166,7 +165,7 @@ static void button_event(IOT_CAP_HANDLE *handle, uint32_t type, uint32_t count)
 	} else if (type == BUTTON_LONG_PRESS) {
 		SL_LOGI(TAG, "Button long press, count: %d\n", count);
 		led_blink(GPIO_OUTPUT_NOTIFICATION_LED, 100, 3);
-		/* clean-up provisioning & registered data with reboot option*/
+		/* clean-up provisioning & registered data with reboot option */
 		st_conn_cleanup(ctx, true);
 	}
 }
@@ -194,26 +193,22 @@ static void iot_status_cb(iot_status_t status, iot_stat_lv_t stat_lv, void *usr_
 	}
 }
 
-void cap_color_init_cb(IOT_CAP_HANDLE *handle, void *usr_data)
+void cap_color_init_cb(IOT_CAP_HANDLE * handle, void *usr_data)
 {
 	send_color_capability(handle, smartlamp_color_hue, smartlamp_color_saturation);
 }
 
-void cap_color_cmd_cb(IOT_CAP_HANDLE *handle, iot_cap_cmd_data_t *cmd_data, void *usr_data)
+void cap_color_cmd_cb(IOT_CAP_HANDLE * handle, iot_cap_cmd_data_t * cmd_data, void *usr_data)
 {
 	int tmp_state;
-	SL_LOGI(TAG, "called [%s] func with : num_args:%u",
-		__func__, cmd_data->num_args);
+	SL_LOGI(TAG, "called [%s] func with : num_args:%u", __func__, cmd_data->num_args);
 
 	smartlamp_color_saturation = cmd_data->cmd_data[0].number;
 	smartlamp_color_hue = cmd_data->cmd_data[1].number;
 
-	update_rgb_from_hsl(smartlamp_color_hue, smartlamp_color_saturation, smartlamp_color_level,
-					&smartlamp_color_red, &smartlamp_color_green, &smartlamp_color_blue);
+	update_rgb_from_hsl(smartlamp_color_hue, smartlamp_color_saturation, smartlamp_color_level, &smartlamp_color_red, &smartlamp_color_green, &smartlamp_color_blue);
 
-	SL_LOGI(TAG, "HSL (%lf, %lf, %d), RGB (%d, %d, %d)",
-			smartlamp_color_hue, smartlamp_color_saturation, smartlamp_color_level,
-			smartlamp_color_red, smartlamp_color_green, smartlamp_color_blue);
+	SL_LOGI(TAG, "HSL (%lf, %lf, %d), RGB (%d, %d, %d)", smartlamp_color_hue, smartlamp_color_saturation, smartlamp_color_level, smartlamp_color_red, smartlamp_color_green, smartlamp_color_blue);
 
 	tmp_state = smartlamp_switch_state;
 	smartlamp_switch_state = SMARTLAMP_SWITCH_ON;
@@ -227,17 +222,16 @@ void cap_color_cmd_cb(IOT_CAP_HANDLE *handle, iot_cap_cmd_data_t *cmd_data, void
 	color_led_onoff(smartlamp_switch_state);
 }
 
-void cap_level_init_cb(IOT_CAP_HANDLE *handle, void *usr_data)
+void cap_level_init_cb(IOT_CAP_HANDLE * handle, void *usr_data)
 {
 	send_capability_integer(handle, "level", smartlamp_brightness_level);
 }
 
-void level_cmd_cb(IOT_CAP_HANDLE *handle, iot_cap_cmd_data_t *cmd_data, void *usr_data)
+void level_cmd_cb(IOT_CAP_HANDLE * handle, iot_cap_cmd_data_t * cmd_data, void *usr_data)
 {
 	int tmp_state;
 
-	SL_LOGI(TAG, "called [%s] func with : num_args:%u",
-		__func__, cmd_data->num_args);
+	SL_LOGI(TAG, "called [%s] func with : num_args:%u", __func__, cmd_data->num_args);
 	smartlamp_brightness_level = cmd_data->cmd_data[0].integer;
 
 	tmp_state = smartlamp_switch_state;
@@ -249,7 +243,7 @@ void level_cmd_cb(IOT_CAP_HANDLE *handle, iot_cap_cmd_data_t *cmd_data, void *us
 	smartlamp_switch_state = tmp_state;
 }
 
-void cap_switch_init_cb(IOT_CAP_HANDLE *handle, void *usr_data)
+void cap_switch_init_cb(IOT_CAP_HANDLE * handle, void *usr_data)
 {
 	IOT_EVENT *init_evt;
 	uint8_t evt_num = 1;
@@ -268,16 +262,13 @@ void cap_switch_init_cb(IOT_CAP_HANDLE *handle, void *usr_data)
 	st_cap_attr_free(init_evt);
 }
 
-
-
-void cap_switch_cmd_off_cb(IOT_CAP_HANDLE *handle, iot_cap_cmd_data_t *cmd_data, void *usr_data)
+void cap_switch_cmd_off_cb(IOT_CAP_HANDLE * handle, iot_cap_cmd_data_t * cmd_data, void *usr_data)
 {
 	IOT_EVENT *off_evt;
 	uint8_t evt_num = 1;
 	int32_t sequence_no;
 
-	SL_LOGI(TAG, "called [%s] func with : num_args:%u",
-		__func__, cmd_data->num_args);
+	SL_LOGI(TAG, "called [%s] func with : num_args:%u", __func__, cmd_data->num_args);
 
 	change_switch_state(SMARTLAMP_SWITCH_OFF);
 
@@ -294,15 +285,13 @@ void cap_switch_cmd_off_cb(IOT_CAP_HANDLE *handle, iot_cap_cmd_data_t *cmd_data,
 	st_cap_attr_free(off_evt);
 }
 
-
-void cap_switch_cmd_on_cb(IOT_CAP_HANDLE *handle, iot_cap_cmd_data_t *cmd_data, void *usr_data)
+void cap_switch_cmd_on_cb(IOT_CAP_HANDLE * handle, iot_cap_cmd_data_t * cmd_data, void *usr_data)
 {
 	IOT_EVENT *on_evt;
 	uint8_t evt_num = 1;
 	int32_t sequence_no;
 
-	SL_LOGI(TAG, "called [%s] func with : num_args:%u",
-		__func__, cmd_data->num_args);
+	SL_LOGI(TAG, "called [%s] func with : num_args:%u", __func__, cmd_data->num_args);
 
 	change_switch_state(SMARTLAMP_SWITCH_ON);
 
@@ -319,21 +308,20 @@ void cap_switch_cmd_on_cb(IOT_CAP_HANDLE *handle, iot_cap_cmd_data_t *cmd_data, 
 	st_cap_attr_free(on_evt);
 }
 
-void cap_switch_noti_cb(iot_noti_data_t *noti_data, void *noti_usr_data)
+void cap_switch_noti_cb(iot_noti_data_t * noti_data, void *noti_usr_data)
 {
 	SL_LOGI(TAG, "Notification message received");
 
 	if (noti_data->type == IOT_NOTI_TYPE_DEV_DELETED) {
 		SL_LOGI(TAG, "[device deleted]");
 	} else if (noti_data->type == IOT_NOTI_TYPE_RATE_LIMIT) {
-		SL_LOGI(TAG, "[rate limit] Remaining time:%d, sequence number:%d",
-			noti_data->raw.rate_limit.remainingTime, noti_data->raw.rate_limit.sequenceNumber);
+		SL_LOGI(TAG, "[rate limit] Remaining time:%d, sequence number:%d", noti_data->raw.rate_limit.remainingTime, noti_data->raw.rate_limit.sequenceNumber);
 	}
 }
 
 static void smartlamp_task(void *arg)
 {
-	IOT_CAP_HANDLE *handle = (IOT_CAP_HANDLE *)arg;
+	IOT_CAP_HANDLE *handle = (IOT_CAP_HANDLE *) arg;
 
 	int button_event_type;
 	int button_event_count;
@@ -379,12 +367,11 @@ void smart_lamp_main(void)
 	  5. st_conn_start();
 	 */
 
-//	IOT_CTX* ctx = NULL;
-	IOT_CAP_HANDLE* switch_handle = NULL;
-	IOT_CAP_HANDLE* color_handle = NULL;
-	IOT_CAP_HANDLE* level_handle = NULL;
+//  IOT_CTX* ctx = NULL;
+	IOT_CAP_HANDLE *switch_handle = NULL;
+	IOT_CAP_HANDLE *color_handle = NULL;
+	IOT_CAP_HANDLE *level_handle = NULL;
 	int iot_err;
-
 
 #ifdef SS_VER
 	SL_LOGI(TAG, "SS version:%s(%06x)", SS_VER, STDK_VERSION_CODE);
@@ -397,14 +384,14 @@ void smart_lamp_main(void)
 		if (iot_err)
 			SL_LOGE(TAG, "fail to set notification callback function");
 
-	// 2. create a handle to process capability
-	//	implement init_callback function
+		// 2. create a handle to process capability
+		//  implement init_callback function
 		switch_handle = st_cap_handle_init(ctx, "main", "switch", cap_switch_init_cb, NULL);
 		color_handle = st_cap_handle_init(ctx, "main", "colorControl", cap_color_init_cb, NULL);
 		level_handle = st_cap_handle_init(ctx, "main", "switchLevel", cap_level_init_cb, NULL);
 
-	// 3. register a callback function to process capability command when it comes from the SmartThings Server
-	//	implement callback function
+		// 3. register a callback function to process capability command when it comes from the SmartThings Server
+		//  implement callback function
 		iot_err = st_cap_cmd_set_cb(switch_handle, "off", cap_switch_cmd_off_cb, NULL);
 		if (iot_err)
 			SL_LOGE(TAG, "fail to set cmd_cb for off");
@@ -424,18 +411,15 @@ void smart_lamp_main(void)
 
 	gpio_init();
 
-	update_rgb_from_hsl(smartlamp_color_hue, smartlamp_color_saturation, smartlamp_color_level,
-			&smartlamp_color_red, &smartlamp_color_green, &smartlamp_color_blue);
+	update_rgb_from_hsl(smartlamp_color_hue, smartlamp_color_saturation, smartlamp_color_level, &smartlamp_color_red, &smartlamp_color_green, &smartlamp_color_blue);
 
-	SL_LOGI(TAG, "HSL (%lf, %lf, %d), RGB (%d, %d, %d)",
-			smartlamp_color_hue, smartlamp_color_saturation, smartlamp_color_level,
-			smartlamp_color_red, smartlamp_color_green, smartlamp_color_blue);
+	SL_LOGI(TAG, "HSL (%lf, %lf, %d), RGB (%d, %d, %d)", smartlamp_color_hue, smartlamp_color_saturation, smartlamp_color_level, smartlamp_color_red, smartlamp_color_green, smartlamp_color_blue);
 	color_led_onoff(smartlamp_switch_state);
 
 	// 4. needed when it is necessary to keep monitoring the device status
 	iot_os_thread_create(smartlamp_task, "smartlamp_task", 2048, (void *)switch_handle, 100, NULL);
 
 	// 5. process on-boarding procedure. There is nothing more to do on the app side than call the API.
-	st_conn_start(ctx, (st_status_cb)&iot_status_cb, IOT_STATUS_ALL, NULL, NULL);
+	st_conn_start(ctx, (st_status_cb) & iot_status_cb, IOT_STATUS_ALL, NULL, NULL);
 
 }

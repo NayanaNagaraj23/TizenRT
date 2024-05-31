@@ -32,9 +32,8 @@ extern "C" {
  * A service is started for the model set. After this application will start receiving callback data collection callback.
  * @return: -1 indicated error. 0 indicates success
 */
-int aifw_test_main(int argc, char *argv[]);
+	int aifw_test_main(int argc, char *argv[]);
 
 #ifdef __cplusplus
 }
 #endif
-

@@ -21,17 +21,15 @@
 #include "aifw/AIModel.h"
 #include "aifw/AIInferenceHandler.h"
 
-class SineWaveInferenceHandler : public aifw::AIInferenceHandler
-{
-public:
+class SineWaveInferenceHandler:public aifw::AIInferenceHandler {
+ public:
 	SineWaveInferenceHandler(InferenceResultListener listener);
 	~SineWaveInferenceHandler();
 
 	AIFW_RESULT onInferenceFinished(uint16_t idx, void *finalResult);
 	AIFW_RESULT prepare(void);
 
-private:
-	std::shared_ptr<aifw::AIModel> mSWModel;
+ private:
+	std::shared_ptr < aifw::AIModel > mSWModel;
 	float *mPostProcessedData;
 };
-

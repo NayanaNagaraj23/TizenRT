@@ -222,13 +222,7 @@ static int set_baudrate(int fd, int rate, enum parity_mode parity, int rtscts)
 
 static void print_help(void)
 {
-	printf("Usage: cu [options]\n"
-				" -l: Use named device (default %s)\n"
-				" -e: Set even parity\n" " -o: Set odd parity\n"
-				" -s: Use given speed (default %d)\n"
-				" -r: Disable RTS/CTS flow control (default: on)\n"
-				" -?: This help\n",
-				CONFIG_SYSTEM_CUTERM_DEFAULT_DEVICE, CONFIG_SYSTEM_CUTERM_DEFAULT_BAUD);
+	printf("Usage: cu [options]\n" " -l: Use named device (default %s)\n" " -e: Set even parity\n" " -o: Set odd parity\n" " -s: Use given speed (default %d)\n" " -r: Disable RTS/CTS flow control (default: on)\n" " -?: This help\n", CONFIG_SYSTEM_CUTERM_DEFAULT_DEVICE, CONFIG_SYSTEM_CUTERM_DEFAULT_BAUD);
 }
 
 static void print_escape_help(void)
@@ -354,7 +348,7 @@ int cu_main(int argc, FAR char *argv[])
 		goto errout_with_fds;
 	}
 
-	ret = pthread_create(&g_cu.listener, &attr, cu_listener, (pthread_addr_t)0);
+	ret = pthread_create(&g_cu.listener, &attr, cu_listener, (pthread_addr_t) 0);
 	if (ret != 0) {
 		fprintf(stderr, "cu_main: Error in thread creation: %d\n", ret);
 		goto errout_with_fds;
@@ -407,10 +401,10 @@ int cu_main(int argc, FAR char *argv[])
 
 	/* Error exits */
 
-errout_with_fds:
+ errout_with_fds:
 	close(g_cu.infd);
-errout_with_outfd:
+ errout_with_outfd:
 	close(g_cu.outfd);
-errout_with_devinit:
+ errout_with_devinit:
 	return exitval;
 }

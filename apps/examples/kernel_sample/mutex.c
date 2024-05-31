@@ -57,33 +57,30 @@
 #include "kernel_sample.h"
 
 #ifndef NULL
-# define NULL (void*)0
+#define NULL (void*)0
 #endif
 
 #define NLOOPS 32
 
 static pthread_mutex_t mut;
 static volatile int my_mutex = 0;
-static unsigned long nloops[2] = {0, 0};
-static unsigned long nerrors[2] = {0, 0};
+static unsigned long nloops[2] = { 0, 0 };
+static unsigned long nerrors[2] = { 0, 0 };
 
 static void *thread_func(void *parameter)
 {
-	int id  = (int)parameter;
+	int id = (int)parameter;
 	int ndx = id - 1;
 	int i;
 
 	for (nloops[ndx] = 0; nloops[ndx] < NLOOPS; nloops[ndx]++) {
 		int status = pthread_mutex_lock(&mut);
 		if (status != 0) {
-			printf("ERROR thread %d: pthread_mutex_lock failed, status=%d\n",
-				   id, status);
+			printf("ERROR thread %d: pthread_mutex_lock failed, status=%d\n", id, status);
 		}
 
 		if (my_mutex == 1) {
-			printf("ERROR thread=%d: "
-				   "my_mutex should be zero, instead my_mutex=%d\n",
-				   id, my_mutex);
+			printf("ERROR thread=%d: " "my_mutex should be zero, instead my_mutex=%d\n", id, my_mutex);
 			nerrors[ndx]++;
 		}
 
@@ -95,12 +92,11 @@ static void *thread_func(void *parameter)
 
 		status = pthread_mutex_unlock(&mut);
 		if (status != 0) {
-			printf("ERROR thread %d: pthread_mutex_unlock failed, status=%d\n",
-				   id, status);
+			printf("ERROR thread %d: pthread_mutex_unlock failed, status=%d\n", id, status);
 		}
 	}
 	pthread_exit(NULL);
-	return NULL; /* Non-reachable -- needed for some compilers */
+	return NULL;				/* Non-reachable -- needed for some compilers */
 }
 
 void mutex_test(void)
@@ -122,9 +118,9 @@ void mutex_test(void)
 	printf("Starting thread 1\n");
 #ifdef SDCC
 	(void)pthread_attr_init(&attr);
-	status = pthread_create(&thread1, &attr, thread_func, (pthread_addr_t)1);
+	status = pthread_create(&thread1, &attr, thread_func, (pthread_addr_t) 1);
 #else
-	status = pthread_create(&thread1, NULL, thread_func, (pthread_addr_t)1);
+	status = pthread_create(&thread1, NULL, thread_func, (pthread_addr_t) 1);
 #endif
 	if (status != 0) {
 		printf("Error in thread#1 creation\n");
@@ -132,14 +128,13 @@ void mutex_test(void)
 
 	printf("Starting thread 2\n");
 #ifdef SDCC
-	status = pthread_create(&thread2, &attr, thread_func, (pthread_addr_t)2);
+	status = pthread_create(&thread2, &attr, thread_func, (pthread_addr_t) 2);
 #else
-	status = pthread_create(&thread2, NULL, thread_func, (pthread_addr_t)2);
+	status = pthread_create(&thread2, NULL, thread_func, (pthread_addr_t) 2);
 #endif
 	if (status != 0) {
 		printf("Error in thread#2 creation\n");
 	}
-
 #ifdef SDCC
 	pthread_join(thread1, &result1);
 	pthread_join(thread2, &result2);

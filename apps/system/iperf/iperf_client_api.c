@@ -480,8 +480,8 @@ int iperf_run_client(struct iperf_test *test)
 			//clear write_set for preventing infinite loop
 			SLIST_FOREACH(sp, &test->streams, streams)
 				if (FD_ISSET(sp->socket, &test->write_set)) {
-					FD_CLR(sp->socket, &test->write_set);
-				}
+				FD_CLR(sp->socket, &test->write_set);
+			}
 		}
 	}
 

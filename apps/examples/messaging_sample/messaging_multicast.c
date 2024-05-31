@@ -70,7 +70,7 @@
 
 extern int fail_cnt;
 
-static void multi_recv_callback(msg_reply_type_t msg_type, msg_recv_buf_t *recv_data, void *cb_data)
+static void multi_recv_callback(msg_reply_type_t msg_type, msg_recv_buf_t * recv_data, void *cb_data)
 {
 	if (recv_data == NULL) {
 		fail_cnt++;
@@ -134,7 +134,7 @@ static int multi_recv_block(int argc, FAR char *argv[])
 
 	printf("Success to receive multicast message [%s], receiver pid : %d\n", msg.buf, getpid());
 	free(msg.buf);
-	
+
 	return OK;
 }
 

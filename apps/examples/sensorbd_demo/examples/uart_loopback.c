@@ -71,7 +71,6 @@ void uartloopback_main(int argc, char *argv[])
 			if (write(fd, buf_tx, 5) < 0) {
 				ret = 1;
 			}
-
 			// rx
 			char buf_rx[255] = { 0, };
 			struct timeval tv;

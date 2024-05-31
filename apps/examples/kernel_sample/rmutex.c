@@ -57,7 +57,7 @@
 #include "kernel_sample.h"
 
 #ifndef NULL
-# define NULL (void*)0
+#define NULL (void*)0
 #endif
 
 #define NTHREADS    3
@@ -75,8 +75,7 @@ static void thread_inner(int id, int level)
 		printf("thread_inner[%d, %d]: Locking\n", id, level);
 		status = pthread_mutex_lock(&mut);
 		if (status != 0) {
-			printf("thread_inner[%d, %d]: ERROR pthread_mutex_lock failed: %d\n",
-				   id, level, status);
+			printf("thread_inner[%d, %d]: ERROR pthread_mutex_lock failed: %d\n", id, level, status);
 		}
 		printf("thread_inner[%d, %d]: Locked\n", id, level);
 
@@ -91,8 +90,7 @@ static void thread_inner(int id, int level)
 		printf("thread_inner[%d, %d]: Unlocking\n", id, level);
 		status = pthread_mutex_unlock(&mut);
 		if (status != 0) {
-			printf("thread_inner[%d, %d]: ERROR pthread_mutex_unlock failed: %d\n",
-				   id, level, status);
+			printf("thread_inner[%d, %d]: ERROR pthread_mutex_unlock failed: %d\n", id, level, status);
 		}
 		printf("thread_inner[%d, %d]: Unlocked\n", id, level);
 		pthread_yield();
@@ -109,7 +107,7 @@ static void *thread_outer(void *parameter)
 	}
 	printf("thread_outer[%d]: Exitting\n", (int)parameter);
 	pthread_exit(NULL);
-	return NULL; /* Non-reachable -- needed for some compilers */
+	return NULL;				/* Non-reachable -- needed for some compilers */
 }
 
 void recursive_mutex_test(void)
@@ -151,9 +149,9 @@ void recursive_mutex_test(void)
 		printf("recursive_mutex_test: Starting thread %d\n", i + 1);
 #ifdef SDCC
 		(void)pthread_attr_init(&attr);
-		status = pthread_create(&thread[i], &attr, thread_outer, (pthread_addr_t)i + 1);
+		status = pthread_create(&thread[i], &attr, thread_outer, (pthread_addr_t) i + 1);
 #else
-		status = pthread_create(&thread[i], NULL, thread_outer, (pthread_addr_t)i + 1);
+		status = pthread_create(&thread[i], NULL, thread_outer, (pthread_addr_t) i + 1);
 #endif
 		if (status != 0) {
 			printf("recursive_mutex_test: ERRROR thread#%d creation: %d\n", i + 1, status);

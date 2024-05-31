@@ -121,10 +121,9 @@ typedef struct {
 	int addressFamily;
 	connection_t *connP;
 #ifdef WITH_MBEDTLS
-	tls_ctx	 *tls_context;
+	tls_ctx *tls_context;
 	tls_opt *tls_opt;
 #endif
 } client_data_t;
 
-
-#endif  /* __LWM2M_CLIENT_MAIN */
+#endif							/* __LWM2M_CLIENT_MAIN */

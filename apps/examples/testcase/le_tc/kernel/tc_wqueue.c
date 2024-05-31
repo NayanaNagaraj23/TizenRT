@@ -48,22 +48,23 @@ static void wq_test1(void *arg)
 {
 	clock_t cur_time = 0;
 	cur_time = clock();
-	printf("workqueue_test 1 : test 1 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t)arg, (uint64_t)cur_time - (uint64_t)start_time);
+	printf("workqueue_test 1 : test 1 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t) arg, (uint64_t) cur_time - (uint64_t) start_time);
 }
 
 static void wq_test2(void *arg)
 {
 	clock_t cur_time = 0;
 	cur_time = clock();
-	printf("workqueue_test 2 : test 2 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t)arg, (uint64_t)cur_time - (uint64_t)start_time);
+	printf("workqueue_test 2 : test 2 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t) arg, (uint64_t) cur_time - (uint64_t) start_time);
 }
 
 static void wq_test3(void *arg)
 {
 	clock_t cur_time = 0;
 	cur_time = clock();
-	printf("workqueue_test 3 : test 3 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t)arg, (uint64_t)cur_time - (uint64_t)start_time);
+	printf("workqueue_test 3 : test 3 requested delay is (%u) ticks, executed delay is (%llu) ticks.\n", (uint32_t) arg, (uint64_t) cur_time - (uint64_t) start_time);
 }
+
 /**************************************************************************
 * Public Functions
 **************************************************************************/
@@ -101,7 +102,7 @@ static void tc_wqueue_work_queue_cancel_pos(void)
 
 	sleep(1);
 
-cleanup:
+ cleanup:
 	free(test_work1);
 	free(test_work2);
 	free(test_work3);

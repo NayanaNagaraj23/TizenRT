@@ -34,7 +34,7 @@
 #define WU_INTF_NAME "wlan0"
 #define TAG "[WT]"
 
-static inline int _send_msg(lwnl_msg *msg)
+static inline int _send_msg(lwnl_msg * msg)
 {
 	int fd = socket(AF_LWNL, SOCK_RAW, LWNL_ROUTE);
 	if (fd < 0) {
@@ -53,12 +53,13 @@ static inline int _send_msg(lwnl_msg *msg)
 
 int control_mock(int cmd, int key, int value, int wait)
 {
-	vwifi_ioctl_msg_s vmsg = {key, value, wait};
-	trwifi_msg_s dmsg = {cmd, (void *)&vmsg};
+	vwifi_ioctl_msg_s vmsg = { key, value, wait };
+	trwifi_msg_s dmsg = { cmd, (void *)&vmsg };
 
 	trwifi_result_e res = TRWIFI_SUCCESS;
-	lwnl_msg msg = {WU_INTF_NAME, {LWNL_REQ_WIFI_IOCTL},
-					sizeof(trwifi_msg_s), (void *)&dmsg, (void *)&res};
+	lwnl_msg msg = { WU_INTF_NAME, {LWNL_REQ_WIFI_IOCTL},
+	sizeof(trwifi_msg_s), (void *)&dmsg, (void *)&res
+	};
 	if (_send_msg(&msg) < 0) {
 		return -1;
 	}

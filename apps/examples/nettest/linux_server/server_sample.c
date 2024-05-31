@@ -63,9 +63,9 @@ static void server_app(void)
 	}
 
 	/*
-	 *	 * Enable SO_REUSEADDR to allow multiple instances of this
-	 *		 * application to receive copies of the multicast datagrams.
-	 *			 */
+	 *   * Enable SO_REUSEADDR to allow multiple instances of this
+	 *       * application to receive copies of the multicast datagrams.
+	 *           */
 
 	int reuse = 1;
 	ret = setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, (char *)&reuse, sizeof(reuse));
@@ -128,13 +128,13 @@ static void server_app(void)
 				while (send_sum < BUF_SIZE) {
 					sret = send(connfd, sbuf + send_sum, sbuf_size - send_sum, 0);
 					if (sret < 0 || sret != sbuf_size) {
-						printf("[TCPSERV] send #%d error ret(%d) err(%d)\n", i+1, sret, errno);
+						printf("[TCPSERV] send #%d error ret(%d) err(%d)\n", i + 1, sret, errno);
 						close(connfd);
 						goto out_with_socket;
 					}
 					send_sum += sret;
 				}
-				printf("[TCPSERV] send #%d  %d bytes\n", i+1, send_sum);
+				printf("[TCPSERV] send #%d  %d bytes\n", i + 1, send_sum);
 			}
 		}
 	}
@@ -144,7 +144,7 @@ static void server_app(void)
 	}
 	printf("[TCPSERV] Closed listenfd successfully \n");
 
-out_with_socket:
+ out_with_socket:
 	close(listenfd);
 	return;
 }

@@ -36,7 +36,7 @@ static security_handle g_hnd = NULL;
  */
 static void utc_ss_read_secure_storage_p(void)
 {
-	security_data data = {NULL, 0};
+	security_data data = { NULL, 0 };
 	security_error res = ss_read_secure_storage(g_hnd, UTC_CRYPTO_KEY_NAME, 0, &data);
 
 	TC_ASSERT_EQ("ss_read_secure_storage_p", res, SECURITY_OK);
@@ -53,7 +53,7 @@ static void utc_ss_read_secure_storage_p(void)
  */
 static void utc_ss_read_secure_storage_hnd_n(void)
 {
-	security_data data = {NULL, 0};
+	security_data data = { NULL, 0 };
 	security_error res = ss_read_secure_storage(NULL, UTC_CRYPTO_KEY_NAME, 0, &data);
 
 	TC_ASSERT_EQ("ss_read_secure_storage_hnd_n", res, SECURITY_INVALID_INPUT_PARAMS);
@@ -70,7 +70,7 @@ static void utc_ss_read_secure_storage_hnd_n(void)
  */
 static void utc_ss_read_secure_storage_name_n(void)
 {
-	security_data data = {NULL, 0};
+	security_data data = { NULL, 0 };
 	security_error res = ss_read_secure_storage(g_hnd, NULL, 0, &data);
 
 	TC_ASSERT_EQ("ss_read_secure_storage_name_n", res, SECURITY_INVALID_KEY_INDEX);

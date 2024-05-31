@@ -134,7 +134,7 @@ static void tc_libc_timer_gmtime_pos(void)
 	time_t time2;
 
 	ret_chk = time(&time1);
-	TC_ASSERT_NEQ("time", ret_chk, (time_t)ERROR);
+	TC_ASSERT_NEQ("time", ret_chk, (time_t) ERROR);
 
 	st_rettime = gmtime(&time1);
 	TC_ASSERT_NEQ("gmtime", st_rettime, NULL);
@@ -147,7 +147,7 @@ static void tc_libc_timer_gmtime_pos(void)
 	sleep(SEC_5);
 
 	ret_chk = time(&time2);
-	TC_ASSERT_NEQ("time", ret_chk, (time_t)ERROR);
+	TC_ASSERT_NEQ("time", ret_chk, (time_t) ERROR);
 
 	/* verifying the returned structure's parameter, year should not be negative, month range is 0-11 */
 
@@ -464,11 +464,11 @@ static void tc_libc_timer_strptime_pos(void)
 	struct tm sf_tm;
 	char *ret;
 
-	sf_tm.tm_sec  = 13;
-	sf_tm.tm_min  = 42;
+	sf_tm.tm_sec = 13;
+	sf_tm.tm_min = 42;
 	sf_tm.tm_hour = 12;
 	sf_tm.tm_mday = 5;
-	sf_tm.tm_mon  = 5;
+	sf_tm.tm_mon = 5;
 	sf_tm.tm_year = 2018 - TM_YEAR_BASE;
 
 	/* %b or %B or %h - The month name according to the current locale, in abbreviated form or the full name. */
@@ -486,7 +486,7 @@ static void tc_libc_timer_strptime_pos(void)
 	ret = strptime("Fail", "%C", &sp_tm);
 	TC_ASSERT_EQ("strptime", ret, NULL);
 
-	/* %D - Equivalent	to %m/%d/%y(month/day/year). */
+	/* %D - Equivalent  to %m/%d/%y(month/day/year). */
 	ret = strptime("Fail/05/18", "%D", &sp_tm);
 	TC_ASSERT_EQ("strptime", ret, NULL);
 
@@ -643,7 +643,6 @@ static void tc_libc_timer_strptime_pos(void)
 	TC_ASSERT_EQ("strptime", sp_tm.tm_min, sf_tm.tm_min);
 	TC_ASSERT_EQ("strptime", sp_tm.tm_sec, sf_tm.tm_sec);
 
-
 	/* %r - The 12-hour clock time (using the locale's AM or PM).
 	 * In the POSIX locale equivalent to %I:%M:%S %p.
 	 */
@@ -654,8 +653,7 @@ static void tc_libc_timer_strptime_pos(void)
 	TC_ASSERT_EQ("strptime", sp_tm.tm_min, sf_tm.tm_min);
 	TC_ASSERT_EQ("strptime", sp_tm.tm_sec, sf_tm.tm_sec);
 
-
-	/* Tuesday (0-6: day of the week, week starts on Sunday)*/
+	/* Tuesday (0-6: day of the week, week starts on Sunday) */
 	sf_tm.tm_wday = 2;
 	memset(&sp_tm, 0, sizeof(struct tm));
 	/* %a or %A - The weekday name according to the current locale,
@@ -703,7 +701,7 @@ static void tc_libc_timer_time_pos(void)
 	struct tm st_gmtime;
 
 	ret_time = time(&get_time);
-	TC_ASSERT_NEQ("time", ret_time, (time_t)ERROR);
+	TC_ASSERT_NEQ("time", ret_time, (time_t) ERROR);
 
 	/* get time through gmtime_r, localtime_r */
 
@@ -737,7 +735,7 @@ static void tc_libc_timer_clock_daysbeforemonth_pos(void)
 	for (month_iter = 1; month_iter < 12; month_iter++) {
 		prev_month = clock_daysbeforemonth(month_iter - 1, FALSE);
 		cur_month = clock_daysbeforemonth(month_iter, FALSE);
-		TC_ASSERT_EQ("clock_daysbeforemonth", cur_month-prev_month, notleapyear_days[month_iter]);
+		TC_ASSERT_EQ("clock_daysbeforemonth", cur_month - prev_month, notleapyear_days[month_iter]);
 	}
 
 	/* test with leapyear */
@@ -745,7 +743,7 @@ static void tc_libc_timer_clock_daysbeforemonth_pos(void)
 	for (month_iter = 1; month_iter < 12; month_iter++) {
 		prev_month = clock_daysbeforemonth(month_iter - 1, TRUE);
 		cur_month = clock_daysbeforemonth(month_iter, TRUE);
-		TC_ASSERT_EQ("clock_daysbeforemonth", cur_month-prev_month, leapyear_days[month_iter]);
+		TC_ASSERT_EQ("clock_daysbeforemonth", cur_month - prev_month, leapyear_days[month_iter]);
 	}
 
 	TC_SUCCESS_RESULT();

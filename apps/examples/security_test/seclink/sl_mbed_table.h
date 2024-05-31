@@ -16,4 +16,4 @@
  *
  ****************************************************************************/
 SL_MBED_TEST_POOL("aes", SL_MBED_TYPE_AES, sl_handle_mbed_aes)
-SL_MBED_TEST_POOL("ecdsa", SL_MBED_TYPE_ECDSA, sl_handle_mbed_ecdsa)
+	SL_MBED_TEST_POOL("ecdsa", SL_MBED_TYPE_ECDSA, sl_handle_mbed_ecdsa)

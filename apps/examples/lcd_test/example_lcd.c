@@ -101,7 +101,7 @@ static void putarea(int x1, int x2, int y1, int y2, int color)
 	}
 
 	area.data = spi_data_big;
-	ioctl(fd, LCDDEVIO_PUTAREA, (unsigned long)(uintptr_t)&area);
+	ioctl(fd, LCDDEVIO_PUTAREA, (unsigned long)(uintptr_t) & area);
 	close(fd);
 	free(spi_data_big);
 }
@@ -119,7 +119,7 @@ static void test_put_area(void)
 		return -1;
 	}
 	struct fb_videoinfo_s vinfo;
-	ioctl(fd, LCDDEVIO_GETVIDEOINFO, (unsigned long)(uintptr_t)&vinfo);
+	ioctl(fd, LCDDEVIO_GETVIDEOINFO, (unsigned long)(uintptr_t) & vinfo);
 	xres = vinfo.xres;
 	yres = vinfo.yres;
 	printf("xres : %d, yres:%d\n", xres, yres);
@@ -154,7 +154,7 @@ static void test_put_run(void)
 		spi_data[i + 1] = WHITE & 0X00FF;
 		spi_data[i] = (WHITE & 0xFF00) >> 8;
 	}
-	ioctl(fd, LCDDEVIO_PUTRUN, (unsigned long)(uintptr_t)&run);
+	ioctl(fd, LCDDEVIO_PUTRUN, (unsigned long)(uintptr_t) & run);
 	close(fd);
 }
 
@@ -170,7 +170,7 @@ static void test_clear(void)
 		return -1;
 	}
 	struct fb_videoinfo_s vinfo;
-	ioctl(fd, LCDDEVIO_GETVIDEOINFO, (unsigned long)(uintptr_t)&vinfo);
+	ioctl(fd, LCDDEVIO_GETVIDEOINFO, (unsigned long)(uintptr_t) & vinfo);
 	xres = vinfo.xres;
 	yres = vinfo.yres;
 	close(fd);
@@ -210,27 +210,27 @@ static void test_orientation(void)
 
 	sleep(1);
 	/* resolution should be swapped now as orientation is changed */
-	#if defined(CONFIG_LCD_PORTRAIT) || defined(CONFIG_LCD_RPORTRAIT)
-		putarea(0, xres - 1, 0, yres - 1, RED);
-	#else
-		putarea(0, yres - 1, 0, xres - 1, RED);
-	#endif
+#if defined(CONFIG_LCD_PORTRAIT) || defined(CONFIG_LCD_RPORTRAIT)
+	putarea(0, xres - 1, 0, yres - 1, RED);
+#else
+	putarea(0, yres - 1, 0, xres - 1, RED);
+#endif
 	/* fill square with side  = OFFSET */
 	putarea(0, OFFSET, 0, OFFSET, WHITE);
 
 	sleep(1);
 	/* resetting original orientation - the one defined in config */
-	#if defined(CONFIG_LCD_PORTRAIT)
-		ioctl(fd, LCDDEVIO_SETORIENTATION, LCD_PORTRAIT);
-	#elif defined(CONFIG_LCD_LANDSCAPE)
-		ioctl(fd, LCDDEVIO_SETORIENTATION, LCD_LANDSCAPE);
-	#elif defined(CONFIG_LCD_RLANDSCAPE)
-		ioctl(fd, LCDDEVIO_SETORIENTATION, LCD_RLANDSCAPE);
-	#elif defined(CONFIG_LCD_RPORTRAIT)
-		ioctl(fd, LCDDEVIO_SETORIENTATION, LCD_RPORTRAIT);
-	#else
-		ioctl(fd, LCDDEVIO_SETORIENTATION, LCD_LANDSCAPE);
-	#endif
+#if defined(CONFIG_LCD_PORTRAIT)
+	ioctl(fd, LCDDEVIO_SETORIENTATION, LCD_PORTRAIT);
+#elif defined(CONFIG_LCD_LANDSCAPE)
+	ioctl(fd, LCDDEVIO_SETORIENTATION, LCD_LANDSCAPE);
+#elif defined(CONFIG_LCD_RLANDSCAPE)
+	ioctl(fd, LCDDEVIO_SETORIENTATION, LCD_RLANDSCAPE);
+#elif defined(CONFIG_LCD_RPORTRAIT)
+	ioctl(fd, LCDDEVIO_SETORIENTATION, LCD_RPORTRAIT);
+#else
+	ioctl(fd, LCDDEVIO_SETORIENTATION, LCD_LANDSCAPE);
+#endif
 	close(fd);
 }
 

@@ -131,6 +131,7 @@ static wifi_manager_cb_s wifi_callbacks = {
 	prv_softap_sta_leave,
 	prv_scan_done,
 };
+
 /*
  * Error Reporting Functions
  */
@@ -183,7 +184,7 @@ static void error_report_single(const char *endpoint)
 	}
 	/* Wait for DHCP connection */
 	ERR_REPORT_TEST_WAIT;
-done:
+ done:
 	/* Send error report for the bad AP connection */
 	nbytes_read = error_report_data_read(readbuf);
 	if (nbytes_read > 0) {
@@ -251,7 +252,7 @@ static void error_report_multiple(const char *endpoint)
 	}
 	/* Wait for DHCP connection */
 	ERR_REPORT_TEST_WAIT;
-done:
+ done:
 	/* Send error report for the bad AP connection */
 	nbytes_read = error_report_data_read(readbuf);
 	if (nbytes_read > 0) {
@@ -315,14 +316,10 @@ void error_report_process(int argc, char *argv[])
 
 		if (nbytes_read > 0) {
 			unsigned i;
-			error_data_t *readptr = (error_data_t *)readbuf;
-			int nentries = nbytes_read/sizeof(error_data_t);
+			error_data_t *readptr = (error_data_t *) readbuf;
+			int nentries = nbytes_read / sizeof(error_data_t);
 			for (i = 0; i < nentries; i++) {
-				printf("| %lu.%06lu | %04x | %d | %d | %04x |\n",
-						readptr->timestamp.tv_sec,
-						readptr->timestamp.tv_usec,
-						readptr->pc_value, readptr->module_id,
-						readptr->error_code, readptr->task_addr);
+				printf("| %lu.%06lu | %04x | %d | %d | %04x |\n", readptr->timestamp.tv_sec, readptr->timestamp.tv_usec, readptr->pc_value, readptr->module_id, readptr->error_code, readptr->task_addr);
 				readptr++;
 			}
 		}

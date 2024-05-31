@@ -95,7 +95,7 @@ char *rr_generate_message(int *data, int size)
 		RR_ERR;
 	}
 
-cleanup:
+ cleanup:
 	cJSON_Delete(rssi);
 
 	return string;

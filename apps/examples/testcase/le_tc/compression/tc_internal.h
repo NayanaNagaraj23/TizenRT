@@ -27,4 +27,4 @@
 **********************************************************/
 int tc_comrpess_main(void);
 
-#endif /* __EXAMPLES_TESTCASE_COMPRESSION_TC_INTERNAL_H */
+#endif							/* __EXAMPLES_TESTCASE_COMPRESSION_TC_INTERNAL_H */

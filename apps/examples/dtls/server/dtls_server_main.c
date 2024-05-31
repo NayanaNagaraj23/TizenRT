@@ -102,8 +102,8 @@ static void my_debug(void *ctx, int level, const char *file, int line, const cha
 {
 	((void)level);
 
-	mbedtls_fprintf((FILE *)ctx, "%s:%04d: %s", file, line, str);
-	fflush((FILE *)ctx);
+	mbedtls_fprintf((FILE *) ctx, "%s:%04d: %s", file, line, str);
+	fflush((FILE *) ctx);
 }
 
 /****************************************************************************
@@ -256,7 +256,7 @@ int dtls_server_cb(void *args)
 
 	mbedtls_printf(" ok\n");
 
-reset:
+ reset:
 #ifdef MBEDTLS_ERROR_C
 	if (ret != 0) {
 		char error_buf[100];
@@ -372,7 +372,7 @@ reset:
 	/*
 	 * 8. Done, cleanly close the connection
 	 */
-close_notify:
+ close_notify:
 	mbedtls_printf("  . Closing the connection...");
 
 	/* No error checking, the connection might be closed already */
@@ -390,7 +390,7 @@ close_notify:
 	/*
 	 * Final clean-ups and exit
 	 */
-exit:
+ exit:
 
 #ifdef MBEDTLS_ERROR_C
 	if (ret != 0) {
@@ -449,7 +449,7 @@ int dtls_server_main(int argc, char **argv)
 	}
 
 	/* 3. create pthread with entry function */
-	if ((r = pthread_create(&tid, &attr, (pthread_startroutine_t)dtls_server_cb, (void *)&args)) != 0) {
+	if ((r = pthread_create(&tid, &attr, (pthread_startroutine_t) dtls_server_cb, (void *)&args)) != 0) {
 		mbedtls_printf("%s: pthread_create failed, status=%d\n", __func__, r);
 	}
 

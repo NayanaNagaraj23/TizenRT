@@ -40,7 +40,7 @@ static int heap_performance_test(int argc, char *argv[])
 	int test_repeat = 11;
 	uint32_t elapsed = 0;
 	uint32_t total_elapsed = 0;
-	int sizes[11] = {16, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192};
+	int sizes[11] = { 16, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192 };
 	int interval = 1;
 
 	for (j = 0; j < NUM_ALLOC; ++j) {

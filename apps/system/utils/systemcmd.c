@@ -26,57 +26,57 @@
 #ifdef CONFIG_SYSTEM_CMDS
 const static tash_cmdlist_t system_cmds[] = {
 #if defined(CONFIG_ENABLE_CPULOAD)
-	{"cpuload",  utils_cpuload,      TASH_EXECMD_SYNC},
+	{"cpuload", utils_cpuload, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_DATE)
-	{"date",     utils_date,         TASH_EXECMD_SYNC},
+	{"date", utils_date, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_DMESG)
-	{"dmesg",    utils_dmesg,        TASH_EXECMD_SYNC},
+	{"dmesg", utils_dmesg, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_ENV_GET)
-	{"getenv",   utils_env_get,      TASH_EXECMD_SYNC},
+	{"getenv", utils_env_get, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_FREE)
-	{"free",     utils_free,         TASH_EXECMD_SYNC},
+	{"free", utils_free, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_HEAPINFO)
-	{"heapinfo", utils_heapinfo,     TASH_EXECMD_SYNC},
+	{"heapinfo", utils_heapinfo, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_IRQINFO)
-	{"irqinfo",   utils_irqinfo,      TASH_EXECMD_SYNC},
+	{"irqinfo", utils_irqinfo, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_KILL)
-	{"kill",     utils_kill,         TASH_EXECMD_SYNC},
+	{"kill", utils_kill, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_KILLALL)
-	{"killall",  utils_killall,      TASH_EXECMD_SYNC},
+	{"killall", utils_killall, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_PRODCONFIG)
 	{"prodconfig", utils_prodconfig, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_PS)
-	{"ps",       utils_ps,           TASH_EXECMD_SYNC},
+	{"ps", utils_ps, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_ENV_SET)
-	{"setenv",   utils_env_set,      TASH_EXECMD_SYNC},
+	{"setenv", utils_env_set, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_STACKMONITOR)
-	{"stkmon",   utils_stackmonitor, TASH_EXECMD_SYNC},
+	{"stkmon", utils_stackmonitor, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_TTRACE)
-	{"ttrace",   utils_ttrace,       TASH_EXECMD_SYNC},
+	{"ttrace", utils_ttrace, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_TZSELECT)
-	{"tzselect", utils_tzselect,	TASH_EXECMD_SYNC},
+	{"tzselect", utils_tzselect, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_ENV_UNSET)
-	{"unsetenv", utils_env_unset,    TASH_EXECMD_SYNC},
+	{"unsetenv", utils_env_unset, TASH_EXECMD_SYNC},
 #endif
 #if defined(CONFIG_ENABLE_UPTIME)
-	{"uptime",   utils_uptime,       TASH_EXECMD_SYNC},
+	{"uptime", utils_uptime, TASH_EXECMD_SYNC},
 #endif
-	{NULL,       NULL,              0}
+	{NULL, NULL, 0}
 };
 
 void system_register_utilcmds(void)
@@ -84,4 +84,3 @@ void system_register_utilcmds(void)
 	tash_cmdlist_install(system_cmds);
 }
 #endif
-

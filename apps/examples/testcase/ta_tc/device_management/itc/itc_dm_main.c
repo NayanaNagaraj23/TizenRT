@@ -37,7 +37,6 @@
 #define NET_DEVNAME "wl1"
 #endif
 
-
 static int isConnected = 0;
 
 static int app_dhcp_main(void)
@@ -51,7 +50,7 @@ static int app_dhcp_main(void)
 	}
 
 	ret = netlib_get_ipv4addr(NET_DEVNAME, &ip_check)
-	if (ret != OK) {
+		if (ret != OK) {
 		return -1;
 	}
 	printf("IP address get %s ----\n", inet_ntoa(ip_check));
@@ -89,14 +88,14 @@ int wifiAutoConnectInit_itc(void)
 	ret = WiFiStart(SLSI_WIFI_STATION_IF, NULL);
 	if (ret == SLSI_STATUS_SUCCESS) {
 		printf("[AutoConnect]STA mode started\n");
-		ssid = (uint8_t *)CONFIG_DM_AP_SSID;
-		ap_security = (char *) CONFIG_DM_AP_SECURITY;
-		ap_password = (char *) CONFIG_DM_AP_PASS;
+		ssid = (uint8_t *) CONFIG_DM_AP_SSID;
+		ap_security = (char *)CONFIG_DM_AP_SECURITY;
+		ap_password = (char *)CONFIG_DM_AP_PASS;
 		if ((ssid == NULL) || (ap_security == NULL) || (ap_password == NULL)) {
 			return -1;
 		}
 
-		sec_config = (slsi_security_config_t *)getSecurityConfig(ap_security, ap_password);
+		sec_config = (slsi_security_config_t *) getSecurityConfig(ap_security, ap_password);
 		ret = WiFiNetworkJoin(ssid, strlen(CONFIG_DM_AP_SSID), NULL, sec_config);
 		sleep(1);
 		if (ret == SLSI_STATUS_SUCCESS) {
@@ -157,7 +156,6 @@ int itc_dm_main(int argc, char *argv[])
 	if (testcase_state_handler(TC_START, "DeviceManagement ITC") == ERROR) {
 		return ERROR;
 	}
-
 #ifndef CONFIG_EXAMPLES_TESTCASE_DM_WIFI
 	printf("=== Please Setup WiFi Info ===\n");
 	return 0;

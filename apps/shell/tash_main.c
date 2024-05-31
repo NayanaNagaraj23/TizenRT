@@ -110,11 +110,11 @@ static void tash_remove_char(char *char_pos)
  */
 char *tash_read_input_line(int fd)
 {
-	#define SKIP_NEXT_CHAR(n)    char_idx += (n)
-	#define PREV_CHAR            buffer[pos - 1]
-	#define CURR_CHAR            buffer[pos]
-	#define NEXT_CHAR            buffer[pos + 1]
-	#define NEXTNEXT_CHAR        buffer[pos + 2]
+#define SKIP_NEXT_CHAR(n)    char_idx += (n)
+#define PREV_CHAR            buffer[pos - 1]
+#define CURR_CHAR            buffer[pos]
+#define NEXT_CHAR            buffer[pos + 1]
+#define NEXTNEXT_CHAR        buffer[pos + 2]
 
 	int bufsize = TASH_LINEBUFLEN;
 	int pos = 0;
@@ -426,10 +426,10 @@ int tash_execute_cmdline(char *buff)
 
 				case ASCII_APOSTROPHE:
 					/* Argument is starting with opening single quotation mark */
-					
+
 					state = IN_APOSTROPHE;
-                                        argv[argc++] = buff + 1;
-                                        break;
+					argv[argc++] = buff + 1;
+					break;
 
 				case ASCII_QUOTE:
 					/* Argument is starting with opening double quotation mark */
@@ -484,23 +484,23 @@ int tash_execute_cmdline(char *buff)
 					buff--;
 				}
 				break;
-			
+
 			case IN_APOSTROPHE:
 				if (*buff == (char)ASCII_APOSTROPHE) {
-                                        if (*(buff - 1) == ASCII_BACKSLASH) {
-                                               /* # character, need to remove a backslash */
+					if (*(buff - 1) == ASCII_BACKSLASH) {
+						/* # character, need to remove a backslash */
 
-                                                tash_remove_char(buff - 1);
-                                        } else {
-                                                /* closing single quotation mark, need to remove quotation mark */
+						tash_remove_char(buff - 1);
+					} else {
+						/* closing single quotation mark, need to remove quotation mark */
 
-                                                tash_remove_char(buff);
+						tash_remove_char(buff);
 
-                                                state = IN_WORD;
-                                        }
-                                        buff--;
-                                }
-                                break;
+						state = IN_WORD;
+					}
+					buff--;
+				}
+				break;
 
 			case IN_WORD:
 				switch (*buff) {
@@ -513,17 +513,17 @@ int tash_execute_cmdline(char *buff)
 
 				case ASCII_APOSTROPHE:
 					if (*(buff - 1) == ASCII_BACKSLASH) {
-                                                /* # character, need to remove a backslash */
+						/* # character, need to remove a backslash */
 
-                                                tash_remove_char(buff - 1);
-                                        } else {
-                                                /* opening single quotation mark, need to remove quotation mark */
+						tash_remove_char(buff - 1);
+					} else {
+						/* opening single quotation mark, need to remove quotation mark */
 
-                                                tash_remove_char(buff);
-                                                state = IN_APOSTROPHE;
-                                        }
-                                        buff--;
-                                        break;
+						tash_remove_char(buff);
+						state = IN_APOSTROPHE;
+					}
+					buff--;
+					break;
 
 				case ASCII_QUOTE:
 					if (*(buff - 1) == ASCII_BACKSLASH) {
@@ -567,9 +567,9 @@ int tash_execute_cmdline(char *buff)
 		}
 
 		if (state == IN_APOSTROPHE) {
-                        shdbg("TASH: unclosed single quotation mark\n");
-                        argc = 0;
-                }
+			shdbg("TASH: unclosed single quotation mark\n");
+			argc = 0;
+		}
 
 		/* make a null at end of argv */
 

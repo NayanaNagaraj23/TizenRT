@@ -49,7 +49,9 @@ static wifi_manager_cb_s g_wifi_callbacks = {
 	wm_cb_sta_disconnected,
 	wm_cb_softap_sta_joined,
 	wm_cb_softap_sta_left,
-	wm_cb_scan_done};
+	wm_cb_scan_done
+};
+
 static wifi_manager_ap_config_s g_apconfig;
 static wifi_manager_softap_config_s g_softapconfig;
 static struct wo_queue *g_wo_queue = NULL;
@@ -57,10 +59,7 @@ static struct wo_queue *g_wo_queue = NULL;
 void wm_cb_sta_connected(wifi_manager_cb_msg_s msg, void *arg)
 {
 	WT_LOG(TAG, "--> res(%d)", msg.res);
-	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x",
-		   msg.bssid[0], msg.bssid[1],
-		   msg.bssid[2], msg.bssid[3],
-		   msg.bssid[4], msg.bssid[5]);
+	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x", msg.bssid[0], msg.bssid[1], msg.bssid[2], msg.bssid[3], msg.bssid[4], msg.bssid[5]);
 	WO_TEST_SIGNAL((int)msg.res, g_wo_queue);
 }
 
@@ -73,10 +72,7 @@ void wm_cb_sta_disconnected(wifi_manager_cb_msg_s msg, void *arg)
 void wm_cb_softap_sta_joined(wifi_manager_cb_msg_s msg, void *arg)
 {
 	WT_LOG(TAG, "--> res(%d)", msg.res);
-	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x",
-		   msg.bssid[0], msg.bssid[1],
-		   msg.bssid[2], msg.bssid[3],
-		   msg.bssid[4], msg.bssid[5]);
+	WT_LOG(TAG, "bssid %02x:%02x:%02x:%02x:%02x:%02x", msg.bssid[0], msg.bssid[1], msg.bssid[2], msg.bssid[3], msg.bssid[4], msg.bssid[5]);
 	WO_TEST_SIGNAL((int)msg.res, g_wo_queue);
 }
 
@@ -145,9 +141,8 @@ START_TEST_F(wifi_evt_tc)
 
 	ST_EXPECT_EQ(WIFI_MANAGER_SUCCESS, wifi_manager_deinit());
 }
-END_TEST_F
 
-void wm_run_event_tc(struct wt_options *opt)
+END_TEST_F void wm_run_event_tc(struct wt_options *opt)
 {
 	g_wo_queue = wo_create_queue();
 	if (!g_wo_queue) {

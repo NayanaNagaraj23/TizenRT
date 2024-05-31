@@ -29,7 +29,6 @@
  * Private Data
  ****************************************************************************/
 
-
 /****************************************************************************
  * Public Data
  ****************************************************************************/
@@ -48,7 +47,6 @@
 	"\t-c the number of rssi data to be sent\n"	\
 	"\t-n sync time by NTP\n"					\
 	"\t-h help\n\n"
-
 
 #define OPT_OPTIONS "i:f:t:s:p:l:c:nh"
 typedef struct {
@@ -80,7 +78,7 @@ void rr_monitor_rssi(void)
 	int count = RR_NUM_OF_RSSI;
 	(void)rr_get_counts(&str_count);
 	if (str_count) {
-		count = atoi(str_count); // it's mendatory
+		count = atoi(str_count);	// it's mendatory
 	}
 
 	int *rssi = (int *)malloc(sizeof(int) * count);
@@ -100,8 +98,7 @@ void rr_monitor_rssi(void)
 			usleep(interval * 1000);
 		}
 		gettimeofday(&end, NULL);
-		uint32_t duration = (end.tv_sec - start.tv_sec)*1000 +
-			(end.tv_usec - start.tv_usec)/1000;
+		uint32_t duration = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_usec - start.tv_usec) / 1000;
 		rr_set_duration(duration);
 
 		char *msg = rr_generate_message(rssi, count);

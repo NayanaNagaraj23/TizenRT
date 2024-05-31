@@ -75,10 +75,10 @@ const char *getResult(OCStackResult result);
 /* Function that creates a new Light resource by calling the
  * OCCreateResource() method.
  */
-int createLightResource(char *uri, LightResource *lightResource);
+int createLightResource(char *uri, LightResource * lightResource);
 
 /* This method constructs a response from the request */
-OCRepPayload *constructResponse(OCEntityHandlerRequest *ehRequest);
+OCRepPayload *constructResponse(OCEntityHandlerRequest * ehRequest);
 
 /* This method changes the Light power using an independent thread
  * and notifies the observers of new state of the resource.
@@ -88,44 +88,30 @@ void *ChangeLightRepresentation(void *param);
 /* This method check the validity of resourceTypeName and resource interfaces
  * Entity Handler has to parse the query string in order to process it
  */
-OCEntityHandlerResult ValidateQueryParams(OCEntityHandlerRequest *entityHandlerRequest);
+OCEntityHandlerResult ValidateQueryParams(OCEntityHandlerRequest * entityHandlerRequest);
 
 /* Following methods process the PUT, GET, POST, Delete,
  * & Observe requests */
-OCEntityHandlerResult ProcessGetRequest(OCEntityHandlerRequest *ehRequest,
-					OCRepPayload **payload);
-OCEntityHandlerResult ProcessPutRequest(OCEntityHandlerRequest *ehRequest,
-					OCRepPayload **payload);
-OCEntityHandlerResult ProcessPostRequest(OCEntityHandlerRequest *ehRequest,
-					OCEntityHandlerResponse *response,
-					OCRepPayload **payload);
-OCEntityHandlerResult ProcessDeleteRequest(OCEntityHandlerRequest *ehRequest);
+OCEntityHandlerResult ProcessGetRequest(OCEntityHandlerRequest * ehRequest, OCRepPayload ** payload);
+OCEntityHandlerResult ProcessPutRequest(OCEntityHandlerRequest * ehRequest, OCRepPayload ** payload);
+OCEntityHandlerResult ProcessPostRequest(OCEntityHandlerRequest * ehRequest, OCEntityHandlerResponse * response, OCRepPayload ** payload);
+OCEntityHandlerResult ProcessDeleteRequest(OCEntityHandlerRequest * ehRequest);
 
-OCEntityHandlerResult ProcessNonExistingResourceRequest(OCEntityHandlerRequest *ehRequest);
+OCEntityHandlerResult ProcessNonExistingResourceRequest(OCEntityHandlerRequest * ehRequest);
 
-void ProcessObserveRegister(OCEntityHandlerRequest *ehRequest);
-void ProcessObserveDeregister(OCEntityHandlerRequest *ehRequest);
+void ProcessObserveRegister(OCEntityHandlerRequest * ehRequest);
+void ProcessObserveDeregister(OCEntityHandlerRequest * ehRequest);
 
 void DeleteDeviceInfo();
 
-OCStackResult SetDeviceInfo(const char *contentType, const char *dateOfManufacture,
-				const char *deviceName, const char *deviceUUID, const char *firmwareVersion,
-				const char *hostName, const char *manufacturerName, const char *manufacturerUrl,
-				const char *modelNumber, const char *platformVersion, const char *supportUrl,
-				const char *version);
-
+OCStackResult SetDeviceInfo(const char *contentType, const char *dateOfManufacture, const char *deviceName, const char *deviceUUID, const char *firmwareVersion, const char *hostName, const char *manufacturerName, const char *manufacturerUrl, const char *modelNumber, const char *platformVersion, const char *supportUrl, const char *version);
 
 //-----------------------------------------------------------------------------
 // Callback functions
 //-----------------------------------------------------------------------------
 // Entity Handler callback functions
-OCEntityHandlerResult
-OCDeviceEntityHandlerCb(OCEntityHandlerFlag flag,
-			OCEntityHandlerRequest *entityHandlerRequest, char *uri, void *callbackParam);
+OCEntityHandlerResult OCDeviceEntityHandlerCb(OCEntityHandlerFlag flag, OCEntityHandlerRequest * entityHandlerRequest, char *uri, void *callbackParam);
 
-OCEntityHandlerResult
-OCEntityHandlerCb(OCEntityHandlerFlag flag,
-		OCEntityHandlerRequest *entityHandlerRequest, void *callbackParam);
+OCEntityHandlerResult OCEntityHandlerCb(OCEntityHandlerFlag flag, OCEntityHandlerRequest * entityHandlerRequest, void *callbackParam);
 
 #endif
-

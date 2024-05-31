@@ -13,7 +13,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
  * either express or implied. See the License for the specific
  * language governing permissions and limitations under the License
- ****************************************************************************/
+ ****************************************************************************/  
 #pragma once
 #define CT_TLS_DTLS_PORT "8888"
 #define PORT 8888
@@ -23,33 +23,33 @@
 #define IP_BUF_SIZE 15
 #define BUF_SIZE_UDP 256
 #define ACK_SIZE_UDP 128
-
+	
 #define DECLARE_TIMEOUT             \
-	struct timeval tv;          \
-	tv.tv_sec = 30;             \
-	tv.tv_usec = 0;             
-
+struct timeval tv;
+\tv.tv_sec = 30;
+\tv.tv_usec = 0;
+ 
 #define DATA_TRANSFER_ERROR                                             \
-	if (nbytes == 0) {                                              \
-		CT_LOGE(TAG, "connection closed");                      \
-		return -1;                                              \
-	} else if (nbytes < 0) {                                        \
-		if (errno == EWOULDBLOCK) {			        \
-			CT_LOGE(TAG, "timeout error %d", errno);        \
-			return -1;                                      \
-		} else {                                                \
-			CT_LOGE(TAG, "connection error %d", errno);     \
-			return -1;                                      \
-		}                                                       \
-	}
+	if (nbytes == 0) {
+	\CT_LOGE(TAG, "connection closed");
+	\return -1;
+\} else if (nbytes < 0) {
+	\if (errno == EWOULDBLOCK) {
+		\CT_LOGE(TAG, "timeout error %d", errno);
+		\return -1;
+	\} else {
+		\CT_LOGE(TAG, "connection error %d", errno);
+		\return -1;
+	\}
+\}
+ static int g_listenfd = -1;
 
-static int g_listenfd = -1;
 #define TERMINATE                                      \
-	if (ret < 0) {                                 \
-		close(sockfd);                         \
-		if (g_listenfd > -1) {		       \
-			close(g_listenfd);               \
-		}                                      \
-		return -1;                             \
-	}
-
+	if (ret < 0) {
+	\close(sockfd);
+	\if (g_listenfd > -1) {
+		\close(g_listenfd);
+	\}
+	\return -1;
+\}
+ 

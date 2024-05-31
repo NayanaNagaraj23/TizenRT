@@ -93,14 +93,12 @@ static char g_rdbuffer[AIO_RDBUFFER_SIZE];
 
 /* AIO control blocks:  write, nop, write, NULL, read */
 
-
 static struct aiocb g_aiocbs[AIO_NCTRLBLKS - 1];
 static struct aiocb *g_aiocb[AIO_NCTRLBLKS];
 
 static struct aiocb *const g_aiocb_init[AIO_NCTRLBLKS] = {
 	&g_aiocbs[0], &g_aiocbs[1], &g_aiocbs[2], NULL, &g_aiocbs[3]
 };
-
 
 static FAR void *const g_buffers[AIO_NCTRLBLKS] = {
 	(FAR void *)g_wrbuffer1,
@@ -141,18 +139,18 @@ static void init_aiocb(bool signal)
 	memset(g_rdbuffer, 0xff, AIO_RDBUFFER_SIZE);
 
 	for (i = 0; i < AIO_NCTRLBLKS; i++) {
-		aiocbp     = g_aiocb_init[i];
+		aiocbp = g_aiocb_init[i];
 		g_aiocb[i] = aiocbp;
 
 		if (aiocbp) {
 			aiocbp->aio_sigevent.sigev_notify = signal ? SIGEV_SIGNAL : SIGEV_NONE;
-			aiocbp->aio_sigevent.sigev_signo  = SIGUSR1;
+			aiocbp->aio_sigevent.sigev_signo = SIGUSR1;
 
-			aiocbp->aio_buf        = g_buffers[i];
-			aiocbp->aio_offset     = (off_t)g_offsets[i];
-			aiocbp->aio_nbytes     = (size_t)g_nbytes[i];
-			aiocbp->aio_fildes     = g_fildes;
-			aiocbp->aio_reqprio    = 0;
+			aiocbp->aio_buf = g_buffers[i];
+			aiocbp->aio_offset = (off_t) g_offsets[i];
+			aiocbp->aio_nbytes = (size_t)g_nbytes[i];
+			aiocbp->aio_fildes = g_fildes;
+			aiocbp->aio_reqprio = 0;
 			aiocbp->aio_lio_opcode = g_opcode[i];
 		}
 	}
@@ -367,7 +365,7 @@ void aio_test(void)
 		goto errout_with_fildes;
 	}
 
-	total = 1; /* One entry was initially NULL */
+	total = 1;					/* One entry was initially NULL */
 	for (i = 1; i <= AIO_NCTRLBLKS; i++) {
 		printf("  Calling aio_suspend #%d\n", i);
 		ret = aio_suspend((FAR const struct aiocb * const *)g_aiocb, AIO_NCTRLBLKS, NULL);
@@ -571,12 +569,12 @@ void aio_test(void)
 	printf("aio_test: Test completed successfully\n");
 	return;
 
-errout_with_fildes:
+ errout_with_fildes:
 	close(g_fildes);
 	g_fildes = -1;
-errout_with_procmask:
+ errout_with_procmask:
 	(void)sigprocmask(SIG_SETMASK, &oset, NULL);
 	printf("aio_test: ERROR: Test aborted\n");
 }
 
-#endif /* CONFIG_FS_AIO */
+#endif							/* CONFIG_FS_AIO */

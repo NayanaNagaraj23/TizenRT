@@ -25,7 +25,6 @@
 #include <protocols/ntpclient.h>
 #include "rreport_config.h"
 
-
 static void ntp_link_error(void)
 {
 	printf("ntp_link_error() callback is called.\n");
@@ -54,7 +53,7 @@ int rr_get_time(char *buf, int size)
 	char tmbuf[64];
 
 	gettimeofday(&tv, NULL);
-	nowtime = tv.tv_sec + 9 * 3600; // add additional number to support timezone
+	nowtime = tv.tv_sec + 9 * 3600;	// add additional number to support timezone
 	nowtm = localtime(&nowtime);
 	strftime(tmbuf, sizeof tmbuf, "%Y-%m-%d %H:%M:%S", nowtm);
 	snprintf(buf, size, "%s.%06ld", tmbuf, tv.tv_usec);

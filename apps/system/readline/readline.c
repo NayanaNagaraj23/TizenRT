@@ -225,7 +225,7 @@ static void readline_write(FAR struct rl_common_s *vtbl, FAR const char *buffer,
  *
  **************************************************************************/
 
-ssize_t readline(FAR char *buf, int buflen, FILE *instream, FILE *outstream)
+ssize_t readline(FAR char *buf, int buflen, FILE * instream, FILE * outstream)
 {
 	struct readline_s vtbl;
 
@@ -235,13 +235,13 @@ ssize_t readline(FAR char *buf, int buflen, FILE *instream, FILE *outstream)
 
 	/* Set up the vtbl structure */
 
-	vtbl.vtbl.rl_getc  = readline_getc;
-	vtbl.infd          = instream->fs_fd;
+	vtbl.vtbl.rl_getc = readline_getc;
+	vtbl.infd = instream->fs_fd;
 
 #ifdef CONFIG_READLINE_ECHO
-	vtbl.vtbl.rl_putc  = readline_putc;
+	vtbl.vtbl.rl_putc = readline_putc;
 	vtbl.vtbl.rl_write = readline_write;
-	vtbl.outfd         = outstream->fs_fd;
+	vtbl.outfd = outstream->fs_fd;
 #endif
 
 	/* The let the common readline logic do the work */

@@ -26,7 +26,6 @@
 #include <iotbus_pwm.h>
 #include <iotbus_error.h>
 
-
 /**
 * @testcase         itc_systemio_pwm_open_close_p
 * @brief            open and closes the pwm_context

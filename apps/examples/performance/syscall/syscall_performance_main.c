@@ -69,7 +69,6 @@ static int sig_no = SIGRTMIN;
 	printf("%s - sys_call%s - [pass = %d] - timediff -> (%lld.%09ld secs)\n", #fun, #sc_no, pass, (long long)res_time.tv_sec, res_time.tv_nsec); \
 }
 
-
 /*
  * @fn                   :syscall_perf_clock_getres
  * @description          :Measuring performance for clock_getres

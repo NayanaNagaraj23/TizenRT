@@ -16,5 +16,5 @@
  *
  ****************************************************************************/
 SLTOOL_MODE_TABLE("key", _parse_key_handler)
-SLTOOL_MODE_TABLE("auth", _parse_auth_handler)
-SLTOOL_MODE_TABLE("ss", _parse_ss_handler)
+	SLTOOL_MODE_TABLE("auth", _parse_auth_handler)
+	SLTOOL_MODE_TABLE("ss", _parse_ss_handler)

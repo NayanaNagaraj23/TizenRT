@@ -86,7 +86,7 @@ static void *barrier_func(void *parameter)
 	int id = (int)parameter;
 	int status;
 
-	printf("barrier_func: Thread %d started\n",  id);
+	printf("barrier_func: Thread %d started\n", id);
 #ifndef CONFIG_DISABLE_SIGNALS
 	usleep(HALF_SECOND);
 #endif
@@ -108,7 +108,7 @@ static void *barrier_func(void *parameter)
 #ifndef CONFIG_DISABLE_SIGNALS
 	usleep(HALF_SECOND);
 #endif
-	printf("barrier_func: Thread %d done\n",  id);
+	printf("barrier_func: Thread %d done\n", id);
 	FFLUSH();
 	return NULL;
 }
@@ -154,7 +154,7 @@ void barrier_test(void)
 	}
 
 	for (i = 0; i < CONFIG_EXAMPLES_KERNEL_SAMPLE_NBARRIER_THREADS; i++) {
-		status = pthread_create(&barrier_thread[i], &attr, barrier_func, (pthread_addr_t)i);
+		status = pthread_create(&barrier_thread[i], &attr, barrier_func, (pthread_addr_t) i);
 		if (status != 0) {
 			printf("barrier_test: Error in thread %d create, status=%d\n", i, status);
 			printf("barrier_test: Test aborted with waiting threads\n");
@@ -178,7 +178,7 @@ void barrier_test(void)
 
 	/* Destroy the barrier */
 
-abort_test:
+ abort_test:
 	status = pthread_barrier_destroy(&barrier);
 	if (status != OK) {
 		printf("barrier_test: pthread_barrier_destroy failed, status=%d\n", status);

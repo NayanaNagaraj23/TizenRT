@@ -23,7 +23,7 @@
 #include "connection.h"
 
 // from commandline.c
-void output_buffer(FILE *stream, uint8_t *buffer, int length, int indent);
+void output_buffer(FILE * stream, uint8_t * buffer, int length, int indent);
 
 int create_socket(coap_protocol_t protocol, const char *portStr, int addressFamily)
 {
@@ -52,7 +52,7 @@ int create_socket(coap_protocol_t protocol, const char *portStr, int addressFami
 		return -1;
 	}
 
-	for (p = res ; p != NULL; p = p->ai_next) {
+	for (p = res; p != NULL; p = p->ai_next) {
 		s = socket(p->ai_family, p->ai_socktype, p->ai_protocol);
 		if (s >= 0) {
 			int reuse;
@@ -76,10 +76,10 @@ int create_socket(coap_protocol_t protocol, const char *portStr, int addressFami
 	return s;
 }
 
-connection_t *create_session(int sockfd, struct sockaddr_storage *caddr, socklen_t *caddrLen, coap_protocol_t proto, void *tls_context, void *tls_option)
+connection_t *create_session(int sockfd, struct sockaddr_storage *caddr, socklen_t * caddrLen, coap_protocol_t proto, void *tls_context, void *tls_option)
 {
 	int ret;
-	int buf[1] = {0, };
+	int buf[1] = { 0, };
 	int newsock = -1;
 	struct timeval tv;
 	connection_t *connP = NULL;
@@ -142,10 +142,7 @@ connection_t *create_session(int sockfd, struct sockaddr_storage *caddr, socklen
 	return connP;
 }
 
-connection_t *connection_new_incoming(connection_t *connList,
-									  int sock,
-									  struct sockaddr *addr,
-									  size_t addrLen)
+connection_t *connection_new_incoming(connection_t * connList, int sock, struct sockaddr *addr, size_t addrLen)
 {
 	connection_t *connP;
 
@@ -163,12 +160,7 @@ connection_t *connection_new_incoming(connection_t *connList,
 	return connP;
 }
 
-connection_t *connection_create(coap_protocol_t protocol,
-								connection_t *connList,
-								int sock,
-								char *host,
-								char *port,
-								int addressFamily)
+connection_t *connection_create(coap_protocol_t protocol, connection_t * connList, int sock, char *host, char *port, int addressFamily)
 {
 	struct addrinfo hints;
 	struct addrinfo *servinfo = NULL;
@@ -197,7 +189,6 @@ connection_t *connection_create(coap_protocol_t protocol,
 	if (0 != getaddrinfo(host, port, &hints, &servinfo) || servinfo == NULL) {
 		return NULL;
 	}
-
 	// TODO : How to support various addresses
 	for (p = servinfo; p != NULL; p = p->ai_next) {
 		sa = p->ai_addr;
@@ -238,7 +229,7 @@ connection_t *connection_create(coap_protocol_t protocol,
 	return connP;
 }
 
-void connection_free(connection_t *connList)
+void connection_free(connection_t * connList)
 {
 	while (connList != NULL) {
 		connection_t *nextP;
@@ -257,10 +248,7 @@ void connection_free(connection_t *connList)
 	}
 }
 
-int connection_send(connection_t *connP,
-					uint8_t *buffer,
-					size_t length,
-					coap_protocol_t proto)
+int connection_send(connection_t * connP, uint8_t * buffer, size_t length, coap_protocol_t proto)
 {
 	int nbSent;
 	size_t offset;
@@ -312,41 +300,29 @@ int connection_send(connection_t *connP,
 	return 0;
 }
 
-uint8_t lwm2m_buffer_send(void *sessionH,
-						  uint8_t *buffer,
-						  size_t length,
-						  void *userdata,
-						  coap_protocol_t proto)
+uint8_t lwm2m_buffer_send(void *sessionH, uint8_t * buffer, size_t length, void *userdata, coap_protocol_t proto)
 {
 	connection_t *connP = (connection_t *) sessionH;
 
 	if (connP == NULL) {
 		printf("#> failed sending %lu bytes, missing connection\n", length);
-		return COAP_500_INTERNAL_SERVER_ERROR ;
+		return COAP_500_INTERNAL_SERVER_ERROR;
 	}
 
 	if (-1 == connection_send(connP, buffer, length, proto)) {
 		printf("#> failed sending %lu bytes\n", length);
-		return COAP_500_INTERNAL_SERVER_ERROR ;
+		return COAP_500_INTERNAL_SERVER_ERROR;
 	}
 
 	return COAP_NO_ERROR;
 }
 
-bool lwm2m_session_is_equal(void *session1,
-							void *session2,
-							void *userData)
+bool lwm2m_session_is_equal(void *session1, void *session2, void *userData)
 {
 	return (session1 == session2);
 }
 
-int connection_read(coap_protocol_t protocol,
-					connection_t *connP,
-					int sock,
-					uint8_t *buffer,
-					size_t len,
-					struct sockaddr_storage *from,
-					socklen_t *fromLen)
+int connection_read(coap_protocol_t protocol, connection_t * connP, int sock, uint8_t * buffer, size_t len, struct sockaddr_storage *from, socklen_t * fromLen)
 {
 	int numBytes = -1;
 

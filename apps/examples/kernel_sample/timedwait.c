@@ -72,7 +72,7 @@
  **************************************************************************/
 
 static pthread_mutex_t mutex;
-static pthread_cond_t  cond;
+static pthread_cond_t cond;
 
 /**************************************************************************
  * Private Functions
@@ -121,7 +121,7 @@ static void *thread_waiter(void *parameter)
 	}
 
 	printf("thread_waiter: Exit with status 0x12345678\n");
-	pthread_exit((pthread_addr_t)0x12345678);
+	pthread_exit((pthread_addr_t) 0x12345678);
 	return NULL;
 }
 

@@ -106,4 +106,4 @@ struct pthread_arg {
 	char **argv;
 };
 
-#endif /* __LWM2M_SERVER_MAIN */
+#endif							/* __LWM2M_SERVER_MAIN */

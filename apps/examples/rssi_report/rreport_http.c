@@ -26,7 +26,7 @@ int rr_send_result(char *str, char *url)
 	struct curl_slist *headers = NULL;
 	//curl_global_init(CURL_GLOBAL_ALL);
 
-	CURL* ctx = curl_easy_init();
+	CURL *ctx = curl_easy_init();
 	if (!ctx) {
 		RR_ERR;
 		return -1;
@@ -39,8 +39,7 @@ int rr_send_result(char *str, char *url)
 		return -1;
 	}
 
-	snprintf(agent, sizeof agent, "libcurl/%s",
-			 curl_version_info(CURLVERSION_NOW)->version);
+	snprintf(agent, sizeof agent, "libcurl/%s", curl_version_info(CURLVERSION_NOW)->version);
 	agent[sizeof agent - 1] = 0;
 	curl_easy_setopt(ctx, CURLOPT_USERAGENT, agent);
 
@@ -58,13 +57,13 @@ int rr_send_result(char *str, char *url)
 		goto cleanup;
 	}
 
-    /*  get response  */
+	/*  get response  */
 	long statLong = 0;
 	if (CURLE_OK == curl_easy_getinfo(ctx, CURLINFO_HTTP_CODE, &statLong)) {
 		printf("Response code %ld\n", statLong);
 	}
 
-cleanup:
+ cleanup:
 	curl_slist_free_all(headers);
 	curl_easy_cleanup(ctx);
 

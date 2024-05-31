@@ -89,7 +89,6 @@
 #define FSCMD_CAT_USAGE "Usage:  cat [OPTIONS] [source_file_path] [> or >>] [target_file_path]\n\tOPTIONS: '--help' - displays usage.\n"
 #define FSCMD_MV_USAGE "Usage:  mv [source_file_path] [target_file_path]\n"
 
-
 /** Wrapper to prevent remove information by users **/
 #define FSCMD_OUTPUT(...) printf(__VA_ARGS__)
 
@@ -115,9 +114,9 @@
 typedef int (*direntry_handler_t)(const char *, struct dirent *, void *);
 
 typedef enum {
-	FSCMD_NONE     = 0,
+	FSCMD_NONE = 0,
 	FSCMD_TRUNCATE = 1,
-	FSCMD_APPEND   = 2
+	FSCMD_APPEND = 2
 } redirection_mode_t;
 
 struct fscmd_redirection {
@@ -209,10 +208,10 @@ static int tash_echo(int argc, char **args)
 			FSCMD_OUTPUT(CMD_FAILED_ERRNO, "echo", "open", errno);
 			goto error;
 		}
-	 } else if (direction.mode != FSCMD_NONE && direction.index != argc - 2) {
+	} else if (direction.mode != FSCMD_NONE && direction.index != argc - 2) {
 		FSCMD_OUTPUT(INVALID_ARGS FSCMD_ECHO_USAGE, args[0]);
 		return ret;
-	 }
+	}
 
 	for (i = n_opt; i < direction.index && len < FSCMD_BUFFER_LEN; i++) {
 		if (i != n_opt) {
@@ -245,11 +244,11 @@ static int tash_echo(int argc, char **args)
 
 	ret = OK;
 
-error_with_close:
+ error_with_close:
 	if (fd > 2) {
 		close(fd);
 	}
-error:
+ error:
 	fscmd_free(dest_fullpath);
 	return ret;
 }
@@ -386,7 +385,7 @@ static int tash_cat(int argc, char **args)
 						goto out_close;
 					}
 				}
-				
+
 			} while (read_size > 0);
 
 			close(destfd);
@@ -402,9 +401,9 @@ static int tash_cat(int argc, char **args)
 
 	ret = OK;
 
-out_close:
+ out_close:
 	close(fd);
-out_free:
+ out_free:
 	fscmd_free(src_fullpath);
 	fscmd_free(dest_fullpath);
 	return ret;
@@ -810,7 +809,7 @@ static int mount_handler(FAR const char *mountpoint, FAR struct statfs *statbuf,
 static int search_mountpoints(const char *dirpath, foreach_mountpoint_t handler)
 {
 	int ret = OK;
-	DIR *dirp = opendir(dirpath);		/* Open the directory */
+	DIR *dirp = opendir(dirpath);	/* Open the directory */
 	if (!dirp) {
 		/* Failed to open the directory */
 		FSCMD_OUTPUT("\t Failed to open directory: %s\n", dirpath);
@@ -955,7 +954,7 @@ static int tash_mount(int argc, char **args)
 		FSCMD_OUTPUT(CMD_FAILED, args[0], fs);
 	}
 
-errout:
+ errout:
 	fscmd_free(fulltarget);
 	fscmd_free(fullsource);
 
@@ -1031,7 +1030,7 @@ static int delete_entry(const char *fullpath)
 		}
 	} else {
 		/* Iterate the directory contents */
-		DIR *dirp = opendir(fullpath);		/* Open the directory */
+		DIR *dirp = opendir(fullpath);	/* Open the directory */
 		if (!dirp) {
 			/* Failed to open the directory */
 			FSCMD_OUTPUT("\t Failed to open directory: %s\n", fullpath);
@@ -1162,7 +1161,7 @@ static int tash_mv(int argc, char **args)
 		FSCMD_OUTPUT(FSCMD_MV_USAGE, args[0]);
 		return ERROR;
 	}
-	
+
 	src_fullpath = get_fullpath(args[1]);
 	if (!src_fullpath) {
 		FSCMD_OUTPUT(OUT_OF_MEMORY, args[1]);
@@ -1182,7 +1181,7 @@ static int tash_mv(int argc, char **args)
 	}
 
 	free(dest_fullpath);
-err_with_src:
+ err_with_src:
 	free(src_fullpath);
 	return ret;
 }
@@ -1194,6 +1193,7 @@ static int df_handler(FAR const char *mountpoint, FAR struct statfs *statbuf, FA
 
 	return OK;
 }
+
 static const char *get_fstype(FAR struct statfs *statbuf)
 {
 	FAR const char *fstype;
@@ -1342,10 +1342,10 @@ static int tash_df(int argc, char **args)
 #ifndef CONFIG_DISABLE_ENVIRON
 #if !defined(CONFIG_DISABLE_MOUNTPOINT) && \
 	!defined(CONFIG_DISABLE_PSEUDOFS_OPERATIONS) && defined(CONFIG_BCH)
-	
+
 enum fs_minor_num_e {
-	FS_BLOCK_MINOR_PRIMARY = 0, // minor number primary block driver, usually for /mnt
-	FS_BLOCK_MINOR_SECONDARY = 1 // usually for /ext
+	FS_BLOCK_MINOR_PRIMARY = 0,	// minor number primary block driver, usually for /mnt
+	FS_BLOCK_MINOR_SECONDARY = 1	// usually for /ext
 };
 typedef enum fs_minor_num_e fs_minor_t;
 
@@ -1413,60 +1413,60 @@ static int tash_format(int argc, char **args)
 
 const static tash_cmdlist_t fs_utilcmds[] = {
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"cat",       tash_cat,       TASH_EXECMD_SYNC},
+	{"cat", tash_cat, TASH_EXECMD_SYNC},
 #endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"cd",        tash_cd,        TASH_EXECMD_SYNC},
+	{"cd", tash_cd, TASH_EXECMD_SYNC},
 #endif
 
 #ifndef CONFIG_DISABLE_MOUNTPOINT
-	{"df",        tash_df,        TASH_EXECMD_SYNC},
+	{"df", tash_df, TASH_EXECMD_SYNC},
 #endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"echo",      tash_echo,      TASH_EXECMD_SYNC},
+	{"echo", tash_echo, TASH_EXECMD_SYNC},
 #endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"format",     tash_format,     TASH_EXECMD_SYNC},
+	{"format", tash_format, TASH_EXECMD_SYNC},
 #endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"ls",        tash_ls,        TASH_EXECMD_SYNC},
+	{"ls", tash_ls, TASH_EXECMD_SYNC},
 #endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"mkdir",     tash_mkdir,     TASH_EXECMD_SYNC},
+	{"mkdir", tash_mkdir, TASH_EXECMD_SYNC},
 #endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"mv",        tash_mv,        TASH_EXECMD_SYNC},
+	{"mv", tash_mv, TASH_EXECMD_SYNC},
 #endif
 
 #ifndef CONFIG_DISABLE_MOUNTPOINT
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"mount",     tash_mount,     TASH_EXECMD_SYNC},
+	{"mount", tash_mount, TASH_EXECMD_SYNC},
 #endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"umount",    tash_umount,    TASH_EXECMD_SYNC},
+	{"umount", tash_umount, TASH_EXECMD_SYNC},
 #endif
 #endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"pwd",       tash_pwd,       TASH_EXECMD_SYNC},
+	{"pwd", tash_pwd, TASH_EXECMD_SYNC},
 #endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"rm",        tash_rm,        TASH_EXECMD_SYNC},
+	{"rm", tash_rm, TASH_EXECMD_SYNC},
 #endif
 
 #ifndef CONFIG_DISABLE_ENVIRON
-	{"rmdir",     tash_rmdir,     TASH_EXECMD_SYNC},
+	{"rmdir", tash_rmdir, TASH_EXECMD_SYNC},
 #endif
 
-	{NULL,        NULL,           0}
+	{NULL, NULL, 0}
 };
 
 void fs_register_utilcmds(void)

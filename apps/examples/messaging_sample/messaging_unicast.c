@@ -75,7 +75,7 @@
 extern int fail_cnt;
 static char *sync_send_alloc;
 
-static void recv_callback(msg_reply_type_t msg_type, msg_recv_buf_t *recv_data, void *cb_data)
+static void recv_callback(msg_reply_type_t msg_type, msg_recv_buf_t * recv_data, void *cb_data)
 {
 	if (recv_data == NULL) {
 		fail_cnt++;

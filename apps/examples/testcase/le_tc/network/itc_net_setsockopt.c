@@ -35,7 +35,7 @@
 static void itc_net_setsockopt_n_invalid_opt_name(int s)
 {
 	int ret = -1;
-	int optname = 16; //invalid opt name
+	int optname = 16;			//invalid opt name
 	void *optval = NULL;
 	socklen_t optlen = 0;
 

@@ -27,27 +27,26 @@
 
 static const char *PROP_POWER = "power";
 
-bool handle_get_request_on_switch(st_things_get_request_message_s *req_msg, st_things_representation_s *resp_rep)
+bool handle_get_request_on_switch(st_things_get_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	if (req_msg->has_property_key(req_msg, PROP_POWER)) {
 		// TODO: Write your implementation in this section.
 		resp_rep->set_str_value(resp_rep, PROP_POWER, get_led_power());
 	}
 
-	return true;  // FIXME: Modify this line with the appropriate return value.
+	return true;				// FIXME: Modify this line with the appropriate return value.
 }
 
-bool handle_set_request_on_switch(st_things_set_request_message_s *req_msg, st_things_representation_s *resp_rep)
+bool handle_set_request_on_switch(st_things_set_request_message_s * req_msg, st_things_representation_s * resp_rep)
 {
 	char *power;
-	if (req_msg->rep->get_str_value(req_msg->rep, PROP_POWER, &power)) {       
+	if (req_msg->rep->get_str_value(req_msg->rep, PROP_POWER, &power)) {
 
 		set_led_power(power);
 		resp_rep->set_str_value(resp_rep, PROP_POWER, get_led_power());
 
 		st_things_notify_observers(req_msg->resource_uri);
 	}
-	
 	// TODO: Write your implementation in this section.
-	return true;  // FIXME: Modify this line with the appropriate return value.
+	return true;				// FIXME: Modify this line with the appropriate return value.
 }

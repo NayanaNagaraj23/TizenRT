@@ -92,24 +92,24 @@
  ****************************************************************************/
 struct wav_header_s my_wav = {
 	.hdr = {
-		.chunkid = WAV_HDR_CHUNKID,
-		.chunklen = 4 + sizeof(struct wav_formatchunk_s) + sizeof(struct wav_datachunk_s) + BUFFSIZE,
-		.format = WAV_HDR_FORMAT,
-	},
+			.chunkid = WAV_HDR_CHUNKID,
+			.chunklen = 4 + sizeof(struct wav_formatchunk_s) + sizeof(struct wav_datachunk_s) + BUFFSIZE,
+			.format = WAV_HDR_FORMAT,
+			},
 	.fmt = {
-		.chunkid = WAV_FMT_CHUNKID,	/* Contains the letters "fmt " */
-		.chunklen = WAV_FMT_CHUNKLEN,	/* Size of the following chunk (16 for PCM) */
-		.format = 1,		/* PCM=1 (i.e. Linear quantization) */
-		.nchannels = nCH,	/* Mono=1, Stereo=2 */
-		.samprate = SAMPLERATE,	/* 8000, 44100, ... */
-		.byterate = SAMPLERATE * nCH * BPSMPL,	/* samprate * nchannels * bpsamp / 8 */
-		.align = nCH * BPSMPL,	/* nchannels * bpsamp / 8 */
-		.bpsamp = BPSMPL * 8,	/* Bits per sample: 8 bits = 8, 16 bits = 16 */
-	},
+			.chunkid = WAV_FMT_CHUNKID,	/* Contains the letters "fmt " */
+			.chunklen = WAV_FMT_CHUNKLEN,	/* Size of the following chunk (16 for PCM) */
+			.format = 1,		/* PCM=1 (i.e. Linear quantization) */
+			.nchannels = nCH,	/* Mono=1, Stereo=2 */
+			.samprate = SAMPLERATE,	/* 8000, 44100, ... */
+			.byterate = SAMPLERATE * nCH * BPSMPL,	/* samprate * nchannels * bpsamp / 8 */
+			.align = nCH * BPSMPL,	/* nchannels * bpsamp / 8 */
+			.bpsamp = BPSMPL * 8,	/* Bits per sample: 8 bits = 8, 16 bits = 16 */
+			},
 	.data = {
-		.chunkid = WAV_DATA_CHUNKID,
-		.chunklen = BUFFSIZE,
-	},
+			 .chunkid = WAV_DATA_CHUNKID,
+			 .chunklen = BUFFSIZE,
+			 },
 };
 
 unsigned short int lut_sin[1024];
@@ -194,14 +194,14 @@ int wave_gen_main(int argc, char *argv[])
 	printf("File is generated \n");
 	return OK;
 
-err1:
+ err1:
 	errcode = errno;
 	printf("Sample %d write failed: %d\n", errcode, i);
 	close(fd);
 	free(buff);
 	return errcode;
 
-err2:
+ err2:
 	printf("Sample %d partial write: %d\n", nwritten, i);
 	close(fd);
 	free(buff);

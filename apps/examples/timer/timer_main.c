@@ -72,15 +72,15 @@
  * Pre-processor Definitions
  ****************************************************************************/
 #ifndef TIMER_DEVNAME
-#  define TIMER_DEVNAME  "/dev/timer%d"
+#define TIMER_DEVNAME  "/dev/timer%d"
 #endif
 
 #ifndef EXAMPLE_TIMER_INTERVAL
-#  define EXAMPLE_TIMER_INTERVAL USEC_PER_SEC
+#define EXAMPLE_TIMER_INTERVAL USEC_PER_SEC
 #endif
 
 #ifndef EXAMPLE_TIMER_NSAMPLES
-#  define EXAMPLE_TIMER_NSAMPLES 10
+#define EXAMPLE_TIMER_NSAMPLES 10
 #endif
 
 #define TIMER_THEAD_SIZE                2048
@@ -125,18 +125,16 @@ static pthread_addr_t timer_thread(pthread_addr_t arg)
 	 */
 	fprintf(stdout, "Attach timer handler\n");
 
-	notify.arg   = NULL;
-	notify.pid   = (pid_t)getpid();
+	notify.arg = NULL;
+	notify.pid = (pid_t) getpid();
 
-	if (ioctl(fd, TCIOC_NOTIFICATION,
-			(unsigned long)((uintptr_t)&notify)) < 0) {
+	if (ioctl(fd, TCIOC_NOTIFICATION, (unsigned long)((uintptr_t) & notify)) < 0) {
 		fprintf(stderr, "ERROR: Failed to set the timer handler: %d\n", errno);
 		goto error;
 	}
 
 	/* Set the timer interval */
-	fprintf(stdout, "Set timer interval to %lu, repeat %d\n",
-			(unsigned long)intval, count);
+	fprintf(stdout, "Set timer interval to %lu, repeat %d\n", (unsigned long)intval, count);
 
 	if (ioctl(fd, TCIOC_SETTIMEOUT, intval) < 0) {
 		fprintf(stderr, "ERROR: Failed to set the timer interval: %d\n", errno);
@@ -149,7 +147,6 @@ static pthread_addr_t timer_thread(pthread_addr_t arg)
 		fprintf(stderr, "ERROR: Failed to start the timer: %d\n", errno);
 		goto error;
 	}
-
 #ifdef CONFIG_EXAMPLES_TIMER_FRT_MEASUREMENT
 	/* Open the FRTimer device */
 	if (pargs->devno == 0) {
@@ -176,27 +173,25 @@ static pthread_addr_t timer_thread(pthread_addr_t arg)
 		goto error;
 	}
 
-	if (ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&before) < 0) {
+	if (ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & before) < 0) {
 		fprintf(stderr, "ERROR: Failed to get Free Run Timer status: %d\n", errno);
 		goto error;
 	}
-
 #endif
 	while (count--) {
 		fin_wait();
 	}
 #ifdef CONFIG_EXAMPLES_TIMER_FRT_MEASUREMENT
-	if (ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t)&after) < 0) {
+	if (ioctl(frt_fd, TCIOC_GETSTATUS, (unsigned long)(uintptr_t) & after) < 0) {
 		fprintf(stderr, "ERROR: Failed to get Free Run Timer status: %d\n", errno);
 	}
 #endif
 	/* In high resolution timers, timer has to be stopped immediately once
-	the sigwait handling is completed. If not timer interrupt would keep
-	posting the events which would results in stack overflows. */
+	   the sigwait handling is completed. If not timer interrupt would keep
+	   posting the events which would results in stack overflows. */
 	if (ioctl(fd, TCIOC_STOP, 0) < 0) {
 		fprintf(stderr, "ERROR: Failed to stop the timer: %d\n", errno);
 	}
-
 #ifdef CONFIG_EXAMPLES_TIMER_FRT_MEASUREMENT
 	if (ioctl(frt_fd, TCIOC_STOP, 0) < 0) {
 		fprintf(stderr, "ERROR: Failed to stop the Free Run Timer: %d\n", errno);
@@ -214,7 +209,7 @@ static pthread_addr_t timer_thread(pthread_addr_t arg)
 		fprintf(stdout, "\tFAIL : There are many missing timer interrupts.\n");
 	}
 #endif
-error:
+ error:
 #ifdef CONFIG_EXAMPLES_TIMER_FRT_MEASUREMENT
 	if (frt_fd > 0) {
 		close(frt_fd);

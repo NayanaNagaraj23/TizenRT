@@ -22,20 +22,19 @@
 #include <media/InputDataSource.h>
 #include <functional>
 
-class BufferInputDataSource : public media::stream::InputDataSource
-{
-public:
+class BufferInputDataSource:public media::stream::InputDataSource {
+ public:
 	BufferInputDataSource();
-	virtual ~BufferInputDataSource() = default;
+	virtual ~ BufferInputDataSource() = default;
 	bool isPrepared() override;
 	bool open() override;
 	bool close() override;
 	ssize_t read(unsigned char *buf, size_t size) override;
 
-private:
-	FILE *mFp;
+ private:
+	FILE * mFp;
 	unsigned char *mSrcBuf;
 	size_t mSrcSize;
-	std::function<ssize_t(unsigned char *, size_t, unsigned char *, size_t)> mBufferFiller;
+	std::function < ssize_t(unsigned char *, size_t, unsigned char *, size_t) > mBufferFiller;
 };
 #endif

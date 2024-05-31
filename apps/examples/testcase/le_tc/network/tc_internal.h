@@ -131,4 +131,4 @@ int itc_net_netdb_main(void);
 #ifdef CONFIG_ITC_NET_CONNECT
 int itc_net_connect_main(void);
 #endif
-#endif /* __EXAMPLES_TESTCASE_NETWORK_TC_INTERNAL_H */
+#endif							/* __EXAMPLES_TESTCASE_NETWORK_TC_INTERNAL_H */

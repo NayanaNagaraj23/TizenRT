@@ -45,9 +45,8 @@ START_TEST_F(info_log)
 	// this should be 0 because log level is error;
 	ST_EXPECT_EQ(0, NET_LOGV(NL_MOD_WIFI_MANAGER, wifimanager_verb_log));
 }
-END_TEST_F
 
-START_TEST_F(verb_log)
+END_TEST_F START_TEST_F(verb_log)
 {
 	ST_EXPECT_EQ(0, netlog_reset());
 	ST_EXPECT_EQ(0, netlog_set_level(NL_MOD_WIFI_MANAGER, NL_LEVEL_VERB));
@@ -57,9 +56,8 @@ START_TEST_F(verb_log)
 	// this should be 0 because log level is error;
 	ST_EXPECT_EQ(24, NET_LOGV(NL_MOD_WIFI_MANAGER, wifimanager_verb_log));
 }
-END_TEST_F
 
-START_TEST_F(error_log)
+END_TEST_F START_TEST_F(error_log)
 {
 	ST_EXPECT_EQ(0, netlog_reset());
 	ST_EXPECT_EQ(0, netlog_set_level(NL_MOD_WIFI_MANAGER, NL_LEVEL_ERROR));
@@ -67,9 +65,8 @@ START_TEST_F(error_log)
 	ST_EXPECT_EQ(0, NET_LOGI(NL_MOD_WIFI_MANAGER, wifimanager_info_log));
 	ST_EXPECT_EQ(0, NET_LOGV(NL_MOD_WIFI_MANAGER, wifimanager_verb_log));
 }
-END_TEST_F
 
-START_TEST_F(mode_log)
+END_TEST_F START_TEST_F(mode_log)
 {
 	ST_EXPECT_EQ(0, netlog_reset());
 	ST_EXPECT_EQ(0, netlog_set_level(NL_MOD_NETLIB, NL_LEVEL_ERROR));
@@ -80,8 +77,8 @@ START_TEST_F(mode_log)
 	ST_EXPECT_EQ(0, NET_LOGV(NL_MOD_WIFI_MANAGER, wifimanager_verb_log));
 	ST_EXPECT_EQ(25, NET_LOGE(NL_MOD_NETLIB, "%s", netlib_err_log));
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: test color log
  */
@@ -95,8 +92,8 @@ START_TEST_F(color_log)
 	ST_EXPECT_EQ(0, netlog_set_level(NL_MOD_NETLIB, NL_LEVEL_VERB));
 	ST_EXPECT_EQ(22, NET_LOGV(NL_MOD_NETLIB, netlib_verb_log));
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: print timer
  */
@@ -108,8 +105,8 @@ START_TEST_F(timer_log)
 	ST_EXPECT_EQ(0, netlog_set_timer(NL_OPT_ENABLE));
 	ST_EXPECT_EQ(45, NET_LOGE(NL_MOD_WIFI_MANAGER, wifimanager_err_log));
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: add options
  */
@@ -122,8 +119,8 @@ START_TEST_F(add_option)
 	ST_EXPECT_EQ(0, netlog_set_file(NL_OPT_ENABLE));
 	ST_EXPECT_EQ(105, NET_LOGV(NL_MOD_WIFI_MANAGER, wifimanager_verb_log));
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: remove options
  */
@@ -140,9 +137,8 @@ START_TEST_F(remove_option)
 	ST_EXPECT_EQ(0, netlog_set_file(NL_OPT_DISABLE));
 	ST_EXPECT_EQ(24, NET_LOGV(NL_MOD_WIFI_MANAGER, wifimanager_verb_log));
 }
-END_TEST_F
 
-void netlog_run_test(void)
+END_TEST_F void netlog_run_test(void)
 {
 	ST_SET_PACK(netlog);
 	ST_SET_SMOKE1(netlog, NT_TEST_TRIAL, ST_NO_TIMELIMIT, "turn on info", info_log);

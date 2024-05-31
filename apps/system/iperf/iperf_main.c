@@ -127,13 +127,12 @@ int iperf_main(int argc, char **argv)
 		goto main_exit;
 	}
 
-
 	if (run(test) < 0) {
 		printf("error - %s\n", iperf_strerror(i_errno));
 		goto main_exit;
 	}
 
-main_exit:
+ main_exit:
 	iperf_free_test(test);
 
 	return 0;

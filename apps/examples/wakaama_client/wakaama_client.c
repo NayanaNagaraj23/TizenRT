@@ -29,7 +29,6 @@
 #include <tinyara/wifi/slsi/slsi_wifi_api.h>
 #include <protocols/dhcpc.h>
 
-
 #ifdef CONFIG_WIFI_MANAGER
 #define NET_DEVNAME	CONFIG_WIFIMGR_STA_IFNAME
 #else
@@ -44,11 +43,10 @@
 		} \
 	} while (0);
 
-
 static dm_scan_info_t *appwifiscan_result = NULL;
 static dm_scan_info_t *wifi_iterator;
 
-static char *wifi_aps[] = {"hack07", "hack10", "hack13", "hack14", "hack17", "hack18", "hack21", "hack23", "hack24", "hack28", "hack11"};
+static char *wifi_aps[] = { "hack07", "hack10", "hack13", "hack14", "hack17", "hack18", "hack21", "hack23", "hack24", "hack28", "hack11" };
 
 static uint8_t appscan_iteration;
 
@@ -115,7 +113,6 @@ static void prv_wakaama_start(void)
 		fprintf(stderr, "Successfully created wakaama thread\n");
 	}
 }
-
 
 static void change_resource(FAR void *arg)
 {
@@ -185,8 +182,7 @@ int wakaamaclient_main(int argc, char *argv[])
 			opt++;
 			WAKAAMA_CHECK_ARG();
 			bootstrap_requested = true;
-			strncpy(dm_context.server_info.ipAddress, \
-					argv[opt], strlen(argv[opt]));
+			strncpy(dm_context.server_info.ipAddress, argv[opt], strlen(argv[opt]));
 			break;
 		case 't':
 			opt++;
@@ -200,8 +196,7 @@ int wakaamaclient_main(int argc, char *argv[])
 		case 's':
 			opt++;
 			WAKAAMA_CHECK_ARG();
-			strncpy(dm_context.server_info.ipAddress, \
-					argv[opt], strlen(argv[opt]));
+			strncpy(dm_context.server_info.ipAddress, argv[opt], strlen(argv[opt]));
 			break;
 
 		case 'c':
@@ -217,19 +212,19 @@ int wakaamaclient_main(int argc, char *argv[])
 			WAKAAMA_CHECK_ARG();
 			break;
 #endif
-		case 'n': {
-			char argbuffer[20];
-			opt++;
-			WAKAAMA_CHECK_ARG();
+		case 'n':{
+				char argbuffer[20];
+				opt++;
+				WAKAAMA_CHECK_ARG();
 
-			memset(argbuffer, 0x00, 20);
-			strncpy(argbuffer, argv[opt], strlen(argv[opt]));
-			opt++;
-			strcat(argbuffer, " ");
-			strncat(argbuffer, argv[opt], strlen(argv[opt]));
-			dm_lwm2m_change_client_resource(argbuffer);
-		}
-		return 0;
+				memset(argbuffer, 0x00, 20);
+				strncpy(argbuffer, argv[opt], strlen(argv[opt]));
+				opt++;
+				strcat(argbuffer, " ");
+				strncat(argbuffer, argv[opt], strlen(argv[opt]));
+				dm_lwm2m_change_client_resource(argbuffer);
+			}
+			return 0;
 		case 'l':
 			opt++;
 			WAKAAMA_CHECK_ARG();
@@ -239,88 +234,84 @@ int wakaamaclient_main(int argc, char *argv[])
 			WAKAAMA_CHECK_ARG();
 			strncpy(wakaama_param.serverport, argv[opt], strlen(argv[opt]));
 			break;
-		case 'g': {
-			char ipAddress[IPADDRLEN_MAX];
-			int ret;
+		case 'g':{
+				char ipAddress[IPADDRLEN_MAX];
+				int ret;
 
-			WAKAAMA_CHECK_ARG();
-			ret = dm_lwm2m_get_server_address(ipAddress);
-			if (ret == DM_ERROR_NONE) {
-				printf("Server ip address is %s\n", ipAddress);
-			} else {
-				printf("Error reading server ip address\n");
+				WAKAAMA_CHECK_ARG();
+				ret = dm_lwm2m_get_server_address(ipAddress);
+				if (ret == DM_ERROR_NONE) {
+					printf("Server ip address is %s\n", ipAddress);
+				} else {
+					printf("Error reading server ip address\n");
+				}
+				return 0;
 			}
-			return 0;
-		}
-		case 'h': {
-			char server_port[PORTLEN];
-			int ret;
+		case 'h':{
+				char server_port[PORTLEN];
+				int ret;
 
-			WAKAAMA_CHECK_ARG();
-			ret = dm_lwm2m_get_server_port(server_port);
-			if (ret != DM_ERROR_NONE) {
-				printf("Server port is %s\n", server_port);
-			} else {
-				printf("Error reading server port\n");
+				WAKAAMA_CHECK_ARG();
+				ret = dm_lwm2m_get_server_port(server_port);
+				if (ret != DM_ERROR_NONE) {
+					printf("Server port is %s\n", server_port);
+				} else {
+					printf("Error reading server port\n");
+				}
+				return 0;
 			}
-			return 0;
-		}
-		case 'd': {
-			char argbuffer[20];
-			opt++;
-			WAKAAMA_CHECK_ARG();
-			printf("Read all resource of an object instance %s\n", argv[opt]);
-			memset(argbuffer, 0x00, 20);
-			strncpy(argbuffer, argv[opt], strlen(argv[opt]));
-			if (dm_lwm2m_display_client_resource(argbuffer) != DM_ERROR_NONE) {
-				printf("object dump did not work\n");
+		case 'd':{
+				char argbuffer[20];
+				opt++;
+				WAKAAMA_CHECK_ARG();
+				printf("Read all resource of an object instance %s\n", argv[opt]);
+				memset(argbuffer, 0x00, 20);
+				strncpy(argbuffer, argv[opt], strlen(argv[opt]));
+				if (dm_lwm2m_display_client_resource(argbuffer) != DM_ERROR_NONE) {
+					printf("object dump did not work\n");
+				}
+				return 0;
 			}
-			return 0;
-		}
 		case 'r':
 			WAKAAMA_CHECK_ARG();
 			printf("Read a resource value\n");
 			return 0;
 
-		case 'f': {
-			int i;
-			int wifi_count;
-			while (1) {
-				wifi_count = 0;
-				if (dm_conn_wifi_scan() == DM_ERROR_NONE) {
-					printf("DM scan network PASS\n");
-				} else {
-					printf("Failed on wifi scan\n");
-				}
-				sleep(10);
-				if (dm_conn_get_scan_result(&appwifiscan_result) ==  DM_ERROR_NONE) {
-					wifi_iterator = appwifiscan_result;
-					while (wifi_iterator != NULL) {
-						for (i = 0; i < sizeof(wifi_aps) / sizeof(char *); i++) {
-							if (!strncmp(wifi_iterator->ssid, wifi_aps[i], strlen(wifi_aps[i]))) {
-								printf("AP:%d:%s:%s:%d\n", appscan_iteration,
-									   wifi_iterator->ssid,
-									   wifi_iterator->bssid,
-									   wifi_iterator->rssi);
-							}
-						}
-						wifi_count++;
-						wifi_iterator = wifi_iterator->next;
+		case 'f':{
+				int i;
+				int wifi_count;
+				while (1) {
+					wifi_count = 0;
+					if (dm_conn_wifi_scan() == DM_ERROR_NONE) {
+						printf("DM scan network PASS\n");
+					} else {
+						printf("Failed on wifi scan\n");
 					}
-				} else {
-					printf("DM_ERROR_NO_DATA\n");
+					sleep(10);
+					if (dm_conn_get_scan_result(&appwifiscan_result) == DM_ERROR_NONE) {
+						wifi_iterator = appwifiscan_result;
+						while (wifi_iterator != NULL) {
+							for (i = 0; i < sizeof(wifi_aps) / sizeof(char *); i++) {
+								if (!strncmp(wifi_iterator->ssid, wifi_aps[i], strlen(wifi_aps[i]))) {
+									printf("AP:%d:%s:%s:%d\n", appscan_iteration, wifi_iterator->ssid, wifi_iterator->bssid, wifi_iterator->rssi);
+								}
+							}
+							wifi_count++;
+							wifi_iterator = wifi_iterator->next;
+						}
+					} else {
+						printf("DM_ERROR_NO_DATA\n");
+					}
+					printf("AP:%d:totalAP#:%d\n", appscan_iteration, wifi_count);
+					dm_conn_free_scan_result(&appwifiscan_result);
+					appscan_iteration++;
 				}
-				printf("AP:%d:totalAP#:%d\n", appscan_iteration, wifi_count);
-				dm_conn_free_scan_result(&appwifiscan_result);
-				appscan_iteration++;
 			}
-		}
-		return 0;
+			return 0;
 
 		case 'x':
 			dm_lwm2m_stop_client();
 			return 0;
-
 
 		default:
 			app_print_usage();

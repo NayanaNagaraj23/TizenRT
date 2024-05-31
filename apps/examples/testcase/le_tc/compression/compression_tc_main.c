@@ -53,20 +53,20 @@ int tc_compression_main(int argc, char *argv[])
 {
 #ifdef CONFIG_TC_COMPRESS_READ
 	g_tc_fd = open(OS_API_TEST_DRVPATH, O_WRONLY);
-	/*If FAIL : Failed to open testcase driver*/
+	/*If FAIL : Failed to open testcase driver */
 	if (g_tc_fd < 0) {
 		printf("Failed to open OS API test driver %d\n", errno);
 		return ERROR;
 	}
 
 	g_comp_tc_fd = open(COMP_DRVPATH, O_WRONLY);
-	/*If FAIL : Failed to open compression driver*/
+	/*If FAIL : Failed to open compression driver */
 	if (g_comp_tc_fd < 0) {
 		printf("Failed to open compression driver %d\n", errno);
 		close(g_tc_fd);
 		return ERROR;
 	}
-	
+
 	tc_compress_main();
 	close(g_comp_tc_fd);
 	close(g_tc_fd);

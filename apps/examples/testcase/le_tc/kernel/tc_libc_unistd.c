@@ -141,7 +141,6 @@ static void tc_libc_unistd_chdir_getcwd_invalid_strlen_neg(void)
 	cwd = getcwd(buff, 1);
 	TC_ASSERT_EQ("getcwd", cwd, NULL);
 
-
 	TC_SUCCESS_RESULT();
 }
 
@@ -154,8 +153,8 @@ static void tc_libc_unistd_chdir_getcwd_pwd_neg(void)
 
 	ret_chk = chdir(directory);
 	TC_ASSERT_EQ("chdir", ret_chk, OK);
-	
-	/* Failure case: when "PWD" is not defined*/
+
+	/* Failure case: when "PWD" is not defined */
 	unsetenv("PWD");
 	cwd = getcwd(buff, BUFFSIZE);
 	TC_ASSERT_NEQ("getcwd", strcmp(directory, cwd), 0);
@@ -163,13 +162,12 @@ static void tc_libc_unistd_chdir_getcwd_pwd_neg(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 static void tc_libc_unistd_chdir_null_directory_neg(void)
 {
 
 	char *directory = "/dev";
 	int ret_chk;
-	
+
 	directory = NULL;
 	ret_chk = chdir(directory);
 	TC_ASSERT_EQ("chdir", ret_chk, ERROR);
@@ -320,7 +318,6 @@ static void tc_libc_unistd_getopt_neg(void)
 	TC_SUCCESS_RESULT();
 }
 
-
 #ifndef CONFIG_DISABLE_SIGNALS
 /**
 * @fn                   :tc_libc_unistd_sleep
@@ -411,7 +408,7 @@ static void tc_libc_unistd_pipe_pos(void)
 
 	TC_SUCCESS_RESULT();
 
-cleanup_pipe:
+ cleanup_pipe:
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 }

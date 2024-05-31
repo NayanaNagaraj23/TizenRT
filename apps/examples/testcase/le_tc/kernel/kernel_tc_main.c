@@ -52,7 +52,6 @@ int tc_kernel_main(int argc, char *argv[])
 		tckndbg("Failed to open OS API test driver %d\n", errno);
 		return ERROR;
 	}
-
 #ifdef CONFIG_TC_KERNEL_TASH_HEAPINFO
 	tash_heapinfo_main();
 #endif

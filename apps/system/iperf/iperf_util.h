@@ -67,6 +67,6 @@ const char *get_optional_features(void);
 
 cJSON *iperf_json_printf(const char *format, ...);
 
-void iperf_dump_fdset(FILE *fp, char *str, int nfds, fd_set *fds);
+void iperf_dump_fdset(FILE * fp, char *str, int nfds, fd_set * fds);
 
 #endif

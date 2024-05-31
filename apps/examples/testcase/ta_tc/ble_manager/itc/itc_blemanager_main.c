@@ -27,7 +27,7 @@
 #include <errno.h>
 #include "tc_common.h"
 
-#define LOOP_SIZE 2	//used to compute average time for different operations
+#define LOOP_SIZE 2				//used to compute average time for different operations
 
 #define ITC_FUNC_SIGNAL              \
 	do {                                 \
@@ -47,18 +47,18 @@ static uint8_t ble_filter[] = { 0x02, 0x01, 0x05, 0x03, 0x19, 0x80, 0x01, 0x05, 
 
 static void addr_string_to_mac(const char *address)
 {
-        int i;
-        char *ptr = NULL;
+	int i;
+	char *ptr = NULL;
 
-        for (i = 0; i < BLE_BD_ADDR_MAX_LEN; i++) {
-                g_target.mac[i] = strtol(address, &ptr, 16);
-                if (ptr != NULL) {
-                        if (ptr[0] != ':') {
+	for (i = 0; i < BLE_BD_ADDR_MAX_LEN; i++) {
+		g_target.mac[i] = strtol(address, &ptr, 16);
+		if (ptr != NULL) {
+			if (ptr[0] != ':') {
 				return;
 			}
-                        address = ptr + 1;
-                }
-        }
+			address = ptr + 1;
+		}
+	}
 }
 
 static void ble_scan_state_changed_cb(ble_scan_state_e scan_state)
@@ -67,31 +67,25 @@ static void ble_scan_state_changed_cb(ble_scan_state_e scan_state)
 	ITC_FUNC_SIGNAL;
 }
 
-static void ble_device_scanned_cb(ble_scanned_device *scanned_device)
+static void ble_device_scanned_cb(ble_scanned_device * scanned_device)
 {
-	printf("scanned mac : %02x:%02x:%02x:%02x:%02x:%02x\n",
-		scanned_device->addr.mac[0],
-		scanned_device->addr.mac[1],
-		scanned_device->addr.mac[2],
-		scanned_device->addr.mac[3],
-		scanned_device->addr.mac[4],
-		scanned_device->addr.mac[5]
-	);
+	printf("scanned mac : %02x:%02x:%02x:%02x:%02x:%02x\n", scanned_device->addr.mac[0], scanned_device->addr.mac[1], scanned_device->addr.mac[2], scanned_device->addr.mac[3], scanned_device->addr.mac[4], scanned_device->addr.mac[5]
+		);
 }
 
-static void ble_device_disconnected_cb(ble_client_ctx *ctx)
+static void ble_device_disconnected_cb(ble_client_ctx * ctx)
 {
 	printf("client disconnected callback received\n");
 	ITC_FUNC_SIGNAL;
 }
 
-static void ble_device_connected_cb(ble_client_ctx *ctx, ble_device_connected *dev)
+static void ble_device_connected_cb(ble_client_ctx * ctx, ble_device_connected * dev)
 {
 	printf("client connected callback received\n");
 	ITC_FUNC_SIGNAL;
 }
 
-static void ble_operation_notification_cb(ble_client_ctx *ctx, ble_attr_handle attr_handle, ble_data *read_result)
+static void ble_operation_notification_cb(ble_client_ctx * ctx, ble_attr_handle attr_handle, ble_data * read_result)
 {
 	printf("notification callback received\n");
 	ITC_FUNC_SIGNAL;
@@ -104,35 +98,35 @@ static void ble_server_connected_cb(ble_conn_handle con_handle, ble_server_conne
 
 static ble_server_gatt_t gatt_profile[] = {
 	{
-		.type = BLE_SERVER_GATT_SERVICE,
-		.uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01},
-		.uuid_length = 16,
-		.attr_handle = 0x006a,
-	},
+	 .type = BLE_SERVER_GATT_SERVICE,
+	 .uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01},
+	 .uuid_length = 16,
+	 .attr_handle = 0x006a,
+	 },
 
 	{
-		.type = BLE_SERVER_GATT_CHARACT,
-		.uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x02},
-		.uuid_length = 16,
-		.property = BLE_ATTR_PROP_RWN | BLE_ATTR_PROP_WRITE_NO_RSP,
-		.permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT,
-		.attr_handle = 0x006b,
-		.arg = "char_a_1"
-	},
+	 .type = BLE_SERVER_GATT_CHARACT,
+	 .uuid = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x02},
+	 .uuid_length = 16,
+	 .property = BLE_ATTR_PROP_RWN | BLE_ATTR_PROP_WRITE_NO_RSP,
+	 .permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT,
+	 .attr_handle = 0x006b,
+	 .arg = "char_a_1"},
 
 	{
-		.type = BLE_SERVER_GATT_DESC,
-		.uuid = {0x02, 0x29},
-		.uuid_length = 2,
-		.permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT,
-		.attr_handle = 0x006c,
-		.arg = "desc_b_1",
-	},
+	 .type = BLE_SERVER_GATT_DESC,
+	 .uuid = {0x02, 0x29},
+	 .uuid_length = 2,
+	 .permission = BLE_ATTR_PERM_R_PERMIT | BLE_ATTR_PERM_W_PERMIT,
+	 .attr_handle = 0x006c,
+	 .arg = "desc_b_1",
+	 },
 };
 
 static uint8_t g_adv_raw[] = {
 	0x02, 0x01, 0x05, 0x03, 0x19, 0x80, 0x01, 0x05, 0x03, 0x12, 0x18, 0x0f, 0x18
 };
+
 static uint8_t g_adv_resp[] = {
 	0x11, 0x09, 'T', 'I', 'Z', 'E', 'N', 'R', 'T', ' ', 'T', 'E', 'S', 'T', '(', '0', '2', ')',
 };
@@ -155,7 +149,7 @@ static ble_server_init_config server_config = {
 	sizeof(gatt_profile) / sizeof(ble_server_gatt_t)
 };
 
-static void set_scan_filter(ble_scan_filter *filter, uint8_t *raw_data, uint8_t len, bool whitelist_enable, uint32_t scan_duration)
+static void set_scan_filter(ble_scan_filter * filter, uint8_t * raw_data, uint8_t len, bool whitelist_enable, uint32_t scan_duration)
 {
 	memset(filter, 0, sizeof(ble_scan_filter));
 	if (raw_data != NULL && len > 0) {
@@ -288,14 +282,8 @@ static void itc_blemanager_connect_disconnect_p(void)
 	conn_info.mtu = 240;
 	conn_info.scan_timeout = 1000;
 	conn_info.is_secured_connect = true;
-	printf("connecting to mac : %02x:%02x:%02x:%02x:%02x:%02x\n",
-		conn_info.addr.mac[0],
-		conn_info.addr.mac[1],
-		conn_info.addr.mac[2],
-		conn_info.addr.mac[3],
-		conn_info.addr.mac[4],
-		conn_info.addr.mac[5]
-	);
+	printf("connecting to mac : %02x:%02x:%02x:%02x:%02x:%02x\n", conn_info.addr.mac[0], conn_info.addr.mac[1], conn_info.addr.mac[2], conn_info.addr.mac[3], conn_info.addr.mac[4], conn_info.addr.mac[5]
+		);
 	ret = ble_client_connect(ctx, &conn_info);
 	TC_ASSERT_EQ_CLEANUP("ble_client_connect", ret, BLE_MANAGER_SUCCESS, ble_manager_deinit());
 	ITC_FUNC_WAIT;
@@ -378,14 +366,8 @@ static void itc_blemanager_bonded_device_p(void)
 	conn_info.mtu = 240;
 	conn_info.scan_timeout = 1000;
 	conn_info.is_secured_connect = true;
-	printf("connecting to mac : %02x:%02x:%02x:%02x:%02x:%02x\n",
-		conn_info.addr.mac[0],
-		conn_info.addr.mac[1],
-		conn_info.addr.mac[2],
-		conn_info.addr.mac[3],
-		conn_info.addr.mac[4],
-		conn_info.addr.mac[5]
-	);
+	printf("connecting to mac : %02x:%02x:%02x:%02x:%02x:%02x\n", conn_info.addr.mac[0], conn_info.addr.mac[1], conn_info.addr.mac[2], conn_info.addr.mac[3], conn_info.addr.mac[4], conn_info.addr.mac[5]
+		);
 	ret = ble_client_connect(ctx, &conn_info);
 	TC_ASSERT_EQ_CLEANUP("ble_client_connect", ret, BLE_MANAGER_SUCCESS, ble_manager_deinit());
 	ITC_FUNC_WAIT;
@@ -432,14 +414,8 @@ static void itc_blemanager_client_con_list_p(void)
 	conn_info.mtu = 240;
 	conn_info.scan_timeout = 1000;
 	conn_info.is_secured_connect = true;
-	printf("connecting to mac : %02x:%02x:%02x:%02x:%02x:%02x\n",
-		conn_info.addr.mac[0],
-		conn_info.addr.mac[1],
-		conn_info.addr.mac[2],
-		conn_info.addr.mac[3],
-		conn_info.addr.mac[4],
-		conn_info.addr.mac[5]
-	);
+	printf("connecting to mac : %02x:%02x:%02x:%02x:%02x:%02x\n", conn_info.addr.mac[0], conn_info.addr.mac[1], conn_info.addr.mac[2], conn_info.addr.mac[3], conn_info.addr.mac[4], conn_info.addr.mac[5]
+		);
 	ret = ble_client_connect(ctx, &conn_info);
 	TC_ASSERT_EQ_CLEANUP("ble_client_connect", ret, BLE_MANAGER_SUCCESS, ble_manager_deinit());
 	ITC_FUNC_WAIT;
@@ -483,14 +459,8 @@ static void itc_blemanager_connected_dev_info_p(void)
 	conn_info.mtu = 240;
 	conn_info.scan_timeout = 1000;
 	conn_info.is_secured_connect = true;
-	printf("connecting to mac : %02x:%02x:%02x:%02x:%02x:%02x\n",
-		conn_info.addr.mac[0],
-		conn_info.addr.mac[1],
-		conn_info.addr.mac[2],
-		conn_info.addr.mac[3],
-		conn_info.addr.mac[4],
-		conn_info.addr.mac[5]
-	);
+	printf("connecting to mac : %02x:%02x:%02x:%02x:%02x:%02x\n", conn_info.addr.mac[0], conn_info.addr.mac[1], conn_info.addr.mac[2], conn_info.addr.mac[3], conn_info.addr.mac[4], conn_info.addr.mac[5]
+		);
 	ret = ble_client_connect(ctx, &conn_info);
 	TC_ASSERT_EQ_CLEANUP("ble_client_connect", ret, BLE_MANAGER_SUCCESS, ble_manager_deinit());
 	ITC_FUNC_WAIT;
@@ -539,9 +509,9 @@ static void itc_blemanager_advertisement_p(void)
 	uint8_t mac[BLE_BD_ADDR_MAX_LEN];
 	ble_addr addr = {
 		{
-			*mac,
-			type,
-		}
+		 *mac,
+		 type,
+		 }
 	};
 	ret = ble_server_set_adv_type(type, &addr);
 	TC_ASSERT_EQ_CLEANUP("ble_server_set_adv_type", ret, BLE_MANAGER_SUCCESS, ble_manager_deinit());
@@ -591,9 +561,9 @@ static void itc_blemanager_readvertisement_p(void)
 	uint8_t mac[BLE_BD_ADDR_MAX_LEN];
 	ble_addr addr = {
 		{
-			*mac,
-			type,
-		}
+		 *mac,
+		 type,
+		 }
 	};
 	ret = ble_server_set_adv_type(type, &addr);
 	TC_ASSERT_EQ_CLEANUP("ble_server_set_adv_type", ret, BLE_MANAGER_SUCCESS, ble_manager_deinit());
@@ -650,7 +620,8 @@ static void itc_blemanager_whitelist_add_del_p(void)
  * @precondition     none
  * @postcondition    none
  */
-static void itc_blemanager_get_profile_count_p(void) {
+static void itc_blemanager_get_profile_count_p(void)
+{
 	ble_result_e ret = BLE_MANAGER_FAIL;
 	ret = ble_manager_init(&server_config);
 	TC_ASSERT_EQ("ble_manager_init", ret, BLE_MANAGER_SUCCESS);

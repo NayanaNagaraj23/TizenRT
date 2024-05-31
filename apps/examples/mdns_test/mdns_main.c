@@ -250,6 +250,6 @@ int mdns_main(int argc, char *argv[])
 
 	return 0;
 
-errout:
+ errout:
 	return -1;
 }

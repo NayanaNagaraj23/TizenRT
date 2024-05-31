@@ -53,7 +53,7 @@ int utc_security_main(int argc, char *argv[])
 	if (testcase_state_handler(TC_START, "Security UTC") == ERROR) {
 		return ERROR;
 	}
-	
+
 	utc_common_main();
 #ifdef CONFIG_EXAMPLES_TESTCASE_SECURITY_FRAMEWORK_UTC_AUTH
 	utc_auth_main();

@@ -87,6 +87,7 @@ static void display_reboot_reason_option(void)
 	printf("\t-Press R or r : Check previous reboot reason\n");
 	printf("\t-Press X or x : Terminate Tests.\n");
 }
+
 #ifdef CONFIG_WATCHDOG
 static void watchdog_test(void)
 {
@@ -114,7 +115,7 @@ static void watchdog_test(void)
 	}
 
 	/* Wait until watchdog timeout */
-	while (1);
+	while (1) ;
 }
 #endif
 
@@ -181,7 +182,7 @@ int reboot_reason_main(int argc, char *argv[])
 			printf("Expected reboot reason after hw reset is : %d\n", REBOOT_SYSTEM_HW_RESET);
 			printf("Press HW Reset Button.\n");
 			/* Wait for pressing the hw reset button. */
-			while (1);
+			while (1) ;
 			break;
 #ifdef CONFIG_WATCHDOG
 		case 'W':

@@ -111,7 +111,7 @@ extern "C" {
  **************************************************************************/
 
 #if CONFIG_NFILE_STREAMS > 0
-ssize_t readline(FAR char *buf, int buflen, FILE *instream, FILE *outstream);
+ssize_t readline(FAR char *buf, int buflen, FILE * instream, FILE * outstream);
 #endif
 
 /****************************************************************************

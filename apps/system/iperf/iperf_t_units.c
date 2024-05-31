@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 	assert(1024 == unit_atoi("1K"));
 	assert(1024 * 1024 == unit_atoi("1M"));
 	d = 4.0 * 1024 * 1024 * 1024;
-	llu = (iperf_size_t)d;
+	llu = (iperf_size_t) d;
 	assert(llu == unit_atoi("4G"));
 
 #ifdef notdef
@@ -89,14 +89,14 @@ int main(int argc, char **argv)
 	assert(1000 == unit_atoi("1k"));
 	assert(1000 * 1000 == unit_atoi("1m"));
 	d = 4.0 * 1000 * 1000 * 1000;
-	llu = (iperf_size_t)d;
+	llu = (iperf_size_t) d;
 	assert(llu == unit_atoi("4g"));
 #endif
 	assert(1024 * 0.5 == unit_atoi("0.5k"));
 	assert(1024 == unit_atoi("1k"));
 	assert(1024 * 1024 == unit_atoi("1m"));
 	d = 4.0 * 1024 * 1024 * 1024;
-	llu = (iperf_size_t)d;
+	llu = (iperf_size_t) d;
 	assert(llu == unit_atoi("4g"));
 
 	unit_snprintf(s, 11, 1024.0, 'A');

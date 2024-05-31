@@ -92,7 +92,7 @@ int rdp_main(int argc, char *argv[])
 
 	ret = ioctl(tc_fd, TESTIOC_TZ, 0);
 
-	if (ret	< 0) {
+	if (ret < 0) {
 		printf("ERROR executing RDP test ioctl ERROR = %d\n", errno);
 	}
 

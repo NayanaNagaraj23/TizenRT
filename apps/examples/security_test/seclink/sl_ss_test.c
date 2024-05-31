@@ -86,9 +86,8 @@ TESTCASE_SETUP(write_storage)
 		g_input[i].data_len = g_size_arr[i];
 	}
 }
-END_TEST_F
 
-TESTCASE_TEARDOWN(write_storage)
+END_TEST_F TESTCASE_TEARDOWN(write_storage)
 {
 
 	for (uint32_t i = SL_TEST_START_INDEX; i < SL_TEST_MAX_SLOT_INDEX; i++) {
@@ -99,16 +98,15 @@ TESTCASE_TEARDOWN(write_storage)
 		free(g_ss_data[i]);
 	}
 }
-END_TEST_F
 
-START_TEST_F(write_storage)
+END_TEST_F START_TEST_F(write_storage)
 {
 	for (uint32_t i = SL_TEST_START_INDEX; i < SL_TEST_MAX_SLOT_INDEX; i++) {
 		ST_EXPECT_EQ(SECLINK_OK, sl_write_storage(g_hnd, i, &g_input[i]));
 	}
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * Desc: Read data in secure storage
  */
@@ -125,9 +123,8 @@ TESTCASE_SETUP(read_storage)
 		ST_EXPECT_EQ(SECLINK_OK, sl_write_storage(g_hnd, i, &g_input[i]));
 	}
 }
-END_TEST_F
 
-TESTCASE_TEARDOWN(read_storage)
+END_TEST_F TESTCASE_TEARDOWN(read_storage)
 {
 	for (uint32_t i = SL_TEST_START_INDEX; i < SL_TEST_MAX_SLOT_INDEX; i++) {
 		ST_EXPECT_EQ(SECLINK_OK, sl_delete_storage(g_hnd, i));
@@ -139,9 +136,8 @@ TESTCASE_TEARDOWN(read_storage)
 		free(g_ss_data[i]);
 	}
 }
-END_TEST_F
 
-START_TEST_F(read_storage)
+END_TEST_F START_TEST_F(read_storage)
 {
 	for (uint32_t i = SL_TEST_START_INDEX; i < SL_TEST_MAX_SLOT_INDEX; i++) {
 		ST_EXPECT_EQ(0, sl_test_malloc_buffer(&g_output[i], SL_TEST_MAX_DATA));
@@ -154,8 +150,8 @@ START_TEST_F(read_storage)
 		sl_test_print_buffer(g_output[i].data, g_output[i].data_len, message);
 	}
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * Desc: Delete data in secure storage
  */
@@ -172,60 +168,54 @@ TESTCASE_SETUP(delete_storage)
 		ST_EXPECT_EQ(SECLINK_OK, sl_write_storage(g_hnd, i, &g_input[i]));
 	}
 }
-END_TEST_F
 
-TESTCASE_TEARDOWN(delete_storage)
+END_TEST_F TESTCASE_TEARDOWN(delete_storage)
 {
 	for (int i = SL_TEST_START_INDEX; i < SL_TEST_MAX_SLOT_INDEX; i++) {
 		free(g_ss_data[i]);
 	}
 }
-END_TEST_F
 
-START_TEST_F(delete_storage)
+END_TEST_F START_TEST_F(delete_storage)
 {
 	for (uint32_t i = SL_TEST_START_INDEX; i < SL_TEST_MAX_SLOT_INDEX; i++) {
 		ST_EXPECT_EQ(SECLINK_OK, sl_delete_storage(g_hnd, i));
 	}
 }
-END_TEST_F
 
-TESTCASE_SETUP(sl_ss_global)
+END_TEST_F TESTCASE_SETUP(sl_ss_global)
 {
 	g_size_arr[0] = SL_TEST_MAX_DATA;
 	g_size_arr[1] = 300;
 	g_size_arr[2] = 300;
 	ST_ASSERT_EQ(SECLINK_OK, sl_init(&g_hnd));
 }
-END_TESTCASE
 
-TESTCASE_TEARDOWN(sl_ss_global)
+END_TESTCASE TESTCASE_TEARDOWN(sl_ss_global)
 {
 	ST_ASSERT_EQ(SECLINK_OK, sl_deinit(g_hnd));
 }
-END_TESTCASE
 
-void sl_handle_ss_write(sl_options *opt)
+END_TESTCASE void sl_handle_ss_write(sl_options * opt)
 {
 	ST_SET_SMOKE(sl_ss, opt->count, 0, "write storage", write_storage);
 }
 
-void sl_handle_ss_read(sl_options *opt)
+void sl_handle_ss_read(sl_options * opt)
 {
 	ST_SET_SMOKE(sl_ss, opt->count, 0, "read storage", read_storage);
 }
 
-void sl_handle_ss_delete(sl_options *opt)
+void sl_handle_ss_delete(sl_options * opt)
 {
 	ST_SET_SMOKE(sl_ss, opt->count, 0, "delete storage", delete_storage);
 }
 
-void sl_handle_ss(sl_options *opt)
+void sl_handle_ss(sl_options * opt)
 {
 	ST_TC_SET_GLOBAL(sl_ss, sl_ss_global);
 
-	SL_PARSE_MESSAGE(opt, g_command, sl_ss_type_e,
-					 g_func_list, SL_SS_TYPE_MAX, SL_SS_TYPE_ERR);
+	SL_PARSE_MESSAGE(opt, g_command, sl_ss_type_e, g_func_list, SL_SS_TYPE_MAX, SL_SS_TYPE_ERR);
 	ST_RUN_TEST(sl_ss);
 	ST_RESULT_TEST(sl_ss);
 }

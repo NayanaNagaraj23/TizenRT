@@ -149,7 +149,7 @@ static inline int date_showtime(void)
 static inline int date_settime(int argc, char **args)
 {
 	struct timespec ts;
-	struct tm tm = {0};
+	struct tm tm = { 0 };
 	FAR char *token;
 	FAR char *saveptr;
 	long result;
@@ -291,7 +291,7 @@ static inline int date_settime(int argc, char **args)
 
 	return ret;
 
-errout_bad_parm:
+ errout_bad_parm:
 	printf("bad parameter\n");
 	return ERROR;
 }

@@ -91,9 +91,9 @@
 
 static const char *notimplemented = { "HTTP/1.1 501 Not Implemented\n\n" };
 static const char *separator = { "\015\012\015\012" };
+
 #define XMLRPC_BUFFERSIZE 1024
 #define XMLRPC_STRINGSIZE 64
-
 
 /****************************************************************************
  * External Function Prototypes
@@ -203,8 +203,7 @@ static void xmlrpc_handler(int fd)
 					max += len;
 					buffer[max] = 0;
 
-					ret = xmlrpc_getheader(buffer, "Content-Length:", value,
-										   XMLRPC_BUFFERSIZE);
+					ret = xmlrpc_getheader(buffer, "Content-Length:", value, XMLRPC_BUFFERSIZE);
 					if (ret > 0) {
 						loadlen = atoi(value);
 					}

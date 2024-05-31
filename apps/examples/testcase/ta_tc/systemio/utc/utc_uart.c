@@ -61,7 +61,7 @@ static void utc_systemio_uart_open_p(void)
 {
 	int device = -1;
 	sscanf(UART_FILE_PATH, "/dev/ttyS%d", &device);
-	
+
 	iotbus_uart_context_h m_uart = iotbus_uart_open(device);
 	TC_ASSERT_NEQ("iotbus_uart_open", m_uart, NULL);
 	uart = m_uart;
@@ -191,7 +191,7 @@ int utc_uart_main(void)
 	utc_systemio_uart_open_n();
 #ifdef CONFIG_SERIAL_TERMIOS
 	utc_systemio_uart_set_baudrate_p();
-	utc_systemio_uart_set_baudrate_n();	
+	utc_systemio_uart_set_baudrate_n();
 	utc_systemio_uart_set_mode_p_IOTBUS_UART_PARITY_NONE();
 	utc_systemio_uart_set_mode_p_IOTBUS_UART_PARITY_EVEN();
 	utc_systemio_uart_set_mode_p_IOTBUS_UART_PARITY_ODD();

@@ -51,7 +51,7 @@ enum proc_stat_data_e {
 };
 
 typedef char *stat_data;
-typedef int (*procentry_handler_t)(FAR struct dirent *entryp, FAR void *arg);
+typedef int (*procentry_handler_t)(FAR struct dirent * entryp, FAR void *arg);
 typedef void (*utils_handler_t)(char *buf, void *arg);
 
 int utils_proc_pid_foreach(procentry_handler_t handler, void *arg);

@@ -169,7 +169,7 @@ struct i2ctool_s {
 #endif
 };
 
-typedef int (*cmd_t)(FAR struct i2ctool_s *i2ctool, int argc, FAR char **argv);
+typedef int (*cmd_t)(FAR struct i2ctool_s * i2ctool, int argc, FAR char **argv);
 
 struct cmdmap_s {
 	FAR const char *cmd;		/* Name of the command */
@@ -210,7 +210,7 @@ int i2ccmd_verf(FAR struct i2ctool_s *i2ctool, int argc, FAR char **argv);
 
 /* I2C access functions */
 
-int i2ctool_get(FAR struct i2ctool_s *i2ctool, FAR struct i2c_dev_s *dev, uint8_t addr, uint16_t *result);
+int i2ctool_get(FAR struct i2ctool_s *i2ctool, FAR struct i2c_dev_s *dev, uint8_t addr, uint16_t * result);
 int i2ctool_set(FAR struct i2ctool_s *i2ctool, FAR struct i2c_dev_s *dev, uint8_t regaddr, uint16_t value);
 
 /* Common logic */

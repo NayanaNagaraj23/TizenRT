@@ -40,9 +40,7 @@
 #define TASK_STACK_SIZE 512
 #define INTERVAL_UPDATE_SEC 10
 
-typedef int (*direntry_handler_t)(FAR const char *dirpath,
-								  FAR struct dirent *entryp,
-								  FAR void *pvarg);
+typedef int (*direntry_handler_t)(FAR const char *dirpath, FAR struct dirent * entryp, FAR void *pvarg);
 
 /****************************************************************************
  * Private Data

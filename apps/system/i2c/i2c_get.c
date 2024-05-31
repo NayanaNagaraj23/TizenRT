@@ -199,7 +199,7 @@ int i2ccmd_get(FAR struct i2ctool_s *i2ctool, int argc, FAR char **argv)
  * Name: i2ctool_get
  ****************************************************************************/
 
-int i2ctool_get(FAR struct i2ctool_s *i2ctool, FAR struct i2c_dev_s *dev, uint8_t regaddr, uint16_t *result)
+int i2ctool_get(FAR struct i2ctool_s *i2ctool, FAR struct i2c_dev_s *dev, uint8_t regaddr, uint16_t * result)
 {
 	struct i2c_msg_s msg[2];
 	union {
@@ -239,7 +239,7 @@ int i2ctool_get(FAR struct i2ctool_s *i2ctool, FAR struct i2c_dev_s *dev, uint8_
 
 	if (ret == OK) {
 		if (i2ctool->width == 8) {
-			*result = (uint16_t)u.data8;
+			*result = (uint16_t) u.data8;
 		} else {
 			*result = u.data16;
 		}

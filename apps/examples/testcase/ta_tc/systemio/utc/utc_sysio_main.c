@@ -53,7 +53,6 @@ int utc_sysio_main(int argc, char *argv[])
 	if (testcase_state_handler(TC_START, "SystemIO UTC") == ERROR) {
 		return ERROR;
 	}
-
 #ifdef CONFIG_SYSIO_UTC_GPIO
 	utc_gpio_main();
 #endif

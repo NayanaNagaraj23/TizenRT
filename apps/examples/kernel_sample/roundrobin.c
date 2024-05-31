@@ -73,19 +73,19 @@
  * range and 10 runs it takes ~320s. */
 
 #ifndef CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE
-#  define CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE 10000
-#  warning "CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE undefined, using default value = 10000"
+#define CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE 10000
+#warning "CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE undefined, using default value = 10000"
 #elif (CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE < 1) || (CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE > 32767)
-#  define CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE 10000
-#  warning "Invalid value of CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE, using default value = 10000"
+#define CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE 10000
+#warning "Invalid value of CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE, using default value = 10000"
 #endif
 
 #ifndef CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS
-#  define CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS 10
-#  warning "CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS undefined, using default value = 10"
+#define CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS 10
+#warning "CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS undefined, using default value = 10"
 #elif (CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS < 1) || (CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS > 32767)
-#  define CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS 10
-#  warning "Invalid value of CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS, using default value = 10"
+#define CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS 10
+#warning "Invalid value of CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS, using default value = 10"
 #endif
 
 /********************************************************************************
@@ -104,7 +104,7 @@ static void get_primes(int *count, int *last)
 	int number;
 	int local_count = 0;
 
-	*last = 0;    /* To make the compiler happy */
+	*last = 0;					/* To make the compiler happy */
 
 	for (number = 1; number < CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE; number++) {
 		int div;
@@ -119,7 +119,7 @@ static void get_primes(int *count, int *last)
 		if (is_prime) {
 			local_count++;
 			*last = number;
-#if 0 /* We don't really care what the numbers are */
+#if 0							/* We don't really care what the numbers are */
 			printf(" Prime %d: %d\n", local_count, number);
 #endif
 		}
@@ -139,18 +139,16 @@ static FAR void *get_primes_thread(FAR void *parameter)
 	int last;
 	int i;
 
-	printf("get_primes_thread id=%d started, looking for primes < %d, doing %d run(s)\n",
-		   id, CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE, CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS);
+	printf("get_primes_thread id=%d started, looking for primes < %d, doing %d run(s)\n", id, CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RANGE, CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS);
 
 	for (i = 0; i < CONFIG_EXAMPLES_KERNEL_SAMPLE_RR_RUNS; i++) {
 		get_primes(&count, &last);
 	}
 
-	printf("get_primes_thread id=%d finished, found %d primes, last one was %d\n",
-		   id, count, last);
+	printf("get_primes_thread id=%d finished, found %d primes, last one was %d\n", id, count, last);
 
 	pthread_exit(NULL);
-	return NULL; /* To keep some compilers happy */
+	return NULL;				/* To keep some compilers happy */
 }
 
 /********************************************************************************
@@ -172,20 +170,20 @@ void rr_test(void)
 
 	status = pthread_attr_init(&attr);
 	if (status != OK) {
-		printf("rr_test: ERROR: pthread_attr_init failed, status=%d\n",  status);
+		printf("rr_test: ERROR: pthread_attr_init failed, status=%d\n", status);
 	}
 
 	sparam.sched_priority = sched_get_priority_min(SCHED_FIFO);
 	status = pthread_attr_setschedparam(&attr, &sparam);
 	if (status != OK) {
-		printf("rr_test: ERROR: pthread_attr_setschedparam failed, status=%d\n",  status);
+		printf("rr_test: ERROR: pthread_attr_setschedparam failed, status=%d\n", status);
 	} else {
-		printf("rr_test: Set thread priority to %d\n",  sparam.sched_priority);
+		printf("rr_test: Set thread priority to %d\n", sparam.sched_priority);
 	}
 
 	status = pthread_attr_setschedpolicy(&attr, SCHED_RR);
 	if (status != OK) {
-		printf("rr_test: ERROR: pthread_attr_setschedpolicy failed, status=%d\n",  status);
+		printf("rr_test: ERROR: pthread_attr_setschedpolicy failed, status=%d\n", status);
 	} else {
 		printf("rr_test: Set thread policy to SCHED_RR\n");
 	}
@@ -194,7 +192,7 @@ void rr_test(void)
 
 	status = pthread_create(&get_primes1_thread, &attr, get_primes_thread, (FAR void *)1);
 	if (status != 0) {
-		printf("         ERROR: Thread 1 creation failed: %d\n",  status);
+		printf("         ERROR: Thread 1 creation failed: %d\n", status);
 	}
 
 	printf("         First get_primes_thread: %d\n", (int)get_primes1_thread);
@@ -202,7 +200,7 @@ void rr_test(void)
 
 	status = pthread_create(&get_primes2_thread, &attr, get_primes_thread, (FAR void *)2);
 	if (status != 0) {
-		printf("         ERROR: Thread 2 creation failed: %d\n",  status);
+		printf("         ERROR: Thread 2 creation failed: %d\n", status);
 	}
 
 	printf("         Second get_primes_thread: %d\n", (int)get_primes2_thread);
@@ -215,4 +213,4 @@ void rr_test(void)
 	printf("rr_test: Done\n");
 }
 
-#endif /* CONFIG_RR_INTERVAL */
+#endif							/* CONFIG_RR_INTERVAL */

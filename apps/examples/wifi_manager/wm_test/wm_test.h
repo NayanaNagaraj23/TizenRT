@@ -27,8 +27,8 @@ struct wt_options {
 	char *bad_ssid;
 	char *password;
 	char *bad_password;
-	wifi_manager_ap_auth_type_e    auth_type;
-	wifi_manager_ap_crypto_type_e  crypto_type;
+	wifi_manager_ap_auth_type_e auth_type;
+	wifi_manager_ap_crypto_type_e crypto_type;
 	char *softap_ssid;
 	char *softap_password;
 	int softap_channel;

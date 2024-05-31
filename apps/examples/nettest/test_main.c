@@ -21,13 +21,13 @@
 #include <stress_tool/st_perf.h>
 
 #define NT_TEST_TRIAL 2
-#define NT_MAXHOST 1024 /* refer NI_MAXHOST */
-#define NT_MAXSERV 64	/* refer tmpserv in lwip_getnameinfo */
+#define NT_MAXHOST 1024			/* refer NI_MAXHOST */
+#define NT_MAXSERV 64			/* refer tmpserv in lwip_getnameinfo */
 #define TC_HOST_NAME "www.google.com"
 #define TC_SERVICE "80"
 #define NT_STR_DNS_ADDR "8.8.8.8"
 
-static char g_hostname[NT_MAXHOST]; // stack overflow can be happened if set this value local variable.
+static char g_hostname[NT_MAXHOST];	// stack overflow can be happened if set this value local variable.
 static char g_serv[NT_MAXSERV];
 
 static void _print_addrinfo(struct addrinfo *addr)
@@ -94,8 +94,8 @@ START_TEST_F(getaddrinfo_p)
 		freeaddrinfo(servinfo);
 	}
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * Description: verify getaddrinfo negative case
  */
@@ -103,8 +103,8 @@ START_TEST_F(getaddrinfo_n)
 {
 	ST_EXPECT_NEQ(0, getaddrinfo(NULL, NULL, NULL, NULL));
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: getnameinfo positive
  */
@@ -120,18 +120,15 @@ START_TEST_F(getnameinfo_p)
 	res = getaddrinfo(TC_HOST_NAME, TC_SERVICE, &hints, &servinfo);
 	ST_EXPECT_EQ(0, res);
 
-	res = getnameinfo(servinfo->ai_addr, sizeof(struct sockaddr),
-					  g_hostname, sizeof(g_hostname),
-					  g_serv, sizeof(g_serv),
-					  NI_NUMERICSERV | NI_NUMERICHOST);
+	res = getnameinfo(servinfo->ai_addr, sizeof(struct sockaddr), g_hostname, sizeof(g_hostname), g_serv, sizeof(g_serv), NI_NUMERICSERV | NI_NUMERICHOST);
 	ST_EXPECT_EQ(0, res);
 	if (res == 0) {
 		_print_serv_info(g_hostname, g_serv);
 	}
 	freeaddrinfo(servinfo);
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: getnameinfo negative
  */
@@ -143,8 +140,8 @@ START_TEST_F(getnameinfo_n)
 						  NI_NUMERICSERV | NI_NUMERICHOST);
 	ST_EXPECT_NEQ(0, res);
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: gethostbyname positive
  */
@@ -157,8 +154,8 @@ START_TEST_F(gethostbyname_p)
 		_print_host(shost);
 	}
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: gethostbyname negative
  */
@@ -168,8 +165,8 @@ START_TEST_F(gethostbyname_n)
 	shost = gethostbyname(NULL);
 	ST_EXPECT_EQ(NULL, shost);
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: get socket information
  */
@@ -183,8 +180,8 @@ START_TEST_F(netmon_sock)
 		free(str_sock);
 	}
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: get network stack statistics info
  */
@@ -198,8 +195,8 @@ START_TEST_F(netmon_stats)
 		free(str_stats);
 	}
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * Description: get NIC statistics
  */
@@ -213,8 +210,8 @@ START_TEST_F(netmon_dev_stats)
 		free(str_stats);
 	}
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: set dns server
  */
@@ -227,8 +224,8 @@ START_TEST_F(set_dns_p)
 	int res = netlib_setdnsserver((struct sockaddr *)&dns_addr, -1);
 	ST_EXPECT_EQ(0, res);
 }
-END_TEST_F
 
+END_TEST_F
 /*
  * description: set dns server negative
  */
@@ -237,9 +234,8 @@ START_TEST_F(set_dns_n)
 	int res = netlib_setdnsserver(NULL, -1);
 	ST_EXPECT_NEQ(0, res);
 }
-END_TEST_F
 
-int network_internal_test(void)
+END_TEST_F int network_internal_test(void)
 {
 	ST_SET_PACK(nettest);
 

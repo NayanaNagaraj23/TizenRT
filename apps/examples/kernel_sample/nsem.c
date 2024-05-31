@@ -74,7 +74,7 @@
 #define SEM2_NAME "bar"
 
 #ifndef NULL
-# define NULL (void*)0
+#define NULL (void*)0
 #endif
 
 /***********************************************************************
@@ -96,7 +96,7 @@ static FAR void *nsem_peer(void *parameter)
 
 	printf("nsem_peer: Open semaphore 1\n");
 	sem1 = sem_open(SEM1_NAME, 0);
-	if (sem1 == (FAR sem_t *)ERROR) {
+	if (sem1 == (FAR sem_t *) ERROR) {
 		int errcode = errno;
 		printf("nsem_peer: ERROR: sem_open(1) failed: %d\n", errcode);
 		return NULL;
@@ -106,7 +106,7 @@ static FAR void *nsem_peer(void *parameter)
 
 	printf("nsem_peer: Create semaphore 2 with value == 0\n");
 	sem2 = sem_open(SEM2_NAME, O_CREAT | O_EXCL, 0644, 0);
-	if (sem1 == (FAR sem_t *)ERROR) {
+	if (sem1 == (FAR sem_t *) ERROR) {
 		int errcode = errno;
 		printf("nsem_peer: ERROR: sem_open(2) failed: %d\n", errcode);
 		return NULL;
@@ -133,7 +133,7 @@ static FAR void *nsem_peer(void *parameter)
 
 void nsem_test(void)
 {
-	pthread_t peer = (pthread_t)0;
+	pthread_t peer = (pthread_t) 0;
 #ifdef SDCC
 	pthread_addr_t result;
 #endif
@@ -150,7 +150,7 @@ void nsem_test(void)
 
 	printf("nsem_test: Create semaphore 1 with value == 0\n");
 	sem1 = sem_open(SEM1_NAME, O_CREAT | O_EXCL, 0644, 0);
-	if (sem1 == (FAR sem_t *)ERROR) {
+	if (sem1 == (FAR sem_t *) ERROR) {
 		int errcode = errno;
 		printf("nsem_peer: ERROR: sem_open(1) failed: %d\n", errcode);
 		return;
@@ -161,7 +161,7 @@ void nsem_test(void)
 	printf("nsem_test: Starting peer peer\n");
 	status = pthread_attr_init(&attr);
 	if (status != OK) {
-		printf("nsem_test: pthread_attr_init failed, status=%d\n",  status);
+		printf("nsem_test: pthread_attr_init failed, status=%d\n", status);
 	}
 
 	prio_min = sched_get_priority_min(SCHED_FIFO);
@@ -171,14 +171,14 @@ void nsem_test(void)
 	sparam.sched_priority = (prio_mid + prio_max) / 2;
 	status = pthread_attr_setschedparam(&attr, &sparam);
 	if (status != OK) {
-		printf("nsem_test: ERROR: pthread_attr_setschedparam failed, status=%d\n",  status);
+		printf("nsem_test: ERROR: pthread_attr_setschedparam failed, status=%d\n", status);
 	} else {
-		printf("nsem_test: Set peer priority to %d\n",  sparam.sched_priority);
+		printf("nsem_test: Set peer priority to %d\n", sparam.sched_priority);
 	}
 
 	status = pthread_create(&peer, &attr, nsem_peer, NULL);
 	if (status != 0) {
-		printf("nsem_test: ERROR: Peer thread creation failed: %d\n",  status);
+		printf("nsem_test: ERROR: Peer thread creation failed: %d\n", status);
 		return;
 	}
 
@@ -188,7 +188,7 @@ void nsem_test(void)
 	status = sem_wait(sem1);
 	if (status < 0) {
 		int errcode = errno;
-		printf("nsem_test: ERROR: sem_wait(1) failed: %d\n",  errcode);
+		printf("nsem_test: ERROR: sem_wait(1) failed: %d\n", errcode);
 		pthread_cancel(peer);
 		return;
 	}
@@ -204,7 +204,7 @@ void nsem_test(void)
 
 	printf("nsem_test: Open semaphore 2\n");
 	sem2 = sem_open(SEM2_NAME, 0);
-	if (sem2 == (FAR sem_t *)ERROR) {
+	if (sem2 == (FAR sem_t *) ERROR) {
 		int errcode = errno;
 		printf("nsem_test: ERROR: sem_open(2) failed: %d\n", errcode);
 		pthread_cancel(peer);
@@ -217,7 +217,7 @@ void nsem_test(void)
 	status = sem_wait(sem2);
 	if (status < 0) {
 		int errcode = errno;
-		printf("nsem_test: ERROR: sem_wait(1) failed: %d\n",  errcode);
+		printf("nsem_test: ERROR: sem_wait(1) failed: %d\n", errcode);
 		pthread_cancel(peer);
 		return;
 	}
@@ -229,14 +229,14 @@ void nsem_test(void)
 	sem_unlink(SEM2_NAME);
 
 #ifdef SDCC
-	if (peer != (pthread_t)0) {
+	if (peer != (pthread_t) 0) {
 		pthread_join(peer, &result);
 	}
 #else
-	if (peer != (pthread_t)0) {
+	if (peer != (pthread_t) 0) {
 		pthread_join(peer, NULL);
 	}
 #endif
 }
 
-#endif /* CONFIG_FS_NAMED_SEMAPHORES */
+#endif							/* CONFIG_FS_NAMED_SEMAPHORES */

@@ -101,7 +101,6 @@ static void show_usage(void)
 
 }
 
-
 /****************************************************************************
  * Public Functions
  ****************************************************************************/
@@ -166,7 +165,7 @@ int cmd_dhcpd(int argc, char *argv[])
 		goto done;
 	}
 
-done:
+ done:
 	return result;
 }
 #endif

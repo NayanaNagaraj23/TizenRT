@@ -115,10 +115,7 @@ static void ps_print_values(char *buf, void *arg)
 		return;
 	}
 
-	printf("%5s | %4s | %4s | %7s | %c%c | %8s", stat_info[PROC_STAT_PID], stat_info[PROC_STAT_PRIORITY], \
-		flags & TCB_FLAG_ROUND_ROBIN ? "RR  " : "FIFO", utils_ttypenames[(flags & TCB_FLAG_TTYPE_MASK) >> TCB_FLAG_TTYPE_SHIFT], \
-		flags & TCB_FLAG_NONCANCELABLE ? 'N' : ' ', flags & TCB_FLAG_CANCEL_PENDING ? 'P' : ' ', \
-		utils_statenames[state]);
+	printf("%5s | %4s | %4s | %7s | %c%c | %8s", stat_info[PROC_STAT_PID], stat_info[PROC_STAT_PRIORITY], flags & TCB_FLAG_ROUND_ROBIN ? "RR  " : "FIFO", utils_ttypenames[(flags & TCB_FLAG_TTYPE_MASK) >> TCB_FLAG_TTYPE_SHIFT], flags & TCB_FLAG_NONCANCELABLE ? 'N' : ' ', flags & TCB_FLAG_CANCEL_PENDING ? 'P' : ' ', utils_statenames[state]);
 
 #if (CONFIG_TASK_NAME_SIZE > 0)
 	printf(" | %s\n", stat_info[PROC_STAT_NAME]);
@@ -163,7 +160,6 @@ int utils_ps(int argc, char **args)
 			return ERROR;
 		}
 	}
-
 #endif
 
 	printf("\n");

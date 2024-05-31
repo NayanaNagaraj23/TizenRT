@@ -23,7 +23,7 @@
 	"\n DA Device simulation in Easy Setup process"                \
 	"       connect_test server [ap ssid] [ap security mode] [ap password] [softap ssid] [softap password] [softap channel]\n"  \
 	"                [repeat count] [udp/dtls] [udp/dtls data size in KB] [tcp/tls] [tcp/tls data size in KB] [hostname filepath]\n\n"
-        
+
 #define CT_EASYSETUP_CLIENT_USAGE                          \
 	"\n Mobile Smarthings Application simulation in Easysetup Process\n"                 \
         "       connect_test client [ap ssid] [ap security mode] [ap password] [softap ssid] [softap password] [softap channel] \n"            \
@@ -34,4 +34,4 @@
 	"\n run Connect-Test:\n"						\
 	CT_ADD_HOSTNAME_USAGE                                                           \
         CT_EASYSETUP_SERVER_USAGE                                                       \
-	CT_EASYSETUP_CLIENT_USAGE                                                      
+	CT_EASYSETUP_CLIENT_USAGE

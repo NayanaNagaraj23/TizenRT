@@ -404,11 +404,11 @@ static void itc_fs_vfs_lseek_n(void)
 {
 	int fd;
 
-	TC_ASSERT_EQ("lseek", lseek(-1, 0, SEEK_SET), (off_t)ERROR);
+	TC_ASSERT_EQ("lseek", lseek(-1, 0, SEEK_SET), (off_t) ERROR);
 
 	fd = open(VFS_FILE_PATH, O_RDWR | O_TRUNC | O_CREAT);
 	TC_ASSERT_GEQ("open", fd, 0);
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, -1), (off_t)ERROR, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, -1), (off_t) ERROR, close(fd));
 	TC_ASSERT_EQ("close", close(fd), OK);
 
 	TC_SUCCESS_RESULT();
@@ -430,7 +430,7 @@ static void itc_fs_vfs_lseek_n_closed_fd(void)
 	TC_ASSERT_GEQ("open", fd, 0);
 	TC_ASSERT_EQ("close", close(fd), OK);
 
-	TC_ASSERT_EQ("lseek", lseek(fd, 0, SEEK_SET), (off_t)ERROR);
+	TC_ASSERT_EQ("lseek", lseek(fd, 0, SEEK_SET), (off_t) ERROR);
 
 	TC_SUCCESS_RESULT();
 }
@@ -452,15 +452,15 @@ static void itc_fs_vfs_lseek_p(void)
 	fd = open(VFS_FILE_PATH, O_RDWR | O_TRUNC | O_CREAT);
 	TC_ASSERT_GEQ("open", fd, 0);
 
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_SET), (off_t)0, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_SET), (off_t) 0, close(fd));
 	TC_ASSERT_EQ_CLEANUP("write", write(fd, VFS_TEST_CONTENTS_1, 15), 15, close(fd));
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_CUR), (off_t)15, close(fd));
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_END), (off_t)15, close(fd));
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, -5, SEEK_END), (off_t)10, close(fd));
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, -10, SEEK_CUR), (off_t)0, close(fd));
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, -15, SEEK_SET), (off_t)0, close(fd));
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 20, SEEK_CUR), (off_t)15, close(fd));
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_SET), (off_t)0, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_CUR), (off_t) 15, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_END), (off_t) 15, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, -5, SEEK_END), (off_t) 10, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, -10, SEEK_CUR), (off_t) 0, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, -15, SEEK_SET), (off_t) 0, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 20, SEEK_CUR), (off_t) 15, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_SET), (off_t) 0, close(fd));
 
 	memset(read_buf, 0, BUFFER_LEN);
 	ret = read(fd, read_buf, BUFFER_LEN);
@@ -498,9 +498,9 @@ static void itc_fs_vfs_pwrite_pread_p(void)
 	TC_ASSERT_EQ_CLEANUP("pwrite", pwrite(fd, write_buf, 0, 0), 0, close(fd));
 	TC_ASSERT_EQ_CLEANUP("pwrite", pwrite(fd, write_buf, 10, 0), 10, close(fd));
 
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 4, SEEK_SET), (off_t)4, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 4, SEEK_SET), (off_t) 4, close(fd));
 	TC_ASSERT_EQ_CLEANUP("pwrite", pwrite(fd, write_buf + 7, 8, 7), 8, close(fd));
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_CUR), (off_t)4, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_CUR), (off_t) 4, close(fd));
 
 	TC_ASSERT_EQ("close", close(fd), OK);
 
@@ -515,14 +515,14 @@ static void itc_fs_vfs_pwrite_pread_p(void)
 	TC_ASSERT_EQ_CLEANUP("pread", ret, 10, close(fd));
 	TC_ASSERT_EQ_CLEANUP("pread", strncmp(read_buf, write_buf, ret), 0, close(fd));
 
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 4, SEEK_SET), (off_t)4, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 4, SEEK_SET), (off_t) 4, close(fd));
 
 	memset(read_buf, 0, BUFFER_LEN);
 	ret = pread(fd, read_buf, 10, 9);
 	TC_ASSERT_EQ_CLEANUP("pread", ret, 6, close(fd));
 	TC_ASSERT_EQ_CLEANUP("pread", strncmp(read_buf, write_buf + 9, ret), 0, close(fd));
 
-	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_CUR), (off_t)4, close(fd));
+	TC_ASSERT_EQ_CLEANUP("lseek", lseek(fd, 0, SEEK_CUR), (off_t) 4, close(fd));
 
 	TC_ASSERT_EQ("close", close(fd), OK);
 
@@ -682,7 +682,7 @@ static void itc_fs_vfs_opendir_n_file_path(void)
 {
 	DIR *dirp;
 
-	dirp = opendir(VFS_FILE_PATH); //Open with file path not with directory
+	dirp = opendir(VFS_FILE_PATH);	//Open with file path not with directory
 	TC_ASSERT_EQ_CLEANUP("opendir", dirp, NULL, closedir(dirp));
 
 	TC_SUCCESS_RESULT();
@@ -800,7 +800,7 @@ static void itc_fs_vfs_seekdir_telldir_p(void)
 	dirp = opendir(VFS_FOLDER_PATH);
 	TC_ASSERT_NEQ_CLEANUP("opendir", dirp, NULL, remove_dirs(VFS_LOOP_COUNT));
 
-	TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t)0, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
+	TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t) 0, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
 
 	count = 0;
 	while (1) {
@@ -809,23 +809,23 @@ static void itc_fs_vfs_seekdir_telldir_p(void)
 		TC_ASSERT_NEQ_CLEANUP("seekdir", dirp, NULL, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
 
 		if (count < 0) {
-			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t)0, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
+			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t) 0, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
 			st_dirent = readdir(dirp);
 			TC_ASSERT_NEQ_CLEANUP("readdir", st_dirent, NULL, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
 			TC_ASSERT_EQ_CLEANUP("readdir", st_dirent->d_name[0], '0', closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
-			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t)1, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
+			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t) 1, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
 		} else if (count >= 0 && count < 5) {
-			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t)count, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
+			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t) count, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
 			st_dirent = readdir(dirp);
 			TC_ASSERT_NEQ_CLEANUP("readdir", st_dirent, NULL, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
 			itoa(count, buffer, 10);
 			TC_ASSERT_EQ_CLEANUP("readdir", st_dirent->d_name[0], buffer[0], closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
-			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t)(count + 1), closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
+			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t) (count + 1), closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
 		} else {
-			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t)5, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
+			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t) 5, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
 			st_dirent = readdir(dirp);
 			TC_ASSERT_EQ_CLEANUP("readdir", st_dirent, NULL, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
-			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t)5, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
+			TC_ASSERT_EQ_CLEANUP("telldir", telldir(dirp), (off_t) 5, closedir(dirp); remove_dirs(VFS_LOOP_COUNT));
 		}
 
 		if (count == -5) {
@@ -1359,4 +1359,3 @@ void itc_fs_main(void)
 
 	return;
 }
-

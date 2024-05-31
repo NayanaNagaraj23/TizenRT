@@ -113,10 +113,7 @@ static int calls_get_device_stats(struct xmlrpc_s *xmlcall)
 		strcpy(lastCommand, "reboot");
 		strcpy(curState, "Normal Operation");
 
-		ret = xmlrpc_buildresponse(xmlcall, "{iss}",
-								   "status", status,
-								   "lastCommand", lastCommand,
-								   "currentState", curState);
+		ret = xmlrpc_buildresponse(xmlcall, "{iss}", "status", status, "lastCommand", lastCommand, "currentState", curState);
 	}
 
 	return ret;

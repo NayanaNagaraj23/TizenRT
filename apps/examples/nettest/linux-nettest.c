@@ -54,7 +54,7 @@ void ipmcast_sender_thread(int num_packets)
 
 	socklen_t addrlen = sizeof(struct sockaddr_in);
 	printf("\n[MCASTSENDER] start multicast sender\n");
-	 
+
 	/* Create a datagram socket on which to send. */
 	sd = socket(AF_INET, SOCK_DGRAM, 0);
 	if (sd < 0) {
@@ -109,7 +109,7 @@ void ipmcast_sender_thread(int num_packets)
 	close(sd);
 	return;
 
-errout_with_socket:
+ errout_with_socket:
 	close(sd);
 	exit(1);
 }
@@ -193,7 +193,7 @@ void ipmcast_receiver_thread(int num_packets)
 	close(sd);
 	return;
 
-errout_with_socket:
+ errout_with_socket:
 	close(sd);
 	exit(1);
 }
@@ -450,7 +450,7 @@ void udp_server_thread(int num_packets, int ipver)
 	close(fd);
 	return;
 
-errout_with_socket:
+ errout_with_socket:
 	close(fd);
 	exit(1);
 }
@@ -700,7 +700,7 @@ void tcp_server_thread(int num_packets, int ipver)
 	close(listenfd);
 	return;
 
-errout_with_socket:
+ errout_with_socket:
 	close(listenfd);
 	exit(1);
 }

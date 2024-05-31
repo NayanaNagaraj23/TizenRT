@@ -45,4 +45,3 @@ void ws_test_tls_release(struct http_client_tls_t *client);
 int ws_test_tls_init(struct http_client_tls_t *client, struct http_client_ssl_config_t *ssl_config);
 void ws_test_tls_ssl_release(struct http_client_tls_t *client);
 int ws_test_tls_handshake(struct http_client_tls_t *client, const char *hostname);
-

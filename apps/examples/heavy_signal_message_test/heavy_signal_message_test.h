@@ -42,4 +42,4 @@ void heavy_signal_message_test_receiver(void);
 void heavy_signal_message_test_sender(void);
 void heavy_signal_message_test_stop(void);
 
-#endif /* __EXAMPLES_HEAVY_SIGNAL_MESSAGE_TEST_HEAVY_SIGNAL_MESSAGE_TEST_H__ */
+#endif							/* __EXAMPLES_HEAVY_SIGNAL_MESSAGE_TEST_HEAVY_SIGNAL_MESSAGE_TEST_H__ */

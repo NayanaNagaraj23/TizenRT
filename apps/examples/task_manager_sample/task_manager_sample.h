@@ -23,5 +23,3 @@
 #include <semaphore.h>
 
 sem_t tm_sem;
-
-

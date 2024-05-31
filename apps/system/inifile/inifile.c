@@ -119,8 +119,8 @@ struct inifile_var_s {
 
 struct inifile_state_s {
 	FILE *instream;
-	int   nextch;
-	char  line[CONFIG_SYSTEM_INIFILE_MAXLINE + 1];
+	int nextch;
+	char line[CONFIG_SYSTEM_INIFILE_MAXLINE + 1];
 };
 
 /****************************************************************************
@@ -131,11 +131,11 @@ struct inifile_state_s {
  * Private Function Prototypes
  ****************************************************************************/
 
-static bool      inifile_next_line(FAR struct inifile_state_s *priv);
-static int       inifile_read_line(FAR struct inifile_state_s *priv);
-static int       inifile_read_noncomment_line(FAR struct inifile_state_s *priv);
-static bool      inifile_seek_to_section(FAR struct inifile_state_s *priv, FAR const char *section);
-static bool      inifile_read_variable(FAR struct inifile_state_s *priv, FAR struct inifile_var_s *varinfo);
+static bool inifile_next_line(FAR struct inifile_state_s *priv);
+static int inifile_read_line(FAR struct inifile_state_s *priv);
+static int inifile_read_noncomment_line(FAR struct inifile_state_s *priv);
+static bool inifile_seek_to_section(FAR struct inifile_state_s *priv, FAR const char *section);
+static bool inifile_read_variable(FAR struct inifile_state_s *priv, FAR struct inifile_var_s *varinfo);
 static FAR char *inifile_find_section_variable(FAR struct inifile_state_s *priv, FAR const char *variable);
 static FAR char *inifile_find_variable(FAR struct inifile_state_s *priv, FAR const char *section, FAR const char *variable);
 
@@ -490,7 +490,7 @@ INIHANDLE inifile_initialize(FAR const char *inifile_name)
 
 	if (!priv) {
 		inidbg("ERROR: Failed to allocate state structure\n");
-		return (INIHANDLE)NULL;
+		return (INIHANDLE) NULL;
 	}
 
 	/* Open the specified INI file for reading */
@@ -501,10 +501,10 @@ INIHANDLE inifile_initialize(FAR const char *inifile_name)
 
 	if (priv->instream) {
 		priv->nextch = getc(priv->instream);
-		return (INIHANDLE)priv;
+		return (INIHANDLE) priv;
 	} else {
 		inidbg("ERROR: Could not open \"%s\"\n", inifile_name);
-		return (INIHANDLE)NULL;
+		return (INIHANDLE) NULL;
 	}
 }
 

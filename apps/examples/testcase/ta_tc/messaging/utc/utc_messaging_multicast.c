@@ -41,7 +41,7 @@ static bool tc_cleanup_chk = false;
 
 static sem_t multi_sem;
 
-static void multi_recv_callback(msg_reply_type_t msg_type, msg_recv_buf_t *recv_data, void *cb_data)
+static void multi_recv_callback(msg_reply_type_t msg_type, msg_recv_buf_t * recv_data, void *cb_data)
 {
 	if (recv_data == NULL) {
 		tc_multi_chk = TC_FAIL;
@@ -115,7 +115,7 @@ static int multi_recv_block(int argc, FAR char *argv[])
 	free(msg.buf);
 
 	return OK;
-errout:
+ errout:
 	free(msg.buf);
 	tc_multi_chk = TC_FAIL;
 	return ERROR;
@@ -146,12 +146,11 @@ static int multi_sender(int argc, FAR char *argv[])
 	free(multi_data.msg);
 	sem_post(&multi_sem);
 	return 0;
-errout:
+ errout:
 	tc_multi_chk = TC_FAIL;
 	sem_post(&multi_sem);
 	return ERROR;
 }
-
 
 static void utc_messaging_multicast_n(void)
 {

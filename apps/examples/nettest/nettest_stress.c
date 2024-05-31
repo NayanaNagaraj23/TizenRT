@@ -87,21 +87,20 @@ static void wifi_sta_disconnected(wifi_manager_cb_msg_s msg, void *arg)
 static void wifi_scan_ap_done(wifi_manager_cb_msg_s msg, void *arg)
 {
 	/* Make sure you copy the scan results onto a local data structure.
-	 *	 * It will be deleted soon eventually as you exit this function.
-	 *		 */
+	 *   * It will be deleted soon eventually as you exit this function.
+	 *       */
 	if (msg.res != WIFI_MANAGER_SUCCESS || !msg.scanlist) {
 		WIFITEST_SIGNAL;
 		return;
 	}
 	wifi_manager_scan_info_s *wifi_scan_iter = msg.scanlist;
 	while (wifi_scan_iter != NULL) {
-		printf("SSID: %-20s, BSSID: %-20s, RSSI: %d, CH: %d, Phy_type: %d\n", \
-				wifi_scan_iter->ssid, wifi_scan_iter->bssid, wifi_scan_iter->rssi, \
-				wifi_scan_iter->channel, wifi_scan_iter->phy_mode);
+		printf("SSID: %-20s, BSSID: %-20s, RSSI: %d, CH: %d, Phy_type: %d\n", wifi_scan_iter->ssid, wifi_scan_iter->bssid, wifi_scan_iter->rssi, wifi_scan_iter->channel, wifi_scan_iter->phy_mode);
 		wifi_scan_iter = wifi_scan_iter->next;
 	}
 	WIFITEST_SIGNAL;
 }
+
 static wifi_manager_cb_s wifi_callbacks = {
 	wifi_sta_connected,
 	wifi_sta_disconnected,
@@ -128,7 +127,6 @@ void *sender_thread(void *arg)
 	memset(buf, 0xff, BUF_SIZE);
 	sbuf_size = BUF_SIZE;
 
-
 	/* Then send PKT_NUM number of messages */
 	while (1) {
 		printf("[SEND] Start to send\n");
@@ -150,7 +148,7 @@ void *sender_thread(void *arg)
 				}
 				send_sum += ret;
 			}
-			printf("[SEND] send msg #%d nbytes=%d\n", i+1, send_sum);
+			printf("[SEND] send msg #%d nbytes=%d\n", i + 1, send_sum);
 		}
 		printf("[SEND] Wait Response\n");
 		sending_now = 0;
@@ -162,7 +160,7 @@ void *sender_thread(void *arg)
 	sending_now = 0;
 	return 0;
 
-terminate:
+ terminate:
 	printf("[SEND] Closed due to fail\n");
 	return 0;
 }
@@ -184,7 +182,7 @@ void *receiver_thread(void *arg)
 	recv_len = BUF_SIZE;
 	while (!terminate_flag) {
 
-		struct timeval timeout = { .tv_usec = SELECT_TIME_OUT };
+		struct timeval timeout = {.tv_usec = SELECT_TIME_OUT };
 		rfds = fds;
 		ret = select(g_sockfd + 1, &rfds, NULL, NULL, &timeout);
 		printf("[RECV] Select out (timeout? %d)\n", ret);
@@ -194,7 +192,6 @@ void *receiver_thread(void *arg)
 			close(g_sockfd);
 			return 0;
 		}
-
 
 		if (FD_ISSET(g_sockfd, &rfds)) {
 			printf("[RECV] - required data size %d\n", BUF_SIZE - nbytes_sum);

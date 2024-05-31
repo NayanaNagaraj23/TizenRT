@@ -78,7 +78,6 @@
  * Definitions
  ****************************************************************************/
 
-
 #define IOTIVITY_TEST_STACKSIZE   8092
 #define IOTIVITY_TEST_PRI   100
 #define IOTIVITY_TEST_SCHED_POLICIY SCHED_RR
@@ -154,7 +153,7 @@ OCRepPayload *getPayload(const char *uri, int64_t power, bool state)
 }
 
 //This function takes the request as an input and returns the response
-OCRepPayload *constructResponse(OCEntityHandlerRequest *ehRequest)
+OCRepPayload *constructResponse(OCEntityHandlerRequest * ehRequest)
 {
 	if (ehRequest->payload && ehRequest->payload->type != PAYLOAD_TYPE_REPRESENTATION) {
 		printf("Incoming payload not a representation");
@@ -216,14 +215,14 @@ bool checkIfQueryForPowerPassed(char *query)
 /*
  * Application should validate and process these as desired.
  */
-OCEntityHandlerResult ValidateQueryParams(OCEntityHandlerRequest *entityHandlerRequest)
+OCEntityHandlerResult ValidateQueryParams(OCEntityHandlerRequest * entityHandlerRequest)
 {
 	OIC_LOG_V(INFO, TAG, PCF("Received query %s"), entityHandlerRequest->query);
 	OIC_LOG(INFO, TAG, PCF("Not processing query"));
 	return OC_EH_OK;
 }
 
-OCEntityHandlerResult ProcessGetRequest(OCEntityHandlerRequest *ehRequest, OCRepPayload **payload)
+OCEntityHandlerResult ProcessGetRequest(OCEntityHandlerRequest * ehRequest, OCRepPayload ** payload)
 {
 	OCEntityHandlerResult ehResult;
 	bool queryPassed = checkIfQueryForPowerPassed(ehRequest->query);
@@ -245,7 +244,7 @@ OCEntityHandlerResult ProcessGetRequest(OCEntityHandlerRequest *ehRequest, OCRep
 	return ehResult;
 }
 
-OCEntityHandlerResult ProcessPutRequest(OCEntityHandlerRequest *ehRequest, OCRepPayload **payload)
+OCEntityHandlerResult ProcessPutRequest(OCEntityHandlerRequest * ehRequest, OCRepPayload ** payload)
 {
 	OCEntityHandlerResult ehResult;
 	OCRepPayload *putResp = constructResponse(ehRequest);
@@ -261,7 +260,7 @@ OCEntityHandlerResult ProcessPutRequest(OCEntityHandlerRequest *ehRequest, OCRep
 	return ehResult;
 }
 
-OCEntityHandlerResult ProcessPostRequest(OCEntityHandlerRequest *ehRequest, OCEntityHandlerResponse *response, OCRepPayload **payload)
+OCEntityHandlerResult ProcessPostRequest(OCEntityHandlerRequest * ehRequest, OCEntityHandlerResponse * response, OCRepPayload ** payload)
 {
 	OCEntityHandlerResult ehResult = OC_EH_OK;
 	OCRepPayload *respPLPost_light = NULL;
@@ -326,7 +325,7 @@ OCEntityHandlerResult ProcessPostRequest(OCEntityHandlerRequest *ehRequest, OCEn
 	return ehResult;
 }
 
-OCEntityHandlerResult ProcessDeleteRequest(OCEntityHandlerRequest *ehRequest)
+OCEntityHandlerResult ProcessDeleteRequest(OCEntityHandlerRequest * ehRequest)
 {
 	if (ehRequest == NULL) {
 		OIC_LOG(INFO, TAG, "The ehRequest is NULL");
@@ -378,14 +377,14 @@ OCEntityHandlerResult ProcessDeleteRequest(OCEntityHandlerRequest *ehRequest)
 	return ehResult;
 }
 
-OCEntityHandlerResult ProcessNonExistingResourceRequest(OCEntityHandlerRequest *ptr)
+OCEntityHandlerResult ProcessNonExistingResourceRequest(OCEntityHandlerRequest * ptr)
 {
 	OIC_LOG_V(INFO, TAG, "\n\nExecuting %s ", __func__);
 
 	return OC_EH_RESOURCE_NOT_FOUND;
 }
 
-void ProcessObserveRegister(OCEntityHandlerRequest *ehRequest)
+void ProcessObserveRegister(OCEntityHandlerRequest * ehRequest)
 {
 	OIC_LOG_V(INFO, TAG, "Received observation registration request with observation Id %d", ehRequest->obsInfo.obsId);
 
@@ -411,7 +410,7 @@ void ProcessObserveRegister(OCEntityHandlerRequest *ehRequest)
 	}
 }
 
-void ProcessObserveDeregister(OCEntityHandlerRequest *ehRequest)
+void ProcessObserveDeregister(OCEntityHandlerRequest * ehRequest)
 {
 	bool clientStillObserving = false;
 
@@ -427,7 +426,7 @@ void ProcessObserveDeregister(OCEntityHandlerRequest *ehRequest)
 		gLightUnderObservation = 0;
 }
 
-OCEntityHandlerResult OCDeviceEntityHandlerCb(OCEntityHandlerFlag flag, OCEntityHandlerRequest *entityHandlerRequest, char *uri, void *callbackParam)
+OCEntityHandlerResult OCDeviceEntityHandlerCb(OCEntityHandlerFlag flag, OCEntityHandlerRequest * entityHandlerRequest, char *uri, void *callbackParam)
 {
 	OIC_LOG_V(INFO, TAG, "Inside device default entity handler - flags: 0x%x, uri: %s", flag, uri);
 
@@ -492,14 +491,14 @@ OCEntityHandlerResult OCDeviceEntityHandlerCb(OCEntityHandlerFlag flag, OCEntity
 	return ehResult;
 }
 
-OCEntityHandlerResult OCNOPEntityHandlerCb(OCEntityHandlerFlag flag, OCEntityHandlerRequest *entityHandlerRequest, void *callbackParam)
+OCEntityHandlerResult OCNOPEntityHandlerCb(OCEntityHandlerFlag flag, OCEntityHandlerRequest * entityHandlerRequest, void *callbackParam)
 {
 	// This is callback is associated with the 2 presence notification
 	// resources. They are non-operational.
 	return OC_EH_OK;
 }
 
-OCEntityHandlerResult OCEntityHandlerCb(OCEntityHandlerFlag flag, OCEntityHandlerRequest *entityHandlerRequest, void *callback)
+OCEntityHandlerResult OCEntityHandlerCb(OCEntityHandlerFlag flag, OCEntityHandlerRequest * entityHandlerRequest, void *callback)
 {
 	OIC_LOG_V(INFO, TAG, "Inside entity handler - flags: 0x%x", flag);
 
@@ -681,7 +680,7 @@ void *presenceNotificationGenerator(void *param)
 }
 #endif
 
-int createLightResource(char *uri, LightResource *lightResource)
+int createLightResource(char *uri, LightResource * lightResource)
 {
 	if (!uri) {
 		OIC_LOG(ERROR, TAG, "Resource URI cannot be NULL");
@@ -890,7 +889,6 @@ int simpleServer_cb(int argc, char *argv[])
 		printf("OCStack init error\n");
 		return 0;
 	}
-
 #ifdef WITH_PRESENCE
 	if (OCStartPresence(0) != OC_STACK_OK) {
 		OIC_LOG(ERROR, TAG, "OCStack presence/discovery error");
@@ -900,8 +898,8 @@ int simpleServer_cb(int argc, char *argv[])
 
 	OCSetDefaultDeviceEntityHandler(OCDeviceEntityHandlerCb, NULL);
 	OCStackResult registrationResult = SetPlatformInfo(platformID, manufacturerName, manufacturerLink, modelNumber,
-									   dateOfManufacture, platformVersion, operatingSystemVersion, hardwareVersion,
-									   firmwareVersion, supportLink, systemTime);
+													   dateOfManufacture, platformVersion, operatingSystemVersion, hardwareVersion,
+													   firmwareVersion, supportLink, systemTime);
 	if (registrationResult != OC_STACK_OK) {
 		printf("Platform info setting failed locally!\n");
 		exit(EXIT_FAILURE);
@@ -992,9 +990,8 @@ int simpleServer_cb(int argc, char *argv[])
 	return 0;
 }
 
-
 int simpleServer_main(int argc, char *argv[])
 {
-	task_create("iotivity_simpleserver", IOTIVITY_TEST_PRI, IOTIVITY_TEST_STACKSIZE, simpleServer_cb, (FAR char * const *)NULL);
+	task_create("iotivity_simpleserver", IOTIVITY_TEST_PRI, IOTIVITY_TEST_STACKSIZE, simpleServer_cb, (FAR char *const *)NULL);
 	return 0;
 }

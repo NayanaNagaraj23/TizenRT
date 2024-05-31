@@ -75,7 +75,7 @@ static bool cb_flag;
 
 static sem_t tm_broad_sem;
 
-static void sync_test_cb(tm_msg_t *info)
+static void sync_test_cb(tm_msg_t * info)
 {
 	tm_msg_t reply_msg;
 
@@ -101,7 +101,7 @@ static int not_builtin_task(int argc, char *argv[])
 
 	while (1) {
 		usleep(1);
-	}	// This will be dead at utc_taskmanager_stop_p
+	}							// This will be dead at utc_taskmanager_stop_p
 	return OK;
 }
 
@@ -109,16 +109,16 @@ static void *tm_pthread(void *param)
 {
 	while (1) {
 		usleep(1);
-	}	// This will be dead at utc_taskmanager_stop_p
+	}							// This will be dead at utc_taskmanager_stop_p
 	return NULL;
 }
 
-static void test_unicast_handler(tm_msg_t *info)
+static void test_unicast_handler(tm_msg_t * info)
 {
 	flag = !strncmp((char *)info->msg, TM_SAMPLE_MSG, strlen(TM_SAMPLE_MSG));
 }
 
-static void test_broadcast_handler(tm_msg_t *user_data, tm_msg_t *info)
+static void test_broadcast_handler(tm_msg_t * user_data, tm_msg_t * info)
 {
 	if (info->msg != NULL) {
 		if (strncmp((char *)info->msg, TM_BROAD_WIFI_ON_DATA, info->msg_size) == 0) {
@@ -174,7 +174,7 @@ int tm_sample_main(int argc, char *argv[])
 
 	while (1) {
 		usleep(1);
-	}	// This will be dead at utc_taskmanager_stop_p
+	}							// This will be dead at utc_taskmanager_stop_p
 	return ret;
 }
 
@@ -211,7 +211,7 @@ int tm_broadcast1_main(int argc, char *argv[])
 	}
 	while (1) {
 		usleep(1);
-	}	// This will be dead at utc_taskmanager_stop_p
+	}							// This will be dead at utc_taskmanager_stop_p
 	return ret;
 }
 
@@ -239,7 +239,7 @@ int tm_broadcast2_main(int argc, char *argv[])
 	}
 	while (1) {
 		usleep(1);
-	}	// This will be dead at utc_taskmanager_stop_p
+	}							// This will be dead at utc_taskmanager_stop_p
 	return ret;
 }
 
@@ -258,7 +258,7 @@ int tm_broadcast3_main(int argc, char *argv[])
 	}
 	while (1) {
 		usleep(1);
-	}	// This will be dead at utc_taskmanager_stop_p
+	}							// This will be dead at utc_taskmanager_stop_p
 	return ret;
 }
 
@@ -314,7 +314,7 @@ static void utc_taskmanager_start_p(void)
 	int ret;
 
 	ret = task_manager_start(tm_pthread_handle, TM_RESPONSE_WAIT_INF);
-	TC_ASSERT_EQ("task_manager_start", ret, OK);	
+	TC_ASSERT_EQ("task_manager_start", ret, OK);
 
 	ret = task_manager_start(tm_sample_handle, TM_RESPONSE_WAIT_INF);
 	TC_ASSERT_EQ("task_manager_start", ret, OK);
@@ -427,7 +427,7 @@ static void utc_taskmanager_unicast_n(void)
 	TC_ASSERT_NEQ("task_manager_unicast", send_msg.msg, NULL);
 
 	strncpy(send_msg.msg, TM_SAMPLE_MSG, send_msg.msg_size);
-	
+
 	ret = task_manager_unicast(tm_sample_handle, &send_msg, NULL, TM_INVALID_TIMEOUT);
 	TC_ASSERT_EQ_CLEANUP("task_manager_unicast", ret, TM_INVALID_PARAM, free(send_msg.msg));
 
@@ -662,13 +662,13 @@ static void utc_taskmanager_resume_p(void)
 static void utc_taskmanager_getinfo_with_name_n(void)
 {
 	tm_appinfo_list_t *ret;
-	ret = (tm_appinfo_list_t *)task_manager_getinfo_with_name(NULL, TM_NO_RESPONSE);
+	ret = (tm_appinfo_list_t *) task_manager_getinfo_with_name(NULL, TM_NO_RESPONSE);
 	TC_ASSERT_EQ("task_manager_getinfo_with_name", ret, NULL);
 
-	ret = (tm_appinfo_list_t *)task_manager_getinfo_with_name(TM_SAMPLE_NAME, TM_INVALID_TIMEOUT);
+	ret = (tm_appinfo_list_t *) task_manager_getinfo_with_name(TM_SAMPLE_NAME, TM_INVALID_TIMEOUT);
 	TC_ASSERT_EQ("task_manager_getinfo_with_name", ret, NULL);
 
-	ret = (tm_appinfo_list_t *)task_manager_getinfo_with_name(TM_SAMPLE_NAME, TM_NO_RESPONSE);
+	ret = (tm_appinfo_list_t *) task_manager_getinfo_with_name(TM_SAMPLE_NAME, TM_NO_RESPONSE);
 	TC_ASSERT_EQ("task_manager_getinfo_with_name", ret, NULL);
 
 	TC_SUCCESS_RESULT();
@@ -676,7 +676,7 @@ static void utc_taskmanager_getinfo_with_name_n(void)
 
 static void utc_taskmanager_getinfo_with_name_p(void)
 {
-	sample_list_info = (tm_appinfo_list_t *)task_manager_getinfo_with_name(TM_SAMPLE_NAME, TM_RESPONSE_WAIT_INF);
+	sample_list_info = (tm_appinfo_list_t *) task_manager_getinfo_with_name(TM_SAMPLE_NAME, TM_RESPONSE_WAIT_INF);
 	TC_ASSERT_NEQ("task_manager_getinfo_with_name", sample_list_info, NULL);
 
 	TC_SUCCESS_RESULT();
@@ -685,13 +685,13 @@ static void utc_taskmanager_getinfo_with_name_p(void)
 static void utc_taskmanager_getinfo_with_handle_n(void)
 {
 	tm_appinfo_t *ret;
-	ret = (tm_appinfo_t *)task_manager_getinfo_with_handle(TM_INVALID_HANDLE, TM_NO_RESPONSE);
+	ret = (tm_appinfo_t *) task_manager_getinfo_with_handle(TM_INVALID_HANDLE, TM_NO_RESPONSE);
 	TC_ASSERT_EQ("task_manager_getinfo_with_handle", ret, NULL);
 
-	ret = (tm_appinfo_t *)task_manager_getinfo_with_handle(tm_sample_handle, TM_INVALID_TIMEOUT);
+	ret = (tm_appinfo_t *) task_manager_getinfo_with_handle(tm_sample_handle, TM_INVALID_TIMEOUT);
 	TC_ASSERT_EQ("task_manager_getinfo_with_handle", ret, NULL);
 
-	ret = (tm_appinfo_t *)task_manager_getinfo_with_handle(tm_sample_handle, TM_NO_RESPONSE);
+	ret = (tm_appinfo_t *) task_manager_getinfo_with_handle(tm_sample_handle, TM_NO_RESPONSE);
 	TC_ASSERT_EQ("task_manager_getinfo_with_handle", ret, NULL);
 
 	TC_SUCCESS_RESULT();
@@ -699,7 +699,7 @@ static void utc_taskmanager_getinfo_with_handle_n(void)
 
 static void utc_taskmanager_getinfo_with_handle_p(void)
 {
-	sample_info = (tm_appinfo_t *)task_manager_getinfo_with_handle(tm_sample_handle, TM_RESPONSE_WAIT_INF);
+	sample_info = (tm_appinfo_t *) task_manager_getinfo_with_handle(tm_sample_handle, TM_RESPONSE_WAIT_INF);
 	TC_ASSERT_NEQ("task_manager_getinfo_with_handle", sample_info, NULL);
 
 	TC_SUCCESS_RESULT();
@@ -708,18 +708,18 @@ static void utc_taskmanager_getinfo_with_handle_p(void)
 static void utc_taskmanager_getinfo_with_group_n(void)
 {
 	tm_appinfo_list_t *ret;
-	ret = (tm_appinfo_list_t *)task_manager_getinfo_with_group(TM_INVALID_HANDLE, TM_NO_RESPONSE);
+	ret = (tm_appinfo_list_t *) task_manager_getinfo_with_group(TM_INVALID_HANDLE, TM_NO_RESPONSE);
 	TC_ASSERT_EQ("task_manager_getinfo_with_group", ret, NULL);
 
 	if (!sample_info) {
-		sample_info = (tm_appinfo_t *)task_manager_getinfo_with_handle(tm_sample_handle, TM_RESPONSE_WAIT_INF);
+		sample_info = (tm_appinfo_t *) task_manager_getinfo_with_handle(tm_sample_handle, TM_RESPONSE_WAIT_INF);
 		TC_ASSERT_NEQ("task_manager_getinfo_with_handle", sample_info, NULL);
 	}
 
-	ret = (tm_appinfo_list_t *)task_manager_getinfo_with_group(sample_info->tm_gid, TM_INVALID_TIMEOUT);
+	ret = (tm_appinfo_list_t *) task_manager_getinfo_with_group(sample_info->tm_gid, TM_INVALID_TIMEOUT);
 	TC_ASSERT_EQ("task_manager_getinfo_with_group", ret, NULL);
 
-	ret = (tm_appinfo_list_t *)task_manager_getinfo_with_group(sample_info->tm_gid, TM_NO_RESPONSE);
+	ret = (tm_appinfo_list_t *) task_manager_getinfo_with_group(sample_info->tm_gid, TM_NO_RESPONSE);
 	TC_ASSERT_EQ("task_manager_getinfo_with_group", ret, NULL);
 
 	TC_SUCCESS_RESULT();
@@ -728,11 +728,11 @@ static void utc_taskmanager_getinfo_with_group_n(void)
 static void utc_taskmanager_getinfo_with_group_p(void)
 {
 	if (!sample_info) {
-		sample_info = (tm_appinfo_t *)task_manager_getinfo_with_handle(tm_sample_handle, TM_RESPONSE_WAIT_INF);
+		sample_info = (tm_appinfo_t *) task_manager_getinfo_with_handle(tm_sample_handle, TM_RESPONSE_WAIT_INF);
 		TC_ASSERT_NEQ("task_manager_getinfo_with_handle", sample_info, NULL);
 	}
 
-	group_list_info = (tm_appinfo_list_t *)task_manager_getinfo_with_group(sample_info->tm_gid, TM_RESPONSE_WAIT_INF);
+	group_list_info = (tm_appinfo_list_t *) task_manager_getinfo_with_group(sample_info->tm_gid, TM_RESPONSE_WAIT_INF);
 	TC_ASSERT_NEQ("task_manager_getinfo_with_group", group_list_info, NULL);
 
 	task_manager_clean_infolist(&group_list_info);
@@ -958,7 +958,7 @@ static void utc_taskmanager_getinfo_with_pid_n(void)
 	ret = task_manager_getinfo_with_pid(TM_INVALID_PID, TM_RESPONSE_WAIT_INF);
 	TC_ASSERT_EQ("task_manager_getinfo_with_pid", ret, NULL);
 
-	TC_SUCCESS_RESULT();	
+	TC_SUCCESS_RESULT();
 }
 
 static void utc_taskmanager_getinfo_with_pid_p(void)
@@ -979,14 +979,14 @@ static void utc_taskmanager_set_stop_cb_n(void)
 	ret = task_manager_set_stop_cb(NULL, NULL);
 	TC_ASSERT_EQ("task_manager_set_stop_cb", ret, TM_INVALID_PARAM);
 
-	TC_SUCCESS_RESULT();	
+	TC_SUCCESS_RESULT();
 }
 
 static void utc_taskmanager_set_stop_cb_p(void)
 {
 	TC_ASSERT_EQ("task_manager_set_stop_cb", cb_flag, true);
 
-	TC_SUCCESS_RESULT();	
+	TC_SUCCESS_RESULT();
 }
 
 static void utc_taskmanager_reply_unicast_n(void)
@@ -995,21 +995,21 @@ static void utc_taskmanager_reply_unicast_n(void)
 	ret = task_manager_reply_unicast(NULL);
 	TC_ASSERT_EQ("task_manager_reply_unicast", ret, TM_INVALID_PARAM);
 
-	TC_SUCCESS_RESULT();	
+	TC_SUCCESS_RESULT();
 }
 
 static void utc_taskmanager_reply_unicast_p(void)
 {
 	TC_ASSERT_EQ("task_manager_reply_unicast", cb_flag, true);
 
-	TC_SUCCESS_RESULT();	
+	TC_SUCCESS_RESULT();
 }
 
 void tm_utc_main(void)
 {
 	pid_tm_utc = getpid();
 	cb_flag = false;
-	
+
 	utc_taskmanager_alloc_broadcast_msg_p();
 
 	utc_taskmanager_register_n();
@@ -1096,7 +1096,7 @@ int utc_taskmanager_main(int argc, char *argv[])
 
 	handle_tm_utc = task_manager_register_builtin("tm_utc", TM_APP_PERMISSION_DEDICATE, TM_RESPONSE_WAIT_INF);
 	(void)task_manager_start(handle_tm_utc, TM_NO_RESPONSE);
-	sleep(5);	//wait for starting tm_utc
+	sleep(5);					//wait for starting tm_utc
 
 	(void)waitpid(pid_tm_utc, &status, 0);
 
